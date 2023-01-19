@@ -1,0 +1,29 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+    # Always run on commits
+
+  pull_request:
+    branches: [ main ]
+    paths:
+        - 'src/**'
+        - 'book.toml'
+        - '.github/workflows/documentation.yml'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
+      - name: 'Setup mdbook'
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+      - name: 'Check documentation'
+        run: mdbook test
