@@ -19,6 +19,8 @@ Since validators do not propose blocks on most chains, they do *not* guarantee t
 particular operation or effect will eventually be executed on a chain. Instead, chain
 owners decide whether and when to propose new blocks, and which operations and effects to
 include.
+The Linera client implementation will automatically include all incoming effects in new
+blocks. The operations are the actions the chain owner explicitly adds, e.g. transfer.
 
 
 ## Scalability
