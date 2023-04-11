@@ -19,7 +19,7 @@ Linera is the first infrastructure designed to support an arbitrary number of li
 
 In existing multi-chain infrastructures, each chain runs a full blockchain protocol in a separate set of validators. Creating a new chain or exchanging messages between chains is expensive. As a result, the total number of chains is generally limited. Some chains may be specialized to a given use case: these are called "app chains".
 
-In contract, Linera is optimized for a large number of user chains:
+In contrast, Linera is optimized for a large number of user chains:
 
 * Users only create blocks in their chain when needed;
 
