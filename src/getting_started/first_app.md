@@ -24,7 +24,7 @@ you will the see the names of the 4 validators running in your local network,
 something like:
 
 ```bash
-$ ./scripts/run_local.sh 
+$ ./scripts/run_local.sh
     Finished dev [unoptimized + debuginfo] target(s) in 0.13s
 5b611b86cc1f54f73a4abfb4a2167c7327cc85a74cb2a5502431f67b554850b4
 f65a585f05852f0610e2460a99c23faa3969f3cfce8a519f843a793dbfb4cb84
