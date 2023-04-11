@@ -45,7 +45,7 @@ that later.
 
 ## Interacting with the network
 
-The main way of interactive with the network and deploying applications, is
+The main way of interacting with the network and deploying applications, is
 using your wallet. The wallet was compiled as a result of running `cargo build`
 in the previous section and can be found under `target/debug/client`.
 
@@ -63,8 +63,8 @@ files to the client, we'll get to that in the [wallet section](../core_concepts/
 
 ## Building and example Application
 
-Applications running on Linera are simply [WASM](https://webassembly.org/)
-bytecode. Each Linera validator and client has a built-in WASM virtual machine
+Applications running on Linera are simply [Wasm](https://webassembly.org/)
+bytecode. Each Linera validator and client has a built-in Wasm virtual machine
 which can execute bytecode, all we have to do is build and publish the app on
 the network.
 
@@ -89,7 +89,7 @@ To deploy the application we can use the `publish` command and provide:
 
 1. The location of the contract bytecode
 2. The location of the service bytecode
-3. The hex encoded initialisation arguments
+3. The hex encoded initialization arguments
 
 ```bash
 ./client --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 publish \
@@ -105,7 +105,7 @@ Congratulations! You've published your first application on Linera!
 Now that we've published our application on the network, let's query it to get
 the current counter value. To interact with an application on the network, we
 need to use the client running in 'service' mode. This will expose a bunch of
-API's locally which we can use to interact with applications on the network.
+APIs locally which we can use to interact with applications on the network.
 
 To run the client in service mode, make sure you're in `./target/debug` and run:
 
