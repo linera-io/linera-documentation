@@ -29,17 +29,15 @@ communicate with one another.
 Cross-chain messaging is a way for different blockchains or microchains to
 communicate with each other asynchronously. This method allows applications and
 data to be distributed across multiple chains for better scalability. When an
-operation in one chain triggers a change in another chain, a cross-chain request
+application in one chain wishes to send a message to another chain, a cross-chain request
 is created. These requests are implemented using remote procedure calls (RPCs)
 within the validators' internal network, ensuring that each request is executed
 only once.
 
-Instead of immediately modifying the target chain, messages are
-placed in the target chain's **inbox**, a commutative data structure where the
-order of insertions does not matter. The owner(s) of the receiving chain can
-then
-execute an operation that picks the message from the inbox and applies its
-effect to the chain state.
+Instead of immediately modifying the target chain, messages are placed first in the target
+chain's **inbox**. When the owner(s) of the target chain creates its next block in the
+future, it may reference a selection of messages taken from the current inbox in the new
+block. This executes the selected messages and applies their effects to the chain state.
 
 Below is an example set of chains sending asynchronous messages to each other
 over consecutive blocks.
@@ -61,6 +59,12 @@ over consecutive blocks.
                        Chain C │   ├────►│   ├────►│   │
                                └───┘     └───┘     └───┘
 ```
+
+The Linera protocol allows receivers to discard messages but not to change the ordering of
+selected messages inside the communication queue between two chains. If a selected message
+fails to execute, it is skipped during the execution of the receiver's block. The current
+implementation of the Linera client always selects as many messages as possible from
+inboxes, and never discards messages.
 
 ## Chain Ownership Semantics
 
