@@ -64,7 +64,9 @@ the form of a [View](./../advanced_topics/views.md), but more on that later.
 > application where users can send tokens to each other.
 
 At the system-level, interacting with an application can be done via operations
-and effects. **Operations** are defined by an application developer and each
+and effects.
+
+**Operations** are defined by an application developer and each
 application can have a completely different set of operations. Chain owners then
 actively create operations and put them in their block proposals to interact
 with an application.
