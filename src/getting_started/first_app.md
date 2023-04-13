@@ -112,6 +112,7 @@ To run the client in service mode, make sure you're in `./target/debug` and run:
 ```bash
 ./client --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service 
 ```
+// todo add graphiql image here
 
 Navigate to `http://localhost:8080` in your browser to access the GraphiQL, the
 GraphQL IDE. We'll look at this in more detail in
