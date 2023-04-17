@@ -77,7 +77,7 @@ To do that, navigate to one of the example applications and compile it (the
 compilation target is set to `wasm32_unknown_unknown` by default)
 
 ```
-cd linera-examples/counter-graphql && cargo build --release 
+cd linera-examples/counter-graphql && cargo build --release
 ```
 
 ## Publishing your Application
@@ -110,8 +110,9 @@ APIs locally which we can use to interact with applications on the network.
 To run the client in service mode, make sure you're in `./target/debug` and run:
 
 ```bash
-./client --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service 
+./client --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service
 ```
+
 // todo add graphiql image here
 
 Navigate to `http://localhost:8080` in your browser to access the GraphiQL, the

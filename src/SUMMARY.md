@@ -16,5 +16,5 @@
   - [Views](advanced_topics/views.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
 - [Examples](./examples.md)
-    - [Hello World](./examples/hello_world.md)
+  - [Hello World](./examples/hello_world.md)
 - [Glossary](./glossary.md)

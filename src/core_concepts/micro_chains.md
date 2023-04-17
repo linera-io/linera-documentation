@@ -75,4 +75,3 @@ its owner id is set to `None`.
 
 For more detail and examples on how to open and close chains, see the wallet
 section on [chain management](wallet.md#opening-a-chain).
-

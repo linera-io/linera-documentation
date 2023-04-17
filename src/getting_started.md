@@ -4,13 +4,13 @@ Linera's SDK is a development kit that enables developers to build decentralized
 
 The SDK includes the following components:
 
-* Linera Core: The core blockchain protocol that handles consensus, transaction processing, and state management. The Linera Core is responsible for maintaining the integrity and security of the network.
+- Linera Core: The core blockchain protocol that handles consensus, transaction processing, and state management. The Linera Core is responsible for maintaining the integrity and security of the network.
 
-* Smart Contract Language: Linera supports smart contracts written in Rust, AssemblyScript, and other languages that can compile to WebAssembly.
+- Smart Contract Language: Linera supports smart contracts written in Rust, AssemblyScript, and other languages that can compile to WebAssembly.
 
-* Development Tools: The SDK includes tools for developing, testing, and deploying smart contracts, including a development environment, a command-line interface (CLI), and a web-based user interface.
+- Development Tools: The SDK includes tools for developing, testing, and deploying smart contracts, including a development environment, a command-line interface (CLI), and a web-based user interface.
 
-* Developer Documentation: The SDK includes comprehensive documentation for developers, including tutorials, code samples, and API reference documentation.
+- Developer Documentation: The SDK includes comprehensive documentation for developers, including tutorials, code samples, and API reference documentation.
 
 ## Getting Started with Linera's SDK
 

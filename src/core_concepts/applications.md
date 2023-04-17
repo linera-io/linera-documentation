@@ -1,6 +1,6 @@
 # Applications
 
-This section is all about building applications in Linera. The Linera programming 
+This section is all about building applications in Linera. The Linera programming
 model is designed to provide a rich ecosystem to enable developers to take advantage
 of the scaling architecture of microchains.
 
@@ -132,7 +132,7 @@ User A can interact with Application 1 since it is deployed on their Chain (
 Chain X), however User B cannot see Application 1 since his Chain, Chain Y has
 not registered the application.
 
-In order for User B to use Application 1, Application 1 *must* first make a
+In order for User B to use Application 1, Application 1 _must_ first make a
 cross-chain request to Chain Y in order for tha application to get registered on
 Chain Y. Once that is done, User B can interact with Application 1 on Chain Y.
 
