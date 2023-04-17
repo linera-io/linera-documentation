@@ -1,7 +1,7 @@
 # Applications
 
-Smart-Contracts in Linera are called applications. The Linera programming model
-is designed to provide a rich ecosystem to enable developers to take advantage
+This section is all about building applications in Linera. The Linera programming 
+model is designed to provide a rich ecosystem to enable developers to take advantage
 of the scaling architecture of microchains.
 
 Linera uses the WebAssembly VM to execute user applications. For now
@@ -118,8 +118,10 @@ application running on a given chain, run the wallet in `service` mode for that
 chain and the API for the application is then available
 at `localhost:8080/<application-id>`.
 
-Simple navigating there with your brower will open a GraphiQL interface which
+Simple navigating there with your browser will open a GraphiQL interface which
 enables you to graphically explore the state of your application.
+
+## End-to-End Front-end?
 
 ## Registering an Application across Chains
 
