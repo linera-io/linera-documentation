@@ -36,11 +36,13 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
-      - name: 'Install Prettier'
+      - name: 'Setup Node'
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'npm'
+
+      - name: 'Install prettier'
         run: npm install -g prettier
 
       - name: 'Check formatting'
