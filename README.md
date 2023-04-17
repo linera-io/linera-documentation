@@ -17,3 +17,9 @@ cargo install mdbook
 mdbook serve
 ```
 Then, open the URL as instructed.
+
+## Formatting
+
+This repository is formatted with prettier. To install prettier run `npm install -g prettier`.
+To use prettier run `prettier --write src/`. The repository is automatically checked for 
+formatting in CI.
