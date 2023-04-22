@@ -12,7 +12,93 @@ Linera application for the back end and a React front end.
 
 ## Creating the State
 
+The `State` is the place where the data of the application is stored. For
+example we can have for the application `FungibleToken`:
+
+```rust
+#[derive(Debug, Default, Deserialize, Serialize)]
+pub struct FungibleToken {
+    accounts: BTreeMap<AccountOwner, Amount>,
+}
+```
+
+If one uses the view version of the code then we will have
+```rust
+#[derive(RootView)]
+pub struct FungibleToken<C> {
+    accounts: MapView<C, AccountOwner, Amount>,
+}
+```
+for which every entry of the struct has to be a view.
+
 ## Creating the Contract
+
+The `Contract` is the first component of your Linera application. It can
+actually change the state of the application. The `Contract` trait that
+has to be implemented is the following:
+
+```rust
+#[async_trait]
+pub trait Contract: Sized {
+    /// Message reports for application execution errors.
+    type Error: Error;
+    /// The desired storage backend to use to store the application's state.
+    type Storage;
+
+    /// Initializes the application on the chain that created it.
+    async fn initialize(
+        &mut self,
+        context: &OperationContext,
+        argument: &[u8],
+    ) -> Result<ExecutionResult, Self::Error>;
+
+    /// Applies an operation from the current block.
+    async fn execute_operation(
+        &mut self,
+        context: &OperationContext,
+        operation: &[u8],
+    ) -> Result<ExecutionResult, Self::Error>;
+
+    /// Applies an effect originating from a cross-chain message.
+    async fn execute_effect(
+        &mut self,
+        context: &EffectContext,
+        effect: &[u8],
+    ) -> Result<ExecutionResult, Self::Error>;
+
+    /// Handles a call from another application.
+    async fn handle_application_call(
+        &mut self,
+        context: &CalleeContext,
+        argument: &[u8],
+        forwarded_sessions: Vec<SessionId>,
+    ) -> Result<ApplicationCallResult, Self::Error>;
+
+    /// Handles a call into a session created by this application.
+    async fn handle_session_call(
+        &mut self,
+        context: &CalleeContext,
+        session: Session,
+        argument: &[u8],
+        forwarded_sessions: Vec<SessionId>,
+    ) -> Result<SessionCallResult, Self::Error>;
+}
+```
+
+This trait can be interpreted in the following way:
+- The `initialize` is clear. This is how the application starts. It can be conceived
+  of a constructor. If the application depends on other application such as `FungibleToken`
+  then they will be typically be assigned during that initialization process.
+- The `execute_operation` is for executing operations on the same chain in which
+  they are received. If the state is located in another chain, then the operation
+  has to be transmitted by creating an effect and returning it in the `ExecutionResult`.
+- The `execute_effect` is executing the effects that have been created from other
+  parts of the code.
+- The `handle_application_call` is for executing operations originating from application calls.
+  One way to process it is by creating an effect that carry the intent.
+
+
+
 
 ## Creating the Service
 
