@@ -96,8 +96,9 @@ This trait can be interpreted in the following way:
   parts of the code.
 - The `handle_application_call` is for executing operations originating from application calls.
   One way to process it is by creating an effect that carry the intent.
-
-
+- The `handle_session_call` is an experimental feature that is not yet fully developed
+  and should not be relevant at the present time. Therefore, the authors simply need to return
+  a `Err(Error::SessionsNotSupported)` to indicate so.
 
 
 ## Creating the Service
