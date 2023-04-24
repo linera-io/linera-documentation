@@ -94,7 +94,7 @@ generates keys and writes them, together with the options from the TOML files, t
 public keys in `committee.json`.
 
 ```bash
-./client --wallet wallet.json --genesis genesis.json create_genesis_config 10 --initial-funding 10 --committee committee.json
+./linera --wallet wallet.json --genesis genesis.json create_genesis_config 10 --initial-funding 10 --committee committee.json
 ```
 
 creates a configuration for the initial state of the network, `genesis.json`, with 10
