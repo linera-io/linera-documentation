@@ -121,3 +121,46 @@ mod tests {
     }
 }
 ```
+
+## Integration Tests
+
+Integration tests are usually written separately from the application's source code (i.e., inside a
+`tests` directory that's beside the `src` directory). Integration tests are normal Rust integration
+tests, and they are compiled to the **host** target instead of the `wasm32-unknown-unknown` target
+used for unit tests. This is because unit tests run inside a WebAssembly virtual machine and
+integration tests run outside a virtual machine, starting isolated virtual machines to run each
+operation of each block added to each chain.
+
+Integration tests use the helper types from `linera_sdk::test` to set up a simulated Linera network,
+and publish blocks to microchains in order to execute the application.
+
+### Example
+
+A simple test that sends a message between application instances on different chains is shown below.
+
+```
+#[tokio::test]
+fn test_cross_chain_message() {
+    let (validator, application_id) = TestValidator::with_current_application(vec![], vec![]).await;
+
+    let mut sender_chain = validator.get_chain(application_id.creation.chain_id).await;
+    let mut receiver_chain = validator.new_chain().await;
+
+    sender_chain
+        .add_block(|block| {
+            block.with_operation(
+                application_id,
+                Operation::SendMessageTo(receiver_chain.id()),
+        })
+        .await;
+
+    receiver_chain.handle_received_effects().await;
+
+    assert_eq!(
+        receiver_chain
+            .query::<ChainId>(application_id, Query::LastSender)
+            .await,
+        sender_chain.id(),
+    );
+}
+```
