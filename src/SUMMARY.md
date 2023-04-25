@@ -11,6 +11,7 @@
   - [Validators](core_concepts/validators.md)
   - [Applications](core_concepts/applications.md)
   - [Linera SDK](core_concepts/sdk.md)
+  - [Testing](core_concepts/testing.md)
 - [Advanced Topics](./advanced.md)
   - [Execution Model](advanced_topics/execution_model.md)
   - [Views](advanced_topics/views.md)
