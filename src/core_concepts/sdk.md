@@ -1,5 +1,10 @@
 # Linera SDK
 
+In this section we'll be exploring the Linera SDK by building a simple counter application.
+
+This is going to cover most facets of building an app, with the notable exception of the front-end
+which is covered in a future section.
+
 ## Linera SDK Crate
 
 The `linera-sdk` crate exposes the basic traits required to create a Linera
@@ -10,32 +15,66 @@ Linera application for the back end and a React front end.
 
 ## Creating your Linera Project
 
+To create your Linera project, use the `linera project init` command to setup
+the scaffolding and requisite files:
+
+```bash
+./linera project new ../../linera-examples/my-counter
+```
+
+`linera project init` bootstraps your project by creating the following key files:
+
+- `Cargo.toml`: your project's manifest filled with the necessary dependencies to create an app
+- `state.rs`: the file which holds your application's state
+- `contract.rs`: the file which holds your application's contract, and the binary target for the contract bytecode
+- `service.rs`: the file which holds your application's service, and the binary contract for the service bytecode
+
 ## Creating the State
 
-The `State` is the place where the data of the application is stored. For
-example we can have for the application `FungibleToken`:
+The `struct` which defines your application's state can be found in `state.rs`.
+
+To represent our Counter, all we're going to need a single `u128`. To persist
+the counter we'll be using Linera's [view](../advanced_topics/views.md) paradigm.
+
+Views are a little like an [ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping),
+however instead of mapping your datastructures to a relational database like Postgres, they are
+instead mapped onto key-value stores like [RocksDB](https://rocksdb.org/).
+
+In vanilla Rust, we might represent our Counter as so:
 
 ```rust
-#[derive(Debug, Default, Deserialize, Serialize)]
-pub struct FungibleToken {
-    accounts: BTreeMap<AccountOwner, Amount>,
+struct Counter {
+  value: u128
 }
 ```
 
-If one uses the view version of the code then we will have
+However to persist your data, you'll need to replace the existing `State` struct in `state.rs
+with the following view:
+
 ```rust
-#[derive(RootView)]
-pub struct FungibleToken<C> {
-    accounts: MapView<C, AccountOwner, Amount>,
+/// The application state.
+#[derive(RootView, Debug)]
+pub struct Counter<C> {
+    pub value: RegisterView<C, u128>,
 }
 ```
-for which every entry of the struct has to be a view.
+
+The `RegisterView` supports modifying a single value of type `T`. There are different types of
+views for different use-cases, but the majority of common data structures have already been implemented:
+
+- A `Vec` maps to a `CollectionView`
+- A `HashMap` maps to a `MapView`
+- A `Queue` maps to a `QueueView`
+
+For an exhaustive list refer to the Views [documentation](TODO).
 
 ## Creating the Contract
 
 The `Contract` is the first component of your Linera application. It can
-actually change the state of the application. The `Contract` trait that
-has to be implemented is the following:
+actually change the state of the application.
+
+To create a contract, we need to implement the `Contract` trait, which is
+as follows:
 
 ```rust
 #[async_trait]
@@ -85,21 +124,59 @@ pub trait Contract: Sized {
 }
 ```
 
-This trait can be interpreted in the following way:
-- The `initialize` is clear. This is how the application starts. It can be conceived
-  of a constructor. If the application depends on other application such as `FungibleToken`
-  then they will be typically be assigned during that initialization process.
-- The `execute_operation` is for executing operations on the same chain in which
-  they are received. If the state is located in another chain, then the operation
-  has to be transmitted by creating an effect and returning it in the `ExecutionResult`.
-- The `execute_effect` is executing the effects that have been created from other
-  parts of the code.
-- The `handle_application_call` is for executing operations originating from application calls.
-  One way to process it is by creating an effect that carry the intent.
-- The `handle_session_call` is an experimental feature that is not yet fully developed
-  and should not be relevant at the present time. Therefore, the authors simply need to return
-  a `Err(Error::SessionsNotSupported)` to indicate so.
+There's quite a bit going on here, so let's break it down and take one method at a time.
 
+For this application, we'll be using the `initialize` and `execute_operation` command.
+
+### Initialising our Application
+
+The first thing we need to do is initialize our application by using `Contract::initialize`.
+
+`Contract::initialize` is only called once when the application is created and only on the microchain that 
+created the application. 
+
+Deployment on other microchains will use the `Default` implementation of the application state if 
+`SimpleStateStorage` is used, or the Default value of all sub-views in the state if the `ViewStateStorage` is used.
+
+For our `Counter` application, we'll want to initialize the state of the application to an arbitrary number that can
+be specified on application creation using its initialization parameters:
+
+```rust
+    async fn initialize(
+        &mut self,
+        _context: &OperationContext,
+        argument: &[u8],
+    ) -> Result<ExecutionResult, Self::Error> {
+        self.value.set(bcs::from_bytes(argument)?);
+        Ok(ExecutionResult::default())
+    }
+```
+
+> Note: We're using the [bcs](https://crates.io/crates/bcs) crate for serializing and deserializing values.
+> This is a recurring theme throughout the Linera project. Using BCS for serialization is important
+> because it enforces canonical serialization, meaning that every value of a given type has a **single
+> valid representation**. This is especially important when computing hashes, signatures and certificates.
+
+### Implementing the Increment Operation
+
+Now that we have our counter's state and a way to initialize it to any value we would like, a way to increment
+our counter's value. Changes made by block proposers to application states are broadly called 'operations'.
+
+To create a new operation, we need to use the method `Contract::execute_operation`. In the counter's case,
+it will be receiving a `u128`  which needs to be deserialized and the used to increment the couter state like so:
+
+```rust
+    async fn execute_operation(
+        &mut self,
+        _context: &OperationContext,
+        operation: &[u8],
+    ) -> Result<ExecutionResult, Self::Error> {
+        let increment: u128 = bcs::from_bytes(operation)?;
+        let value = self.value.get_mut();
+        *value += increment;
+        Ok(ExecutionResult::default())
+    }
+```
 
 ## Creating the Service
 
@@ -215,6 +292,23 @@ on GitHub.
 
 ## Deploying your Application
 
+To deploy your application, you first need to navigate to `target/debug` where the `linera` binary is located.
+
+1. The location of the contract bytecode
+2. The location of the service bytecode
+3. The hex encoded initialization arguments
+
+```bash
+./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 publish_and_create \
+    ../../linera-examples/target/wasm32-unknown-unknown/release/my_counter_contract.wasm \
+    ../../linera-examples/target/wasm32-unknown-unknown/release/my_counter_service.wasm \
+    00
+```
+
 ## Building a Front End for your Application
 
+// todo
+
 ## Running your Web 3 App
+
+// todo
