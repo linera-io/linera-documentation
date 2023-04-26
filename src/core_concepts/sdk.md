@@ -15,19 +15,19 @@ Linera application for the back end and a React front end.
 
 ## Creating your Linera Project
 
-To create your Linera project, use the `linera project init` command to setup
+To create your Linera project, use the `linera project new` command to setup
 the scaffolding and requisite files:
 
 ```bash
 ./linera project new ../../linera-examples/my-counter
 ```
 
-`linera project init` bootstraps your project by creating the following key files:
+`linera project new` bootstraps your project by creating the following key files:
 
 - `Cargo.toml`: your project's manifest filled with the necessary dependencies to create an app
 - `state.rs`: the file which holds your application's state
 - `contract.rs`: the file which holds your application's contract, and the binary target for the contract bytecode
-- `service.rs`: the file which holds your application's service, and the binary contract for the service bytecode
+- `service.rs`: the file which holds your application's service, and the binary target for the service bytecode
 
 ## Creating the State
 
@@ -132,10 +132,10 @@ For this application, we'll be using the `initialize` and `execute_operation` co
 
 The first thing we need to do is initialize our application by using `Contract::initialize`.
 
-`Contract::initialize` is only called once when the application is created and only on the microchain that 
-created the application. 
+`Contract::initialize` is only called once when the application is created and only on the microchain that
+created the application.
 
-Deployment on other microchains will use the `Default` implementation of the application state if 
+Deployment on other microchains will use the `Default` implementation of the application state if
 `SimpleStateStorage` is used, or the Default value of all sub-views in the state if the `ViewStateStorage` is used.
 
 For our `Counter` application, we'll want to initialize the state of the application to an arbitrary number that can
@@ -163,7 +163,7 @@ Now that we have our counter's state and a way to initialize it to any value we 
 our counter's value. Changes made by block proposers to application states are broadly called 'operations'.
 
 To create a new operation, we need to use the method `Contract::execute_operation`. In the counter's case,
-it will be receiving a `u128`  which needs to be deserialized and the used to increment the couter state like so:
+it will be receiving a `u128` which needs to be deserialized and the used to increment the counter state like so:
 
 ```rust
     async fn execute_operation(
