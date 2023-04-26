@@ -290,6 +290,16 @@ check out
 the [examples section](https://github.com/linera-io/linera-protocol/blob/main/linera-examples/counter-graphql/src/service.rs)
 on GitHub.
 
+## Variables types
+
+The key variables from the linera-sdk modules that are important are
+
+- The `Timestamp` in microsecond is the unix time, that is from 1970-01-01 00:00:00. See the example `crowd-funding` where
+  it is used for implementing a deadline in an application.
+- The `ChainId` on which the smart contracts is run. This is important when transfering from one microchain to another.
+- The `Amount` for the amount of money.
+
+
 ## Deploying your Application
 
 To deploy your application, you first need to navigate to `target/debug` where the `linera` binary is located.
