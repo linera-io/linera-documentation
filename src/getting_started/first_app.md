@@ -47,7 +47,7 @@ that later.
 
 The main way of interacting with the network and deploying applications, is
 using your wallet. The wallet was compiled as a result of running `cargo build`
-in the previous section and can be found under `target/debug/client`.
+in the previous section and can be found under `target/debug/linera`.
 
 Check that you have your wallet, and it can communicate with the network by
 first navigating to `target/debug` and then running a command to synchronize the
