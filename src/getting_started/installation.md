@@ -12,7 +12,7 @@ The Linera client and validators currently run as a set of native binaries. For 
 
 ## Prerequisites
 
-To install Linera you will need to download the source from [GitHub](https://github.com/linera-io/linera-protocol). If you do not have access to the repository, reach out to the team to request access.
+To install Linera you will need to download the source from [GitHub](https://github.com/linera-io/linera-protocol).
 
 To clone the repository run:
 
