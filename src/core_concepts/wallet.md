@@ -42,9 +42,8 @@ with the latest block.
 
 ### Default Chain
 
-Each wallet has a default chain. Since wallets can hold multiple chains, a
-default chain removes ambiguity in which chain is selected when performing an
-operation.
+Each wallet has a default chain that all commands apply to unless you specify another
+`--chain` on the command line.
 
 The default chain is set initially, when the first chain is added to the wallet.
 You can check the default chain for your wallet by running:
@@ -65,9 +64,7 @@ $ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet set-default <
 
 The Linera protocol defines semantics for how new chains are created, we call
 this 'opening a chain'. A chain cannot be opened in a vacuum, it needs to be
-created by an existing chain on the network. In the future, one of the Linera
-public chains will open chains for new users - but for now an existing
-single-chain owner is required to open a chain for a new wallet on the network.
+created by an existing chain on the network.
 
 #### Open a Chain for Your Own Wallet
 

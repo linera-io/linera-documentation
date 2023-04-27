@@ -10,7 +10,7 @@ By the end of this section, you'll have a working application running on your
 ## Starting the local network
 
 The first step is to start your local development network.
-The local development network consists of 4 [validators](../core_concepts/validators.md), each
+It consists of 4 [validators](../core_concepts/validators.md), each
 of which consist of an ingress proxy and 4 workers or shards.
 
 To start your local network, navigate to the root of the `linera-protocol`
@@ -57,8 +57,7 @@ your [default chain](../core_concepts/wallet.md) with the rest of the network.
 cd target/debug && ./linera --wallet wallet.json sync_balance
 ```
 
-You should see an output of `10`. If you're curious why we're passing this file
-to the client, we'll get to that in the [wallet section](../core_concepts/wallet.md).
+You should see an output of `10`.
 
 ## Building an example Application
 
@@ -101,12 +100,11 @@ Congratulations! You've published your first application on Linera!
 
 ## Querying your Application
 
-Now that we've published our application on the network, let's query it to get
-the current counter value. To interact with an application on the network, we
-need to use the client running in 'service' mode. This will expose a bunch of
-APIs locally which we can use to interact with applications on the network.
+Now let's query our application to get the current counter value. To do that, we need to
+use the client running in _service_ mode. This will expose a bunch of APIs locally which
+we can use to interact with applications on the network.
 
-To run the client in service mode, make sure you're in `./target/debug` and run:
+Make sure you're in `./target/debug` and run:
 
 ```bash
 ./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 service
