@@ -90,7 +90,7 @@ To deploy the application we can use the `publish-and-create` command and provid
 3. The hex encoded initialization arguments
 
 ```bash
-./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 publish-and-create \
+./linera --storage rocksdb:linera.db --wallet wallet.json publish-and-create \
     ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_contract.wasm \
     ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_service.wasm \
     35
@@ -107,7 +107,7 @@ we can use to interact with applications on the network.
 Make sure you're in `./target/debug` and run:
 
 ```bash
-./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 service
+./linera --storage rocksdb:linera.db --wallet wallet.json service
 ```
 
 <!-- TODO: add graphiql image here -->
