@@ -2,8 +2,7 @@
 
 In this section we'll be exploring the Linera SDK by building a simple counter application.
 
-This is going to cover most facets of building an app, with the notable exception of the front-end
-which is covered in a future section.
+This is going to cover most facets of building an app.
 
 ## Linera SDK Crate
 

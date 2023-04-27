@@ -74,7 +74,6 @@ Using our hypothetical 'fungible token' application as an example, an operation
 for a user to transfer funds to another user would look like this:
 
 ```rust
-/// An operation.
 #[derive(Deserialize, Serialize)]
 pub enum Operation {
     /// A transfer from a (locally owned) account to a (possibly remote) account.
@@ -94,11 +93,9 @@ operations, they are only allowed to include them in the right order (possibly
 skipping some), and only if they were actually created by another chain (or the
 same chain, earlier).
 
-Using our hypothetical 'fungible token' application as an example, an effect
-to credit an account would look like this:
+In our 'fungible token' application, an effect to credit an account would look like this:
 
 ```rust
-/// An effect.
 #[derive(Deserialize, Serialize)]
 pub enum Effect {
     Credit { owner: AccountOwner, amount: Amount },
@@ -108,14 +105,9 @@ pub enum Effect {
 
 ## Interacting with an Application
 
-To interact with an application, we follow the same principle as interacting
-with the Linera network system and we use the wallet.
-
-When [run in 'service' mode](wallet.md#node-service), the wallet exposes a
-GraphQL API for every application running on that chain. To interface with an
-application running on a given chain, run the wallet in `service` mode for that
-chain and the API for the application is then available
-at `localhost:8080/<application-id>`.
+To interact with an application, we run the Linera client
+[in 'service' mode](wallet.md#node-service). It exposes a GraphQL API for every
+application running on that chain at `localhost:8080/<application-id>`.
 
 Simple navigating there with your browser will open a GraphiQL interface which
 enables you to graphically explore the state of your application.

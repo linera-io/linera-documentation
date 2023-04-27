@@ -10,7 +10,7 @@ A microchain is a specialized type of blockchain designed to address the
 limitations of traditional blockchains by offering predictable performance,
 security, and responsiveness on a large scale. Unlike regular blockchains,
 microchains allow users to manage the production of blocks in their own chains
-for optimal performance.
+with low latency.
 
 They separate the role of proposing new blocks from validating them, providing
 more flexibility and configurability. Microchains can

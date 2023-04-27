@@ -6,12 +6,20 @@ The core idea of the Linera protocol is to give each user a lightweight blockcha
 
 ## How does it work?
 
-Each Linera user _owns_ one or several microchains. Concretely, the _owner_ of a chain chooses when to add a new block in the chain and what goes inside the block. Users typically add new blocks to their chains to process _incoming messages_ or to execute secure _operations_ on their accounts, for instance to transfer assets to another user.
+Each Linera user _owns_ one or several microchains. The _owner_ of a chain chooses when to add a new block in the chain and what goes inside the block. Users typically add new blocks to their chains to process _incoming messages_
+from other chains or to execute secure _operations_ on their accounts, for instance to transfer assets to another user.
 
-Importantly, validators ensure that new blocks are _valid_, that is, can be safely executed according to the rules of the infrastructure. For instance, a block initiating a transfer from the wrong account or from an account with insufficient funds will be rejected.
+Importantly, validators ensure that new blocks are _valid_. For instance, that a transfer
+operation is from an account with sufficient funds; or that an incoming message actually
+matches what the other chain has sent. Invalid blocks will be rejected.
 
-Linera applications are meant to be multi-chain: once published and initialized, applications are deployed automatically to the chains where they are needed. To coordinate the state of an application across chains, Linera provides developers with the ability to exchange cheap and efficient cross-chain asynchronous messages. <!-- Incoming messages from another chains are first placed into an inbox. They are executed later when they are picked in a block of the receiving chain. -->
-Inside a chain, applications may compose arbitrarily using synchronous function calls.
+A Linera _application_ is a Wasm program that defines its own state and operations.
+Users can publish bytecode and initialize an application on one chain, and it will be
+automatically deployed to all chains where it is needed, with separate state on each
+chain. It can coordinate chains by defining its own asynchronous cross-chain messages.
+
+Every chain can have multiple applications. On the same chain, applications can call each
+other synchronously.
 
 ## How does Linera compare to existing multi-chain infrastructure?
 
@@ -44,4 +52,4 @@ that require processing time-sensitive transactions created by many simultaneous
 
 - marketplaces for AI.
 
-Lightweight user chains are instrumental in providing elastic scalability but they have other benefits as well. Because user chains have fewer blocks than traditional blockchain, we intend to embed the full-nodes of user chains in user wallet applications, notably browser extensions and mobile devices.
+Lightweight user chains are instrumental in providing elastic scalability but they have other benefits as well. Because user chains have fewer blocks than traditional blockchains, we intend to embed the full-nodes of user chains in user wallet applications, notably browser extensions and mobile devices.
