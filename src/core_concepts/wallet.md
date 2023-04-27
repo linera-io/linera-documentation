@@ -1,9 +1,9 @@
 # The Wallet
 
-The Linera Wallet is the main way to interact with the network. Like most
-wallets, the Linera Wallet holds user private and public keys. Unlike most
-wallets, the Linera Wallet also acts as a partial node, executing blocks for
-chains owned by a user.
+The Linera client is the main way to interact with the network and manage
+user's wallets. Like most wallets, a Linera Wallet holds user private and
+public keys. Unlike most wallet applications, the Linera client also acts as a
+partial node, executing blocks for chains owned by a user.
 
 The state of the wallet lives in `wallet.json`, while the state of the chains
 running on your local partial node are stored in `linera.db`.
@@ -47,7 +47,7 @@ default chain removes ambiguity in which chain is selected when performing an
 operation.
 
 The default chain is set initially, when the first chain is added to the wallet.
-You can check the default chain for your wallet by running :
+You can check the default chain for your wallet by running:
 
 ```bash
 $ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet show
@@ -55,7 +55,7 @@ $ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet show
 
 The Chain Id which is in green text instead of white text is your default chain.
 
-To change the default chain for you wallet, user the `set-default` command:
+To change the default chain for your wallet, user the `set-default` command:
 
 ```bash
 $ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet set-default <chain-id>
@@ -69,7 +69,7 @@ created by an existing chain on the network. In the future, one of the Linera
 public chains will open chains for new users - but for now an existing
 single-chain owner is required to open a chain for a new wallet on the network.
 
-#### Open a Chain for your own wallet
+#### Open a Chain for Your Own Wallet
 
 To open a chain for your own wallet, you can use the `open_chain` command:
 
@@ -80,11 +80,10 @@ $ ./linera --storage rocksdb:linera.db --wallet wallet.json open_chain
 This will create a new chain (using the wallet's default chain) and add it to
 the wallet. Use the `wallet show` command to see your existing chains.
 
-#### Open a Chain for another wallet
+#### Open a Chain for Another Wallet
 
 Opening a chain for another `wallet` (let's call it `wallet2`) requires an extra
-two
-steps.
+two steps.
 
 First `wallet2` must create an unassigned keypair. The public part of that keypair
 is then sent to the `wallet` who is the chain creator.
@@ -114,8 +113,8 @@ the `assign` command:
 
 ## Node Service
 
-So far we've seen how to interact with the wallet while treating it as a binary
-in your terminal. However, the wallet also acts as a partial node which:
+So far we've seen how to use the Linera client treating it as a binary
+in your terminal. However, the client also acts as a partial node which:
 
 1. Executes blocks
 2. Exposes an GraphQL API and IDE for dynamically interacting with applications
@@ -123,7 +122,7 @@ in your terminal. However, the wallet also acts as a partial node which:
 3. Listens for notifications from validators and automatically updates local
    chains.
 
-To interact with the node service, simply run the wallet in `service` mode:
+To interact with the node service, simply run `linera` in `service` mode:
 
 ```bash
 ./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 service
@@ -136,7 +135,7 @@ using the `--port` flag).
 
 Linera uses GraphQL as the primary query language for interfacing with different
 parts of the system. GraphQL is a query language developed by Facebook which
-enables client to craft queries such that they receive exactly what they want
+enables clients to craft queries such that they receive exactly what they want
 and nothing more.
 
 GraphQL is used extensively during application development, especially to query

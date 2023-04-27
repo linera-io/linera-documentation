@@ -44,4 +44,4 @@ that require processing time-sensitive transactions created by many simultaneous
 
 - marketplaces for AI.
 
-Lightweight user chains are instrumental in providing elastic scalability but they have other benefits as well. Because user chains have fewer blocks than traditional blockchain, we intend to embed the full-nodes of user chains in user wallets, notably browser extensions and mobile devices.
+Lightweight user chains are instrumental in providing elastic scalability but they have other benefits as well. Because user chains have fewer blocks than traditional blockchain, we intend to embed the full-nodes of user chains in user wallet applications, notably browser extensions and mobile devices.

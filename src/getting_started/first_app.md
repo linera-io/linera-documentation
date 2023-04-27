@@ -46,10 +46,10 @@ that later.
 ## Interacting with the network
 
 The main way of interacting with the network and deploying applications, is
-using your wallet. The wallet was compiled as a result of running `cargo build`
+using the `linera` client. It was compiled as a result of running `cargo build`
 in the previous section and can be found under `target/debug/linera`.
 
-Check that you have your wallet, and it can communicate with the network by
+Check that you have the client, and it can communicate with the network by
 first navigating to `target/debug` and then running a command to synchronize the
 balance for
 your [default chain](../core_concepts/wallet.md) with the rest of the network.
@@ -58,8 +58,8 @@ your [default chain](../core_concepts/wallet.md) with the rest of the network.
 cd target/debug && ./linera --wallet wallet.json sync_balance
 ```
 
-You should see an output of `10`. If you're curious why we're passing all these
-files to the client, we'll get to that in the [wallet section](../core_concepts/wallet.md).
+You should see an output of `10`. If you're curious why we're passing this file
+to the client, we'll get to that in the [wallet section](../core_concepts/wallet.md).
 
 ## Building an example Application
 
@@ -83,7 +83,7 @@ cd linera-examples/counter-graphql && cargo build --release
 ## Publishing your Application
 
 We can publish our compiled application to our local network by using
-the `client`. To do that, navigate back to `./target/debug`.
+the `linera` client. To do that, navigate back to `./target/debug`.
 
 To deploy the application we can use the `publish` command and provide:
 
