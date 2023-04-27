@@ -68,10 +68,10 @@ created by an existing chain on the network.
 
 #### Open a Chain for Your Own Wallet
 
-To open a chain for your own wallet, you can use the `open_chain` command:
+To open a chain for your own wallet, you can use the `open-chain` command:
 
 ```bash
-$ ./linera --storage rocksdb:linera.db --wallet wallet.json open_chain
+$ ./linera --storage rocksdb:linera.db --wallet wallet.json open-chain
 ```
 
 This will create a new chain (using the wallet's default chain) and add it to
@@ -97,7 +97,7 @@ $ ./linera --wallet wallet2.json keygen
 Next, using the public key, `wallet` can open a chain for `wallet2`.
 
 ```bash
-./linera --wallet wallet.json open_chain --to-owner 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888
+./linera --wallet wallet.json open-chain --to-owner 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888
 e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 fc9384defb0bcd8f6e206ffda32599e24ba715f45ec88d4ac81ec47eb84fa111
 ```

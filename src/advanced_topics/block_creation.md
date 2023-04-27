@@ -4,8 +4,8 @@ Unlike validators in most other platforms, and unlike the workers that belong to
 validator, Linera validators do not need to exchange messages with each other directly.
 Instead, the chain owners' `linera` clients make the system progress by actively
 providing the required data to the validators. E.g. each command like `linera transfer`,
-`publish` or `open_chain` performs multiple steps to append a block containing the
-token transfer, application publishing or chain creation operation:
+`publish-bytecode` or `open-chain` performs multiple steps to append a block containing
+the token transfer, application publishing or chain creation operation:
 
 - The Linera client creates a new block containing the desired operation and new incoming
   effects, if there are any. It also contains the most recent block's hash to designate

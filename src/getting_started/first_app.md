@@ -54,7 +54,7 @@ balance for
 your [default chain](../core_concepts/wallet.md) with the rest of the network.
 
 ```bash
-cd target/debug && ./linera --wallet wallet.json sync_balance
+cd target/debug && ./linera --wallet wallet.json sync-balance
 ```
 
 You should see an output of `10`.
@@ -83,14 +83,14 @@ cd linera-examples/counter-graphql && cargo build --release
 We can publish our compiled application to our local network by using
 the `linera` client. To do that, navigate back to `./target/debug`.
 
-To deploy the application we can use the `publish_and_create` command and provide:
+To deploy the application we can use the `publish-and-create` command and provide:
 
 1. The location of the contract bytecode
 2. The location of the service bytecode
 3. The hex encoded initialization arguments
 
 ```bash
-./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 publish_and_create \
+./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 publish-and-create \
     ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_contract.wasm \
     ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_service.wasm \
     35
