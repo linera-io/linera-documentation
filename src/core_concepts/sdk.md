@@ -299,7 +299,6 @@ The key variables from the linera-sdk modules that are important are
 - The `ChainId` on which the smart contracts is run. This is important when transfering from one microchain to another.
 - The `Amount` for the amount of money.
 
-
 ## Deploying your Application
 
 To deploy your application, you first need to navigate to `target/debug` where the `linera` binary is located.

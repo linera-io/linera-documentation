@@ -61,7 +61,7 @@ cd target/debug && ./linera --wallet wallet.json --genesis genesis.json sync_bal
 You should see an output of `10`. If you're curious why we're passing all these
 files to the client, we'll get to that in the [wallet section](../core_concepts/wallet.md).
 
-## Building and example Application
+## Building an example Application
 
 Applications running on Linera are simply [Wasm](https://webassembly.org/)
 bytecode. Each Linera validator and client has a built-in Wasm virtual machine
