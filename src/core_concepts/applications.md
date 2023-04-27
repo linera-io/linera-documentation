@@ -34,7 +34,7 @@ Happily, the application deployment lifecycle is abstracted from the user, and
 an application can be published with a single command:
 
 ```bash
-./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 publish <contract-path> <service-path> <init-args>
+./linera --storage rocksdb:linera.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 publish <contract-path> <service-path> <init-args>
 ```
 
 This will publish the bytecode as well as initialise the application for you.

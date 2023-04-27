@@ -92,7 +92,7 @@ To deploy the application we can use the `publish` command and provide:
 3. The hex encoded initialization arguments
 
 ```bash
-./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 publish_and_create \
+./linera --storage rocksdb:linera.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 publish_and_create \
     ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_contract.wasm \
     ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_service.wasm \
     35
@@ -110,7 +110,7 @@ APIs locally which we can use to interact with applications on the network.
 To run the client in service mode, make sure you're in `./target/debug` and run:
 
 ```bash
-./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service
+./linera --storage rocksdb:linera.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service
 ```
 
 // todo add graphiql image here

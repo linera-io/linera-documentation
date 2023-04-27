@@ -6,7 +6,7 @@ wallets, the Linera Wallet also acts as a partial node, executing blocks for
 chains owned by a user.
 
 The state of the wallet lives in `wallet.json`, while the state of the chains
-running on your local partial node are stored in `client.db`.
+running on your local partial node are stored in `linera.db`.
 
 ## Chain Management
 
@@ -17,7 +17,7 @@ User chains are managed explicitly via the wallet.
 To see the chains owned by your wallet, you can use the `show` command:
 
 ```bash
-$ ./linera --storage rocksdb:client.db  --wallet wallet.json --genesis genesis.json wallet show
+$ ./linera --storage rocksdb:linera.db  --wallet wallet.json --genesis genesis.json wallet show
 ╭──────────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────╮
 │ Chain Id                                                         ┆ Latest Block                                                                         │
 ╞══════════════════════════════════════════════════════════════════╪══════════════════════════════════════════════════════════════════════════════════════╡
@@ -50,7 +50,7 @@ The default chain is set initially, when the first chain is added to the wallet.
 You can check the default chain for your wallet by running :
 
 ```bash
-$ ./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json wallet show
+$ ./linera --storage rocksdb:linera.db --wallet wallet.json --genesis genesis.json wallet show
 ```
 
 The Chain Id which is in green text instead of white text is your default chain.
@@ -58,7 +58,7 @@ The Chain Id which is in green text instead of white text is your default chain.
 To change the default chain for you wallet, user the `set-default` command:
 
 ```bash
-$ ./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json wallet set-default <chain-id>
+$ ./linera --storage rocksdb:linera.db --wallet wallet.json --genesis genesis.json wallet set-default <chain-id>
 ```
 
 ### Opening a Chain
@@ -74,7 +74,7 @@ single-chain owner is required to open a chain for a new wallet on the network.
 To open a chain for your own wallet, you can use the `open_chain` command:
 
 ```bash
-$ ./linera --storage rocksdb:client.db  --wallet wallet.json --genesis genesis.json open_chain
+$ ./linera --storage rocksdb:linera.db  --wallet wallet.json --genesis genesis.json open_chain
 ```
 
 This will create a new chain (using the wallet's default chain) and add it to
@@ -127,7 +127,7 @@ in your terminal. However, the wallet also acts as a partial node which:
 To interact with the node service, simply run the wallet in `service` mode:
 
 ```bash
-./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service
+./linera --storage rocksdb:linera.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service
 ```
 
 This will run the node service on port 8080 by default (this can be overridden
