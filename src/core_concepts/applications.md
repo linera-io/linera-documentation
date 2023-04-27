@@ -24,7 +24,7 @@ flexible:
    The bytecode location itself is then opaque to the rest of the network, the
    only way to reference it is with a bytecode identifier.
 3. After the bytecode is published, a user can create a new application instance
-   by referencing the bytecode and providing initialisation parameters. This
+   by referencing the bytecode and providing initialization parameters. This
    process returns an application identifier which can be used to reference and
    interact with the application.
 4. The same bytecode identifier can be used as many times is needed by as many
@@ -34,15 +34,14 @@ Happily, the application deployment lifecycle is abstracted from the user, and
 an application can be published with a single command:
 
 ```bash
-./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 publish <contract-path> <service-path> <init-args>
+./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 publish_and_create <contract-path> <service-path> <init-args>
 ```
 
-This will publish the bytecode as well as initialise the application for you.
+This will publish the bytecode as well as initialize the application for you.
 
 ## Anatomy of an Application
 
-An application is broken into two major components, the 'contract' and the '
-service'.
+An application is broken into two major components, the 'contract' and the 'service'.
 
 The contract is gas-metered (for more details,
 see [execution model](../advanced_topics/execution_model.md)), and is the part
@@ -51,7 +50,7 @@ calls and modifies the application's state. The details are covered in more
 depth in the
 [SDK docs](./sdk.md).
 
-The service, is non-metered and read-only. It is used primarily to query the
+The service is non-metered and read-only. It is used primarily to query the
 state of an application and hydrate the presentation layer (think front-end)
 with the data required for a user interface.
 
@@ -137,6 +136,6 @@ cross-chain request to Chain Y in order for tha application to get registered on
 Chain Y. Once that is done, User B can interact with Application 1 on Chain Y.
 
 If this was not the case, every chain would run every application, and we would
-end up with microchains which are simply full-scale Nakamoto blockchains. This '
-discovering' strategy enables Chains to only care about a finite subset of the
+end up with microchains which are simply full-scale Nakamoto blockchains. This
+'discovering' strategy enables chains to only care about a small subset of the
 state of the entire network.

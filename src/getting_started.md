@@ -14,8 +14,8 @@ The SDK includes the following components:
 
 ## Getting Started with Linera's SDK
 
-To get started with Linera's SDK, you will need to install the Linera CLI and set up a local development environment. The Linera CLI is a command-line tool that allows you to interact with the Linera protocol, deploy contracts, and manage your local node.
+To get started with Linera's SDK, you will need to install the Linera client and set up a local development environment. The Linera client is a command-line tool that allows you to interact with the Linera protocol, deploy contracts, and manage your local node.
 
-Once you have installed the Linera CLI and set up your development environment, you can start building smart contracts and front-end applications using the tools and libraries provided by the SDK.
+Once you have installed the Linera client and set up your development environment, you can start building smart contracts and front-end applications using the tools and libraries provided by the SDK.
 
 To learn more about how to get started with Linera's SDK, check out the documentation and tutorials provided on our website. You can also join our community and get help from other developers on our Discord channel.

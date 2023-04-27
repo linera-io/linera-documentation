@@ -40,28 +40,27 @@ abfbf26c6f45955067f60de0317816454dbd54459dc773f185fbcaf8c72d5041
 > in
 > the `configuration/` directory.
 
-The `run_local.sh` script also initialises a test wallet for you, but more on
-that later.
+The `run_local.sh` script also initializes a test wallet for you.
 
 ## Interacting with the network
 
 The main way of interacting with the network and deploying applications, is
-using your wallet. The wallet was compiled as a result of running `cargo build`
+using the `linera` client. It was compiled as a result of running `cargo build`
 in the previous section and can be found under `target/debug/linera`.
 
-Check that you have your wallet, and it can communicate with the network by
+Check that you have the client, and it can communicate with the network by
 first navigating to `target/debug` and then running a command to synchronize the
 balance for
 your [default chain](../core_concepts/wallet.md) with the rest of the network.
 
 ```bash
-cd target/debug && ./linera --wallet wallet.json --genesis genesis.json sync_balance
+cd target/debug && ./linera --wallet wallet.json sync_balance
 ```
 
-You should see an output of `10`. If you're curious why we're passing all these
-files to the client, we'll get to that in the [wallet section](../core_concepts/wallet.md).
+You should see an output of `10`. If you're curious why we're passing this file
+to the client, we'll get to that in the [wallet section](../core_concepts/wallet.md).
 
-## Building and example Application
+## Building an example Application
 
 Applications running on Linera are simply [Wasm](https://webassembly.org/)
 bytecode. Each Linera validator and client has a built-in Wasm virtual machine
@@ -83,16 +82,16 @@ cd linera-examples/counter-graphql && cargo build --release
 ## Publishing your Application
 
 We can publish our compiled application to our local network by using
-the `client`. To do that, navigate back to `./target/debug`.
+the `linera` client. To do that, navigate back to `./target/debug`.
 
-To deploy the application we can use the `publish` command and provide:
+To deploy the application we can use the `publish_and_create` command and provide:
 
 1. The location of the contract bytecode
 2. The location of the service bytecode
 3. The hex encoded initialization arguments
 
 ```bash
-./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 publish_and_create \
+./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 publish_and_create \
     ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_contract.wasm \
     ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_service.wasm \
     35
@@ -110,10 +109,10 @@ APIs locally which we can use to interact with applications on the network.
 To run the client in service mode, make sure you're in `./target/debug` and run:
 
 ```bash
-./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service
+./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 service
 ```
 
-// todo add graphiql image here
+<!-- TODO: add graphiql image here -->
 
 Navigate to `http://localhost:8080` in your browser to access the GraphiQL, the
 GraphQL IDE. We'll look at this in more detail in
@@ -143,5 +142,5 @@ query {
 }
 ```
 
-This will return a value of `35`, which is the initialisation argument we
+This will return a value of `35`, which is the initialization argument we
 specified when deploying our application.

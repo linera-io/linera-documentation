@@ -2,12 +2,12 @@
 
 Unlike validators in most other platforms, and unlike the workers that belong to a single
 validator, Linera validators do not need to exchange messages with each other directly.
-Instead, the chain owners' `client` processes make the system progress by actively
-providing the required data to the validators. E.g. each command like `client transfer`,
+Instead, the chain owners' `linera` clients make the system progress by actively
+providing the required data to the validators. E.g. each command like `linera transfer`,
 `publish` or `open_chain` performs multiple steps to append a block containing the
 token transfer, application publishing or chain creation operation:
 
-- The client creates a new block containing the desired operation and new incoming
+- The Linera client creates a new block containing the desired operation and new incoming
   effects, if there are any. It also contains the most recent block's hash to designate
   its parent. The client sends the new block to all validators.
 - The validators validate the block, i.e. check that the block satisfies the conditions

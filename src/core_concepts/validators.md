@@ -74,14 +74,14 @@ independently of the rest of the validator
 ## Configuring Networks, Workers and Proxies
 
 In [Your First App](../getting_started/first_app.md) we used the `run_local.sh` script
-to start a local network. This should be sufficient for most usecases when you're running
+to start a local network. This should be sufficient for most use cases when you're running
 a local network.
 
 ```bash
 ./scripts/run_local.sh
 ```
 
-However, it is possible to customise and configure the parameters of the network.
+However, it is possible to customize and configure the parameters of the network.
 
 `run_local.sh` uses the `validator_n.toml` file from the `configuration/` directory to configure validator number `n`.
 
@@ -94,7 +94,7 @@ generates keys and writes them, together with the options from the TOML files, t
 public keys in `committee.json`.
 
 ```bash
-./linera --wallet wallet.json --genesis genesis.json create_genesis_config 10 --initial-funding 10 --committee committee.json
+./linera --wallet wallet.json create_genesis_config 10 --genesis genesis.json --initial-funding 10 --committee committee.json
 ```
 
 creates a configuration for the initial state of the network, `genesis.json`, with 10

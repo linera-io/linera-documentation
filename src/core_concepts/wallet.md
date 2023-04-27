@@ -1,23 +1,23 @@
 # The Wallet
 
-The Linera Wallet is the main way to interact with the network. Like most
-wallets, the Linera Wallet holds user private and public keys. Unlike most
-wallets, the Linera Wallet also acts as a partial node, executing blocks for
-chains owned by a user.
+The Linera client is the main way to interact with the network and manage
+user's wallets. Like most wallets, a Linera wallet holds user private and
+public keys. Unlike most wallet applications, the Linera client also acts as a
+partial node, executing blocks for chains owned by a user.
 
 The state of the wallet lives in `wallet.json`, while the state of the chains
-running on your local partial node are stored in `client.db`.
+running on your local partial node are stored in `linera.db`.
 
 ## Chain Management
 
-User chains are managed explicitly via the wallet.
+User chains are managed explicitly via the client.
 
 ### Listing Chains
 
 To see the chains owned by your wallet, you can use the `show` command:
 
 ```bash
-$ ./linera --storage rocksdb:client.db  --wallet wallet.json --genesis genesis.json wallet show
+$ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet show
 ╭──────────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────╮
 │ Chain Id                                                         ┆ Latest Block                                                                         │
 ╞══════════════════════════════════════════════════════════════════╪══════════════════════════════════════════════════════════════════════════════════════╡
@@ -47,18 +47,18 @@ default chain removes ambiguity in which chain is selected when performing an
 operation.
 
 The default chain is set initially, when the first chain is added to the wallet.
-You can check the default chain for your wallet by running :
+You can check the default chain for your wallet by running:
 
 ```bash
-$ ./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json wallet show
+$ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet show
 ```
 
 The Chain Id which is in green text instead of white text is your default chain.
 
-To change the default chain for you wallet, user the `set-default` command:
+To change the default chain for your wallet, user the `set-default` command:
 
 ```bash
-$ ./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json wallet set-default <chain-id>
+$ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet set-default <chain-id>
 ```
 
 ### Opening a Chain
@@ -69,54 +69,56 @@ created by an existing chain on the network. In the future, one of the Linera
 public chains will open chains for new users - but for now an existing
 single-chain owner is required to open a chain for a new wallet on the network.
 
-#### Open a Chain for your own wallet
+#### Open a Chain for Your Own Wallet
 
 To open a chain for your own wallet, you can use the `open_chain` command:
 
 ```bash
-$ ./linera --storage rocksdb:client.db  --wallet wallet.json --genesis genesis.json open_chain
+$ ./linera --storage rocksdb:linera.db --wallet wallet.json open_chain
 ```
 
 This will create a new chain (using the wallet's default chain) and add it to
 the wallet. Use the `wallet show` command to see your existing chains.
 
-#### Open a Chain for another wallet
+#### Open a Chain for Another Wallet
 
-Opening a chain for another `wallet` (let's call it `wallet2`) requires an extra
-two
-steps.
+Opening a chain for another `wallet` requires an extra two steps.
+Let's initialize a second wallet:
 
-First `wallet2` must create an unassigned keypair. The public part of that
-keypair
+```bash
+./linera --wallet wallet2.json wallet init --genesis genesis.json
+```
+
+First `wallet2` must create an unassigned keypair. The public part of that keypair
 is then sent to the `wallet` who is the chain creator.
 
 ```bash
-$ ./linera --wallet wallet2.json --genesis genesis.json keygen
+$ ./linera --wallet wallet2.json keygen
 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 # this is the public key for the unassigned keypair
 ```
 
 Next, using the public key, `wallet` can open a chain for `wallet2`.
 
 ```bash
-./linera --wallet wallet.json --genesis genesis.json open_chain --to-owner 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888
-21afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda3
-91c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f6460000000000000000000100000221afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda36443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c91408888891c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f64600000000000000000100000000000000000403f5447c1953dd2d4367462bf5485a08f9b89ecf9e2fc37b4c04cda0766763aa13677270633a3132372e302e302e313a39333030010000000000000034537eb025224f15bbc763ebc90431277e20923acfdc6fd2e0c3e2fabc26849313677270633a3132372e302e302e313a3932303001000000000000008e45fae6f0030f195b5818fdd7c4656da8a40c3401a248ecde6a6c0a8caf81a413677270633a3132372e302e302e313a393430300100000000000000a093522fb18888c54c3c3e9c2e808ee08d9aebc8fc8a8a42e751c0399cffb4ca13677270633a3132372e302e302e313a3931303001000000000000000400000000000000030000000000000002000000000000000300000000000000c5f4299a00f9050001cd127942d23e32ab5137a9ea07edd4db726da61affe4b7cdcdf85d71ff898f3d01b2e90cb542d342e8fc1f5b7e9ed9abbc6b04c9f08f234130ed346f7357076d2602000021afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda300000221afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda36443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c91408888891c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f64600000000000000000100000000000000000403f5447c1953dd2d4367462bf5485a08f9b89ecf9e2fc37b4c04cda0766763aa13677270633a3132372e302e302e313a39333030010000000000000034537eb025224f15bbc763ebc90431277e20923acfdc6fd2e0c3e2fabc26849313677270633a3132372e302e302e313a3932303001000000000000008e45fae6f0030f195b5818fdd7c4656da8a40c3401a248ecde6a6c0a8caf81a413677270633a3132372e302e302e313a393430300100000000000000a093522fb18888c54c3c3e9c2e808ee08d9aebc8fc8a8a42e751c0399cffb4ca13677270633a3132372e302e302e313a393130300100000000000000040000000000000003000000000000000200000000000000000091c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f64600000421afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda391c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f64601008095a889f7025d24dffccb5f9700439efd671de5dd453f9d2432ab73e6602613010334537eb025224f15bbc763ebc90431277e20923acfdc6fd2e0c3e2fabc2684938942c4b9c4efec2ca802d3841c5936cf1c7670794be06f4789e411ea3dd5398ca66a69630e9d0e7e3a5429e60a4332a3d927cbc22758bffe3784a7793b476903a093522fb18888c54c3c3e9c2e808ee08d9aebc8fc8a8a42e751c0399cffb4ca760f4f9c51ee0440cb6b26ca8d2e13a8265defe240c7bcb6d7c4fcc4532f36634b80ca3690f1d6c8c08a8befbb2c0ef1bd68a8b88fdef65aab973d61a31e93068e45fae6f0030f195b5818fdd7c4656da8a40c3401a248ecde6a6c0a8caf81a4138630adeca4b0b44f9904f95510048387177d16260207143dccf1946788ac7b491bbcd60d0d18f18acfed6138afbe45e0b5bea67e000da6e81facbcf0d62407
+./linera --wallet wallet.json open_chain --to-owner 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888
+e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
+fc9384defb0bcd8f6e206ffda32599e24ba715f45ec88d4ac81ec47eb84fa111
 ```
 
-The first line is the Chain Id of the newly created chain. The second line is
-the operation certificate.
+The first line is the effect ID specifying the cross-chain message that creates the new
+chain. of the newly created chain. The second line is the new chain's ID.
 
 Finally, to add the chain to `wallet2` for the given unassigned key we use
 the `assign` command:
 
 ```bash
- ./linera --wallet wallet2.json --genesis genesis.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --chain 21afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda3 --certificate 91c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f6460000000000000000000100000221afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda36443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c91408888891c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f64600000000000000000100000000000000000403f5447c1953dd2d4367462bf5485a08f9b89ecf9e2fc37b4c04cda0766763aa13677270633a3132372e302e302e313a39333030010000000000000034537eb025224f15bbc763ebc90431277e20923acfdc6fd2e0c3e2fabc26849313677270633a3132372e302e302e313a3932303001000000000000008e45fae6f0030f195b5818fdd7c4656da8a40c3401a248ecde6a6c0a8caf81a413677270633a3132372e302e302e313a393430300100000000000000a093522fb18888c54c3c3e9c2e808ee08d9aebc8fc8a8a42e751c0399cffb4ca13677270633a3132372e302e302e313a3931303001000000000000000400000000000000030000000000000002000000000000000300000000000000c5f4299a00f9050001cd127942d23e32ab5137a9ea07edd4db726da61affe4b7cdcdf85d71ff898f3d01b2e90cb542d342e8fc1f5b7e9ed9abbc6b04c9f08f234130ed346f7357076d2602000021afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda300000221afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda36443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c91408888891c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f64600000000000000000100000000000000000403f5447c1953dd2d4367462bf5485a08f9b89ecf9e2fc37b4c04cda0766763aa13677270633a3132372e302e302e313a39333030010000000000000034537eb025224f15bbc763ebc90431277e20923acfdc6fd2e0c3e2fabc26849313677270633a3132372e302e302e313a3932303001000000000000008e45fae6f0030f195b5818fdd7c4656da8a40c3401a248ecde6a6c0a8caf81a413677270633a3132372e302e302e313a393430300100000000000000a093522fb18888c54c3c3e9c2e808ee08d9aebc8fc8a8a42e751c0399cffb4ca13677270633a3132372e302e302e313a393130300100000000000000040000000000000003000000000000000200000000000000000091c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f64600000421afead36b9abfe5b0556c955f87cd167e2271eaa301546ca579be516db6eda391c7b394ef500cd000e365807b770d5b76a6e8c9c2f2af8e58c205e521b5f64601008095a889f7025d24dffccb5f9700439efd671de5dd453f9d2432ab73e6602613010334537eb025224f15bbc763ebc90431277e20923acfdc6fd2e0c3e2fabc2684938942c4b9c4efec2ca802d3841c5936cf1c7670794be06f4789e411ea3dd5398ca66a69630e9d0e7e3a5429e60a4332a3d927cbc22758bffe3784a7793b476903a093522fb18888c54c3c3e9c2e808ee08d9aebc8fc8a8a42e751c0399cffb4ca760f4f9c51ee0440cb6b26ca8d2e13a8265defe240c7bcb6d7c4fcc4532f36634b80ca3690f1d6c8c08a8befbb2c0ef1bd68a8b88fdef65aab973d61a31e93068e45fae6f0030f195b5818fdd7c4656da8a40c3401a248ecde6a6c0a8caf81a4138630adeca4b0b44f9904f95510048387177d16260207143dccf1946788ac7b491bbcd60d0d18f18acfed6138afbe45e0b5bea67e000da6e81facbcf0d62407
+ ./linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --effect-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 ```
 
 ## Node Service
 
-So far we've seen how to interact with the wallet while treating it as a binary
-in your terminal. However, the wallet also acts as a partial node which:
+So far we've seen how to use the Linera client treating it as a binary
+in your terminal. However, the client also acts as a partial node which:
 
 1. Executes blocks
 2. Exposes an GraphQL API and IDE for dynamically interacting with applications
@@ -124,10 +126,10 @@ in your terminal. However, the wallet also acts as a partial node which:
 3. Listens for notifications from validators and automatically updates local
    chains.
 
-To interact with the node service, simply run the wallet in `service` mode:
+To interact with the node service, simply run `linera` in `service` mode:
 
 ```bash
-./linera --storage rocksdb:client.db --wallet wallet.json --genesis genesis.json --max-pending-messages 10000 service
+./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 service
 ```
 
 This will run the node service on port 8080 by default (this can be overridden
@@ -137,7 +139,7 @@ using the `--port` flag).
 
 Linera uses GraphQL as the primary query language for interfacing with different
 parts of the system. GraphQL is a query language developed by Facebook which
-enables client to craft queries such that they receive exactly what they want
+enables clients to craft queries such that they receive exactly what they want
 and nothing more.
 
 GraphQL is used extensively during application development, especially to query
