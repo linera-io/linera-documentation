@@ -68,7 +68,7 @@ inboxes, and never discards messages.
 
 ## Chain Ownership Semantics
 
-Linera currently supports single owner chains. However, microchains can create
+Linera currently supports single-owner chains. However, microchains can create
 new microchains for other users, and control of a chain can be transferred to
 another user by changing the owner id. A chain is permanently deactivated when
 its owner id is set to `None`.

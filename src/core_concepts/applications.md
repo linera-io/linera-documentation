@@ -24,7 +24,7 @@ flexible:
    The bytecode location itself is then opaque to the rest of the network, the
    only way to reference it is with a bytecode identifier.
 3. After the bytecode is published, a user can create a new application instance
-   by referencing the bytecode and providing initialisation parameters. This
+   by referencing the bytecode and providing initialization parameters. This
    process returns an application identifier which can be used to reference and
    interact with the application.
 4. The same bytecode identifier can be used as many times is needed by as many
@@ -37,7 +37,7 @@ an application can be published with a single command:
 ./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 publish_and_create <contract-path> <service-path> <init-args>
 ```
 
-This will publish the bytecode as well as initialise the application for you.
+This will publish the bytecode as well as initialize the application for you.
 
 ## Anatomy of an Application
 

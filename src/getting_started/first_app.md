@@ -113,7 +113,7 @@ To run the client in service mode, make sure you're in `./target/debug` and run:
 ./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 service
 ```
 
-// todo add graphiql image here
+<!-- TODO: add graphiql image here -->
 
 Navigate to `http://localhost:8080` in your browser to access the GraphiQL, the
 GraphQL IDE. We'll look at this in more detail in
@@ -143,5 +143,5 @@ query {
 }
 ```
 
-This will return a value of `35`, which is the initialisation argument we
+This will return a value of `35`, which is the initialization argument we
 specified when deploying our application.
