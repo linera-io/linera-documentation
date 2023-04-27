@@ -125,7 +125,7 @@ pub trait Contract: Sized {
 
 There's quite a bit going on here, so let's break it down and take one method at a time.
 
-For this application, we'll be using the `initialize` and `execute_operation` command.
+For this application, we'll be using the `initialize` and `execute_operation` methods.
 
 ### Initializing our Application
 
@@ -307,7 +307,7 @@ To deploy your application, you first need to navigate to `target/debug` where t
 3. The hex encoded initialization arguments
 
 ```bash
-./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 publish_and_create \
+./linera --storage rocksdb:linera.db --wallet wallet.json --max-pending-messages 10000 publish-and-create \
     ../../linera-examples/target/wasm32-unknown-unknown/release/my_counter_contract.wasm \
     ../../linera-examples/target/wasm32-unknown-unknown/release/my_counter_service.wasm \
     00
