@@ -41,8 +41,7 @@ This will publish the bytecode as well as initialize the application for you.
 
 ## Anatomy of an Application
 
-An application is broken into two major components, the 'contract' and the '
-service'.
+An application is broken into two major components, the 'contract' and the 'service'.
 
 The contract is gas-metered (for more details,
 see [execution model](../advanced_topics/execution_model.md)), and is the part
@@ -51,7 +50,7 @@ calls and modifies the application's state. The details are covered in more
 depth in the
 [SDK docs](./sdk.md).
 
-The service, is non-metered and read-only. It is used primarily to query the
+The service is non-metered and read-only. It is used primarily to query the
 state of an application and hydrate the presentation layer (think front-end)
 with the data required for a user interface.
 
@@ -137,6 +136,6 @@ cross-chain request to Chain Y in order for tha application to get registered on
 Chain Y. Once that is done, User B can interact with Application 1 on Chain Y.
 
 If this was not the case, every chain would run every application, and we would
-end up with microchains which are simply full-scale Nakamoto blockchains. This '
-discovering' strategy enables Chains to only care about a finite subset of the
+end up with microchains which are simply full-scale Nakamoto blockchains. This
+'discovering' strategy enables chains to only care about a small subset of the
 state of the entire network.

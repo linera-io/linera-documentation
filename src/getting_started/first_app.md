@@ -40,8 +40,7 @@ abfbf26c6f45955067f60de0317816454dbd54459dc773f185fbcaf8c72d5041
 > in
 > the `configuration/` directory.
 
-The `run_local.sh` script also initialises a test wallet for you, but more on
-that later.
+The `run_local.sh` script also initializes a test wallet for you.
 
 ## Interacting with the network
 

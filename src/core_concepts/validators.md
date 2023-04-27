@@ -74,14 +74,14 @@ independently of the rest of the validator
 ## Configuring Networks, Workers and Proxies
 
 In [Your First App](../getting_started/first_app.md) we used the `run_local.sh` script
-to start a local network. This should be sufficient for most usecases when you're running
+to start a local network. This should be sufficient for most use cases when you're running
 a local network.
 
 ```bash
 ./scripts/run_local.sh
 ```
 
-However, it is possible to customise and configure the parameters of the network.
+However, it is possible to customize and configure the parameters of the network.
 
 `run_local.sh` uses the `validator_n.toml` file from the `configuration/` directory to configure validator number `n`.
 

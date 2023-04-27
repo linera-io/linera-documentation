@@ -10,7 +10,7 @@ which is covered in a future section.
 The `linera-sdk` crate exposes the basic traits required to create a Linera
 application.
 
-This section takes you over the steps to create a full Web 3 application with a
+This section takes you over the steps to create a full Web3 application with a
 Linera application for the back end and a React front end.
 
 ## Creating your Linera Project
@@ -128,7 +128,7 @@ There's quite a bit going on here, so let's break it down and take one method at
 
 For this application, we'll be using the `initialize` and `execute_operation` command.
 
-### Initialising our Application
+### Initializing our Application
 
 The first thing we need to do is initialize our application by using `Contract::initialize`.
 
@@ -216,7 +216,7 @@ Let's implement `Service` for our counter application.
 
 First, we want to generate the necessary boilerplate for implementing the
 service WIT interface, export the necessary resource types and functions so that
-the host (the process running the bytecode) can call the service. Happilly,
+the host (the process running the bytecode) can call the service. Happily,
 there is a macro to perform this code generation, so simply add the following
 to `service.rs`:
 
@@ -258,13 +258,13 @@ impl<C> Service for Counter<C>
 pub enum Error {
     /// Invalid query argument; Counter application only supports a single (empty) query.
     #[error(
-    "Invalid query argument; Counter application only supports JSON encoded GraphQL queries"
+        "Invalid query argument; Counter application only supports JSON encoded GraphQL queries"
     )]
     InvalidQuery,
 }
 ```
 
-Notice, that the input `argument` and returned `Vec<u8>` are both simple byte
+Notice that the input `argument` and returned `Vec<u8>` are both simple byte
 arrays. Therefore, the inputs and outputs made to the service can be effectively
 arbitrary. In our case, we'll be using the existing Linera GraphQL
 infrastructure to make our app easy for a graphical front end to consume.
@@ -290,13 +290,13 @@ check out
 the [examples section](https://github.com/linera-io/linera-protocol/blob/main/linera-examples/counter-graphql/src/service.rs)
 on GitHub.
 
-## Variables types
+## Variable Types
 
 The key variables from the linera-sdk modules that are important are
 
-- The `Timestamp` in microsecond is the unix time, that is from 1970-01-01 00:00:00. See the example `crowd-funding` where
+- The `Timestamp` is the Unix time in microseconds, that is from 1970-01-01 00:00:00. See the example `crowd-funding` where
   it is used for implementing a deadline in an application.
-- The `ChainId` on which the smart contracts is run. This is important when transfering from one microchain to another.
+- The `ChainId` on which the smart contract is run. This is important when transfering from one microchain to another.
 - The `Amount` for the amount of money.
 
 ## Deploying your Application
@@ -314,10 +314,10 @@ To deploy your application, you first need to navigate to `target/debug` where t
     00
 ```
 
-## Building a Front End for your Application
+## Building a Front-End for your Application
 
 // todo
 
-## Running your Web 3 App
+## Running your Web3 App
 
 // todo

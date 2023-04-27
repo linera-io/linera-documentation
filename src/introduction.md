@@ -1,7 +1,7 @@
 # Introduction
 
 Welcome to the developer documentation of Linera, an integrated multi-chain decentralized
-protocol designed for highly-scalable web3 applications.
+protocol designed for highly scalable Web3 applications.
 
 Please note that the Linera protocol is currently under active development. This
 documentation is intended for developers who wish to learn more about Linera and its
