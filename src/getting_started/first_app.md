@@ -85,7 +85,7 @@ cd linera-examples/counter-graphql && cargo build --release
 We can publish our compiled application to our local network by using
 the `linera` client. To do that, navigate back to `./target/debug`.
 
-To deploy the application we can use the `publish` command and provide:
+To deploy the application we can use the `publish_and_create` command and provide:
 
 1. The location of the contract bytecode
 2. The location of the service bytecode
