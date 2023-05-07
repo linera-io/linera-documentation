@@ -5,7 +5,7 @@ than usual Rust tests. Unit tests are executed inside a WebAssembly virtual mach
 environment that simulates a single microchain and a single application. System APIs are only
 available if they are mocked using helper functions from `linera_sdk::test`.
 
-Integration tests run outside a WebAssembly virtual machine, and uses a simulated validator for
+Integration tests run outside a WebAssembly virtual machine, and use a simulated validator for
 testing. This allows testing interactions between multiple microchains and multiple applications.
 However, it is also more low-level because testing the application requires interacting with
 microchains, so execution only happens when blocks are published.
