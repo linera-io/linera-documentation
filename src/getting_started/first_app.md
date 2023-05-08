@@ -30,7 +30,6 @@ $ ./scripts/run_local.sh
 f65a585f05852f0610e2460a99c23faa3969f3cfce8a519f843a793dbfb4cb84
 abfbf26c6f45955067f60de0317816454dbd54459dc773f185fbcaf8c72d5041
 140f3259cae9ea2a3b50cbcba2495661aea42641ef44751dec0a29b192ccf32f
-
 ```
 
 > The local network is running on operating system network ports, taking a total
@@ -74,7 +73,7 @@ subdirectory.
 To do that, navigate to one of the example applications and compile it (the
 compilation target is set to `wasm32_unknown_unknown` by default)
 
-```
+```bash
 cd linera-examples/counter-graphql && cargo build --release
 ```
 

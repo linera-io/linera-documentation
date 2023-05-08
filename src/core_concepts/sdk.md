@@ -41,7 +41,7 @@ instead mapped onto key-value stores like [RocksDB](https://rocksdb.org/).
 
 In vanilla Rust, we might represent our Counter as so:
 
-```rust
+```rust,ignore
 struct Counter {
   value: u128
 }
@@ -50,7 +50,7 @@ struct Counter {
 However to persist your data, you'll need to replace the existing `State` struct in `state.rs
 with the following view:
 
-```rust
+```rust,ignore
 /// The application state.
 #[derive(RootView, Debug)]
 pub struct Counter<C> {
@@ -75,7 +75,7 @@ actually change the state of the application.
 To create a contract, we need to implement the `Contract` trait, which is
 as follows:
 
-```rust
+```rust,ignore
 #[async_trait]
 pub trait Contract: Sized {
     /// Message reports for application execution errors.
@@ -140,7 +140,7 @@ Deployment on other microchains will use the `Default` implementation of the app
 For our `Counter` application, we'll want to initialize the state of the application to an arbitrary number that can
 be specified on application creation using its initialization parameters:
 
-```rust
+```rust,ignore
     async fn initialize(
         &mut self,
         _context: &OperationContext,
@@ -164,7 +164,7 @@ our counter's value. Changes made by block proposers to application states are b
 To create a new operation, we need to use the method `Contract::execute_operation`. In the counter's case,
 it will be receiving a `u128` which needs to be deserialized and the used to increment the counter state like so:
 
-```rust
+```rust,ignore
     async fn execute_operation(
         &mut self,
         _context: &OperationContext,
@@ -194,7 +194,7 @@ can be made against your application.
 The `Service` trait is how you define the interface into your application.
 The `Service` trait is defined as follows:
 
-```rust
+```rust,ignore
 #[async_trait]
 pub trait Service {
     /// Message reports for service execution errors.
@@ -219,7 +219,7 @@ the host (the process running the bytecode) can call the service. Happily,
 there is a macro to perform this code generation, so simply add the following
 to `service.rs`:
 
-```rust
+```rust,ignore
 linera_sdk::service!(Counter<ReadOnlyViewStorageContext>);
 ```
 
@@ -230,7 +230,7 @@ Next, we need to implement the `Service` for `Counter`. To do this we need to
 define `Service`'s associated types and implement `query_application`, as well
 as define the `Error` type:
 
-```rust
+```rust,ignore
 #[async_trait]
 impl<C> Service for Counter<C>
     where
@@ -271,7 +271,7 @@ infrastructure to make our app easy for a graphical front end to consume.
 The final piece of the the service is the `MutationRoot`. This is a convencience
 schema which is used for GraphQL introspection queries:
 
-```rust
+```rust,ignore
 struct MutationRoot;
 
 #[Object]

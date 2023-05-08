@@ -44,7 +44,7 @@ The validator has an internal network enabling the proxy to speak with shards an
 with each other. Each shard is also backed by its own data store which can be scaled
 independently of the rest of the validator
 
-```
+```ignore
  example network
                      │                                           │
                      │                                           │

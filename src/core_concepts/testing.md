@@ -30,7 +30,7 @@ Running `linera test` is easier, but if there's a need to run `cargo test` expli
 unit tests, Cargo must be configured to use the custom `test-runner`. The `test-runner` can be built
 from the repository.
 
-```
+```bash
 git clone https://github.com/linera-io/linera-protocol
 cd linera-protocol
 cargo build -p linera-sdk --bin test-runner --release
@@ -45,14 +45,14 @@ path of the binary. A more persistent way is to change one of [Cargo's configura
 files](https://doc.rust-lang.org/cargo/reference/config.html#hierarchical-structure). As an example,
 the following file can be placed inside the project's directory at `PROJECT_DIR/.cargo/config.toml`:
 
-```
+```ignore
 [target.wasm32-unknown-unknown]
 runner = "PATH_TO/test-runner"
 ```
 
 After configuring the test runner, unit tests can be executed with
 
-```
+```bash
 cargo test --target wasm32-unknown-unknown
 ```
 
@@ -61,7 +61,7 @@ cargo test --target wasm32-unknown-unknown
 A simple unit test is shown below, which tests if the application's `do_something` method changes
 the application state.
 
-```
+```rust,ignore
 #[cfg(test)]
 mod tests {
     use crate::state::ApplicationState;
@@ -94,7 +94,7 @@ APIs.
 
 Here's an example mocking the key-value store.
 
-```
+```rust,ignore
 #[cfg(test)]
 mod tests {
     use crate::state::ApplicationState;
@@ -138,9 +138,9 @@ and publish blocks to microchains in order to execute the application.
 
 A simple test that sends a message between application instances on different chains is shown below.
 
-```
+```rust,ignore
 #[tokio::test]
-fn test_cross_chain_message() {
+async fn test_cross_chain_message() {
     let (validator, application_id) = TestValidator::with_current_application(vec![], vec![]).await;
 
     let mut sender_chain = validator.get_chain(application_id.creation.chain_id).await;

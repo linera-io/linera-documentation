@@ -73,7 +73,9 @@ with an application.
 Using our hypothetical 'fungible token' application as an example, an operation
 for a user to transfer funds to another user would look like this:
 
-```rust
+```rust,ignore
+# extern crate serde;
+# use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Serialize)]
 pub enum Operation {
     /// A transfer from a (locally owned) account to a (possibly remote) account.
@@ -95,7 +97,9 @@ same chain, earlier).
 
 In our 'fungible token' application, an effect to credit an account would look like this:
 
-```rust
+```rust,ignore
+# extern crate serde;
+# use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Serialize)]
 pub enum Effect {
     Credit { owner: AccountOwner, amount: Amount },

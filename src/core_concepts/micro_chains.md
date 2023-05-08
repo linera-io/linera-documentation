@@ -42,7 +42,7 @@ block. This executes the selected messages and applies their effects to the chai
 Below is an example set of chains sending asynchronous messages to each other
 over consecutive blocks.
 
-```
+```ignore
                                ┌───┐     ┌───┐     ┌───┐
                        Chain A │   ├────►│   ├────►│   │
                                └───┘     └───┘     └───┘
