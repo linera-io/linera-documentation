@@ -8,14 +8,17 @@
 - [Core Concepts](./core_concepts.md)
   - [Microchains](core_concepts/micro_chains.md)
   - [The Wallet](core_concepts/wallet.md)
-  - [Validators](core_concepts/validators.md)
   - [Applications](core_concepts/applications.md)
   - [Linera SDK](core_concepts/sdk.md)
   - [Testing](core_concepts/testing.md)
 - [Advanced Topics](./advanced.md)
-  - [Execution Model](advanced_topics/execution_model.md)
   - [Views](advanced_topics/views.md)
+  - [Validators](advanced_topics/validators.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
+<!--
+  - [Execution Model](advanced_topics/execution_model.md)
+
 - [Examples](./examples.md)
   - [Hello World](./examples/hello_world.md)
 - [Glossary](./glossary.md)
+-->
