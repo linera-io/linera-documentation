@@ -151,6 +151,7 @@ async fn test_cross_chain_message() {
             block.with_operation(
                 application_id,
                 Operation::SendMessageTo(receiver_chain.id()),
+            )
         })
         .await;
 
