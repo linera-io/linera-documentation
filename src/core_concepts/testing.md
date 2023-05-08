@@ -65,7 +65,7 @@ the application state.
 #[cfg(test)]
 mod tests {
     use crate::state::ApplicationState;
-    use webassembly_test::webassembly_test:
+    use webassembly_test::webassembly_test;
 
     #[webassembly_test]
     fn test_do_something() {
@@ -99,7 +99,7 @@ Here's an example mocking the key-value store.
 mod tests {
     use crate::state::ApplicationState;
     use linera_sdk::test::mock_key_value_store;
-    use webassembly_test::webassembly_test:
+    use webassembly_test::webassembly_test;
 
     #[webassembly_test]
     fn test_state_is_not_persisted() {
@@ -151,6 +151,7 @@ async fn test_cross_chain_message() {
             block.with_operation(
                 application_id,
                 Operation::SendMessageTo(receiver_chain.id()),
+            )
         })
         .await;
 
