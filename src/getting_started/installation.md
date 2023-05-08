@@ -1,22 +1,22 @@
 # Installation
 
-This section is about installing Linera and running it from source.
+We start with the installation of Linera and how to run it from source.
 
 ## OS Support
 
 The Linera client and validators run as a set of native binaries. Below is a matrix of supported operating systems.
 
 ```ignore
-| Linux x86 64-bit | Mac OS (M1 / M2) | Mac OS (x86)     | Windows  |
-| ---------------- | ---------------- | ---------------- | ---------|
-| ✓ Most tested    | ✓ Working        | ✓ Working        | Untested |
+| Linux x86 64-bit | Mac OS (M1 / M2) | Mac OS (x86)     | Windows   |
+| ---------------- | ---------------- | ---------------- | --------- |
+| ✓ Main platform  | ✓ Working        | ✓ Working        | Untested  |
 ```
 
 ## Prerequisites
 
-To install Linera you will need to download the source from [GitHub](https://github.com/linera-io/linera-protocol).
+To install Linera, you will need to download the source from [GitHub](https://github.com/linera-io/linera-protocol).
 
-To clone the repository run:
+To clone the repository, run:
 
 ```bash
 git clone git@github.com:linera-io/linera-protocol.git

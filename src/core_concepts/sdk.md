@@ -18,7 +18,7 @@ To create your Linera project, use the `linera project new` command to setup
 the scaffolding and requisite files:
 
 ```bash
-./linera project new ../../linera-examples/my-counter
+./linera project new ../../examples/my-counter
 ```
 
 `linera project new` bootstraps your project by creating the following key files:
@@ -286,7 +286,7 @@ impl MutationRoot {
 We haven't included the imports in the above code; they are left as an
 exercise to the reader. If you want the full source code and associated tests
 check out
-the [examples section](https://github.com/linera-io/linera-protocol/blob/main/linera-examples/counter-graphql/src/service.rs)
+the [examples section](https://github.com/linera-io/linera-protocol/blob/main/examples/counter-graphql/src/service.rs)
 on GitHub.
 
 ## Variable Types
@@ -308,8 +308,8 @@ To deploy your application, you first need to navigate to `target/debug` where t
 
 ```bash
 ./linera --storage rocksdb:linera.db --wallet wallet.json publish-and-create \
-    ../../linera-examples/target/wasm32-unknown-unknown/release/my_counter_contract.wasm \
-    ../../linera-examples/target/wasm32-unknown-unknown/release/my_counter_service.wasm \
+    ../../examples/target/wasm32-unknown-unknown/release/my_counter_contract.wasm \
+    ../../examples/target/wasm32-unknown-unknown/release/my_counter_service.wasm \
     00
 ```
 

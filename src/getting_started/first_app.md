@@ -10,8 +10,8 @@ By the end of this section, you'll have a working application running on your
 ## Starting the local network
 
 The first step is to start your local development network.
-It consists of 4 [validators](../core_concepts/validators.md), each
-of which consist of an ingress proxy and 4 workers or shards.
+It consists of a numbers of [validators](../core_concepts/validators.md), each
+of which consist of an ingress proxy (aka a "load balancer") and 4 workers (aka "physical shards").
 
 To start your local network, navigate to the root of the `linera-protocol`
 repository and run the following command:
@@ -20,8 +20,7 @@ repository and run the following command:
 ./scripts/run_local.sh
 ```
 
-you will the see the names of the 4 validators running in your local network,
-something like:
+You will the see the names of the validators running in your local network, for instance:
 
 ```bash
 $ ./scripts/run_local.sh
@@ -32,12 +31,9 @@ abfbf26c6f45955067f60de0317816454dbd54459dc773f185fbcaf8c72d5041
 140f3259cae9ea2a3b50cbcba2495661aea42641ef44751dec0a29b192ccf32f
 ```
 
-> The local network is running on operating system network ports, taking a total
-> of 20 ports to run locally. These ports are in the range P > 9000 however
-> there
-> may be a collision, in which case you may want to configure the port numbers
-> in
-> the `configuration/` directory.
+> The local network is running on operating system network ports, taking a number of ports
+> to run locally. These ports are in the range P > 9000. Yet, there may be a collision, in
+> which case you may want to configure the port numbers in the `configuration/` directory.
 
 The `run_local.sh` script also initializes a test wallet for you.
 
@@ -67,14 +63,14 @@ the network.
 
 We'll look at the anatomy of an application in
 a [later section](../core_concepts/applications.md) but for now we want to compile one of the
-example Linera applications which can be found in the `linera-examples/`
+example Linera applications which can be found in the `examples/`
 subdirectory.
 
 To do that, navigate to one of the example applications and compile it (the
 compilation target is set to `wasm32_unknown_unknown` by default)
 
 ```bash
-cd linera-examples/counter-graphql && cargo build --release
+cd examples/counter && cargo build --release
 ```
 
 ## Publishing your Application
@@ -90,8 +86,7 @@ To deploy the application we can use the `publish-and-create` command and provid
 
 ```bash
 ./linera --storage rocksdb:linera.db --wallet wallet.json publish-and-create \
-    ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_contract.wasm \
-    ../../linera-examples/target/wasm32-unknown-unknown/release/counter_graphql_service.wasm \
+    ../../examples/target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
     35
 ```
 
