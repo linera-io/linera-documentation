@@ -91,8 +91,9 @@ The main development workstreams of Linera, beyond its SDK, can be broken down a
 - [x] Application creation
 - [x] Reconfigurations of validators
 - [x] Fixed gas limits for user applications (placeholder)
-- [ ] Permissioned chains (still missing operation access control, demo of atomic swaps)
-- [ ] Public chains (still missing leader election, inbox constraints)
+- [ ] Support for easy onboarding of user chains into a new application
+- [ ] Permissioned chains (missing operation access control, demo of atomic swaps)
+- [ ] Public chains (missing leader election, inbox constraints)
 - [ ] Improved pub/sub channels (removing the need to accept subscriptions)
 - [ ] Gas fees (including system operations and messaging)
 - [ ] Blob storage for applications (generalizing bytecode storage)
