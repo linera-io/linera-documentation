@@ -123,7 +123,13 @@ must be updated.
 
 The system has has one designated _admin chain_, where the validators can join or leave
 or, and where new _epochs_ are defined. During every epoch, the set of validators is
-fixed.
+fixed. If you own the admin chain, you can use the `set-validator` and `remove-validator`
+commands to start a new epoch with a modified set of validators:
+
+```bash
+./linera --wallet wallet.json set-validator --name 5b611b86cc1f54f73a4abfb4a2167c7327cc85a74cb2a5502431f67b554850b4 --address 127.0.0.1:9100 --votes 3
+./linera --wallet wallet.json remove-validator --name f65a585f05852f0610e2460a99c23faa3969f3cfce8a519f843a793dbfb4cb84
+```
 
 Chain owners must then create a block that receives the `SetCommittees` effect from the
 admin chain, and have it certified by the old validators. Only the _next_ block in their
