@@ -120,18 +120,23 @@ enables you to graphically explore the state of your application.
 
 ## Registering an Application across Chains
 
-Let us assume that User A has Chain X, and User B has Chain Y. Let us also
-assume that Application 1 is deployed on Chain X.
+If Alice is using an application on her chain and starts interacting with Bob
+via the application, e.g. sends him some tokens using the `fungible` example,
+the application automatically gets registered on Bob's chain, too, as soon as
+he handles the incoming cross-chain messages. After that, he can execute the
+application's operations on his chain, too, and e.g. send tokens to someone.
 
-User A can interact with Application 1 since it is deployed on their Chain (
-Chain X), however User B cannot see Application 1 since his Chain, Chain Y has
-not registered the application.
+But there are also cases where Bob may want to start using an application he
+doesn't have yet. E.g. maybe Alice regularly makes posts using the `social`
+example, and Bob wants to subscribe to her.
 
-In order for User B to use Application 1, Application 1 _must_ first make a
-cross-chain request to Chain Y in order for tha application to get registered on
-Chain Y. Once that is done, User B can interact with Application 1 on Chain Y.
+In that case, trying to execute an application-specific operation would fail,
+because the application is not registered on his chain.
+He needs to request it from Alice first:
 
-If this was not the case, every chain would run every application, and we would
-end up with microchains which are simply full-scale Nakamoto blockchains. This
-'discovering' strategy enables chains to only care about a small subset of the
-state of the entire network.
+```
+./linera request-application <application-id> --target-chain-id <alices-chain-id>
+```
+
+Once Alice processes his message (which happens automatically if she is running
+the client in service mode), he can start using the application.
