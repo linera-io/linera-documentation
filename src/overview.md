@@ -125,9 +125,10 @@ The main development workstreams of Linera, beyond its SDK, can be broken down a
 - [x] Preliminary support for DynamoDb
 - [x] Preliminary derive macros for GraphQL
 - [ ] Make library fully extensible by users (requires better GraphQL macros)
+- [ ] Performance benchmarks and improvements (including faster state hashing)
 - [ ] Support additional remote databases
 - [ ] Support global object locks (needed for dynamic sharding)
-- [ ] Tooling for debugging and performance diagnostics
+- [ ] Tooling for debugging
 - [ ] Make the storage library easy to use outside of Linera
 
 ### [Networking](https://github.com/orgs/linera-io/projects/4)
