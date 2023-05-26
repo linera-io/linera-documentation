@@ -14,7 +14,7 @@
   - [Creating a Project](sdk/creating_a_project.md)
   - [Creating the Application State](sdk/state.md)
   - [Writing the Contract](sdk/contract.md)
-  - [Writing the Service](sdk/service.md)
+  - [Writing the Service](sdk/service.md) 
   - [Deploying your App](sdk/deploy.md)
   - [Adding Re-Entrancy](sdk/reentrancy.md)
   - [Cross-Application Calls](sdk/meta.md)
