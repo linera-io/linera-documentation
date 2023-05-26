@@ -116,8 +116,6 @@ application running on that chain at `localhost:8080/<application-id>`.
 Simple navigating there with your browser will open a GraphiQL interface which
 enables you to graphically explore the state of your application.
 
-## End-to-End Front-end?
-
 ## Registering an Application across Chains
 
 If Alice is using an application on her chain and starts interacting with Bob
