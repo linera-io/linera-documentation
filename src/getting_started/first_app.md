@@ -20,16 +20,7 @@ repository and run the following command:
 ./scripts/run_local.sh
 ```
 
-You will the see the names of the validators running in your local network, for instance:
-
-```bash
-$ ./scripts/run_local.sh
-    Finished dev [unoptimized + debuginfo] target(s) in 0.13s
-5b611b86cc1f54f73a4abfb4a2167c7327cc85a74cb2a5502431f67b554850b4
-f65a585f05852f0610e2460a99c23faa3969f3cfce8a519f843a793dbfb4cb84
-abfbf26c6f45955067f60de0317816454dbd54459dc773f185fbcaf8c72d5041
-140f3259cae9ea2a3b50cbcba2495661aea42641ef44751dec0a29b192ccf32f
-```
+this will start a validator with 4 shards.
 
 > The local network is running on operating system network ports, taking a number of ports
 > to run locally. These ports are in the range P > 9000. Yet, there may be a collision, in
