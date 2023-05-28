@@ -6,9 +6,9 @@ We start with the installation of Linera and how to run it from source.
 
 The Linera client and validators run as a set of native binaries. Below is a matrix of supported operating systems.
 
-| Linux x86 64-bit | Mac OS (M1 / M2) | Mac OS (x86)     | Windows   |
-| ---------------- | ---------------- | ---------------- | --------- |
-| ✓ Main platform  | ✓ Working        | ✓ Working        | Untested  |
+| Linux x86 64-bit | Mac OS (M1 / M2) | Mac OS (x86) | Windows  |
+| ---------------- | ---------------- | ------------ | -------- |
+| ✓ Main platform  | ✓ Working        | ✓ Working    | Untested |
 
 ## Prerequisites
 

@@ -52,7 +52,7 @@ pub trait Contract: WithContractAbi + ContractAbi + Send + Sized {
         argument: Self::SessionCall,
         forwarded_sessions: Vec<SessionId>,
     ) -> Result<SessionCallResult<Self::Effect, Self::Response, Self::SessionState>, Self::Error>;
-    
+
 }
 ```
 

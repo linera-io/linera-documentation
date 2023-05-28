@@ -89,7 +89,7 @@ pub enum Error {
 
 ## Adding GraphQL compatibility
 
-Finally, we want our application to have GraphQL compatibility. To achieve this we need a `QueryRoot` 
+Finally, we want our application to have GraphQL compatibility. To achieve this we need a `QueryRoot`
 for intercepting queries and a `MutationRoot` for introspection queries for mutations.
 
 ```rust,ignore

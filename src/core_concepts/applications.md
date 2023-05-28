@@ -132,7 +132,7 @@ In that case, trying to execute an application-specific operation would fail,
 because the application is not registered on his chain.
 He needs to request it from Alice first:
 
-```
+```bash
 ./linera request-application <application-id> --target-chain-id <alices-chain-id>
 ```
 

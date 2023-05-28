@@ -27,4 +27,3 @@ the scaffolding and requisite files:
 - `state.rs`: the file which holds your application's state
 - `contract.rs`: the file which holds your application's contract, and the binary target for the contract bytecode
 - `service.rs`: the file which holds your application's service, and the binary target for the service bytecode
-
