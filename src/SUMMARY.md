@@ -18,7 +18,7 @@
   - [Deploying your App](sdk/deploy.md)
   - [Adding Re-Entrancy](sdk/reentrancy.md)
   - [Cross-Application Calls](sdk/meta.md)
-  - [Testing](core_concepts/testing.md)
+  - [Testing](sdk/testing.md)
 - [Advanced Topics](./advanced.md)
   - [Views](advanced_topics/views.md)
   - [Validators](advanced_topics/validators.md)
