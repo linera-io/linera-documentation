@@ -1,26 +1,26 @@
-# Your First App
+# Hello, Linera
 
-This section is about deploying your first application from scratch.
-It is assumed that you've already cloned the Linera repository and have managed
-to successfully `cargo build` the workspace.
+This section is about running a local development network, then compiling and deploying
+your first application from scratch. It is assumed that you've already cloned the Linera
+repository and have managed to successfully `cargo build` the workspace.
 
-By the end of this section, you'll have a working application running on your
-[microchain](../core_concepts/micro_chains.md).
+By the end of this section, you'll have a [microchain](../core_concepts/micro_chains.md)
+running locally and a working application that can be queried using GraphQL.
 
 ## Starting the local network
 
 The first step is to start your local development network.
-It consists of a numbers of [validators](../core_concepts/validators.md), each
-of which consist of an ingress proxy (aka a "load balancer") and 4 workers (aka "physical shards").
+A development network consists of a numbers of [validators](../core_concepts/validators.md), each
+of which consist of an ingress proxy (aka a "load balancer") and a number of workers (aka "physical shards").
 
-To start your local network, navigate to the root of the `linera-protocol`
+To start a local network, navigate to the root of the `linera-protocol`
 repository and run the following command:
 
 ```bash
 ./scripts/run_local.sh
 ```
 
-this will start a validator with 4 shards.
+This will start a validator with the default number of shards.
 
 > The local network is running on operating system network ports, taking a number of ports
 > to run locally. These ports are in the range P > 9000. Yet, there may be a collision, in

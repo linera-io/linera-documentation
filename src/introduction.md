@@ -3,7 +3,7 @@
 Welcome to the developer documentation of Linera, **a decentralized protocol designed for
 highly scalable Web3 applications**.
 
-Linera is currently under active development. This documentation is intended for
+Linera is currently under [active development](overview.html#what-is-the-current-state-of-the-development-of-linera). This documentation is intended for
 developers who wish to learn more about Linera and its programming model by prototyping
 applications on top of the current Software Development Kit (SDK).
 

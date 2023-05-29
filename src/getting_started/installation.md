@@ -17,7 +17,7 @@ To install Linera, you will need to download the source from [GitHub](https://gi
 To clone the repository, run:
 
 ```bash
-git clone git@github.com:linera-io/linera-protocol.git
+git clone https://github.com/linera-io/linera-protocol.git
 ```
 
 ## Dependencies
@@ -33,4 +33,4 @@ For OS specific installation instructions see the installation section on [GitHu
 
 Running `cargo build` at the root of the repository will build all requisite binaries in the workspace.
 
-If `cargo build` fails, reach out to the team to help troubleshoot your issue or [create an issue](https://github.com/linera-io/linera-protocol/issues/new) on GitHub.
+If `cargo build` fails, reach out to the team (e.g. on [discord](https://discord.gg/linera)) to help troubleshoot your issue or [create an issue](https://github.com/linera-io/linera-protocol/issues/new) on GitHub.

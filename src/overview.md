@@ -69,7 +69,7 @@ This means that Web UIs connected to a wallet will be able to query the state of
 
 ## What is the current state of the development of Linera?
 
-The current [open-source implementation](https://github.com/linera-io/linera-protocol) of Linera is under active development. Yet, it already includes a Web3 SDK with the necessary features to prototype simple Web3 applications and test them locally on the same machine. Notably, Web UIs (possibly reactive) can already be built on top of Wasm-embedded GraphQL services, and tested locally in the browser.
+The [reference open-source implementation](https://github.com/linera-io/linera-protocol) of Linera is under active development. It already includes a Web3 SDK with the necessary features to prototype simple Web3 applications and test them locally on the same machine. Notably, Web UIs (possibly reactive) can already be built on top of Wasm-embedded GraphQL services, and tested locally in the browser.
 
 The main limitations of our current Web3 SDK include:
 
@@ -77,7 +77,7 @@ The main limitations of our current Web3 SDK include:
 
 - Gas metering is activated in the Wasm VM but the accounting and purchase of fuel is not implemented yet. (As a placeholder, apps are given a fixed amount of fuel for free at every block.) Other aspects of the systems that incur costs to validators (e.g. uploading large bytecode) are also not yet protected by fees and/or hard limits.
 
-- Only user chains are currently available for testing. Support for other types of chain (called "public" and "permissioned") will be added later.
+- Only user chains are currently available for testing and documented in this manual. Support for other types of chain (called "public" and "permissioned") will be added later.
 
 The main development workstreams of Linera, beyond its SDK, can be broken down as follows.
 
@@ -91,9 +91,9 @@ The main development workstreams of Linera, beyond its SDK, can be broken down a
 - [x] Application creation
 - [x] Reconfigurations of validators
 - [x] Fixed gas limits for user applications (placeholder)
-- [ ] Support for easy onboarding of user chains into a new application
-- [ ] Permissioned chains (missing operation access control, demo of atomic swaps)
-- [ ] Public chains (missing leader election, inbox constraints)
+- [ ] Support for easy onboarding of user chains into a new application (removing the need to accept requests)
+- [ ] Permissioned chains (adding operation access control, demo of atomic swaps, etc)
+- [ ] Public chains (adding leader election, inbox constraints, etc)
 - [ ] Improved pub/sub channels (removing the need to accept subscriptions)
 - [ ] Gas fees (including system operations and messaging)
 - [ ] Blob storage for applications (generalizing bytecode storage)
