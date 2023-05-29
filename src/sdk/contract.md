@@ -70,7 +70,7 @@ The first thing we need to do is initialize our application by using `Contract::
 created the application.
 
 Deployment on other microchains will use the `Default` implementation of the application state if
-`SimpleStateStorage` is used, or the Default value of all sub-views in the state if the `ViewStateStorage` is used.
+`SimpleStateStorage` is used, or the `Default` value of all sub-views in the state if the `ViewStateStorage` is used.
 
 For our `Counter` application, we'll want to initialize the state of the application to an arbitrary number that can
 be specified on application creation using its initialization parameters:
@@ -81,7 +81,7 @@ be specified on application creation using its initialization parameters:
         _context: &OperationContext,
         value: u64,
     ) -> Result<ExecutionResult<Self::Effect>, Self::Error> {
-        self.value = value;
+        self.value.set(value);
         Ok(ExecutionResult::default())
     }
 ```
@@ -100,7 +100,8 @@ it will be receiving a `u64` which is used to increment the counter:
         _context: &OperationContext,
         operation: u64,
     ) -> Result<ExecutionResult<Self::Effect>, Self::Error> {
-        self.value += operation;
+        let current = self.value.get();
+        self.value.set(current + operation);
         Ok(ExecutionResult::default())
     }
 ```

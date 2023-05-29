@@ -13,6 +13,7 @@
 - [Linera SDK](sdk/sdk.md)
   - [Creating a Project](sdk/creating_a_project.md)
   - [Creating the Application State](sdk/state.md)
+  - [Application Binary Interface](sdk/abi.md)
   - [Writing the Contract](sdk/contract.md)
   - [Writing the Service](sdk/service.md)
   - [Deploying your App](sdk/deploy.md)
@@ -21,7 +22,7 @@
 - [Advanced Topics](./advanced.md)
   - [Views](advanced_topics/views.md)
   - [Validators](advanced_topics/validators.md)
-  - [Adding Re-Entrancy](advanced/reentrancy.md)
+  - [Adding Re-Entrancy](advanced_topics/reentrancy.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
 
 <!-- prettier-ignore-start -->

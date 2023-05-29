@@ -12,19 +12,21 @@ instead mapped onto key-value stores like [RocksDB](https://rocksdb.org/).
 In vanilla Rust, we might represent our Counter as so:
 
 ```rust,ignore
+// do not use this
 struct Counter {
-  value: u128
+  value: u64
 }
 ```
 
-However to persist your data, you'll need to replace the existing `State` struct in `state.rs
+However, to persist your data, you'll need to replace the existing `State` struct in `state.rs
 with the following view:
 
 ```rust,ignore
 /// The application state.
-#[derive(RootView, Debug)]
-pub struct Counter<C> {
-    pub value: RegisterView<C, u128>,
+#[derive(RootView, GraphQLView)]
+#[view(context = "ViewStorageContext")]
+pub struct Counter {
+    pub value: RegisterView<u64>,
 }
 ```
 
