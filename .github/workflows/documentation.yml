@@ -6,7 +6,6 @@ on:
     # Always run on commits
 
   pull_request:
-    branches: [ main ]
     paths:
         - 'src/**'
         - 'book.toml'
