@@ -2,7 +2,10 @@
 
 In this section we'll be exploring the Linera SDK by building a simple counter application.
 
-This is going to cover most facets of building an app.
+This is going to cover most facets of building an app. This section should be seen as a guide
+versus a reference manual for the SDK.
+
+For the reference manual refer to the SDK crate [docs](https://docs.rs/linera-sdk/latest/linera_sdk/).
 
 ## Linera SDK Crate
 
