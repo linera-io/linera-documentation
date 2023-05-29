@@ -14,7 +14,7 @@ The core of your application must implement the `Abi` trait, which includes all
 types that your application
 exports. The `Abi` trait combines the `ContractAbi` and `ServiceAbi` traits.
 
-```rust
+```rust,ignore
 pub trait Abi: ContractAbi + ServiceAbi {}
 ```
 
@@ -25,7 +25,7 @@ Both implementations can be found in `src/lib.rs`.
 The `ContractAbi` trait defines the data types that your application uses in a
 contract. Each type represents a specific part of the contract's behavior:
 
-```rust
+```rust,ignore
 /// A trait that includes all the types exported by a Linera application contract.
 pub trait ContractAbi {
     /// Immutable parameters specific to this application (e.g. the name of a token).
@@ -61,7 +61,7 @@ All these types must implement the `Serialize`, `DeserializeOwned`, `Send`, `Syn
 
 In the case of our Counter example, we would like to change our `InitializationArgument`, `Operation` to `u64`, like so:
 
-```rust
+```rust,ignore
 impl ContractAbi for CounterAbi {
     type InitializationArgument = u64;
     type Parameters = ();
@@ -81,7 +81,7 @@ component of your application.
 
 The `ServiceAbi` trait defines the types used by the service part of your application:
 
-```rust
+```rust,ignore
 /// A trait that includes all the types exported by a Linera application service.
 pub trait ServiceAbi {
     /// Immutable parameters specific to this application (e.g. the name of a token).
@@ -98,7 +98,7 @@ pub trait ServiceAbi {
 For our Counter example, we'll be using GraphQL to query our application so our `ServiceAbi`
 should reflect that:
 
-```rust
+```rust,ignore
 impl ServiceAbi for CounterAbi {
     type Query = async_graphql::Request;
     type QueryResponse = async_graphql::Response;
