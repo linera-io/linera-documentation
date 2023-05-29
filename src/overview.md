@@ -150,7 +150,7 @@ The main development workstreams of Linera, beyond its SDK, can be broken down a
 - [x] Use GraphQL mutations to execute operations and create blocks
 - [x] Support for unit tests (initial)
 - [x] Support for integration tests
-- [ ] Final (type-safe) traits for contract and service interfaces
+- [x] ABIs for contract and service interfaces (initial)
 - [ ] Support for handling gas fees
 - [ ] Safety programming guidelines (including reentrancy)
 - [ ] Bindings to use native cryptographic primitives from Wasm
