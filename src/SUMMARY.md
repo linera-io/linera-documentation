@@ -4,7 +4,7 @@
 - [Overview](./overview.md)
 - [Getting started](./getting_started.md)
   - [Installation](getting_started/installation.md)
-  - [Your First App](getting_started/first_app.md)
+  - [Hello, Linera](getting_started/first_app.md)
 - [Core Concepts](./core_concepts.md)
   - [Microchains](core_concepts/micro_chains.md)
   - [The Wallet](core_concepts/wallet.md)
