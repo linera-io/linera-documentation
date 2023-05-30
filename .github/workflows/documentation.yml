@@ -7,6 +7,7 @@ on:
 
   pull_request:
     paths:
+        - 'linera-protocol'
         - 'src/**'
         - 'book.toml'
         - '.github/workflows/documentation.yml'
@@ -20,14 +21,25 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
 
       - name: 'Setup mdbook'
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: 'latest'
 
+      - name: 'Build the Linera SDK'
+        run: |
+          cd linera-protocol
+          cargo build --locked -p linera-sdk --features test,wasmer
+
       - name: 'Check documentation'
-        run: mdbook test
+        run: mdbook test -L linera-protocol/target/debug/deps/
 
   formatting:
     runs-on: ubuntu-latest

@@ -10,6 +10,12 @@ You may preview the website (refreshed after every commit):
 
 * or equivalently: https://linera-io.github.io/linera-documentation then password: “2023lineraftw”
 
+## Initialize git submodules
+
+```
+git submodule update --init
+```
+
 ## Browse the developer docs locally (including local changes)
 
 ```
