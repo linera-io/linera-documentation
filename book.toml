@@ -7,3 +7,12 @@ title = "Linera Developer Documentation"
 
 [output.html]
 additional-css = ["custom.css"]
+
+[output.html.playground]
+runnable = false
+
+[build]
+build-dir = "book"
+create-missing = false
+use-default-preprocessors = true
+extra-watch-dirs = ["linera-protocol/"]
