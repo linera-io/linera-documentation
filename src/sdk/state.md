@@ -2,7 +2,7 @@
 
 The `struct` which defines your application's state can be found in `state.rs`.
 
-To represent our Counter, all we're going to need a single `u128`. To persist
+To represent our Counter, all we're going to need a single `u64`. To persist
 the counter we'll be using Linera's [view](../advanced_topics/views.md) paradigm.
 
 Views are a little like an [ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping),
@@ -18,7 +18,7 @@ struct Counter {
 }
 ```
 
-However, to persist your data, you'll need to replace the existing `State` struct in `state.rs
+However, to persist your data, you'll need to replace the existing `Application` state struct in `state.rs`
 with the following view:
 
 ```rust,ignore
@@ -30,6 +30,8 @@ pub struct Counter {
 }
 ```
 
+and all other occurences of `Application` in your app.
+
 The `RegisterView` supports modifying a single value of type `T`. There are different types of
 views for different use-cases, but the majority of common data structures have already been implemented:
 
@@ -38,3 +40,5 @@ views for different use-cases, but the majority of common data structures have a
 - A `Queue` maps to a `QueueView`
 
 For an exhaustive list refer to the Views [documentation](../advanced_topics/views.md).
+
+Finally, run `cargo build` to ensure that your changes compile.

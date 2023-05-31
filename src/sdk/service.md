@@ -59,7 +59,7 @@ as define the `Error` type:
 #[async_trait]
 impl Service for Counter {
     type Error = Error;
-    type Storage = SimpleStateStorage<Self>;
+    type Storage = ViewStateStorage<Self>;
 
     async fn query_application(
         self: Arc<Self>,
@@ -68,7 +68,7 @@ impl Service for Counter {
     ) -> Result<Response, Self::Error> {
         let schema = Schema::build(
             // implemented in the next section
-            QueryRoot { value: self.value },
+            QueryRoot { value: *self.value.get() },
             // implemented in the next section
             MutationRoot {},
             EmptySubscription,
@@ -115,7 +115,7 @@ impl QueryRoot {
 ```
 
 We haven't included the imports in the above code; they are left as an
-exercise to the reader. If you want the full source code and associated tests
+exercise to the reader (but remember to import `async_graphql::Object`). If you want the full source code and associated tests
 check out
 the [examples section](https://github.com/linera-io/linera-protocol/blob/main/examples/counter-graphql/src/service.rs)
 on GitHub.
