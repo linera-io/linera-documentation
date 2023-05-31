@@ -17,7 +17,7 @@
   - [Writing the Contract](sdk/contract.md)
   - [Writing the Service](sdk/service.md)
   - [Deploying your App](sdk/deploy.md)
-  - [Cross-Application Calls](sdk/meta.md)
+  - [Cross-Application Calls](sdk/cross-app_calls.md)
   - [Testing](sdk/testing.md)
 - [Advanced Topics](./advanced.md)
   - [Views](advanced_topics/views.md)
