@@ -17,7 +17,7 @@ User chains are managed explicitly via the client.
 To see the chains owned by your wallet, you can use the `show` command:
 
 ```bash
-$ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet show
+linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET wallet show
 ╭──────────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────╮
 │ Chain Id                                                         ┆ Latest Block                                                                         │
 ╞══════════════════════════════════════════════════════════════════╪══════════════════════════════════════════════════════════════════════════════════════╡
@@ -49,7 +49,7 @@ The default chain is set initially, when the first chain is added to the wallet.
 You can check the default chain for your wallet by running:
 
 ```bash
-$ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet show
+linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET wallet show
 ```
 
 The Chain Id which is in green text instead of white text is your default chain.
@@ -57,7 +57,7 @@ The Chain Id which is in green text instead of white text is your default chain.
 To change the default chain for your wallet, user the `set-default` command:
 
 ```bash
-$ ./linera --storage rocksdb:linera.db --wallet wallet.json wallet set-default <chain-id>
+linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET wallet set-default <chain-id>
 ```
 
 ### Opening a Chain
@@ -71,7 +71,7 @@ created by an existing chain on the network.
 To open a chain for your own wallet, you can use the `open-chain` command:
 
 ```bash
-$ ./linera --storage rocksdb:linera.db --wallet wallet.json open-chain
+linera --wallet $LINERA_WALLET --storage $LINERA_STORAGE  open-chain
 ```
 
 This will create a new chain (using the wallet's default chain) and add it to
@@ -83,21 +83,21 @@ Opening a chain for another `wallet` requires an extra two steps.
 Let's initialize a second wallet:
 
 ```bash
-./linera --wallet wallet2.json wallet init --genesis genesis.json
+linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --genesis target/debug/genesis.json
 ```
 
 First `wallet2` must create an unassigned keypair. The public part of that keypair
 is then sent to the `wallet` who is the chain creator.
 
 ```bash
-$ ./linera --wallet wallet2.json keygen
+linera --wallet wallet2.json keygen
 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 # this is the public key for the unassigned keypair
 ```
 
 Next, using the public key, `wallet` can open a chain for `wallet2`.
 
 ```bash
-./linera --wallet wallet.json open-chain --to-owner 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888
+linera --wallet $LINERA_WALLET open-chain --to-public-key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888
 e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 fc9384defb0bcd8f6e206ffda32599e24ba715f45ec88d4ac81ec47eb84fa111
 ```
@@ -109,5 +109,5 @@ Finally, to add the chain to `wallet2` for the given unassigned key we use
 the `assign` command:
 
 ```bash
- ./linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --effect-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
+ linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --effect-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 ```

@@ -14,11 +14,11 @@ Linera application for the back end and a React front end.
 
 ## Creating your Linera Project
 
-To create your Linera project, use the `linera project new` command to setup
+To create your Linera project, use the `linera project new` command to set up
 the scaffolding and requisite files:
 
 ```bash
-./linera project new my-counter
+linera project new my-counter
 ```
 
 `linera project new` bootstraps your project by creating the following key files:

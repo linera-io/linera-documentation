@@ -26,21 +26,36 @@ This will start a validator with the default number of shards.
 > to run locally. These ports are in the range P > 9000. Yet, there may be a collision, in
 > which case you may want to configure the port numbers in the `configuration/` directory.
 
-The `run_local.sh` script also initializes a test wallet for you.
+## Storing the wallet
+
+`run_local.sh` generates your wallet under `target/debug/wallet.json`.
+
+It is recommended that you move this feel into a temporary directory. We'll call this
+`<wallet>`.
+
+This file is only valid for the lifetime of a single network. Every time your local
+devnet is restarted this will need to be regenerated.
+
+For convenience, let's export the wallet and storage locations:
+
+```bash
+export LINERA_WALLET=$(realpath target/debug/wallet.json)
+export LINERA_STORAGE="rocksdb:$(dirname "$LINERA_WALLET")/linera.db"
+```
+
+For storage, choose an empty file next to the location of your wallet
 
 ## Interacting with the network
 
 The main way of interacting with the network and deploying applications, is
-using the `linera` client. It was compiled as a result of running `cargo build`
-in the previous section and can be found under `target/debug/linera`.
+using the `linera` client.
 
 Check that you have the client, and it can communicate with the network by
-first navigating to `target/debug` and then running a command to synchronize the
-balance for
-your [default chain](../core_concepts/wallet.md) with the rest of the network.
+running a command to synchronize the balance for your
+[default chain](../core_concepts/wallet.md) with the rest of the network.
 
 ```bash
-cd target/debug && ./linera --wallet wallet.json sync-balance
+linera --wallet $LINERA_WALLET sync-balance
 ```
 
 You should see an output of `10`.
@@ -67,7 +82,7 @@ cd examples/counter && cargo build --release
 ## Publishing your Application
 
 We can publish our compiled application to our local network by using
-the `linera` client. To do that, navigate back to `./target/debug`.
+the `linera` client.
 
 To deploy the application we can use the `publish-and-create` command and provide:
 
@@ -76,8 +91,10 @@ To deploy the application we can use the `publish-and-create` command and provid
 3. The JSON encoded initialization arguments
 
 ```bash
-./linera --storage rocksdb:linera.db --wallet wallet.json publish-and-create \
-  ../../examples/target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
+linera --wallet $LINERA_WALLET \
+  --storage $LINERA_STORAGE \
+  publish-and-create \
+  ../target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
   --json-argument "42"
 ```
 
@@ -89,10 +106,8 @@ Now let's query our application to get the current counter value. To do that, we
 use the client running in _service_ mode. This will expose a bunch of APIs locally which
 we can use to interact with applications on the network.
 
-Make sure you're in `./target/debug` and run:
-
 ```bash
-./linera --storage rocksdb:linera.db --wallet wallet.json service
+linera --wallet $LINERA_WALLET --storage $LINERA_STORAGE service
 ```
 
 <!-- TODO: add graphiql image here -->

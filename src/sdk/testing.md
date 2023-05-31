@@ -19,19 +19,18 @@ application behaves on a more complex environment that's closer to the real netw
 Unit tests can be written beside the application's source code (i.e., inside the `src/` directory of
 the project). There are two major differences to normal Rust unit tests:
 
-- `linera test` is used instead of `cargo test` (or the environment must be configured so that Cargo
+- `linera project test` is used instead of `cargo test` (or the environment must be configured so that Cargo
   uses a custom test runner, as described [below](#manually-configuring-the-environment));
 - the [`#[webassembly_test]`](https://docs.rs/webassembly-test/latest/webassembly_test/) attribute
   is used instead of the usual `#[test]` attribute.
 
 ### Manually Configuring the Environment
 
-Running `linera test` is easier, but if there's a need to run `cargo test` explicitly to run the
+Running `linera project test` is easier, but if there's a need to run `cargo test` explicitly to run the
 unit tests, Cargo must be configured to use the custom `test-runner`. The `test-runner` can be built
 from the repository.
 
 ```bash
-git clone https://github.com/linera-io/linera-protocol
 cd linera-protocol
 cargo build -p linera-sdk --bin test-runner --release
 ```

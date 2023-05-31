@@ -12,7 +12,7 @@ in your terminal. However, the client also acts as a partial node which:
 To interact with the node service, simply run `linera` in `service` mode:
 
 ```bash
-./linera --storage rocksdb:linera.db --wallet wallet.json service
+linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET service
 ```
 
 This will run the node service on port 8080 by default (this can be overridden

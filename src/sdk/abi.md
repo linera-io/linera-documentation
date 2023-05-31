@@ -1,6 +1,6 @@
 # Application Binary Interface (ABI)
 
-The Linera Application Binary Interface (ABI) defines how to interact with applications, including the data
+An Application Binary Interface (ABI) defines how to interact with applications, including the data
 structures, data types, and functions exposed by on-chain contracts and services,
 across different architectures.
 
