@@ -22,11 +22,11 @@
 - [Advanced Topics](./advanced.md)
   - [Views](advanced_topics/views.md)
   - [Validators](advanced_topics/validators.md)
-  - [Adding Re-Entrancy](advanced_topics/reentrancy.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
 
 <!-- prettier-ignore-start -->
 <!--
+  - [Adding Re-Entrancy](advanced_topics/reentrancy.md)
   - [Execution Model](advanced_topics/execution_model.md)
 
 - [Examples](./examples.md)
