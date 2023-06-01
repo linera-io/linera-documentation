@@ -1,15 +1,15 @@
 # Calling other Applications
 
-An application can send messages (of type `ContractAbi::Effect`) to its own instances on
-other chains. In the `fungible` example application, such a message can be the transfer
-of tokens from one chain to another: `Credit { owner: AccountOwner, amount: Amount }`.
+We have seen that cross-chain messages sent by an application on one chain are always
+handled by the _same_ application on the target chain. The application state on that chain
+may be different, but the code will be the same. (In the `fungible` example application,
+such a message can be the transfer of tokens from one chain to another: `Credit { owner:
+AccountOwner, amount: Amount }`.)
 
-Cross-chain messages sent by an application on one chain will always be handled by the
-_same_ application on the target chain. The application state on that chain may be
-different, but the code will be the same.
+This section is about calling other applications using _cross-application calls_.
 
-Cross-_application_ calls, on the other hand, are calls from one application to a different
-application on the same chain, using the `call_application` method:
+Such calls happen on the same chain and typically use the `call_application` method
+implemented by default in the trait `Contract`:
 
 ```rust,ignore
 async fn call_application<A: ContractAbi + Send>(
@@ -18,7 +18,7 @@ async fn call_application<A: ContractAbi + Send>(
     application: ApplicationId<A>,
     call: &A::ApplicationCall,
     forwarded_sessions: Vec<SessionId>,
-) -> Result<(A::Response, Vec<SessionId>), Self::Error>
+) -> Result<(A::Response, Vec<SessionId>), Self::Error> { .. }
 ```
 
 The `authenticated` argument specifies whether the callee is allowed to perform actions
