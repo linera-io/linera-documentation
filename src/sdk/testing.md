@@ -1,4 +1,4 @@
-# Testing
+# Writing Tests
 
 Linera applications can be tested using unit tests or integration tests. Both are a bit different
 than usual Rust tests. Unit tests are executed inside a WebAssembly virtual machine in an

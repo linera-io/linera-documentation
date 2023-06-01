@@ -1,8 +1,9 @@
-# Cross-Application Calls
+# Calling other Applications
 
 An application can send messages (of type `ContractAbi::Effect`) to its own instances on
 other chains. In the `fungible` example application, such a message can be the transfer
 of tokens from one chain to another: `Credit { owner: AccountOwner, amount: Amount }`.
+
 Cross-chain messages sent by an application on one chain will always be handled by the
 _same_ application on the target chain. The application state on that chain may be
 different, but the code will be the same.

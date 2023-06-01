@@ -30,7 +30,7 @@ This will start a validator with the default number of shards.
 
 `run_local.sh` generates your wallet under `target/debug/wallet.json`.
 
-It is recommended that you move this feel into a temporary directory. We'll call this
+It is recommended that you move this file into a temporary directory. We'll call this
 `<wallet>`.
 
 This file is only valid for the lifetime of a single network. Every time your local

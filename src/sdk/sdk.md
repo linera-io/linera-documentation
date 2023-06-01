@@ -1,16 +1,17 @@
-# Linera SDK
+# Writing Linera Applications
 
-In this section we'll be exploring the Linera SDK by building a simple counter application.
+In this section, we'll be exploring how to create Web3 applications using the SDK of Linera.
 
-This is going to cover most facets of building an app. This section should be seen as a guide
-versus a reference manual for the SDK.
+We'll use a simple "counter" application as a running example.
 
-For the reference manual refer to the SDK crate [docs](https://docs.rs/linera-sdk/latest/linera_sdk/).
+We'll focus on the back end of the application, which consists of two main parts: a "smart
+contract" and its GraphQL service.
 
-## Linera SDK Crate
+Both the contract and the service part of an application are meant to be compiled to Wasm
+bytecode and written in Rust on top of the crate
+[`linera-sdk`](https://crates.io/crates/linera-sdk).
 
-The `linera-sdk` crate exposes the basic traits required to create a Linera
-application.
+This section should be seen as a guide versus a reference manual for the SDK. For the
+reference manual, refer to the [documentation of the
+crate](https://docs.rs/linera-sdk/latest/linera_sdk/).
 
-This section takes you over the steps to create a full Web3 application with a
-Linera application for the back end and a React front end.

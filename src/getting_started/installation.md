@@ -34,7 +34,7 @@ For OS specific installation instructions see the installation section on [GitHu
 To install Linera locally, at the root of the repository run:
 
 ```bash
-cargo install --path linera-service --debug
+cargo install --path linera-service
 ```
 
 This will install three binaries:
