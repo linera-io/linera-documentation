@@ -1,6 +1,6 @@
-# Writing a Contract
+# Writing the Contract Binary
 
-The `Contract` is the first component of a Linera application. It can
+The contract binary is the first component of a Linera application. It can
 actually change the state of the application.
 
 To create a contract, we need to implement the `Contract` trait, which is
@@ -72,7 +72,7 @@ created the application.
 Deployment on other microchains will use the `Default` implementation of the application state if
 `SimpleStateStorage` is used, or the `Default` value of all sub-views in the state if the `ViewStateStorage` is used.
 
-For our `Counter` application, we'll want to initialize the state of the application to an arbitrary number that can
+For our example application, we'll want to initialize the state of the application to an arbitrary number that can
 be specified on application creation using its initialization parameters:
 
 ```rust,ignore

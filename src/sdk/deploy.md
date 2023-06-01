@@ -1,4 +1,4 @@
-# Deploying Applications
+# Deploying the Application
 
 To deploy your application, build your contract in release mode with `cargo build --release` and then
 use the `publish-and-create` command while also specifying:

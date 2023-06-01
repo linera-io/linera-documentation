@@ -1,4 +1,4 @@
-# Creating your Linera Project
+# Creating a Linera Project
 
 To create your Linera project, use the `linera project new` command to set up
 the scaffolding and requisite files:

@@ -1,24 +1,36 @@
-# Application Binary Interfaces
+# Defining the ABI
 
-An Application Binary Interface (ABI) defines how to interact with applications, including the data
-structures, data types, and functions exposed by on-chain contracts and services,
-across different architectures.
+The Application Binary Interface (ABI) of a Linera application defines how to interact
+with this application from other parts of the system. It includes the data structures,
+data types, and functions exposed by on-chain contracts and services.
 
-For a reference guide to the ABI check out the [crate docs](TODO).
+ABIs are meant to be defined in `src/lib.rs` and compiled across all architectures (Wasm and native).
 
-## Building your ABI
+For a reference guide, check out the [documentation of the crate](https://docs.rs/linera-base/latest/linera_base/).
 
-### Defining your ABI
+## Defining a marker struct
 
 The library part of your application (generally in `src/lib.rs`) must define a public
-empty struct that implements the `Abi` trait. The `Abi` trait combines the `ContractAbi`
-and `ServiceAbi` traits to include the types that your application exports.
+empty struct that implements the `Abi` trait.
+
+```
+#[derive(Clone, Copy, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Serialize, Deserialize)]
+struct CounterAbi;
+```
+
+NOTE: The derive macros are temporarily needed until
+[#768](https://github.com/linera-io/linera-protocol/issues/768) is addressed.
+
+The `Abi` trait combines the `ContractAbi` and `ServiceAbi` traits to include the types
+that your application exports.
 
 ```rust,ignore
 {{#include ../../linera-protocol/linera-base/src/abi.rs:abi}}
 ```
 
-### Contract ABI
+Next, we're going to implement each of the two traits.
+
+## Contract ABI
 
 The `ContractAbi` trait defines the data types that your application uses in a
 contract. Each type represents a specific part of the contract's behavior:
@@ -30,7 +42,7 @@ contract. Each type represents a specific part of the contract's behavior:
 All these types must implement the `Serialize`, `DeserializeOwned`, `Send`, `Sync`,
 `Debug` traits, and have a `'static` lifetime.
 
-In the case of our Counter example, we would like to change our `InitializationArgument`, `Operation` to `u64`, like so:
+In our example, we would like to change our `InitializationArgument`, `Operation` to `u64`, like so:
 
 ```rust
 # extern crate linera_base;
@@ -48,7 +60,7 @@ impl ContractAbi for CounterAbi {
 }
 ```
 
-### Service ABI
+## Service ABI
 
 The `ServiceAbi` is in principle very similar to the `ContractAbi`, just for the service
 component of your application.
@@ -74,7 +86,7 @@ impl ServiceAbi for CounterAbi {
 }
 ```
 
-### Contract Marker Traits
+## Contract Marker Traits
 
 In `contract.rs` and `service.rs` there are implementations of `WithContractAbi` and `WithServiceAbi`.
 

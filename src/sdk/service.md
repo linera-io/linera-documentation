@@ -1,6 +1,6 @@
-# Creating a Service
+# Writing the Service Binary
 
-The `Service` is the second component of a Linera application. It is compiled into a
+The service binary is the second component of a Linera application. It is compiled into a
 separate Bytecode from the contract and is run independently. It is not metered (meaning
 that querying an application's service does not consume gas), and can be thought of as a
 read-only view into your application.
@@ -43,11 +43,8 @@ there is a macro to perform this code generation, so simply add the following
 to `service.rs`:
 
 ```rust,ignore
-linera_sdk::service!(Counter<ReadOnlyViewStorageContext>);
+linera_sdk::service!(Counter);
 ```
-
-Notice that the Counter context is `ReadOnlyViewStorageContext`. This ensures
-that the host has a read-only view on the application's state.
 
 Next, we need to implement the `Service` for `Counter`. To do this we need to
 define `Service`'s associated types and implement `query_application`, as well
