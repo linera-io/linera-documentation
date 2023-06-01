@@ -1,4 +1,4 @@
-## Node Service
+# Node Service
 
 So far we've seen how to use the Linera client treating it as a binary
 in your terminal. However, the client also acts as a partial node which:
@@ -18,7 +18,7 @@ linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET service
 This will run the node service on port 8080 by default (this can be overridden
 using the `--port` flag).
 
-### A Note on GraphQL
+## A Note on GraphQL
 
 Linera uses GraphQL as the primary query language for interfacing with different
 parts of the system. GraphQL is a query language developed by Facebook which
@@ -31,7 +31,7 @@ the state of an application from a front-end for example.
 To learn more about GraphQL check out
 the [official docs](https://graphql.org/learn/).
 
-### GraphiQL IDE
+## GraphiQL IDE
 
 Conveniently, the node service exposes a GraphQL IDE called GraphiQL. To use
 GraphiQL start the node service and navigate to `localhost:8080/`.
