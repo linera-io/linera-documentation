@@ -1,4 +1,4 @@
-## Creating New Blocks
+# Creating New Blocks
 
 Unlike validators in most other platforms, and unlike the workers that belong to a single
 validator, Linera validators do not need to exchange messages with each other directly.
