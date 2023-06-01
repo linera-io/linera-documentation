@@ -11,6 +11,9 @@ git submodule update --init
 To discard local changes to the submodule (the equivalent of `git checkout -f HEAD` for
 files), use `git submodule update`. To commit local changes, use `git commit -a` as usual.
 
+NOTE: It is expected that the HEAD of linera-protocol is always set to be a given commit
+hash (as opposed to a branch name).
+
 ## Browse the developer docs locally (including local changes)
 
 ```

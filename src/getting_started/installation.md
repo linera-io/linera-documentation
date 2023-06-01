@@ -23,7 +23,7 @@ git clone https://github.com/linera-io/linera-protocol.git
 This manual has been tested against the following commit:
 
 ```text
-{{#include ../../.git/modules/linera-protocol/ORIG_HEAD}}
+{{#include ../../.git/modules/linera-protocol/HEAD}}
 ```
 
 ## Dependencies
