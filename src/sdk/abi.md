@@ -13,7 +13,7 @@ For a reference guide, check out the [documentation of the crate](https://docs.r
 The library part of your application (generally in `src/lib.rs`) must define a public
 empty struct that implements the `Abi` trait.
 
-```
+```rust,ignore
 #[derive(Clone, Copy, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, Serialize, Deserialize)]
 struct CounterAbi;
 ```
