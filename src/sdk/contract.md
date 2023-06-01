@@ -116,4 +116,3 @@ impl WithContractAbi for Counter {
     type Abi = counter::CounterAbi;
 }
 ```
-

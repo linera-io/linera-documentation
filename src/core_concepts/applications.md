@@ -41,7 +41,7 @@ This will publish the bytecode as well as initialize the application for you.
 
 ## Anatomy of an Application
 
-An application is broken into two major components, the 'contract' and the 'service'.
+An application is broken into two major components, the _contract_ and the _service_.
 
 The contract is gas-metered (for more details,
 see [execution model](../advanced_topics/execution_model.md)), and is the part
@@ -59,7 +59,7 @@ the form of a [View](./../advanced_topics/views.md), but more on that later.
 
 ## Operations and Effects
 
-> For this section we'll be using the example of a hypothetical 'fungible token'
+> For this section we'll be using the example of a hypothetical "fungible token"
 > application where users can send tokens to each other.
 
 At the system-level, interacting with an application can be done via operations
@@ -70,7 +70,7 @@ application can have a completely different set of operations. Chain owners then
 actively create operations and put them in their block proposals to interact
 with an application.
 
-Using our hypothetical 'fungible token' application as an example, an operation
+Using our hypothetical "fungible token" application as an example, an operation
 for a user to transfer funds to another user would look like this:
 
 ```rust,ignore
@@ -95,7 +95,7 @@ operations, they are only allowed to include them in the right order (possibly
 skipping some), and only if they were actually created by another chain (or the
 same chain, earlier).
 
-In our 'fungible token' application, an effect to credit an account would look like this:
+In our "fungible token" application, an effect to credit an account would look like this:
 
 ```rust,ignore
 # extern crate serde;
@@ -110,7 +110,7 @@ pub enum Effect {
 ## Interacting with an Application
 
 To interact with an application, we run the Linera client
-[in 'service' mode](wallet.md#node-service). It exposes a GraphQL API for every
+[in service mode](wallet.md#node-service). It exposes a GraphQL API for every
 application running on that chain at `localhost:8080/<application-id>`.
 
 Simple navigating there with your browser will open a GraphiQL interface which
