@@ -105,3 +105,15 @@ it will be receiving a `u64` which is used to increment the counter:
         Ok(ExecutionResult::default())
     }
 ```
+
+## Declaring the ABI
+
+Finally, to link our `Contract` trait implementation with the ABI of the application, the
+following code is added:
+
+```rust,ignore
+impl WithContractAbi for Counter {
+    type Abi = counter::CounterAbi;
+}
+```
+

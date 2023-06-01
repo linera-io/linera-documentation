@@ -85,9 +85,3 @@ impl ServiceAbi for CounterAbi {
     type Parameters = ();
 }
 ```
-
-## Contract Marker Traits
-
-In `contract.rs` and `service.rs` there are implementations of `WithContractAbi` and `WithServiceAbi`.
-
-The marker traits are used to easily import contract and service types respectively.

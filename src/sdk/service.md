@@ -82,6 +82,15 @@ pub enum Error {
 }
 ```
 
+Finally, as before, the following code is needed to incorporate the ABI definitions into your
+`Service` implementation:
+
+```rust,ignore
+impl WithServiceAbi for Counter {
+    type Abi = counter::CounterAbi;
+}
+```
+
 ## Adding GraphQL compatibility
 
 Finally, we want our application to have GraphQL compatibility. To achieve this we need a `QueryRoot`
