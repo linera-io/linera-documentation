@@ -1,16 +1,14 @@
-# Creating the Service
+# Creating a Service
 
-The `Service` is the second component of your Linera application. It is compiled
-into a separate Bytecode from the contract and is run independently. It is not
-metered (meaning that querying an application's service does not consume gas),
-and can be thought of as a read-only view into your application.
+The `Service` is the second component of a Linera application. It is compiled into a
+separate Bytecode from the contract and is run independently. It is not metered (meaning
+that querying an application's service does not consume gas), and can be thought of as a
+read-only view into your application.
 
-Your application state can be arbitrarily complex, and most of the time you
-don't
-want to expose this state in its entirety to those who would like to interact
-with your app. Instead, you might prefer to define a distinct set of queries
-that
-can be made against your application.
+Application states can be arbitrarily complex, and most of the time you don't want to
+expose this state in its entirety to those who would like to interact with your app.
+Instead, you might prefer to define a distinct set of queries that can be made against
+your application.
 
 The `Service` trait is how you define the interface into your application.
 The `Service` trait is defined as follows:

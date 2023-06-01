@@ -1,6 +1,6 @@
-# Writing the Contract
+# Writing a Contract
 
-The `Contract` is the first component of your Linera application. It can
+The `Contract` is the first component of a Linera application. It can
 actually change the state of the application.
 
 To create a contract, we need to implement the `Contract` trait, which is

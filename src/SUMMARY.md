@@ -13,7 +13,7 @@
 - [Writing Linera Applications](sdk/sdk.md)
   - [Creating a Project](sdk/creating_a_project.md)
   - [Creating the Application State](sdk/state.md)
-  - [Application Binary Interface](sdk/abi.md)
+  - [Application Binary Interfaces](sdk/abi.md)
   - [Writing the Contract](sdk/contract.md)
   - [Writing the Service](sdk/service.md)
   - [Deploying Applications](sdk/deploy.md)

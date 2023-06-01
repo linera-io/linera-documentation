@@ -1,4 +1,4 @@
-# Application Binary Interface (ABI)
+# Application Binary Interfaces
 
 An Application Binary Interface (ABI) defines how to interact with applications, including the data
 structures, data types, and functions exposed by on-chain contracts and services,
