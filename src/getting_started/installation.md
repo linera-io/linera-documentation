@@ -20,6 +20,12 @@ To clone the repository, run:
 git clone https://github.com/linera-io/linera-protocol.git
 ```
 
+This manual has been tested against the following commit:
+
+```text
+{{#include ../../.git/modules/linera-protocol/ORIG_HEAD}}
+```
+
 ## Dependencies
 
 To install Linera from scratch, you will require the following dependencies:

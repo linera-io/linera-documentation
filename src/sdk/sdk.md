@@ -14,4 +14,3 @@ bytecode and written in Rust on top of the crate
 This section should be seen as a guide versus a reference manual for the SDK. For the
 reference manual, refer to the [documentation of the
 crate](https://docs.rs/linera-sdk/latest/linera_sdk/).
-
