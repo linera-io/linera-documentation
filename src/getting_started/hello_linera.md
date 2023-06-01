@@ -4,7 +4,7 @@ This section is about running a local development network, then compiling and de
 your first application from scratch. It is assumed that you've already cloned the Linera
 repository and have managed to successfully `cargo build` the workspace.
 
-By the end of this section, you'll have a [microchain](../core_concepts/micro_chains.md)
+By the end of this section, you'll have a [microchain](../core_concepts/microchains.md)
 running locally and a working application that can be queried using GraphQL.
 
 ## Starting the local network
