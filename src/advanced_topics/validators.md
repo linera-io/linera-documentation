@@ -9,9 +9,9 @@ execute and cryptographically certify the blocks of all the chains.
 The main function of validators is to guarantee the integrity of the infrastructure in the sense that:
 
 - Each block is valid, i.e. it has the correct format, its operations are allowed, the
-  received effects are in the correct order, and e.g. the balance was correctly computed.
+  received messages are in the correct order, and e.g. the balance was correctly computed.
 
-- Every effect received by one chain was actually sent by another chain.
+- Every message received by one chain was actually sent by another chain.
 
 - If one block on a particular height is certified, no other block on the same height is.
 
@@ -22,10 +22,10 @@ a validator to be considered malicious and to lose their _stake_.
 Validators also play a role in the liveness of the system by making sure that the history
 of the chains stays available. However, since validators do not propose blocks on most
 chains (see [next section](block_creation.html)), they do _not_ guarantee that any
-particular operation or effect will eventually be executed on a chain. Instead, chain
-owners decide whether and when to propose new blocks, and which operations and effects to
+particular operation or message will eventually be executed on a chain. Instead, chain
+owners decide whether and when to propose new blocks, and which operations and messages to
 include. The current implementation of the Linera client automatically includes all
-incoming effects in new blocks. The operations are the actions the chain owner explicitly
+incoming messages in new blocks. The operations are the actions the chain owner explicitly
 adds, e.g. transfer.
 
 ## Scalability
@@ -37,7 +37,7 @@ additional load.
 That is why Linera allows the same validator to run multiple `server`
 processes—_workers_—on different machines, each one processing a different subset of
 the microchains. The workers communicate directly with each other whenever a chain sends
-an effect to another chain.
+a message to another chain.
 
 ## Anatomy of a Validator
 
@@ -137,7 +137,7 @@ linera --wallet wallet.json set-validator --name 5b611b86cc1f54f73a4abfb4a2167c7
 linera --wallet wallet.json remove-validator --name f65a585f05852f0610e2460a99c23faa3969f3cfce8a519f843a793dbfb4cb84
 ```
 
-Chain owners must then create a block that receives the `SetCommittees` effect from the
+Chain owners must then create a block that receives the `SetCommittees` message from the
 admin chain, and have it certified by the old validators. Only the _next_ block in their
 chain will be certified by the new validator set!
 

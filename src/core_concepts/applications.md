@@ -45,7 +45,7 @@ An application is broken into two major components, the _contract_ and the _serv
 
 The contract is gas-metered (for more details,
 see [execution model](../advanced_topics/execution_model.md)), and is the part
-of the application which executes operations and effects, make cross-application
+of the application which executes operations and messages, make cross-application
 calls and modifies the application's state. The details are covered in more
 depth in the
 [SDK docs](./sdk.md).
@@ -57,13 +57,13 @@ with the data required for a user interface.
 Finally, spanning both the contract and service is the Application's state in
 the form of a [View](./../advanced_topics/views.md), but more on that later.
 
-## Operations and Effects
+## Operations and Messages
 
 > For this section we'll be using the example of a hypothetical "fungible token"
 > application where users can send tokens to each other.
 
 At the system-level, interacting with an application can be done via operations
-and effects.
+and messages.
 
 **Operations** are defined by an application developer and each
 application can have a completely different set of operations. Chain owners then
@@ -88,20 +88,20 @@ pub enum Operation {
 }
 ```
 
-**Effects** are outcomes of execution (of operations or other effects).
-Effects from one chain can be sent in a cross-chain message to another. Block
-proposers also actively include effects in their block proposal, but unlike with
+**Messages** are outcomes of execution (of operations or other messages).
+Messages from one chain can be sent in a cross-chain message to another. Block
+proposers also actively include messages in their block proposal, but unlike with
 operations, they are only allowed to include them in the right order (possibly
 skipping some), and only if they were actually created by another chain (or the
 same chain, earlier).
 
-In our "fungible token" application, an effect to credit an account would look like this:
+In our "fungible token" application, a message to credit an account would look like this:
 
 ```rust,ignore
 # extern crate serde;
 # use serde::{Deserialize, Serialize};
 #[derive(Debug, Deserialize, Serialize)]
-pub enum Effect {
+pub enum Message {
     Credit { owner: AccountOwner, amount: Amount },
     // Meant to be extended here
 }

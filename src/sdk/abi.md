@@ -53,7 +53,7 @@ impl ContractAbi for CounterAbi {
     type Parameters = ();
     type Operation = u64;
     type ApplicationCall = ();
-    type Effect = ();
+    type Message = ();
     type SessionCall = ();
     type Response = ();
     type SessionState = ();

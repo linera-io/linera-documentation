@@ -37,7 +37,7 @@ only once.
 Instead of immediately modifying the target chain, messages are placed first in the target
 chain's **inbox**. When the owner(s) of the target chain creates its next block in the
 future, it may reference a selection of messages taken from the current inbox in the new
-block. This executes the selected messages and applies their effects to the chain state.
+block. This executes the selected messages and applies their messages to the chain state.
 
 Below is an example set of chains sending asynchronous messages to each other
 over consecutive blocks.

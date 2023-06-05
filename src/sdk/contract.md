@@ -20,21 +20,21 @@ pub trait Contract: WithContractAbi + ContractAbi + Send + Sized {
         &mut self,
         context: &OperationContext,
         argument: Self::InitializationArgument,
-    ) -> Result<ExecutionResult<Self::Effect>, Self::Error>;
+    ) -> Result<ExecutionResult<Self::Message>, Self::Error>;
 
     /// Applies an operation from the current block.
     async fn execute_operation(
         &mut self,
         context: &OperationContext,
         operation: Self::Operation,
-    ) -> Result<ExecutionResult<Self::Effect>, Self::Error>;
+    ) -> Result<ExecutionResult<Self::Message>, Self::Error>;
 
-    /// Applies an effect originating from a cross-chain message.
-    async fn execute_effect(
+    /// Applies a message originating from a cross-chain message.
+    async fn execute_message(
         &mut self,
-        context: &EffectContext,
-        effect: Self::Effect,
-    ) -> Result<ExecutionResult<Self::Effect>, Self::Error>;
+        context: &MessageContext,
+        message: Self::Message,
+    ) -> Result<ExecutionResult<Self::Message>, Self::Error>;
 
     /// Handles a call from another application.
     async fn handle_application_call(
@@ -42,7 +42,7 @@ pub trait Contract: WithContractAbi + ContractAbi + Send + Sized {
         context: &CalleeContext,
         argument: Self::ApplicationCall,
         forwarded_sessions: Vec<SessionId>,
-    ) -> Result<ApplicationCallResult<Self::Effect, Self::Response, Self::SessionState>, Self::Error>;
+    ) -> Result<ApplicationCallResult<Self::Message, Self::Response, Self::SessionState>, Self::Error>;
 
     /// Handles a call into a session created by this application.
     async fn handle_session_call(
@@ -51,7 +51,7 @@ pub trait Contract: WithContractAbi + ContractAbi + Send + Sized {
         session: Self::SessionState,
         argument: Self::SessionCall,
         forwarded_sessions: Vec<SessionId>,
-    ) -> Result<SessionCallResult<Self::Effect, Self::Response, Self::SessionState>, Self::Error>;
+    ) -> Result<SessionCallResult<Self::Message, Self::Response, Self::SessionState>, Self::Error>;
 
 }
 ```
@@ -80,7 +80,7 @@ be specified on application creation using its initialization parameters:
         &mut self,
         _context: &OperationContext,
         value: u64,
-    ) -> Result<ExecutionResult<Self::Effect>, Self::Error> {
+    ) -> Result<ExecutionResult<Self::Message>, Self::Error> {
         self.value.set(value);
         Ok(ExecutionResult::default())
     }
@@ -99,7 +99,7 @@ it will be receiving a `u64` which is used to increment the counter:
         &mut self,
         _context: &OperationContext,
         operation: u64,
-    ) -> Result<ExecutionResult<Self::Effect>, Self::Error> {
+    ) -> Result<ExecutionResult<Self::Message>, Self::Error> {
         let current = self.value.get();
         self.value.set(current + operation);
         Ok(ExecutionResult::default())

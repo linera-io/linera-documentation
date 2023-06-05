@@ -102,12 +102,12 @@ e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a650100000000000000
 fc9384defb0bcd8f6e206ffda32599e24ba715f45ec88d4ac81ec47eb84fa111
 ```
 
-The first line is the effect ID specifying the cross-chain message that creates the new
+The first line is the message ID specifying the cross-chain message that creates the new
 chain. of the newly created chain. The second line is the new chain's ID.
 
 Finally, to add the chain to `wallet2` for the given unassigned key we use
 the `assign` command:
 
 ```bash
- linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --effect-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
+ linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --message-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 ```

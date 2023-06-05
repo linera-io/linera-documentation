@@ -154,7 +154,7 @@ async fn test_cross_chain_message() {
         })
         .await;
 
-    receiver_chain.handle_received_effects().await;
+    receiver_chain.handle_received_messages().await;
 
     assert_eq!(
         receiver_chain
