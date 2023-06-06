@@ -46,7 +46,7 @@ cargo install --path linera-service
 This will install three binaries:
 
 1. `linera` - the Linera client
-2. `server` - the Linera worker
-3. `proxy` - the Linera proxy which acts as an ingress for validators
+2. `linera-server` - the Linera worker
+3. `linera-proxy` - the Linera proxy which acts as an ingress for validators
 
 If installation fails, reach out to the team (e.g. on [discord](https://discord.gg/linera)) to help troubleshoot your issue or [create an issue](https://github.com/linera-io/linera-protocol/issues/new) on GitHub.

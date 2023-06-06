@@ -34,7 +34,7 @@ Since every chain uses the same validators, adding more chains does not require 
 validators. Instead, it requires each individual validator to scale up and handle the
 additional load.
 
-That is why Linera allows the same validator to run multiple `server`
+That is why Linera allows the same validator to run multiple `linera-server`
 processes—_workers_—on different machines, each one processing a different subset of
 the microchains. The workers communicate directly with each other whenever a chain sends
 a message to another chain.
@@ -92,7 +92,7 @@ However, it is possible to customize and configure the parameters of the network
 `run_local.sh` uses the `validator_n.toml` file from the `configuration/` directory to configure validator number `n`.
 
 ```bash
-server generate --validators configuration/validator_{1,2,3,4}.toml --committee committee.json
+linera-server generate --validators configuration/validator_{1,2,3,4}.toml --committee committee.json
 ```
 
 generates keys and writes them, together with the options from the TOML files, to
@@ -110,13 +110,13 @@ all those chains.
 To start the newly configured network, each validator `n` must start their proxy:
 
 ```bash
-proxy server_n.json &
+linera-proxy server_n.json &
 ```
 
 And all shards; for shard `i`:
 
 ```bash
-server run --storage rocksdb:server_n_i.db --server server_n.json --shard i --genesis genesis.json &
+linera-server run --storage rocksdb:server_n_i.db --server server_n.json --shard i --genesis genesis.json &
 ```
 
 This will create a separate database file `server_n_i.db` for each shard. In a production
