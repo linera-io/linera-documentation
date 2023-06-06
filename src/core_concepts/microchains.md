@@ -1,38 +1,36 @@
 # Microchains
 
-This section provides an introduction to microchains - the main building block
-of the Linera Protocol. For a more formal treatment of microchains, refer to
-the [whitepaper](https://static1.squarespace.com/static/62d6e9b8bf6051136f934527/t/63a0b9041c1f491f5b3a9d30/1671477510830/Linera_whitepaper_v1.pdf).
+This section provides an introduction to microchains, the main building block of the
+Linera Protocol. For a more formal treatment of microchains, refer to the
+[whitepaper](https://static1.squarespace.com/static/62d6e9b8bf6051136f934527/t/63a0b9041c1f491f5b3a9d30/1671477510830/Linera_whitepaper_v1.pdf).
 
 ## Background
 
-A microchain is a specialized type of blockchain designed to address the
-limitations of traditional blockchains by offering predictable performance,
-security, and responsiveness on a large scale. Unlike regular blockchains,
-microchains allow users to manage the production of blocks in their own chains
-with low latency.
+A **microchain** is a chain of blocks describing successive changes to a shared state.
+Linera microchains are similar to the familiar notion of blockchain, with the following
+important specificities:
 
-They separate the role of proposing new blocks from validating them, providing
-more flexibility and configurability. Microchains can
-be single-owner, permissioned, or public, depending on who is authorized to
-propose blocks. They can also create new microchains, transfer control to other
-users, and deactivate when needed.
+- An arbitrary number of microchains can coexist in a Linera network, all sharing the same
+  set of validators and the same level of security. Creating a new microchain only takes
+  one transaction in an existing chain.
+
+- The task of proposing new blocks in a microchain can be assumed either by validators or by end
+  users (or rather their wallets) depending on the configuration of a chain. Specifically,
+  microchains can be _single-owner_, _permissioned_, or _public_, depending on who is authorized
+  to propose blocks.
 
 ## Cross-Chain Messaging
 
-In traditional blockchains, like the original Nakamoto blockchain found in
-Bitcoin, the entire state transition of the system in the form of a list of
-transactions, is present in each block. Since microchains have state which is
-segregated from each other, a new mechanism is required for chains to
-communicate with one another.
+In traditional infrastructures based on a single chain of blocks, every transaction can
+access the entire execution state. This is not the case in Linera where by default the
+state of a microchain is only affected by its own blocks.
 
-Cross-chain messaging is a way for different blockchains or microchains to
-communicate with each other asynchronously. This method allows applications and
-data to be distributed across multiple chains for better scalability. When an
-application in one chain wishes to send a message to another chain, a cross-chain request
-is created. These requests are implemented using remote procedure calls (RPCs)
-within the validators' internal network, ensuring that each request is executed
-only once.
+Cross-chain messaging is a way for different microchains to communicate with each other
+asynchronously. This method allows applications and data to be distributed across multiple
+chains for better scalability. When an application in one chain wishes to send a message
+to another chain, a cross-chain request is created. These requests are implemented using
+remote procedure calls (RPCs) within the validators' internal network, ensuring that each
+request is executed only once.
 
 Instead of immediately modifying the target chain, messages are placed first in the target
 chain's **inbox**. When the owner(s) of the target chain creates its next block in the
@@ -68,10 +66,10 @@ inboxes, and never discards messages.
 
 ## Chain Ownership Semantics
 
-Linera currently supports single-owner chains. However, microchains can create
-new microchains for other users, and control of a chain can be transferred to
-another user by changing the owner id. A chain is permanently deactivated when
-its owner id is set to `None`.
+Only single-owner chains are currently supported in the Linera SDK. However, microchains
+can create new microchains for other users, and control of a chain can be transferred to
+another user by changing the owner id. A chain is permanently deactivated when its owner
+id is set to `None`.
 
 For more detail and examples on how to open and close chains, see the wallet
 section on [chain management](wallet.md#opening-a-chain).
