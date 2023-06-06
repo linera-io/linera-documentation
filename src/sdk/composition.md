@@ -82,12 +82,12 @@ This causes `Fungible::handle_application_call` to be run, which will create a c
 message sending the amount 10 to the Pugecoin application instance on Bob's chain.
 
 After the cross-application call returns, `CrowdFunding::execute_operation` continues to
-create another cross-chain message `crowd_funding::Effect::PledgeWithAccount`, which
+create another cross-chain message `crowd_funding::Message::PledgeWithAccount`, which
 informs the crowd-funding application on Bob's chain that the 10 tokens are meant for
 the campaign.
 
 When Bob now adds a block to his chain that handles the two incoming messages,
-first `Fungible::execute_effect` gets executed, and then `CrowdFunding::execute_effect`.
+first `Fungible::execute_message` gets executed, and then `CrowdFunding::execute_message`.
 The latter makes another cross-application call to transfer the 10 tokens from Carol's
 account to the crowd-funding application's account (both on Bob's chain). That is
 successful because Carol does now have 10 tokens on this chain and she authenticated

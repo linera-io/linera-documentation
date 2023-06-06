@@ -2,7 +2,7 @@
 
 // todo, do we need this?
 
-- Effect:
+- Message:
 - Microchain:
 - Operation:
 - Owner / Address:
