@@ -1,14 +1,11 @@
 # Deploying the Application
 
-To deploy your application, build your contract in release mode with `cargo build --release` and then
-use the `publish-and-create` command while also specifying:
+To deploy your application, use the `linera project publish` command while also specifying:
 
-1. The location of the contract bytecode
-2. The location of the service bytecode
-3. The hex encoded initialization arguments
+1. The path of the project (defaults to `CWD`)
+2. The JSON encoded initialization arguments
 
 ```bash
-linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET publish-and-create \
-  target/wasm32-unknown-unknown/release/my-counter_{contract,service}.wasm \
+linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET project publish \
   --json-argument "42"
 ```

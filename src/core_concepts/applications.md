@@ -34,7 +34,7 @@ Happily, the application deployment lifecycle is abstracted from the user, and
 an application can be published with a single command:
 
 ```bash
-linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET publish-and-create <contract-path> <service-path> <init-args>
+linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET project publish <path> --json-argument <init-args>
 ```
 
 This will publish the bytecode as well as initialize the application for you.
