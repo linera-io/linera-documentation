@@ -10,7 +10,7 @@ running locally and a working application that can be queried using GraphQL.
 ## Starting the local network
 
 The first step is to start your local development network.
-A development network consists of a numbers of [validators](../core_concepts/validators.md), each
+A development network consists of a numbers of [validators](../advanced_topics/validators.md), each
 of which consist of an ingress proxy (aka a "load balancer") and a number of workers (aka "physical shards").
 
 To start a local network, navigate to the root of the `linera-protocol`
