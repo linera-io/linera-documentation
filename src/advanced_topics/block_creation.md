@@ -9,7 +9,7 @@ types of chains, depending on how new blocks are produced.
 - The simplest and lowest-latency type of chain is called _single-owner_ chain.
 
 - Other types of Linera chains not currently supported in the SDK include _permissioned
-  chains_ and _public chains_ (see the [whitepaper](linera.io/whitepaper) for more context).
+  chains_ and _public chains_ (see the [whitepaper](https://linera.io/whitepaper) for more context).
 
 > For most types of chains (all but _public chains_), Linera validators do not need to
 > exchange messages with each other.

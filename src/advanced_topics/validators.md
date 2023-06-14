@@ -79,7 +79,7 @@ independently of the rest of the validator
 
 ## Configuring Networks, Workers, and Proxies
 
-In [a previous section](../getting_started/first_app.md), we used the `run_local.sh` script
+In [a previous section](../getting_started/hello_linera.md), we used the `run_local.sh` script
 to start a local network. This should be sufficient for most use cases when you're running
 a local network.
 

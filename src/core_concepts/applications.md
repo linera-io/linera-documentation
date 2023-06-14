@@ -1,13 +1,11 @@
 # Applications
 
-This section is all about building applications in Linera. The Linera programming
-model is designed to provide a rich ecosystem to enable developers to take advantage
-of the scaling architecture of microchains.
+The programming model of Linera is designed so that developers can take advantage of
+microchains to scale their applications.
 
-Linera uses the WebAssembly VM to execute user applications. For now
-the [SDK](./sdk.md) used to develop Linera applications is exclusively for
-the [Rust](https://www.rust-lang.org/) programming language. This will be
-covered in depth in the [next section](./sdk.md).
+Linera uses the WebAssembly Virtual Machine (Wasm) to execute user applications.
+Currently, the [Linera SDK](../sdk.md) is focused on the [Rust](https://www.rust-lang.org/)
+programming language. This will be covered in depth in the [next section](../sdk.md).
 
 ## The Application Deployment Lifecycle
 
@@ -43,12 +41,9 @@ This will publish the bytecode as well as initialize the application for you.
 
 An application is broken into two major components, the _contract_ and the _service_.
 
-The contract is gas-metered (for more details,
-see [execution model](../advanced_topics/execution_model.md)), and is the part
-of the application which executes operations and messages, make cross-application
-calls and modifies the application's state. The details are covered in more
-depth in the
-[SDK docs](./sdk.md).
+The contract is gas-metered, and is the part of the application which executes operations
+and messages, make cross-application calls and modifies the application's state. The
+details are covered in more depth in the [SDK docs](../sdk.md).
 
 The service is non-metered and read-only. It is used primarily to query the
 state of an application and hydrate the presentation layer (think front-end)
