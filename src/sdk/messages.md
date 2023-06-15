@@ -30,15 +30,17 @@ and
 [`with_authenticated_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html#method.with_authenticated_effect)
 for convenience.
 
-When a block gets added to the sending chain and during its execution a message is
-returned in one of the execution results, the message is placed in the target chain's
-inbox. There is no guarantee that it will be handled: For this to happen, an owner of
+During block execution in the _sending_ chain, messages are returned via
+`ExecutionResult`s. The returned message is then placed in the _target_ chain inbox for
+processing. There is no guarantee that it will be handled: For this to happen, an owner of
 the target chain needs to include it in the `incoming_messages` in one of their blocks.
 When that happens, the contract's `execute_message` method gets called on their chain.
 
 ## Example: Fungible Token
 
-In the `fungible` example application, such a message can be the transfer of tokens from
+In the
+[`fungible` example application](https://github.com/linera-io/linera-protocol/tree/main/examples/fungible),
+such a message can be the transfer of tokens from
 one chain to another. If the sender includes a `Transfer` operation on their chain, it
 decreases their account balance and sends a `Credit` message to the recipient's chain:
 
