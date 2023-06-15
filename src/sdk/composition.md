@@ -1,10 +1,7 @@
 # Calling other Applications
 
 We have seen that cross-chain messages sent by an application on one chain are always
-handled by the _same_ application on the target chain. The application state on that chain
-may be different, but the code will be the same. (In the `fungible` example application,
-such a message can be the transfer of tokens from one chain to another: `Credit { owner:
-AccountOwner, amount: Amount }`.)
+handled by the _same_ application on the target chain.
 
 This section is about calling other applications using _cross-application calls_.
 

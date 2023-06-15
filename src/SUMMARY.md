@@ -17,6 +17,7 @@
   - [Writing the Contract Binary](sdk/contract.md)
   - [Writing the Service Binary](sdk/service.md)
   - [Deploying the Application](sdk/deploy.md)
+  - [Cross-Chain Messages](sdk/messages.md)
   - [Calling other Applications](sdk/composition.md)
   - [Writing Tests](sdk/testing.md)
 - [Advanced Topics](advanced_topics.md)
