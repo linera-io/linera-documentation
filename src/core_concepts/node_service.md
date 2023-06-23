@@ -9,7 +9,7 @@ in your terminal. However, the client also acts as a partial node which:
 3. Listens for notifications from validators and automatically updates local
    chains.
 
-To interact with the node service, simply run `linera` in `service` mode:
+To interact with the node service, run `linera` in `service` mode:
 
 ```bash
 linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET service

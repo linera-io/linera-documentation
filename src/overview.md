@@ -81,7 +81,7 @@ The main limitations of our current Web3 SDK include:
 
 The main development workstreams of Linera, beyond its SDK, can be broken down as follows.
 
-### [Core Protocol](https://github.com/orgs/linera-io/projects/2)
+### Core Protocol
 
 - [x] User chains
 - [x] Permissioned chain (core protocol only)
@@ -104,7 +104,7 @@ The main development workstreams of Linera, beyond its SDK, can be broken down a
 - [ ] Governance on the admin chain (e.g. DPoS, onboarding of validators)
 - [ ] Auditing procedures
 
-### [Wasm VM integration](https://github.com/orgs/linera-io/projects/3)
+### Wasm VM integration
 
 - [x] Support for the Wasmer VM
 - [x] Support for the Wasmtime VM (experimental)
@@ -118,7 +118,7 @@ The main development workstreams of Linera, beyond its SDK, can be broken down a
 - [ ] Improve host/guest stub generation to make mocks easier (currently wit-bindgen)
 - [ ] Compile user full node to Wasm/JS
 
-### [Storage](https://github.com/orgs/linera-io/projects/1)
+### Storage
 
 - [x] Object management library ("linera-views") on top of Key-Value store abstraction
 - [x] Support for Rocksdb
@@ -131,7 +131,7 @@ The main development workstreams of Linera, beyond its SDK, can be broken down a
 - [ ] Tooling for debugging
 - [ ] Make the storage library easy to use outside of Linera
 
-### [Networking](https://github.com/orgs/linera-io/projects/4)
+### Networking
 
 - [x] Simple TCP/UDP networking (used for benchmarks only)
 - [x] GRPC networking
@@ -140,7 +140,7 @@ The main development workstreams of Linera, beyond its SDK, can be broken down a
 - [ ] New frontend to support dynamic shard assignment
 - [ ] Cloud integration to demonstrate elastic scaling
 
-### [Web3 SDK](https://github.com/orgs/linera-io/projects/5)
+### Web3 SDK
 
 - [x] Initial traits for contract and service interfaces
 - [x] Support for unit testing

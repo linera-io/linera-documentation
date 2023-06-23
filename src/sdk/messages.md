@@ -8,7 +8,7 @@ by the _same_ application on the target chain: The handling code is guaranteed t
 same as the sending code, but the state may be different.
 
 For your application, you can specify any serializable type as the `Message` type in your
-`ContractAbi` implementation. To sent a message, simply return it among the
+`ContractAbi` implementation. To send a message, return it among the
 [`ExecutionResult`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html)'s
 `messages`:
 

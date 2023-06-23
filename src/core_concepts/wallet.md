@@ -1,7 +1,7 @@
 # The Wallet
 
 The Linera client is the main way to interact with the network and manage
-user's wallets. Like most wallets, a Linera wallet holds user private and
+users' wallets. Like most wallets, a Linera wallet holds user private and
 public keys. Unlike most wallet applications, the Linera client also acts as a
 partial node, executing blocks for chains owned by a user.
 

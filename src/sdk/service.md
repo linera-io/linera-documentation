@@ -39,7 +39,7 @@ Let's implement `Service` for our counter application.
 First, we want to generate the necessary boilerplate for implementing the
 service WIT interface, export the necessary resource types and functions so that
 the host (the process running the bytecode) can call the service. Happily,
-there is a macro to perform this code generation, so simply add the following
+there is a macro to perform this code generation, so just add the following
 to `service.rs`:
 
 ```rust,ignore
