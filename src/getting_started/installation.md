@@ -32,8 +32,10 @@ To install Linera from scratch, you will require the following dependencies:
 
 - [Rust + wasm32-unknown-unknown target](https://www.rust-lang.org/tools/install)
 - [protoc](https://grpc.io/docs/protoc-installation/)
+- On Debian/Ubuntu-based Linux distributions you may have to install the packages `g++`,
+  `libclang-dev` and `libssl-dev`.
 
-For OS specific installation instructions see the installation section on [GitHub](https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md).
+For OS-specific installation instructions see the installation section on [GitHub](https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md).
 
 ## Installing Linera Locally
 
@@ -49,4 +51,4 @@ This will install three binaries:
 2. `linera-server` - the Linera worker
 3. `linera-proxy` - the Linera proxy which acts as an ingress for validators
 
-If installation fails, reach out to the team (e.g. on [discord](https://discord.gg/linera)) to help troubleshoot your issue or [create an issue](https://github.com/linera-io/linera-protocol/issues/new) on GitHub.
+If installation fails, reach out to the team (e.g. on [Discord](https://discord.gg/linera)) to help troubleshoot your issue or [create an issue](https://github.com/linera-io/linera-protocol/issues/new) on GitHub.
