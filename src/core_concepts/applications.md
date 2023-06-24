@@ -102,6 +102,31 @@ pub enum Message {
 }
 ```
 
+### Authentication
+
+Operations are always authenticated and messages may be authenticated. The signer of a block becomes
+the authenticator of all the operations in that block. As operations are executed by applications,
+messages can be created to be sent to other chains. When they are created, they can be configured to
+be authenticated. In that case, the message receives the same authentication as the operation that
+created it. If handling an incoming message creates new messages, those may also be configured to
+have the same authentication as the received message.
+
+In other words, the block signer can have its authority propagated across chains through series of
+messages. This allows applications to safely store user state in chains that the user may not have
+the authority to produce blocks. The application may also allow only the authorized user to change
+that state, and not even the chain owner is able to override that.
+
+An example where this is used is in the Fungible application, where a `Claim` operation allows
+retrieving money from a chain the user does not control (but the user still trusts will produce a
+block receiving their message). Without the `Claim` operation, users would only be able to store
+their tokens on their own chains, and multi-owner and public chains would have their tokens shared
+between anyone able to produce a block.
+
+With the `Claim` operation, users can store their tokens on another chain where they're able to
+produce blocks or where they trust the owner will produce blocks receiving their messages. Only they
+are able to move their tokens, even on chains where ownership is shared or where they are not able
+to produce blocks.
+
 ## Interacting with an Application
 
 To interact with an application, we run the Linera client
