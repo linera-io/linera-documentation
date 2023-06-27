@@ -3,10 +3,10 @@
 The Linera client is the main way to interact with the network and manage
 users' wallets. Like most wallets, a Linera wallet holds user private and
 public keys. Unlike most wallet applications, the Linera client also acts as a
-partial node, executing blocks for chains owned by a user.
+node, executing blocks for chains owned by a user.
 
 The state of the wallet lives in `wallet.json`, while the state of the chains
-running on your local partial node are stored in `linera.db`.
+running on your local node are stored in `linera.db`.
 
 ## Chain Management
 

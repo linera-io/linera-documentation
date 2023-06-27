@@ -5,30 +5,29 @@ microchains to scale their applications.
 
 Linera uses the WebAssembly Virtual Machine (Wasm) to execute user applications.
 Currently, the [Linera SDK](../sdk.md) is focused on the [Rust](https://www.rust-lang.org/)
-programming language. This will be covered in depth in the [next section](../sdk.md).
+programming language.
 
 ## The Application Deployment Lifecycle
 
 Linera Applications are designed to be powerful yet re-usable. For this reason
-there is a distinction between the application bytecode and an application
+there is a distinction between the bytecode and an application
 instance on the network.
 
 Applications undergo a lifecycle transition aimed at making development easy and
 flexible:
 
-1. The application bytecode is built from a Rust project with the `linera-sdk`
+1. The bytecode is built from a Rust project with the `linera-sdk`
    dependency.
-2. The application bytecode is published to the network on a given microchain.
-   The bytecode location itself is then opaque to the rest of the network, the
-   only way to reference it is with a bytecode identifier.
-3. After the bytecode is published, a user can create a new application instance
-   by referencing the bytecode and providing initialization parameters. This
+2. The bytecode is published to the network on a microchain, and assigned an
+   identifier.
+3. A user can create a new application instance, by providing
+   the bytecode identifier and initialization arguments. This
    process returns an application identifier which can be used to reference and
    interact with the application.
 4. The same bytecode identifier can be used as many times is needed by as many
    users are needed to create distinct applications.
 
-Happily, the application deployment lifecycle is abstracted from the user, and
+Importantly, the application deployment lifecycle is abstracted from the user, and
 an application can be published with a single command:
 
 ```bash
@@ -39,23 +38,23 @@ This will publish the bytecode as well as initialize the application for you.
 
 ## Anatomy of an Application
 
-An application is broken into two major components, the _contract_ and the _service_.
+An **application** is broken into two major components, the _contract_ and the _service_.
 
-The contract is gas-metered, and is the part of the application which executes operations
+The **contract** is gas-metered, and is the part of the application which executes operations
 and messages, make cross-application calls and modifies the application's state. The
 details are covered in more depth in the [SDK docs](../sdk.md).
 
-The service is non-metered and read-only. It is used primarily to query the
-state of an application and hydrate the presentation layer (think front-end)
+The **service** is non-metered and read-only. It is used primarily to query the
+state of an application and populate the presentation layer (think front-end)
 with the data required for a user interface.
 
-Finally, spanning both the contract and service is the Application's state in
+Finally, the application's state is shared by the contract and service in
 the form of a [View](./../advanced_topics/views.md), but more on that later.
 
 ## Operations and Messages
 
-> For this section we'll be using the example of a hypothetical "fungible token"
-> application where users can send tokens to each other.
+> For this section we'll be using a simplified version of the example application called
+> "fungible" where users can send tokens to each other.
 
 At the system-level, interacting with an application can be done via operations
 and messages.
@@ -65,7 +64,7 @@ application can have a completely different set of operations. Chain owners then
 actively create operations and put them in their block proposals to interact
 with an application.
 
-Using our hypothetical "fungible token" application as an example, an operation
+Taking the "fungible token" application as an example, an operation
 for a user to transfer funds to another user would look like this:
 
 ```rust,ignore
@@ -83,8 +82,8 @@ pub enum Operation {
 }
 ```
 
-**Messages** are outcomes of execution (of operations or other messages).
-Messages from one chain can be sent in a cross-chain message to another. Block
+**Messages** result from the execution of operations or other messages.
+Messages can be sent from one chain to another. Block
 proposers also actively include messages in their block proposal, but unlike with
 operations, they are only allowed to include them in the right order (possibly
 skipping some), and only if they were actually created by another chain (or the
@@ -126,15 +125,6 @@ With the `Claim` operation, users can store their tokens on another chain where 
 produce blocks or where they trust the owner will produce blocks receiving their messages. Only they
 are able to move their tokens, even on chains where ownership is shared or where they are not able
 to produce blocks.
-
-## Interacting with an Application
-
-To interact with an application, we run the Linera client
-[in service mode](wallet.md#node-service). It exposes a GraphQL API for every
-application running on that chain at `localhost:8080/<application-id>`.
-
-Simple navigating there with your browser will open a GraphiQL interface which
-enables you to graphically explore the state of your application.
 
 ## Registering an Application across Chains
 

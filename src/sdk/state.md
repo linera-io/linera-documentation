@@ -32,13 +32,13 @@ pub struct Counter {
 
 and all other occurences of `Application` in your app.
 
-The `RegisterView` supports modifying a single value of type `T`. There are different types of
+The `RegisterView<T>` supports modifying a single value of type `T`. There are different types of
 views for different use-cases, but the majority of common data structures have already been implemented:
 
-- A `Vec` maps to a `CollectionView`
-- A `HashMap` maps to a `MapView`
-- A `Queue` maps to a `QueueView`
+- A `Vec` or `VecDeque` corresponds to a `LogView`
+- A `BTreeMap` corresponds to a `MapView` if its values are primitive, or to `CollectionView` if its values are other vuews;
+- A `Queue` corresponds to a `QueueView`
 
 For an exhaustive list refer to the Views [documentation](../advanced_topics/views.md).
 
-Finally, run `cargo build` to ensure that your changes compile.
+Finally, run `cargo check` to ensure that your changes compile.
