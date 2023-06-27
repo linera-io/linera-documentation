@@ -116,6 +116,47 @@ messages. This allows applications to safely store user state in chains that the
 the authority to produce blocks. The application may also allow only the authorized user to change
 that state, and not even the chain owner is able to override that.
 
+The figure below shows four chains (A, B, C, D) and some blocks produced in them. Some blocks show
+the operations and incoming messages they accept, where the authentication is shown inside
+parenthesis. All operations produced are authenticated by the block proposer, and if these are all
+single user chains, the proposer is always the chain owner. Messages that have authentication use
+the one from the operation or message that created it.
+
+One example in the figure is that chain A produced a block with Operation 1, which is authenticated
+by the owner of chain A (written `(A)`). That operations sent a message to chain B, and assuming the
+message was sent with the authentication forwarding enabled, it is received and executed in
+chain B with the authentication of A. Another example is that chain D produced a block with
+Operation 2, which is authenticated by the owner of chain B (written `(B)`). That operations sent a
+message to chain C, which is executed with authentication of D like the example before. Handling
+that message in chain C produced a new message, which was sent to chain B. That message, when
+received by chain B is executed with the authentication of D.
+
+```ignore
+                            ┌───┐     ┌─────────────────┐     ┌───┐
+                    Chain A │   ├────►│ Operation 1 (A) ├────►│   │
+                            └───┘     └────────┬────────┘     └───┘
+                                               │
+                                               └────────────┐
+                                                            ▼
+                                                ┌──────────────────────────┐
+                            ┌───┐     ┌───┐     │ Operation 3 (B)          │
+                    Chain B │   ├────►│   ├────►│ Message from chain A (A) │
+                            └───┘     └───┘     │ Message from chain C (D) │
+                                                └──────────────────────────┘
+                                                            ▲
+                                                   ┌────────┘
+                                                   │
+                            ┌───┐     ┌──────────────────────────┐     ┌───┐
+                    Chain C │   ├────►│ Message from chain D (D) ├────►│   │
+                            └───┘     └──────────────────────────┘     └───┘
+                                                 ▲
+                                     ┌───────────┘
+                                     │
+                            ┌─────────────────┐     ┌───┐     ┌───┐
+                    Chain D │ Operation 2 (A) ├────►│   ├────►│   │
+                            └─────────────────┘     └───┘     └───┘
+```
+
 An example where this is used is in the Fungible application, where a `Claim` operation allows
 retrieving money from a chain the user does not control (but the user still trusts will produce a
 block receiving their message). Without the `Claim` operation, users would only be able to store
