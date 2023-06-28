@@ -126,7 +126,7 @@ One example in the figure is that chain A produced a block with Operation 1, whi
 by the owner of chain A (written `(A)`). That operations sent a message to chain B, and assuming the
 message was sent with the authentication forwarding enabled, it is received and executed in
 chain B with the authentication of A. Another example is that chain D produced a block with
-Operation 2, which is authenticated by the owner of chain B (written `(B)`). That operations sent a
+Operation 2, which is authenticated by the owner of chain D (written `(D)`). That operation sent a
 message to chain C, which is executed with authentication of D like the example before. Handling
 that message in chain C produced a new message, which was sent to chain B. That message, when
 received by chain B is executed with the authentication of D.
