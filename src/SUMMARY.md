@@ -19,6 +19,7 @@
   - [Deploying the Application](sdk/deploy.md)
   - [Cross-Chain Messages](sdk/messages.md)
   - [Calling other Applications](sdk/composition.md)
+  - [Printing Logs from an Application](sdk/logging.md)
   - [Writing Tests](sdk/testing.md)
 - [Advanced Topics](advanced_topics.md)
   - [Views](advanced_topics/views.md)
