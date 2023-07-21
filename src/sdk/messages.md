@@ -25,9 +25,9 @@ authentication on behalf of the signer of the original block that caused this ca
 The third field is the message itself, of the type you specified in the `ContractAbi`.
 
 You can also use
-[`ExecutionResult::with_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html#method.with_effect)
+[`ExecutionResult::with_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html#method.with_message)
 and
-[`with_authenticated_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html#method.with_authenticated_effect)
+[`with_authenticated_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html#method.with_authenticated_message)
 for convenience.
 
 During block execution in the _sending_ chain, messages are returned via
