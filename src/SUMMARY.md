@@ -25,7 +25,8 @@
   - [Views](advanced_topics/views.md)
   - [Validators](advanced_topics/validators.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
-
+- [Appendix](appendix.md)
+  - [Appendix A - Glossary](appendix/glossary.md)
 <!-- prettier-ignore-start -->
 <!--
   - [Adding Re-Entrancy](advanced_topics/reentrancy.md)
