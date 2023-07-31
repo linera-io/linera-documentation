@@ -1,7 +1,7 @@
 # Node Service
 
-So far we've seen how to use the Linera client treating it as a binary
-in your terminal. However, the client also acts as a node which:
+So far we've seen how to use the Linera client treating it as a binary in your
+terminal. However, the client also acts as a node which:
 
 1. Executes blocks
 2. Exposes an GraphQL API and IDE for dynamically interacting with applications
@@ -20,15 +20,15 @@ using the `--port` flag).
 
 ## A Note on GraphQL
 
-Linera uses GraphQL as the query language for interfacing with different
-parts of the system. GraphQL enables clients to craft
-queries such that they receive exactly what they want and nothing more.
+Linera uses GraphQL as the query language for interfacing with different parts
+of the system. GraphQL enables clients to craft queries such that they receive
+exactly what they want and nothing more.
 
 GraphQL is used extensively during application development, especially to query
 the state of an application from a front-end for example.
 
-To learn more about GraphQL check out
-the [official docs](https://graphql.org/learn/).
+To learn more about GraphQL check out the
+[official docs](https://graphql.org/learn/).
 
 ## GraphiQL IDE
 
@@ -48,9 +48,9 @@ system operations. You can explore the full set of operations by clicking on
 
 ## GraphQL Application API
 
-To interact with an application, we run the Linera client in service mode.
-It exposes a GraphQL API for every application running on any owned chain at
+To interact with an application, we run the Linera client in service mode. It
+exposes a GraphQL API for every application running on any owned chain at
 `localhost:8080/chains/<chain-id>/applications/<application-id>`.
 
-Navigating there with your browser will open a GraphiQL interface which
-enables you to graphically explore the state of your application.
+Navigating there with your browser will open a GraphiQL interface which enables
+you to graphically explore the state of your application.

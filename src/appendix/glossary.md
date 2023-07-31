@@ -1,7 +1,7 @@
 # Appendix A: Glossary
 
-- **Address**: A unique public alphanumeric identifier used to designate the identity
-  of an entity on the Linera network.
+- **Address**: A unique public alphanumeric identifier used to designate the
+  identity of an entity on the Linera network.
 
 - **Admin Chain**: The Linera Network has one designated _admin chain_ where
   validators can join or leave and where new epochs are defined.
@@ -36,12 +36,15 @@
 - **Committee**: The set of all validators for a particular _epoch_, together
   with their voting weights.
 
-- **Chain Owner**: The owner of a _user chain_ or _permissioned chain_. This is represented as the alphanumeric identifier derived from the hash of the owner's public key.
+- **Chain Owner**: The owner of a _user chain_ or _permissioned chain_. This is
+  represented as the alphanumeric identifier derived from the hash of the
+  owner's public key.
 
-- **Channel**: A broadcast mechanism enabling publish-subscribe behavior across chains.
+- **Channel**: A broadcast mechanism enabling publish-subscribe behavior across
+  chains.
 
-- **Contract**: The metered part of an application which executes business
-  logic and can modify the application's state.
+- **Contract**: The metered part of an application which executes business logic
+  and can modify the application's state.
 
 - **Cross-Application Call**: A call from one application to another on the
   _same chain_.
@@ -65,8 +68,8 @@
 - **Message**: See 'Cross-Chain Message'.
 
 - **Microchain**: A lightweight chain of blocks holding a subset of the
-  network's state running on every validator. This is used interchangeably
-  with 'chain'. _All_ Linera chains are microchains.
+  network's state running on every validator. This is used interchangeably with
+  'chain'. _All_ Linera chains are microchains.
 
 - **Network**: The totality of all protocol participants. A network is the
   combination of committee, clients and auditors.
