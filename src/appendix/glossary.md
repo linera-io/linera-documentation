@@ -33,16 +33,15 @@
   and is final. There are other values that are used for reaching consensus,
   before certifying a confirmed block.
 
-- **Committee**: The set of validators all for a particular _epoch_, together
+- **Committee**: The set of all validators for a particular _epoch_, together
   with their voting weights.
 
-- **Chain Owner**: The owner of a _user chain_. This is represented as the
-  alphanumeric identifier derived from the hash of the owner's public key.
+- **Chain Owner**: The owner of a _user chain_ or _permissioned chain_. This is represented as the alphanumeric identifier derived from the hash of the owner's public key.
 
-- **Channel**: A broadcast mechanism enabling pub-sub behaviour across chains.
+- **Channel**: A broadcast mechanism enabling publish-subscribe behavior across chains.
 
-- **Contract**: The metered part of an application which executes 'business
-  logic' and can modify the application's state.
+- **Contract**: The metered part of an application which executes business
+  logic and can modify the application's state.
 
 - **Cross-Application Call**: A call from one application to another on the
   _same chain_.
@@ -66,7 +65,8 @@
 - **Message**: See 'Cross-Chain Message'.
 
 - **Microchain**: A lightweight chain of blocks holding a subset of the
-  network's state running on every validator.
+  network's state running on every validator. This is used interchangeably
+  with 'chain'. _All_ Linera chains are microchains.
 
 - **Network**: The totality of all protocol participants. A network is the
   combination of committee, clients and auditors.
@@ -77,7 +77,7 @@
 
 - **Permissioned Chain**: A microchain which is owned by more than one user.
   Users take turns proposing blocks and the likelihood of selection is
-  proportional to their _stake_.
+  proportional to their _weight_.
 
 - **Project**: The collection of files and dependencies which are built into the
   bytecode which is instantiated as an application on the Linera Network.
