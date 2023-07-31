@@ -31,7 +31,7 @@ Importantly, the application deployment lifecycle is abstracted from the user, a
 an application can be published with a single command:
 
 ```bash
-linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET publish-and-create <contract-path> <service-path> <init-args>
+linera publish-and-create <contract-path> <service-path> <init-args>
 ```
 
 This will publish the bytecode as well as initialize the application for you.
@@ -184,7 +184,7 @@ because the application is not registered on his chain.
 He needs to request it from Alice first:
 
 ```bash
-linera --wallet $LINERA_WALLET --storage $LINERA_STORAGE request-application <application-id> --target-chain-id <alices-chain-id>
+linera request-application <application-id> --target-chain-id <alices-chain-id>
 ```
 
 Once Alice processes his message (which happens automatically if she is running

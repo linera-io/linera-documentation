@@ -15,12 +15,8 @@ The library part of your application (generally in `src/lib.rs`) must define a p
 empty struct that implements the `Abi` trait.
 
 ```rust,ignore
-#[derive(Serialize, Deserialize)]
 struct CounterAbi;
 ```
-
-NOTE: The derive macros are temporarily needed until
-[#768](https://github.com/linera-io/linera-protocol/issues/768) is addressed.
 
 The `Abi` trait combines the `ContractAbi` and `ServiceAbi` traits to include the types
 that your application exports.

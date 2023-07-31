@@ -38,6 +38,10 @@ export LINERA_WALLET=$(realpath target/debug/wallet.json)
 export LINERA_STORAGE="rocksdb:$(dirname "$LINERA_WALLET")/linera.db"
 ```
 
+If these environment variables are set, the `linera` client will automatically use
+the specified wallet and storage files. Alternatively, they can be selected on the
+command line using the `--wallet` and `--storage` options.
+
 ## Interacting with the Network
 
 The main way of interacting with the network and deploying applications is
@@ -47,7 +51,7 @@ To check that the network is working, you can synchronize the balance for your
 [default chain](../core_concepts/wallet.md) with the rest of the network.
 
 ```bash
-linera --wallet $LINERA_WALLET sync-balance
+linera sync-balance
 ```
 
 You should see an output of `10`.
@@ -76,9 +80,7 @@ the `linera` client's `publish-and-create` command and provide:
 3. The JSON encoded initialization arguments
 
 ```bash
-linera --wallet $LINERA_WALLET \
-  --storage $LINERA_STORAGE \
-  publish-and-create \
+linera publish-and-create \
   ../target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
   --json-argument "42"
 ```
@@ -92,7 +94,7 @@ use the client running in [_service_ mode](../core_concepts/node_service.md). Th
 bunch of APIs locally which we can use to interact with applications on the network.
 
 ```bash
-linera --wallet $LINERA_WALLET --storage $LINERA_STORAGE service
+linera service
 ```
 
 <!-- TODO: add graphiql image here -->
@@ -100,11 +102,13 @@ linera --wallet $LINERA_WALLET --storage $LINERA_STORAGE service
 Navigate to `http://localhost:8080` in your browser to access the GraphiQL, the
 [GraphQL](https://graphql.org) IDE. We'll look at this in more detail in
 a [later section](../core_concepts/wallet.md#graphql); for now, list the applications deployed on
-your local network by running:
+your default chain e476… by running:
 
 ```gql
 query {
-  applications {
+  applications(
+    chainId: "e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65"
+  ) {
     id
     description
     link

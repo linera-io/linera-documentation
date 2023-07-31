@@ -12,7 +12,7 @@ in your terminal. However, the client also acts as a node which:
 To interact with the node service, run `linera` in `service` mode:
 
 ```bash
-linera --storage $LINERA_STORAGE --wallet $LINERA_WALLET service
+linera service
 ```
 
 This will run the node service on port 8080 by default (this can be overridden
@@ -48,9 +48,9 @@ system operations. You can explore the full set of operations by clicking on
 
 ## GraphQL Application API
 
-To interact with an application, we run the Linera client
-in service mode. It exposes a GraphQL API for every
-application running on that chain at `localhost:8080/<application-id>`.
+To interact with an application, we run the Linera client in service mode.
+It exposes a GraphQL API for every application running on any owned chain at
+`localhost:8080/chains/<chain-id>/applications/<application-id>`.
 
-Simple navigating there with your browser will open a GraphiQL interface which
+Navigating there with your browser will open a GraphiQL interface which
 enables you to graphically explore the state of your application.
