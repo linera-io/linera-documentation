@@ -29,7 +29,7 @@ This will start a validator with the default number of shards.
 `run_local.sh` generates your wallet under `target/debug/wallet.json`.
 
 The wallet is only valid for the lifetime of a single network. Every time your local
-network is restarted this will need to be regenerated.
+network is restarted, this will need to be regenerated.
 
 For convenience, let's export the wallet and choose a storage location:
 
@@ -38,7 +38,7 @@ export LINERA_WALLET=$(realpath target/debug/wallet.json)
 export LINERA_STORAGE="rocksdb:$(dirname "$LINERA_WALLET")/linera.db"
 ```
 
-If these environment variables are set, the `linera` client will automatically use
+When these environment variables are set, the `linera` client automatically uses
 the specified wallet and storage files. Alternatively, they can be selected on the
 command line using the `--wallet` and `--storage` options.
 
