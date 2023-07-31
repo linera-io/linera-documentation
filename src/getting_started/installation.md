@@ -4,7 +4,8 @@ We start with the installation of Linera and how to run it from source.
 
 ## OS Support
 
-The Linera client and validators run as a set of native binaries. Below is a matrix of supported operating systems.
+The Linera client and validators run as a set of native binaries. Below is a
+matrix of supported operating systems.
 
 | Linux x86 64-bit | Mac OS (M1 / M2) | Mac OS (x86) | Windows  |
 | ---------------- | ---------------- | ------------ | -------- |
@@ -12,7 +13,8 @@ The Linera client and validators run as a set of native binaries. Below is a mat
 
 ## Prerequisites
 
-To install Linera, you will need to download the source from [GitHub](https://github.com/linera-io/linera-protocol).
+To install Linera, you will need to download the source from
+[GitHub](https://github.com/linera-io/linera-protocol).
 
 To clone the repository, run:
 
@@ -32,10 +34,11 @@ To install Linera from scratch, you will require the following dependencies:
 
 - [Rust + wasm32-unknown-unknown target](https://www.rust-lang.org/tools/install)
 - [protoc](https://grpc.io/docs/protoc-installation/)
-- On Debian/Ubuntu-based Linux distributions you may have to install the packages `g++`,
-  `libclang-dev` and `libssl-dev`.
+- On Debian/Ubuntu-based Linux distributions you may have to install the
+  packages `g++`, `libclang-dev` and `libssl-dev`.
 
-For OS-specific installation instructions see the installation section on [GitHub](https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md).
+For OS-specific installation instructions see the installation section on
+[GitHub](https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md).
 
 ## Installing Linera Locally
 
@@ -51,4 +54,7 @@ This will install three binaries:
 2. `linera-server` - the Linera worker
 3. `linera-proxy` - the Linera proxy which acts as an ingress for validators
 
-If installation fails, reach out to the team (e.g. on [Discord](https://discord.gg/linera)) to help troubleshoot your issue or [create an issue](https://github.com/linera-io/linera-protocol/issues/new) on GitHub.
+If installation fails, reach out to the team (e.g. on
+[Discord](https://discord.gg/linera)) to help troubleshoot your issue or
+[create an issue](https://github.com/linera-io/linera-protocol/issues/new) on
+GitHub.

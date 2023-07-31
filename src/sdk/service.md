@@ -1,17 +1,17 @@
 # Writing the Service Binary
 
-The service binary is the second component of a Linera application. It is compiled into a
-separate Bytecode from the contract and is run independently. It is not metered (meaning
-that querying an application's service does not consume gas), and can be thought of as a
-read-only view into your application.
+The service binary is the second component of a Linera application. It is
+compiled into a separate Bytecode from the contract and is run independently. It
+is not metered (meaning that querying an application's service does not consume
+gas), and can be thought of as a read-only view into your application.
 
-Application states can be arbitrarily complex, and most of the time you don't want to
-expose this state in its entirety to those who would like to interact with your app.
-Instead, you might prefer to define a distinct set of queries that can be made against
-your application.
+Application states can be arbitrarily complex, and most of the time you don't
+want to expose this state in its entirety to those who would like to interact
+with your app. Instead, you might prefer to define a distinct set of queries
+that can be made against your application.
 
-The `Service` trait is how you define the interface into your application.
-The `Service` trait is defined as follows:
+The `Service` trait is how you define the interface into your application. The
+`Service` trait is defined as follows:
 
 ```rust,ignore
 /// The service interface of a Linera application.
@@ -32,15 +32,16 @@ pub trait Service: WithServiceAbi + ServiceAbi {
 }
 ```
 
-The full service trait definition can be found [here](https://github.com/linera-io/linera-protocol/blob/main/linera-sdk/src/lib.rs).
+The full service trait definition can be found
+[here](https://github.com/linera-io/linera-protocol/blob/main/linera-sdk/src/lib.rs).
 
 Let's implement `Service` for our counter application.
 
 First, we want to generate the necessary boilerplate for implementing the
 service WIT interface, export the necessary resource types and functions so that
-the host (the process running the bytecode) can call the service. Happily,
-there is a macro to perform this code generation, so just add the following
-to `service.rs`:
+the host (the process running the bytecode) can call the service. Happily, there
+is a macro to perform this code generation, so just add the following to
+`service.rs`:
 
 ```rust,ignore
 linera_sdk::service!(Counter);
@@ -82,8 +83,8 @@ pub enum Error {
 }
 ```
 
-Finally, as before, the following code is needed to incorporate the ABI definitions into your
-`Service` implementation:
+Finally, as before, the following code is needed to incorporate the ABI
+definitions into your `Service` implementation:
 
 ```rust,ignore
 impl WithServiceAbi for Counter {
@@ -93,8 +94,9 @@ impl WithServiceAbi for Counter {
 
 ## Adding GraphQL compatibility
 
-Finally, we want our application to have GraphQL compatibility. To achieve this we need a `QueryRoot`
-for intercepting queries and a `MutationRoot` for introspection queries for mutations.
+Finally, we want our application to have GraphQL compatibility. To achieve this
+we need a `QueryRoot` for intercepting queries and a `MutationRoot` for
+introspection queries for mutations.
 
 ```rust,ignore
 struct MutationRoot;
@@ -118,8 +120,8 @@ impl QueryRoot {
 }
 ```
 
-We haven't included the imports in the above code; they are left as an exercise to the
-reader (but remember to import `async_graphql::Object`). If you want the full source code
-and associated tests check out the [examples
-section](https://github.com/linera-io/linera-protocol/blob/main/examples/counter/src/service.rs)
+We haven't included the imports in the above code; they are left as an exercise
+to the reader (but remember to import `async_graphql::Object`). If you want the
+full source code and associated tests check out the
+[examples section](https://github.com/linera-io/linera-protocol/blob/main/examples/counter/src/service.rs)
 on GitHub.

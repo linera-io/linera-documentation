@@ -1,9 +1,9 @@
 # The Wallet
 
-The Linera client is the main way to interact with the network and manage
-users' wallets. Like most wallets, a Linera wallet holds user private and
-public keys. Unlike most wallet applications, the Linera client also acts as a
-node, executing blocks for chains owned by a user.
+The Linera client is the main way to interact with the network and manage users'
+wallets. Like most wallets, a Linera wallet holds user private and public keys.
+Unlike most wallet applications, the Linera client also acts as a node,
+executing blocks for chains owned by a user.
 
 The state of the wallet lives in `wallet.json`, while the state of the chains
 running on your local node are stored in `linera.db`.
@@ -42,8 +42,8 @@ with the latest block.
 
 ### Default Chain
 
-Each wallet has a default chain that all commands apply to unless you specify another
-`--chain` on the command line.
+Each wallet has a default chain that all commands apply to unless you specify
+another `--chain` on the command line.
 
 The default chain is set initially, when the first chain is added to the wallet.
 You can check the default chain for your wallet by running:
@@ -79,15 +79,15 @@ the wallet. Use the `wallet show` command to see your existing chains.
 
 #### Open a Chain for Another Wallet
 
-Opening a chain for another `wallet` requires an extra two steps.
-Let's initialize a second wallet:
+Opening a chain for another `wallet` requires an extra two steps. Let's
+initialize a second wallet:
 
 ```bash
 linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --genesis target/debug/genesis.json
 ```
 
-First `wallet2` must create an unassigned keypair. The public part of that keypair
-is then sent to the `wallet` who is the chain creator.
+First `wallet2` must create an unassigned keypair. The public part of that
+keypair is then sent to the `wallet` who is the chain creator.
 
 ```bash
 linera --wallet wallet2.json keygen
@@ -102,11 +102,12 @@ e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a650100000000000000
 fc9384defb0bcd8f6e206ffda32599e24ba715f45ec88d4ac81ec47eb84fa111
 ```
 
-The first line is the message ID specifying the cross-chain message that creates the new
-chain. of the newly created chain. The second line is the new chain's ID.
+The first line is the message ID specifying the cross-chain message that creates
+the new chain. of the newly created chain. The second line is the new chain's
+ID.
 
-Finally, to add the chain to `wallet2` for the given unassigned key we use
-the `assign` command:
+Finally, to add the chain to `wallet2` for the given unassigned key we use the
+`assign` command:
 
 ```bash
  linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --message-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
