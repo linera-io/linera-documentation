@@ -1,4 +1,4 @@
-# Appendix A: Glossary
+# Glossary
 
 - **Address**: A unique public alphanumeric identifier used to designate the
   identity of an entity on the Linera network.

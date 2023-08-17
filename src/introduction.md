@@ -17,6 +17,7 @@ applications on your machine in a local instance of the Linera protocol.
 We encourage you to join our community and get involved in the development of
 the Linera ecosystem. You can find more information on our
 [website](https://linera.io) and on social media channels, including
+[youtube](https://www.youtube.com/@linera_io),
 [twitter](https://twitter.com/linera_io),
 [telegram](https://t.me/linera_official), and
 [discord](https://discord.gg/linera).

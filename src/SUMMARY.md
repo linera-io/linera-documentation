@@ -2,7 +2,7 @@
 
 - [Introduction](introduction.md)
 - [Overview](overview.md)
-- [Getting started](getting_started.md)
+- [Getting Started](getting_started.md)
   - [Installation](getting_started/installation.md)
   - [Hello, Linera](getting_started/hello_linera.md)
 - [Core Concepts](core_concepts.md)
@@ -26,15 +26,12 @@
   - [Validators](advanced_topics/validators.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
 - [Appendix](appendix/glossary.md)
-  - [Appendix A - Glossary](appendix/glossary.md)
+  - [Glossary](appendix/glossary.md)
+  - [Videos](videos.md)
 
 <!-- prettier-ignore-start -->
 <!--
   - [Adding Re-Entrancy](advanced_topics/reentrancy.md)
   - [Execution Model](advanced_topics/execution_model.md)
-
-- [Examples](./examples.md)
-  - [Hello World](./examples/hello_world.md)
-- [Glossary](./glossary.md)
 -->
 <!-- prettier-ignore-end -->
