@@ -14,35 +14,30 @@ consists of a numbers of [validators](../advanced_topics/validators.md), each of
 which consist of an ingress proxy (aka a "load balancer") and a number of
 workers (aka "physical shards").
 
-To start a local network, navigate to the root of the `linera-protocol`
-repository and run the following command:
+To start a local network, run the following command:
 
 ```bash
-./scripts/run_local.sh
+linera net up
 ```
 
 This will start a validator with the default number of shards.
 
-> The ports used by the local network are in the range P > 9000, but can be
-> configured in the `configuration/` directory.
-
 ## Storing the Wallet
 
-`run_local.sh` generates your wallet under `target/debug/wallet.json`.
+`linera net up` creates a temporary directory for storing all the network state.
+The command also prints two statements which can be used to configure your
+terminal with a new wallet for this local network:
 
-The wallet is only valid for the lifetime of a single network. Every time your
-local network is restarted, this will need to be regenerated.
+```
+Linera net directory available at: /var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI
+To configure your Linera client for this network, run:
 
-For convenience, let's export the wallet and choose a storage location:
-
-```bash
-export LINERA_WALLET=$(realpath target/debug/wallet.json)
-export LINERA_STORAGE="rocksdb:$(dirname "$LINERA_WALLET")/linera.db"
+export LINERA_WALLET="/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/wallet_0.json"
+export LINERA_STORAGE="rocksdb:/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/linera.db"
 ```
 
-When these environment variables are set, the `linera` client automatically uses
-the specified wallet and storage files. Alternatively, they can be selected on
-the command line using the `--wallet` and `--storage` options.
+The wallet is only valid for the lifetime of a single network. Every time your
+local network is restarted, the wallet needs to be reconfigured.
 
 ## Interacting with the Network
 
