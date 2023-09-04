@@ -20,15 +20,15 @@ To start a local network, run the following command:
 linera net up
 ```
 
-This will start a validator with the default number of shards.
+This will start a validator with the default number of shards and create a
+temporary directory storing the entire network state.
 
 ## Storing the Wallet
 
-`linera net up` creates a temporary directory for storing all the network state.
-The command also prints two statements which can be used to configure your
-terminal with a new wallet for this local network:
+The `linera net up` command also prints two statements which can be used to
+configure your terminal with a new wallet for this local network:
 
-```
+```bash
 Linera net directory available at: /var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI
 To configure your Linera client for this network, run:
 
