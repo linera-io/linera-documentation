@@ -86,15 +86,18 @@ which can be scaled independently of the rest of the validator
 ## Configuring Networks, Workers, and Proxies
 
 In [a previous section](../getting_started/hello_linera.md), we used the
-`run_local.sh` script to start a local network. This should be sufficient for
+`linera net up` command to start a local network. This should be sufficient for
 most use cases when you're running a local network.
 
 ```bash
-./scripts/run_local.sh
+linera net up
 ```
 
 However, it is possible to customize and configure the parameters of the
 network.
+
+To do this, you need the `linera-protocol` repository and the
+`./scripts/run_local.sh` script.
 
 `run_local.sh` uses the `validator_n.toml` file from the `configuration/`
 directory to configure validator number `n`.
