@@ -111,12 +111,13 @@ to `server_1.json`, ..., `server_4.json`. It also stores the set of the new
 validators' public keys in `committee.json`.
 
 ```bash
-linera --wallet wallet.json create-genesis-config 10 --genesis genesis.json --initial-funding 10 --committee committee.json
+linera --wallet wallet.json --storage rocksdb:linera.db create-genesis-config 10 --genesis genesis.json --initial-funding 10 --committee committee.json
 ```
 
 creates a configuration for the initial state of the network, `genesis.json`,
 with 10 chains, each with a balance of 10. It also creates a `wallet.json` for a
-client who owns all those chains.
+client who owns all those chains and initializes the corresponding local node
+`linera.db`.
 
 To start the newly configured network, each validator `n` must start their
 proxy:
