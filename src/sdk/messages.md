@@ -15,7 +15,7 @@ the
 `messages`:
 
 ```rust,ignore
-    pub messages: Vec<(Destination, bool, Message)>,
+    pub messages: Vec<OutgoingMessage<Message>>,
 ```
 
 The first field specifies either a single destination chain, or a channel, so
