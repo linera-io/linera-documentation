@@ -23,6 +23,7 @@
   - [Writing Tests](sdk/testing.md)
 - [Advanced Topics](advanced_topics.md)
   - [Views](advanced_topics/views.md)
+  - [Persistent Storage](advanced_topics/persistent_storage.md)
   - [Validators](advanced_topics/validators.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
 - [Appendix](appendix/glossary.md)
