@@ -7,7 +7,7 @@
   - [Hello, Linera](getting_started/hello_linera.md)
 - [Core Concepts](core_concepts.md)
   - [Microchains](core_concepts/microchains.md)
-  - [The Wallet](core_concepts/wallet.md)
+  - [Wallets](core_concepts/wallets.md)
   - [Node Service](core_concepts/node_service.md)
   - [Applications](core_concepts/applications.md)
 - [Writing Linera Applications](sdk.md)

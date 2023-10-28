@@ -56,8 +56,8 @@ The second command will install four binaries:
 
 1. `linera` - the Linera client
 2. `linera-server` - the Linera worker
-3. `linera-proxy` - the Linera proxy which acts as an ingress for validators
-4. `linera-db` - the command line tool for operating on persistent storage
+3. `linera-proxy` - the Linera proxy, which acts as an ingress for validators
+4. `linera-db` - a command line tool for operating on persistent storage
 
 If installation fails, reach out to the team (e.g. on
 [Discord](https://discord.gg/linera)) to help troubleshoot your issue or
