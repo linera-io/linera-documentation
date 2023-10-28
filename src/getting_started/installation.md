@@ -1,19 +1,19 @@
 # Installation
 
-We start with the installation of the Linera development tools.
+Let's start with the installation of the Linera development tools.
 
 ## Overview
 
 The Linera toolchain consist of two crates:
 
-- `linera-sdk` is the main library to program Wasm applications in Rust. It also
+- `linera-sdk` is the main library to program Linera applications in Rust. It also
   includes the Wasm test runner binary `linera-wasm-test-runner`.
 
 - `linera-service` defines four binaries:
 
   - `linera` -- the main client tool, to operate user wallets,
   - `linera-proxy` -- the Linera proxy, which acts as an ingress for validators,
-  - `linera-server` -- for the Linera workers behind the proxy,
+  - `linera-server` -- the Linera workers behind the proxy,
   - `linera-db` -- a command line tool to manage persistent storage.
 
 ## OS Support
@@ -79,7 +79,7 @@ cargo install --path linera-sdk
 cargo install --path linera-service
 ```
 
-Alternatively, for developping and debugging, you may instead use the binaries
+Alternatively, for developing and debugging, you may instead use the binaries
 compiled in debug mode, e.g. using `export PATH="$PWD/target/debug:$PATH"`.
 
 <!--
