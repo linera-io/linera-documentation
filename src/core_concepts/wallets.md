@@ -1,20 +1,38 @@
-# The Wallet
+# Wallets
 
-The Linera client is the main way to interact with the network and manage users'
-wallets. Like most wallets, a Linera wallet holds user private and public keys.
-Unlike most wallet applications, the Linera client also acts as a node,
-executing blocks for chains owned by a user.
+The command-line tool `linera` is the main way to interact with a Linera network
+and manage the user wallets present locally on the system.
 
-The state of the wallet lives in `wallet.json`, while the state of the chains
-running on your local node are stored in `linera.db`.
+As in traditional blockchains, Linera wallets are in charge of holding user
+private keys. However, instead of signing transactions, Linera wallets are meant
+to sign blocks and propose them to extend the chains owned by their users.
+
+In practice, wallets include a node which tracks a subset of Linera chains. We
+will see in the [next section](node_service.md) how a Linera wallet can run a
+GraphQL service to expose the state of its chains to web frontends.
+
+## Selecting a Wallet
+
+The private state of a wallet is conventionally stored in a file `wallet.json`,
+while the state of its the corresponding node are stored in a file `linera.db`.
+
+To switch between wallets, you may use the `--wallet` and `--storage` options of
+the `linera` tool, e.g. as in
+`linera --wallet wallet2.json --storage rocksdb:linera2.db`.
+
+You may also define the environment variables `LINERA_STORAGE` and
+`LINERA_WALLET` to the same effect. E.g. `LINERA_STORAGE=$PWD/wallet2.json` and
+`LINERA_WALLET=$PWD/wallet2.json`.
+
+Finally, if `LINERA_STORAGE_$I` and `LINERA_WALLET_$I` are defined for some
+number `I`, you may call `linera --with-wallet $I` (or `linera -w $I` for
+short).
 
 ## Chain Management
 
-User chains are managed explicitly via the client.
-
 ### Listing Chains
 
-To see the chains owned by your wallet, you can use the `show` command:
+To list the chains present in your wallet, you may use the command `show`:
 
 ```bash
 linera wallet show
@@ -36,7 +54,7 @@ linera wallet show
 
 ```
 
-Each row represents a chain owned by the wallet. On the left is the unique
+Each row represents a chain present in the wallet. On the left is the unique
 identifier on the chain, and on the right is metadata for that chain associated
 with the latest block.
 
@@ -63,7 +81,7 @@ linera wallet set-default <chain-id>
 ### Opening a Chain
 
 The Linera protocol defines semantics for how new chains are created, we call
-this 'opening a chain'. A chain cannot be opened in a vacuum, it needs to be
+this "opening a chain". A chain cannot be opened in a vacuum, it needs to be
 created by an existing chain on the network.
 
 #### Open a Chain for Your Own Wallet
@@ -112,3 +130,30 @@ Finally, to add the chain to `wallet2` for the given unassigned key we use the
 ```bash
  linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --message-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 ```
+
+## Setting up Extra Wallets Automatically with `linera net up`
+
+For testing, rather than using `linera open-chain` and `linera assign` as above,
+it is often more convenient to pass the option `--extra-wallets N` to
+`linera net up`.
+
+This option will create create `N` additional user wallets and output Bash
+commands to define the environment variables `LINERA_{WALLET,STORAGE}_$I` where
+`I` ranges over `0..=N` (`I=0` being the wallet for the initial chains).
+
+Once all the environment variables are defined, you may switch between wallets
+using `linera --with-wallet I` or `linera -w I` for short.
+
+## Automation in Bash
+
+To automate the process of setting the variables `LINERA_WALLET*` and
+`LINERA_STORAGE*` after creating a local test network in a shell, we provide a
+Bash helper function `linera_spawn_and_read_wallet_variables`.
+
+To define the function `linera_spawn_and_read_wallet_variables` in your shell,
+run `source /dev/stdin <<<"$(linera net helper 2>/dev/null)"`. You may also add
+the output of `linera net helper` to your `~/.bash_profile` for future sessions.
+
+Once the function is defined, call
+`linera_spawn_and_read_wallet_variables linera net up` instead of
+`linera net up`.

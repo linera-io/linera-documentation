@@ -7,7 +7,7 @@ By the end of this section, you'll have a
 [microchain](../core_concepts/microchains.md) running locally and a working
 application that can be queried using GraphQL.
 
-## Starting the Local Network
+## Starting a Local Test Network
 
 The first step is to start your local development network. A development network
 consists of a numbers of [validators](../advanced_topics/validators.md), each of
@@ -23,21 +23,26 @@ linera net up
 This will start a validator with the default number of shards and create a
 temporary directory storing the entire network state.
 
-## Storing the Wallet
+This will set up a number of initial chains and create an initial wallet to
+operate them.
 
-The `linera net up` command also prints two statements which can be used to
-configure your terminal with a new wallet for this local network:
+## Using the Initial Test Wallet
+
+`linera net up` prints Bash statements on its standard output to help you
+configure your terminal to use the initial wallet of the new test network, for
+instance:
 
 ```bash
-Linera net directory available at: /var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI
-To configure your Linera client for this network, run:
-
-export LINERA_WALLET="/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/wallet_0.json"
+export LINERA_WALLET="/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/wallet.json"
 export LINERA_STORAGE="rocksdb:/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/linera.db"
 ```
 
-The wallet is only valid for the lifetime of a single network. Every time your
+This wallet is only valid for the lifetime of a single network. Every time a
 local network is restarted, the wallet needs to be reconfigured.
+
+> In the following examples, we assume that the variables `LINERA_WALLET` and
+> `LINERA_STORAGE` are both set and point to the initial wallet of the running
+> local network.
 
 ## Interacting with the Network
 
@@ -65,9 +70,10 @@ Let's build the `counter` application from the `examples/` subdirectory:
 cd examples/counter && cargo build --release
 ```
 
-> Note: This will automatically build Wasm, not native code.
+> Note: This will automatically build Wasm, not native code, thanks to the
+> configuration file `examples/.cargo/config.toml`.
 
-## Creating the Application
+## Publishing your Application
 
 You can publish the bytecode and create an application using it on your local
 network using the `linera` client's `publish-and-create` command and provide:

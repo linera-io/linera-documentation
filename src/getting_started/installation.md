@@ -1,6 +1,20 @@
 # Installation
 
-We start with the installation of Linera and how to run it from source.
+Let's start with the installation of the Linera development tools.
+
+## Overview
+
+The Linera toolchain consist of two crates:
+
+- `linera-sdk` is the main library to program Linera applications in Rust. It
+  also includes the Wasm test runner binary `linera-wasm-test-runner`.
+
+- `linera-service` defines four binaries:
+
+  - `linera` -- the main client tool, to operate user wallets,
+  - `linera-proxy` -- the Linera proxy, which acts as an ingress for validators,
+  - `linera-server` -- the Linera workers behind the proxy,
+  - `linera-db` -- a command line tool to manage persistent storage.
 
 ## OS Support
 
@@ -13,51 +27,72 @@ matrix of supported operating systems.
 
 ## Prerequisites
 
-To install Linera, you will need to download the source from
-[GitHub](https://github.com/linera-io/linera-protocol).
+The required software may installed as follows on Linux:
 
-To clone the repository, run:
+- Rust and Wasm
+
+  - `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+  - `rustup target add wasm32-unknown-unknown`
+
+- Protoc
+
+  - `curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v21.11/protoc-21.11-linux-x86_64.zip`
+  - `unzip protoc-21.11-linux-x86_64.zip -d $HOME/.local`
+  - If `~/.local` is not in your path, add it:
+    `export PATH="$PATH:$HOME/.local/bin"`
+
+- On certain Linux distributions, you may have to install development packages
+  such as `g++`, `libclang-dev` and `libssl-dev`.
+
+For MacOS, see the installation section on
+[GitHub](https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md).
+
+## Installing from crates.io
+
+You may install binaries with
+
+```bash
+cargo install linera-sdk
+cargo install linera-service
+```
+
+and use `linera-sdk` as a library for Linera Wasm applications:
+
+```bash
+cargo add linera-sdk
+```
+
+## Installing from GitHub
+
+Download the source from [GitHub](https://github.com/linera-io/linera-protocol):
 
 ```bash
 git clone https://github.com/linera-io/linera-protocol.git
 ```
 
-This manual has been tested against the following commit:
-
-```text
-{{#include ../../.git/modules/linera-protocol/HEAD}}
-```
-
-## Dependencies
-
-To install Linera from scratch, you will require the following dependencies:
-
-- [Rust + wasm32-unknown-unknown target](https://www.rust-lang.org/tools/install)
-- [protoc](https://grpc.io/docs/protoc-installation/)
-- On Debian/Ubuntu-based Linux distributions you may have to install the
-  packages `g++`, `libclang-dev` and `libssl-dev`.
-
-For OS-specific installation instructions see the installation section on
-[GitHub](https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md).
-
-## Installing Linera Locally
-
-To install Linera locally, at the root of the repository run:
+To install the Linera toolchain locally from source, you may run:
 
 ```bash
 cargo install --path linera-sdk
 cargo install --path linera-service
 ```
 
-The first command is used to install the Wasm test runner
-`linera-wasm-test-runner`.
+Alternatively, for developing and debugging, you may instead use the binaries
+compiled in debug mode, e.g. using `export PATH="$PWD/target/debug:$PATH"`.
 
-The second command will install four binaries:
+This manual has been tested against the following commit of the
+[repository](https://github.com/linera-io/linera-protocol):
 
-1. `linera` - the Linera client
-2. `linera-server` - the Linera worker
-3. `linera-proxy` - the Linera proxy which acts as an ingress for validators
-4. `linera-db` - the command line tool for operating on persistent storage
+```text
+{{#include ../../.git/modules/linera-protocol/HEAD}}
+```
+
+## Bash helper (optional)
+
+Consider adding the output of `linera net helper` to your `~/.bash_profile` to
+help with [automation](../core_concepts/wallets.md#automation-in-bash).
+
+## Getting help
 
 If installation fails, reach out to the team (e.g. on
 [Discord](https://discord.gg/linera)) to help troubleshoot your issue or
