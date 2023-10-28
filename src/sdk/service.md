@@ -24,7 +24,7 @@ pub trait Service: WithServiceAbi + ServiceAbi {
     type Storage: ServiceStateStorage;
 
     /// Executes a read-only query on the state of this application.
-    async fn query_application(
+    async fn handle_query(
         self: Arc<Self>,
         context: &QueryContext,
         argument: Self::Query,
@@ -48,8 +48,8 @@ linera_sdk::service!(Counter);
 ```
 
 Next, we need to implement the `Service` for `Counter`. To do this we need to
-define `Service`'s associated types and implement `query_application`, as well
-as define the `Error` type:
+define `Service`'s associated types and implement `handle_query`, as well as
+define the `Error` type:
 
 ```rust,ignore
 #[async_trait]
@@ -57,7 +57,7 @@ impl Service for Counter {
     type Error = Error;
     type Storage = ViewStateStorage<Self>;
 
-    async fn query_application(
+    async fn handle_query(
         self: Arc<Self>,
         _context: &QueryContext,
         request: Request,

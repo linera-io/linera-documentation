@@ -45,10 +45,14 @@ For OS-specific installation instructions see the installation section on
 To install Linera locally, at the root of the repository run:
 
 ```bash
+cargo install --path linera-sdk
 cargo install --path linera-service
 ```
 
-This will install three binaries:
+The first command is used to install the Wasm test runner
+`linera-wasm-test-runner`.
+
+The second command will install four binaries:
 
 1. `linera` - the Linera client
 2. `linera-server` - the Linera worker
