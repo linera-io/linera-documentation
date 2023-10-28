@@ -123,11 +123,10 @@ The main limitations of our current Web3 SDK include:
   meant to be temporary and for testing only: in the future, web UIs will
   securely connect to a Wallet installed as a browser extension, as usual.
 
-- Gas metering is activated in the Wasm VM but the accounting and purchase of
-  fuel is not implemented yet. (As a placeholder, apps are given a fixed amount
-  of fuel for free at every block.) Other aspects of the systems that incur
-  costs to validators (e.g. uploading large bytecode) are also not yet protected
-  by fees and/or hard limits.
+- Gas metering is activated in the Wasm VM but the prices are set to zero by
+  default. Other aspects of the systems that incur costs to validators (e.g.
+  uploading large bytecode) are also not yet protected by fees and/or hard
+  limits.
 
 - Only user chains are currently available for testing and documented in this
   manual. Support for other types of chain (called "public" and "permissioned")
@@ -145,14 +144,14 @@ as follows.
 - [x] Bytecode publishing
 - [x] Application creation
 - [x] Reconfigurations of validators
-- [x] Fixed gas limits for user applications (placeholder)
+- [x] Initial support for gas fees
+- [ ] Initial support for storage fees and storage limits
 - [ ] Support for easy onboarding of user chains into a new application
       (removing the need to accept requests)
 - [ ] Permissioned chains (adding operation access control, demo of atomic
       swaps, etc)
 - [ ] Public chains (adding leader election, inbox constraints, etc)
 - [ ] Improved pub/sub channels (removing the need to accept subscriptions)
-- [ ] Gas fees (including system operations and messaging)
 - [ ] Blob storage for applications (generalizing bytecode storage)
 - [ ] External services to help users create their first chain and migrate their
       chain to new configurations
@@ -183,21 +182,24 @@ as follows.
 - [x] Object management library ("linera-views") on top of Key-Value store
       abstraction
 - [x] Support for Rocksdb
-- [x] Preliminary support for DynamoDb
-- [x] Preliminary derive macros for GraphQL
+- [x] Experimental support for DynamoDb
+- [x] Initial derive macros for GraphQL
+- [x] Initial support for ScyllaDb
 - [ ] Make library fully extensible by users (requires better GraphQL macros)
 - [ ] Performance benchmarks and improvements (including faster state hashing)
-- [ ] Support additional remote databases
+- [ ] Production-grade support for the chosen main database
 - [ ] Support global object locks (needed for dynamic sharding)
 - [ ] Tooling for debugging
 - [ ] Make the storage library easy to use outside of Linera
 
-### Networking
+### Validator Infrastructure
 
 - [x] Simple TCP/UDP networking (used for benchmarks only)
 - [x] GRPC networking
 - [x] Basic frontend (aka proxy) supporting fixed internal shards
-- [ ] Observability
+- [x] Observability
+- [x] Initial kubernetes support in CI
+- [ ] Initial nightly deployment using a cloud provider
 - [ ] New frontend to support dynamic shard assignment
 - [ ] Cloud integration to demonstrate elastic scaling
 
@@ -209,12 +211,13 @@ as follows.
 - [x] Local GraphQL service to query and browse system state
 - [x] Local GraphQL service to query and browse application states
 - [x] Use GraphQL mutations to execute operations and create blocks
-- [x] Support for unit tests (initial)
+- [x] Initial support for unit tests
 - [x] Support for integration tests
-- [x] ABIs for contract and service interfaces (initial)
-- [ ] Support for handling gas fees
+- [x] Initial ABIs for contract and service interfaces
+- [ ] Allowing message sender to pay for message execution fees
 - [ ] Safety programming guidelines (including reentrancy)
 - [ ] Bindings to use native cryptographic primitives from Wasm
-- [ ] Allowing applications to create permissioned chains and public chains
+- [ ] Allowing applications to pay for user fees
+- [ ] Allowing applications to use permissioned chains and public chains
 - [ ] Wallet as a browser extension (no VM)
 - [ ] Wallet as a browser extension (with Wasm VM)
