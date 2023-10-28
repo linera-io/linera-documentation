@@ -7,7 +7,7 @@ By the end of this section, you'll have a
 [microchain](../core_concepts/microchains.md) running locally and a working
 application that can be queried using GraphQL.
 
-## Starting a Local Network
+## Starting a Local Test Network
 
 The first step is to start your local development network. A development network
 consists of a numbers of [validators](../advanced_topics/validators.md), each of
@@ -26,21 +26,23 @@ temporary directory storing the entire network state.
 This will set up a number of initial chains and create an initial wallet to
 operate them.
 
-## Using the Initial Wallet
+## Using the Initial Test Wallet
 
 `linera net up` prints Bash statements on its standard output to help you
-configure your terminal to use the initial wallet of the new network:
+configure your terminal to use the initial wallet of the new test network, for
+instance:
 
 ```bash
-export LINERA_WALLET="/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/wallet_0.json"
+export LINERA_WALLET="/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/wallet.json"
 export LINERA_STORAGE="rocksdb:/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/linera.db"
 ```
 
 This wallet is only valid for the lifetime of a single network. Every time a
 local network is restarted, the wallet needs to be reconfigured.
 
-> In the following examples, we assume that the variables `LINERA_WALLET` and `LINERA_STORAGE` are
-> both set and point to the initial wallet of the running local network.
+> In the following examples, we assume that the variables `LINERA_WALLET` and
+> `LINERA_STORAGE` are both set and point to the initial wallet of the running
+> local network.
 
 ## Interacting with the Network
 
