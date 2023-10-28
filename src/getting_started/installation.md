@@ -6,8 +6,8 @@ Let's start with the installation of the Linera development tools.
 
 The Linera toolchain consist of two crates:
 
-- `linera-sdk` is the main library to program Linera applications in Rust. It also
-  includes the Wasm test runner binary `linera-wasm-test-runner`.
+- `linera-sdk` is the main library to program Linera applications in Rust. It
+  also includes the Wasm test runner binary `linera-wasm-test-runner`.
 
 - `linera-service` defines four binaries:
 
@@ -49,8 +49,6 @@ For MacOS, see the installation section on
 
 ## Installing from crates.io
 
-The current version supported by this manual is `v0.5.0`.
-
 You may install binaries with
 
 ```bash
@@ -82,13 +80,12 @@ cargo install --path linera-service
 Alternatively, for developing and debugging, you may instead use the binaries
 compiled in debug mode, e.g. using `export PATH="$PWD/target/debug:$PATH"`.
 
-<!--
-This manual has been tested against the following commit of the [repository](https://github.com/linera-io/linera-protocol):
+This manual has been tested against the following commit of the
+[repository](https://github.com/linera-io/linera-protocol):
 
 ```text
 {{#include ../../.git/modules/linera-protocol/HEAD}}
 ```
--->
 
 ## Bash helper (optional)
 
