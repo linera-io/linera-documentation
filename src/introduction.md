@@ -1,7 +1,9 @@
-# Introduction
+![The Linera banner](images/Linera-Header_1920x284px.svg)
 
-Welcome to the developer documentation of Linera, **a decentralized protocol
-designed for highly scalable Web3 applications**.
+# The Linera Developer Manual
+
+Welcome to the developer manual of Linera, **a decentralized protocol designed
+for highly scalable Web3 applications**.
 
 Linera is currently under
 [active development](overview.html#what-is-the-current-state-of-the-development-of-linera).

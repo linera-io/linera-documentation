@@ -3,7 +3,7 @@ authors = ["Linera"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Linera Developer Documentation"
+description = "The Linera Developer Manual"
 
 [output.html]
 additional-css = ["custom.css"]

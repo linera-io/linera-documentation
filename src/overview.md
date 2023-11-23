@@ -1,8 +1,7 @@
 # Overview
 
 Linera is a decentralized infrastructure optimized for Web3 applications that
-require processing high volumes of time-sensitive transactions created by many
-users in parallel.
+require guaranteed performance for an unlimited number of active users.
 
 The core idea of the Linera protocol is to run many lightweight blockchains,
 called **microchains**, in parallel in a single set of validators.

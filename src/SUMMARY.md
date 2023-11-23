@@ -1,6 +1,7 @@
 # Summary
 
-- [Introduction](introduction.md)
+[The Linera Developer Manual](introduction.md)
+
 - [Overview](overview.md)
 - [Getting Started](getting_started.md)
   - [Installation](getting_started/installation.md)
