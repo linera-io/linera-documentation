@@ -33,56 +33,61 @@ implementation of the Linera client automatically includes all incoming messages
 in new blocks. The operations are the actions the chain owner explicitly adds,
 e.g. transfer.
 
-## Scalability
+## Architecture of a validator
 
 Since every chain uses the same validators, adding more chains does not require
-adding validators. Instead, it requires each individual validator to scale up
-and handle the additional load.
+adding validators. Instead, it requires each individual validator to scale out
+by adding more computation units, also known as "workers" or "physical shards".
 
-That is why Linera allows the same validator to run multiple `linera-server`
-processes—_workers_—on different machines, each one processing a different
-subset of the microchains. The workers communicate directly with each other
-whenever a chain sends a message to another chain.
+In the end, a Linera validator resembles a Web2 service made of
 
-## Anatomy of a Validator
+- a load balancer (aka ingress/egress), currently implemented by the binary
+  `linera-proxy`,
 
-To achieve scalability, Linera validators need to be horizontally scalable
-(sometimes referred to as "elastic"). To achieve this scalability, the
-architecture of a validator involves splitting the chains up over multiple
-"shards" or "workers" which are encapsulated by a single ingress/egress called
-the "proxy".
+- a number of workers, currently implemented by the binary `linera-server`,
 
-The validator has an internal network enabling the proxy to speak with shards
-and shards with each other. Each shard is also backed by its own data store
-which can be scaled independently of the rest of the validator
+- a shared database, currently implemented by the abstract interface
+  `linera-storage`.
 
 ```ignore
- example network
-                     │                                           │
-                     │                                           │
-                     │                                           │
-┌────────────────────┼────────────────────┐ ┌────────────────────┼────────────────────┐
-│ validator 1        │                    │ │ validator 2        │                    │
-│              ┌─────┴─────┐              │ │              ┌─────┴─────┐              │
-│              │   proxy   │              │ │              │   proxy   │              │
-│        ┌─────┤           ├─────┐        │ │        ┌─────┤           ├─────┐        │
-│        │     └───────────┘     │        │ │        │     └───────────┘     │        │
-│        │                       │        │ │        │                       │        │
-│        │                       │        │ │        │                       │        │
-│  ┌─────┴─────┐           ┌─────┴─────┐  │ │  ┌─────┴─────┐           ┌─────┴─────┐  │
-│  │   shard   │           │   shard   │  │ │  │   shard   │           │   shard   │  │
-│  │     1     │           │     2     │  │ │  │     1     │           │     2     │  │
-│  └─────┬─────┘           └─────┬─────┘  │ │  └─────┬─────┘           └─────┬─────┘  │
-│        │                       │        │ │        │                       │        │
-│  ┌─────┴─────┐           ┌─────┴─────┐  │ │  ┌─────┴─────┐           ┌─────┴─────┐  │
-│  │    db1    │           │    db2    │  │ │  │    db1    │           │    db2    │  │
-│  │           │           │           │  │ │  │           │           │           │  │
-│  └───────────┘           └───────────┘  │ │  └───────────┘           └───────────┘  │
-│                                         │ │                                         │
-└─────────────────────────────────────────┘ └─────────────────────────────────────────┘
+Example of deployment with 2 validators
+
+                    │                                         │
+                    │                                         │
+┌───────────────────┼───────────────────┐ ┌───────────────────┼───────────────────┐
+│ validator 1       │                   │ │ validator 2       │                   │
+│             ┌─────┴─────┐             │ │             ┌─────┴─────┐             │
+│             │   load    │             │ │             │   load    │             │
+│       ┌─────┤  balancer ├────┐        │ │       ┌─────┤  balancer ├──────┐      │
+│       │     └───────────┘    │        │ │       │     └─────┬─────┘      │      │
+│       │                      │        │ │       │           │            │      │
+│       │                      │        │ │       │           │            │      │
+│  ┌────┴─────┐           ┌────┴─────┐  │ │  ┌────┴───┐  ┌────┴────┐  ┌────┴───┐  │
+│  │  worker  ├───────────┤  worker  │  │ │  │ worker ├──┤  worker ├──┤ worker │  │
+│  │    1     │           │    2     │  │ │  │    1   │  │    2    │  │    3   │  │
+│  └────┬─────┘           └────┬─────┘  │ │  └────┬───┘  └────┬────┘  └────┬───┘  │
+│       │                      │        │ │       │           │            │      │
+│       │                      │        │ │       │           │            │      │
+│       │     ┌───────────┐    │        │ │       │     ┌─────┴─────┐      │      │
+│       └─────┤  shared   ├────┘        │ │       └─────┤  shared   ├──────┘      │
+│             │ database  │             │ │             │ database  │             │
+│             └───────────┘             │ │             └───────────┘             │
+└───────────────────────────────────────┘ └───────────────────────────────────────┘
 
 ```
 
+Inside a validator, components communicate using the internal network of the
+validator. Notably, workers use direct Remote Procedure Calls (RPCs) with each
+other to deliver cross-chain messages.
+
+Note that the number of workers may vary for each validator. Both the load
+balancer and the shared database are represented as a single entity but are
+meant to scale out in production.
+
+> For local testing during development, we currently use a single worker and
+> RocksDB as a database.
+
+<!--
 ## Configuring Networks, Workers, and Proxies
 
 In [a previous section](../getting_started/hello_linera.md), we used the
@@ -161,3 +166,5 @@ epochs will change once per day (or less) and that several subsequent epochs
 will overlap so that chain owners have enough time to migrate their chains.
 (Chain migration may also be delegated to third parties. See
 [next section](block_creation.html).)
+
+-->
