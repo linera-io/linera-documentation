@@ -50,7 +50,7 @@ In the end, a Linera validator resembles a Web2 service made of
   `linera-storage`.
 
 ```ignore
-Example of network
+Example of Linera network
 
                     │                                             │
                     │                                             │
