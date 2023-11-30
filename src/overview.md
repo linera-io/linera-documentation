@@ -144,16 +144,15 @@ as follows.
 - [x] Application creation
 - [x] Reconfigurations of validators
 - [x] Initial support for gas fees
-- [ ] Initial support for storage fees and storage limits
-- [ ] Support for easy onboarding of user chains into a new application
-      (removing the need to accept requests)
+- [x] Initial support for storage fees and storage limits
+- [x] External services to help users create their first chain
 - [ ] Permissioned chains (adding operation access control, demo of atomic
       swaps, etc)
 - [ ] Public chains (adding leader election, inbox constraints, etc)
+- [ ] Support for easy onboarding of user chains into a new application
+      (removing the need to accept requests)
 - [ ] Improved pub/sub channels (removing the need to accept subscriptions)
 - [ ] Blob storage for applications (generalizing bytecode storage)
-- [ ] External services to help users create their first chain and migrate their
-      chain to new configurations
 - [ ] Support for archiving chains
 - [ ] Wallet-friendly chain clients (compile to Wasm/JS, do not maintain
       execution states for other chains)
