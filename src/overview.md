@@ -170,7 +170,7 @@ as follows.
 - [x] Support for non-blocking (yet deterministic) calls to storage
 - [x] Support for read-only GraphQL services in Wasm
 - [x] Support for mocked system APIs (initial version)
-- [ ] More efficient cross-application calls and better reentrancy
+- [ ] More efficient cross-application calls
 - [ ] Improve host/guest stub generation to make mocks easier (currently
       wit-bindgen)
 - [ ] Compile user full node to Wasm/JS
@@ -183,7 +183,7 @@ as follows.
 - [x] Experimental support for DynamoDb
 - [x] Initial derive macros for GraphQL
 - [x] Initial support for ScyllaDb
-- [ ] Make library fully extensible by users (requires better GraphQL macros)
+- [x] Make library fully extensible by users (requires better GraphQL macros)
 - [ ] Performance benchmarks and improvements (including faster state hashing)
 - [ ] Production-grade support for the chosen main database
 - [ ] Support global object locks (needed for dynamic sharding)
@@ -194,7 +194,7 @@ as follows.
 
 - [x] Simple TCP/UDP networking (used for benchmarks only)
 - [x] GRPC networking
-- [x] Basic frontend (aka proxy) supporting fixed internal shards
+- [x] Basic frontend (aka. proxy) supporting fixed internal shards
 - [x] Observability
 - [x] Initial kubernetes support in CI
 - [ ] Initial nightly deployment using a cloud provider
@@ -213,7 +213,6 @@ as follows.
 - [x] Support for integration tests
 - [x] Initial ABIs for contract and service interfaces
 - [ ] Allowing message sender to pay for message execution fees
-- [ ] Safety programming guidelines (including reentrancy)
 - [ ] Bindings to use native cryptographic primitives from Wasm
 - [ ] Allowing applications to pay for user fees
 - [ ] Allowing applications to use permissioned chains and public chains
