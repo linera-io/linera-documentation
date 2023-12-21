@@ -15,7 +15,7 @@ several types of chains, depending on how new blocks are produced.
 > For most types of chains (all but _public chains_), Linera validators do not
 > need to exchange messages with each other.
 
-Instead, the wallets (aka `linera` clients) of chain owners make the system
+Instead, the wallets (aka. `linera` clients) of chain owners make the system
 progress by proposing blocks and actively providing any additional required data
 to the validators. For instance, client commands such as `transfer`,
 `publish-bytecode`, or `open-chain` perform multiple steps to append a block

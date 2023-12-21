@@ -194,7 +194,7 @@ as follows.
 
 - [x] Simple TCP/UDP networking (used for benchmarks only)
 - [x] GRPC networking
-- [x] Basic frontend (aka proxy) supporting fixed internal shards
+- [x] Basic frontend (aka. proxy) supporting fixed internal shards
 - [x] Observability
 - [x] Initial kubernetes support in CI
 - [ ] Initial nightly deployment using a cloud provider

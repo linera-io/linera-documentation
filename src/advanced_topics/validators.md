@@ -41,7 +41,7 @@ by adding more computation units, also known as "workers" or "physical shards".
 
 In the end, a Linera validator resembles a Web2 service made of
 
-- a load balancer (aka ingress/egress), currently implemented by the binary
+- a load balancer (aka. ingress/egress), currently implemented by the binary
   `linera-proxy`,
 
 - a number of workers, currently implemented by the binary `linera-server`,

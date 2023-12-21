@@ -119,7 +119,7 @@ application may also allow only the authorized user to change that state, and
 not even the chain owner is able to override that.
 
 The figure below shows four chains (A, B, C, D) and some blocks produced in
-them. In this example, each chain is owned by a single owner (aka address).
+them. In this example, each chain is owned by a single owner (aka. address).
 Owners are in charge of producing blocks and sign new blocks using their signing
 keys. Some blocks show the operations and incoming messages they accept, where
 the authentication is shown inside parenthesis. All operations produced are
