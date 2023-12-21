@@ -16,12 +16,8 @@ used to focus on the application's internals and core functionality. Integration
 tests should be used to test how the application behaves on a more complex
 environment that's closer to the real network.
 
-> To run both unit tests and integration tests, you may execute
-> `linera project test`.
-
-Alternatively, one may run `cargo test` directly and make sure that the
-appropriate target and possibly test runner are selected, as explained in the
-sections below.
+> In most cases, the simplest way to run both unit tests and integration tests
+> is to call `linera project test` from the project's directory.
 
 ## Unit tests
 
