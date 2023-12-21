@@ -166,7 +166,7 @@ machines to run each operation of each block added to each chain.
 > Integration tests can be run with `linera project test` or simply
 > `cargo test`.
 
-If you wish to use `cargo test` and have overriden your default target to be in
+If you wish to use `cargo test` and have overridden your default target to be in
 `wasm32-unknown-unknown` in `.cargo/config.toml`, you will have to pass a native
 target to `cargo`, for instance `cargo test --target aarch64-apple-darwin`.
 
