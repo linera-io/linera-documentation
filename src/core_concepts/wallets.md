@@ -14,7 +14,7 @@ GraphQL service to expose the state of its chains to web frontends.
 ## Selecting a Wallet
 
 The private state of a wallet is conventionally stored in a file `wallet.json`,
-while the state of its the corresponding node are stored in a file `linera.db`.
+while the state of its node is stored in a file `linera.db`.
 
 To switch between wallets, you may use the `--wallet` and `--storage` options of
 the `linera` tool, e.g. as in
