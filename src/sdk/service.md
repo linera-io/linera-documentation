@@ -38,7 +38,7 @@ The full service trait definition can be found
 Let's implement `Service` for our counter application.
 
 First, we want to generate the necessary boilerplate for implementing the
-service WIT interface, export the necessary resource types and functions so that
+service [WIT interface](https://component-model.bytecodealliance.org/design/wit.html), export the necessary resource types and functions so that
 the host (the process running the bytecode) can call the service. Happily, there
 is a macro to perform this code generation, so just add the following to
 `service.rs`:

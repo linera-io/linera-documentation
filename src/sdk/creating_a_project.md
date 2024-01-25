@@ -1,7 +1,7 @@
 # Creating a Linera Project
 
-To create your Linera project, use the `linera project new` command. It sets up
-the scaffolding and requisite files:
+To create your Linera project, use the `linera project new` command. The command should be executed outside the `linera-project` folder.
+It sets up the scaffolding and requisite files:
 
 ```bash
 linera project new my-counter

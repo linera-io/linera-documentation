@@ -32,7 +32,7 @@ pub struct Counter {
 }
 ```
 
-and all other occurences of `Application` in your app.
+and all other occurrences of `Application` in your app.
 
 The `RegisterView<T>` supports modifying a single value of type `T`. There are
 different types of views for different use-cases, but the majority of common
@@ -40,7 +40,7 @@ data structures have already been implemented:
 
 - A `Vec` or `VecDeque` corresponds to a `LogView`
 - A `BTreeMap` corresponds to a `MapView` if its values are primitive, or to
-  `CollectionView` if its values are other vuews;
+  `CollectionView` if its values are other views;
 - A `Queue` corresponds to a `QueueView`
 
 For an exhaustive list refer to the Views
