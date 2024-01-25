@@ -24,9 +24,9 @@
 - **Bytecode**: A collection of bytes corresponding to a program that can be run
   by the Wasm virtual machine.
 
-- **Client**: A 'partial node' operated by users which interfaces with the
-  network. In Linera, clients drive the network by proposing new blocks and
-  validators are mostly reactive.
+- **Client**: The `linera` program, which is a local node and wallet operated by
+  users to make requests to the network. In Linera, clients drive the network by
+  proposing new blocks and validators are mostly reactive.
 
 - **Certificate**: A value with signatures from a quorum of validators. Values
   can be confirmed blocks, meaning that the block has been added to the chain
