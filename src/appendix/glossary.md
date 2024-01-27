@@ -24,9 +24,9 @@
 - **Bytecode**: A collection of bytes corresponding to a program that can be run
   by the Wasm virtual machine.
 
-- **Client**: A 'partial node' operated by users which interfaces with the
-  network. In Linera, clients drive the network by proposing new blocks and
-  validators are mostly reactive.
+- **Client**: The `linera` program, which is a local node and wallet operated by
+  users to make requests to the network. In Linera, clients drive the network by
+  proposing new blocks and validators are mostly reactive.
 
 - **Certificate**: A value with signatures from a quorum of validators. Values
   can be confirmed blocks, meaning that the block has been added to the chain
@@ -58,7 +58,7 @@
   particular voting weights can certify new blocks. Since each chain has to
   transition explicitly from one epoch to the next, epochs can overlap.
 
-- **Genesis configuration**: The configuration determining the state of a newly
+- **Genesis Configuration**: The configuration determining the state of a newly
   created network; the voting weights of the initial set of validators, the
   initial fee structure, and initial chains that the network starts with.
 
@@ -112,15 +112,15 @@
 
 - **View**: Views are like an Object-Relational Mapping (ORM) for mapping
   complex types onto key-value stores. Views group complex state changes into a
-  set of elementary operations and commit them atomically. The are full or
+  set of elementary operations and commit them atomically. They are full or
   partial in-memory representations of complex types saved on disk in a
   key-value store
 
 - **Wallet**: A file containing a user's public and private keys along with
   configuration and information regarding the chains they own.
 
-- **Web Assembly (Wasm)**: A binary compilation target and instruction format
-  that runs on a stack based VM. Linera applications are compiled to Wasm and
+- **WebAssembly (Wasm)**: A binary compilation target and instruction format
+  that runs on a stack-based VM. Linera applications are compiled to Wasm and
   run on Wasm VMs inside validators and clients.
 
 - **Web3**: A natural evolution of the internet focusing on decentralization by
