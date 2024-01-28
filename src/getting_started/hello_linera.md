@@ -50,7 +50,7 @@ The main way of interacting with the network and deploying applications is using
 the `linera` client.
 
 To check that the network is working, you can synchronize the balance for your
-[default chain](../core_concepts/wallet.md) with the rest of the network.
+[default chain](../core_concepts/wallets.md) with the rest of the network.
 
 ```bash
 linera sync-balance
