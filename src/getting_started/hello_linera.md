@@ -105,8 +105,8 @@ linera service
 
 Navigate to `http://localhost:8080` in your browser to access the GraphiQL, the
 [GraphQL](https://graphql.org) IDE. We'll look at this in more detail in a
-[later section](../core_concepts/wallet.md#graphql); for now, list the
-applications deployed on your default chain e476… by running:
+[later section](../core_concepts/node_service.md#graphiql-ide); for now, list
+the applications deployed on your default chain e476… by running:
 
 ```gql
 query {
