@@ -18,10 +18,6 @@ jobs:
         with:
           mdbook-version: 'latest'
 
-      - name: Install linkcheck
-        run: |
-          cargo install mdbook-linkcheck
-
       - run: mdbook build
 
       - name: Deploy
