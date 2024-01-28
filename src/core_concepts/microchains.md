@@ -74,4 +74,4 @@ can be transferred to another user by changing the owner id. A chain is
 permanently deactivated when its owner id is set to `None`.
 
 For more detail and examples on how to open and close chains, see the wallet
-section on [chain management](wallet.md#opening-a-chain).
+section on [chain management](wallets.md#opening-a-chain).

@@ -36,6 +36,12 @@ jobs:
           cd linera-protocol
           cargo build --locked -p linera-sdk --features test,wasmer
 
+      - name: Install linkcheck
+        run: |
+          cargo install mdbook-linkcheck
+
+      - run: mdbook build
+
       - name: 'Check documentation'
         run: mdbook test -L linera-protocol/target/debug/deps/
 
