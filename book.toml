@@ -12,6 +12,8 @@ additional-js = ["custom.js"]
 [output.html.playground]
 runnable = false
 
+[output.linkcheck]
+
 [build]
 build-dir = "book"
 create-missing = false
