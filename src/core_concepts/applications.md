@@ -7,6 +7,12 @@ Linera uses the WebAssembly Virtual Machine (Wasm) to execute user applications.
 Currently, the [Linera SDK](../sdk.md) is focused on the
 [Rust](https://www.rust-lang.org/) programming language.
 
+Linera applications are structured using the familiar notion of **Rust crate**:
+the external interfaces of an application (including initialization parameters,
+operations, messages, and cross-application calls) generally go into the library
+part of its crate, while the core of each application is compiled into binary
+files for the Wasm architecture.
+
 ## The Application Deployment Lifecycle
 
 Linera Applications are designed to be powerful yet re-usable. For this reason
