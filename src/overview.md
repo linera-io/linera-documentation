@@ -30,18 +30,30 @@ To ensure coordination across chains, an application may rely on asynchronous
 **cross-chain messages**. Message payloads are application-specific and opaque
 to the rest of the system.
 
+```ignore
+                               ┌───┐     ┌───┐     ┌───┐
+                       Chain A │   ├────►│   ├────►│   │
+                               └───┘     └───┘     └───┘
+                                                     ▲
+                                           ┌─────────┘
+                                           │
+                               ┌───┐     ┌─┴─┐     ┌───┐
+                       Chain B │   ├────►│   ├────►│   │
+                               └───┘     └─┬─┘     └───┘
+                                           │         ▲
+                                           │         │
+                                           ▼         │
+                               ┌───┐     ┌───┐     ┌─┴─┐
+                       Chain C │   ├────►│   ├────►│   │
+                               └───┘     └───┘     └───┘
+```
+
 The number of applications present on a single chain is not limited. On the same
 chain, applications are **composed** as usual using synchronous calls.
 
 The current Linera SDK uses **Rust** as a source language to create Wasm
 applications. It relies on the normal Rust toolchains so that Rust programmers
 can work in their preferred environments.
-
-Linera applications are structured using the familiar notion of **Rust crate**:
-the external interfaces of an application (including initialization parameters,
-operations, messages, and cross-application calls) generally go into the library
-part of its crate, while the core of each application is compiled into binary
-files for the Wasm architecture.
 
 ## How does Linera compare to existing multi-chain infrastructure?
 
