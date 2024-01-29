@@ -50,5 +50,5 @@ linera publish-and-create \
 
 ## Interacting with the Application
 
-To interact with the deployed, a
+To interact with the deployed application, a
 [node service](../core_concepts/node_service.html) must be used.
