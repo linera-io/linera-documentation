@@ -29,7 +29,7 @@ To configure the wallet for the devnet while creating a new microchain, the
 following command can be used:
 
 ```bash
-linera wallet init --faucet https://faucet.devnet.linera.net --with-new-chain
+linera wallet init --with-new-chain --faucet https://faucet.devnet.linera.net
 ```
 
 The Faucet will provide the new chain with some tokens, which can then be used
