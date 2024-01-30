@@ -8,9 +8,9 @@ called **microchains**, in parallel in a single set of validators.
 
 ## How does it work?
 
-In Linera, end users (or rather their wallets) are expected to operate their own
-microchains, called **user chains**. The owner of a chain chooses when to add
-new blocks to the chain and what goes inside the blocks.
+In Linera, user wallets are expected to operate their own microchains. The owner
+of a chain chooses when to add new blocks to the chain and what goes inside the
+blocks. Such chains with a single user are called **user chains**.
 
 Users may add new blocks to their chains in order to process **incoming
 messages** from other chains or to execute secure **operations** on their
@@ -80,12 +80,11 @@ In contrast, Linera is optimized for a large number of user chains:
 - Validators are internally sharded (like a regular web service) and may adjust
   their capacity elastically by adding or removing internal workers.
 
-The specifications of the Linera protocol (see the
-[whitepaper](https://linera.io/whitepaper)) also include other types of
-microchains, called "permissioned" and "public". Public chains are operated by
-validators and similar to classical blockchains in this regard. Permissioned
-chains are meant to be used for temporary interactions between users, such as
-atomic swaps.
+> Besides user chains, the [Linera protocol](https://linera.io/whitepaper) is
+> designed to support other types of microchains, called "permissioned" and
+> "public" chains. Public chains are operated by validators. In this regard,
+> they are similar to classical blockchains. Permissioned chains are meant to be
+> used for temporary interactions between users, such as atomic swaps.
 
 ## Why build on top of Linera?
 
@@ -134,11 +133,6 @@ The main limitations of our current Web3 SDK include:
   meant to be temporary and for testing only: in the future, web UIs will
   securely connect to a Wallet installed as a browser extension, as usual.
 
-- Gas metering is activated in the Wasm VM but the prices are set to zero by
-  default. Other aspects of the systems that incur costs to validators (e.g.
-  uploading large bytecode) are also not yet protected by fees and/or hard
-  limits.
-
 - Only user chains are currently available for testing and documented in this
   manual. Support for other types of chain (called "public" and "permissioned")
   will be added later.
@@ -182,7 +176,7 @@ as follows.
 - [x] Support for non-blocking (yet deterministic) calls to storage
 - [x] Support for read-only GraphQL services in Wasm
 - [x] Support for mocked system APIs (initial version)
-- [ ] More efficient cross-application calls
+- [x] More efficient cross-application calls
 - [ ] Improve host/guest stub generation to make mocks easier (currently
       wit-bindgen)
 - [ ] Compile user full node to Wasm/JS
@@ -209,7 +203,7 @@ as follows.
 - [x] Basic frontend (aka. proxy) supporting fixed internal shards
 - [x] Observability
 - [x] Initial kubernetes support in CI
-- [ ] Initial nightly deployment using a cloud provider
+- [x] Initial deployment using a cloud provider
 - [ ] New frontend to support dynamic shard assignment
 - [ ] Cloud integration to demonstrate elastic scaling
 
