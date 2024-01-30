@@ -20,21 +20,21 @@ pub trait Contract: WithContractAbi + ContractAbi + Send + Sized {
         &mut self,
         context: &OperationContext,
         argument: Self::InitializationArgument,
-    ) -> Result<ExecutionResult<Self::Message>, Self::Error>;
+    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error>;
 
     /// Applies an operation from the current block.
     async fn execute_operation(
         &mut self,
         context: &OperationContext,
         operation: Self::Operation,
-    ) -> Result<ExecutionResult<Self::Message>, Self::Error>;
+    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error>;
 
     /// Applies a message originating from a cross-chain message.
     async fn execute_message(
         &mut self,
         context: &MessageContext,
         message: Self::Message,
-    ) -> Result<ExecutionResult<Self::Message>, Self::Error>;
+    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error>;
 
     /// Handles a call from another application.
     async fn handle_application_call(
@@ -86,9 +86,9 @@ using its initialization parameters:
         &mut self,
         _context: &OperationContext,
         value: u64,
-    ) -> Result<ExecutionResult<Self::Message>, Self::Error> {
+    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error> {
         self.value.set(value);
-        Ok(ExecutionResult::default())
+        Ok(ExecutionOutcome::default())
     }
 ```
 
@@ -107,10 +107,10 @@ To create a new operation, we need to use the method
         &mut self,
         _context: &OperationContext,
         operation: u64,
-    ) -> Result<ExecutionResult<Self::Message>, Self::Error> {
+    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error> {
         let current = self.value.get();
         self.value.set(current + operation);
-        Ok(ExecutionResult::default())
+        Ok(ExecutionOutcome::default())
     }
 ```
 
