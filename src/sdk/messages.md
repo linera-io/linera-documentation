@@ -18,15 +18,15 @@ the
     pub messages: Vec<OutgoingMessage<Message>>,
 ```
 
-The first field specifies either a single destination chain, or a channel, so
-that it gets sent to all subscribers.
+`OutgoingMessage`'s `destination` field specifies either a single destination
+chain, or a channel, so that it gets sent to all subscribers.
 
-If the second field is `true`, the callee is allowed to perform actions that
-require authentication on behalf of the signer of the original block that caused
-this call.
+If the `authenticated` field is `true`, the callee is allowed to perform actions
+that require authentication on behalf of the signer of the original block that
+caused this call.
 
-The third field is the message itself, of the type you specified in the
-`ContractAbi`.
+The `message` field contains the message itself, of the type you specified in
+the `ContractAbi`.
 
 You can also use
 [`ExecutionResult::with_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html#method.with_message)
