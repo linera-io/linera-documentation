@@ -18,7 +18,7 @@ available to create new microchains and obtain some test tokens. To do so, this
 must be configured when initializing the wallet:
 
 ```bash
-linera wallet init --faucet http://faucet.devnet.linera.net --with-new-chain
+linera wallet init --faucet https://faucet.devnet.linera.net --with-new-chain
 ```
 
 This creates a new microchain on Devnet with some initial test tokens, and the
