@@ -1,18 +1,35 @@
 # Hello, Linera
 
-This section is about running a local development network, then compiling and
-deploying your first application from scratch.
+This section is about interacting with the Devnet, running a local development
+network, then compiling and deploying your first application from scratch.
 
 By the end of this section, you'll have a
-[microchain](../core_concepts/microchains.md) running locally and a working
-application that can be queried using GraphQL.
+[microchain](../core_concepts/microchains.md) on Devnet and on your local
+network and a working application that can be queried using GraphQL.
+
+## Using the Devnet
+
+The Linera Devnet is a deployment of the Linera protocol that's useful for
+developers. It should not be considered stable, and can be restarted from a
+clean slate and new genesis at any time.
+
+To interact with the Devnet, some tokens are needed. A Faucet service is
+available to create new microchains and obtain some test tokens. To do so, this
+must be configured when initializing the wallet:
+
+```bash
+linera wallet init --faucet http://faucet.devnet.linera.net --with-new-chain
+```
+
+This creates a new microchain on Devnet with some initial test tokens, and the
+chain is automatically added to the newly instantiated wallet.
 
 ## Starting a Local Test Network
 
-The first step is to start your local development network. A development network
-consists of a numbers of [validators](../advanced_topics/validators.md), each of
-which consist of an ingress proxy (aka. a "load balancer") and a number of
-workers (aka. "physical shards").
+Another option is to start your own local development network. A development
+network consists of a number of [validators](../advanced_topics/validators.md),
+each of which consist of an ingress proxy (aka. a "load balancer") and a number
+of workers (aka. "physical shards").
 
 To start a local network, run the following command:
 
@@ -26,7 +43,7 @@ temporary directory storing the entire network state.
 This will set up a number of initial chains and create an initial wallet to
 operate them.
 
-## Using the Initial Test Wallet
+### Using the Initial Test Wallet
 
 `linera net up` prints Bash statements on its standard output to help you
 configure your terminal to use the initial wallet of the new test network, for
@@ -40,11 +57,11 @@ export LINERA_STORAGE="rocksdb:/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/
 This wallet is only valid for the lifetime of a single network. Every time a
 local network is restarted, the wallet needs to be reconfigured.
 
-> In the following examples, we assume that the variables `LINERA_WALLET` and
-> `LINERA_STORAGE` are both set and point to the initial wallet of the running
-> local network.
-
 ## Interacting with the Network
+
+> In the following examples, we assume that either the wallet was initialized to
+> interact with the Devnet or the variables `LINERA_WALLET` and `LINERA_STORAGE`
+> are both set and point to the initial wallet of the running local network.
 
 The main way of interacting with the network and deploying applications is using
 the `linera` client.

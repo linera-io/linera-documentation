@@ -11,7 +11,7 @@ may be different.
 For your application, you can specify any serializable type as the `Message`
 type in your `ContractAbi` implementation. To send a message, return it among
 the
-[`ExecutionResult`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html)'s
+[`ExecutionOutcome`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionOutcome.html)'s
 `messages`:
 
 ```rust,ignore
@@ -29,13 +29,13 @@ The `message` field contains the message itself, of the type you specified in
 the `ContractAbi`.
 
 You can also use
-[`ExecutionResult::with_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html#method.with_message)
+[`ExecutionOutcome::with_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionOutcome.html#method.with_message)
 and
-[`with_authenticated_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionResult.html#method.with_authenticated_message)
+[`with_authenticated_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ExecutionOutcome.html#method.with_authenticated_message)
 for convenience.
 
 During block execution in the _sending_ chain, messages are returned via
-`ExecutionResult`s. The returned message is then placed in the _target_ chain
+`ExecutionOutcome`s. The returned message is then placed in the _target_ chain
 inbox for processing. There is no guarantee that it will be handled: For this to
 happen, an owner of the target chain needs to include it in the
 `incoming_messages` in one of their blocks. When that happens, the contract's
@@ -54,7 +54,7 @@ async fn execute_operation(
     &mut self,
     context: &OperationContext,
     operation: Self::Operation,
-) -> Result<ExecutionResult<Self::Message>, Self::Error> {
+) -> Result<ExecutionOutcome<Self::Message>, Self::Error> {
     match operation {
         Operation::Transfer {
             owner,
@@ -67,7 +67,7 @@ async fn execute_operation(
                 owner: target_account.owner,
                 amount,
             };
-            Ok(ExecutionResult::default().with_message(target_account.chain_id, message))
+            Ok(ExecutionOutcome::default().with_message(target_account.chain_id, message))
         }
         // ...
     }
@@ -82,11 +82,11 @@ async fn execute_message(
     &mut self,
     context: &MessageContext,
     message: Message,
-) -> Result<ExecutionResult<Self::Message>, Self::Error> {
+) -> Result<ExecutionOutcome<Self::Message>, Self::Error> {
     match message {
         Message::Credit { owner, amount } => {
             self.credit(owner, amount).await;
-            Ok(ExecutionResult::default())
+            Ok(ExecutionOutcome::default())
         }
         // ...
     }
