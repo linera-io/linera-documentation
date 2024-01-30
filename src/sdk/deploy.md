@@ -33,10 +33,8 @@ linera wallet init --faucet http://faucet.devnet.linera.net --with-new-chain
 ```
 
 The Faucet will provide the new chain with some tokens, which can then be used
-to deploy the application.
-
-The `publish-and-create` command can be used to deploy the application. It
-requires specifying:
+to deploy the application with the `publish-and-create` command. It requires
+specifying:
 
 1. The location of the contract bytecode
 2. The location of the service bytecode

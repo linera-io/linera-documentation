@@ -4,8 +4,8 @@ This section is about interacting with the Devnet, running a local development
 network, then compiling and deploying your first application from scratch.
 
 By the end of this section, you'll have a
-[microchain](../core_concepts/microchains.md) on Devnet and on local network and
-a working application that can be queried using GraphQL.
+[microchain](../core_concepts/microchains.md) on Devnet and on your local
+network and a working application that can be queried using GraphQL.
 
 ## Using the Devnet
 
@@ -27,7 +27,7 @@ chain is automatically added to the newly instantiated wallet.
 ## Starting a Local Test Network
 
 Another option is to start your own local development network. A development
-network consists of a numbers of [validators](../advanced_topics/validators.md),
+network consists of a number of [validators](../advanced_topics/validators.md),
 each of which consist of an ingress proxy (aka. a "load balancer") and a number
 of workers (aka. "physical shards").
 

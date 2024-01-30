@@ -8,9 +8,9 @@ called **microchains**, in parallel in a single set of validators.
 
 ## How does it work?
 
-In Linera, user wallets are expected to operate their own microchains. The owner
-of a chain chooses when to add new blocks to the chain and what goes inside the
-blocks. Such chains with a single user are called **user chains**.
+In Linera, user wallets operate their own microchains. The owner of a chain
+chooses when to add new blocks to the chain and what goes inside the blocks.
+Such chains with a single user are called **user chains**.
 
 Users may add new blocks to their chains in order to process **incoming
 messages** from other chains or to execute secure **operations** on their
