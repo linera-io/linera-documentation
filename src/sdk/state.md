@@ -25,7 +25,7 @@ state struct in `src/state.rs` with the following view:
 
 ```rust,ignore
 /// The application state.
-#[derive(RootView, GraphQLView)]
+#[derive(RootView, async_graphql::SimpleObject)]
 #[view(context = "ViewStorageContext")]
 pub struct Counter {
     pub value: RegisterView<u64>,
