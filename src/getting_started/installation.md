@@ -62,6 +62,15 @@ and use `linera-sdk` as a library for Linera Wasm applications:
 cargo add linera-sdk
 ```
 
+Note that installing binaries from `crates.io` may still require using a Rust
+toolchain consistent with our GitHub
+[repository](https://github.com/linera-io/linera-protocol). This manual is
+tested with the following Rust toolchain:
+
+```text
+{{#include ../../linera-protocol/rust-toolchain.toml}}
+```
+
 ## Installing from GitHub
 
 Download the source from [GitHub](https://github.com/linera-io/linera-protocol):
