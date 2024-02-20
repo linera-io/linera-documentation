@@ -52,14 +52,14 @@ For MacOS, see the installation section on
 You may install binaries with
 
 ```bash
-cargo install linera-sdk@0.8.0
-cargo install linera-service@0.8.0
+cargo install linera-sdk@0.9.0
+cargo install linera-service@0.9.0
 ```
 
 and use `linera-sdk` as a library for Linera Wasm applications:
 
 ```bash
-cargo add linera-sdk@0.8.0
+cargo add linera-sdk@0.9.0
 ```
 
 Note that installing binaries from `crates.io` may still require using a Rust
