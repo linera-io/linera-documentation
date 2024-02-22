@@ -6,6 +6,7 @@ src = "src"
 description = "The Linera Developer Manual"
 
 [output.html]
+default-theme = "Ayu"
 additional-css = ["custom.css"]
 additional-js = ["custom.js"]
 
