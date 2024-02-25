@@ -9,25 +9,25 @@ The Linera toolchain consist of two crates:
 - `linera-sdk` is the main library to program Linera applications in Rust. It
   also includes the Wasm test runner binary `linera-wasm-test-runner`.
 
-- `linera-service` defines four binaries:
+- `linera-service` defines a number of binaries, including:
 
-  - `linera` -- the main client tool, to operate user wallets,
-  - `linera-proxy` -- the Linera proxy, which acts as an ingress for validators,
-  - `linera-server` -- the Linera workers behind the proxy,
-  - `linera-db` -- a command line tool to manage persistent storage.
+  - `linera` -- the main client tool, used to operate development wallets,
+  - `linera-proxy` -- the proxy service, acting as a public entrypoint for each
+    validator,
+  - `linera-server` -- the service run by each worker of a validator, hidden
+    behind the proxy.
 
-## OS Support
+## Requirements
 
-The Linera client and validators run as a set of native binaries. Below is a
-matrix of supported operating systems.
+The operating systems currently supported by the Linera toolchain can be
+summarized as follows:
 
 | Linux x86 64-bit | Mac OS (M1 / M2) | Mac OS (x86) | Windows  |
 | ---------------- | ---------------- | ------------ | -------- |
 | ✓ Main platform  | ✓ Working        | ✓ Working    | Untested |
 
-## Prerequisites
-
-The required software may installed as follows on Linux:
+The main prerequisites to install the Linera toolchain are Rust, Wasm, and
+Protoc. They can be installed as follows on Linux:
 
 - Rust and Wasm
 
@@ -44,32 +44,33 @@ The required software may installed as follows on Linux:
 - On certain Linux distributions, you may have to install development packages
   such as `g++`, `libclang-dev` and `libssl-dev`.
 
-For MacOS, see the installation section on
+For MacOS support and for additional requirements needed to test the Linera
+protocol itself, see the installation section on
 [GitHub](https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md).
+
+This manual was tested with the following Rust toolchain:
+
+```text
+{{#include ../../linera-protocol/rust-toolchain.toml}}
+```
 
 ## Installing from crates.io
 
-You may install binaries with
+You may install the Linera binaries with
 
 ```bash
-cargo install linera-sdk@0.9.0
-cargo install linera-service@0.9.0
+cargo install linera-sdk@{{#include ../../RELEASE_VERSION}}
+cargo install linera-service@{{#include ../../RELEASE_VERSION}}
 ```
 
 and use `linera-sdk` as a library for Linera Wasm applications:
 
 ```bash
-cargo add linera-sdk@0.9.0
+cargo add linera-sdk@{{#include ../../RELEASE_VERSION}}
 ```
 
-Note that installing binaries from `crates.io` may still require using a Rust
-toolchain consistent with our GitHub
-[repository](https://github.com/linera-io/linera-protocol). This manual is
-tested with the following Rust toolchain:
-
-```text
-{{#include ../../linera-protocol/rust-toolchain.toml}}
-```
+The version number `{{#include ../../RELEASE_VERSION}}` corresponds to the
+current Devnet of Linera and may change frequently.
 
 ## Installing from GitHub
 
@@ -77,6 +78,7 @@ Download the source from [GitHub](https://github.com/linera-io/linera-protocol):
 
 ```bash
 git clone https://github.com/linera-io/linera-protocol.git
+git checkout -t origin/{{#include ../../RELEASE_BRANCH}}  # Current release branch
 ```
 
 To install the Linera toolchain locally from source, you may run:
@@ -89,7 +91,7 @@ cargo install --path linera-service
 Alternatively, for developing and debugging, you may instead use the binaries
 compiled in debug mode, e.g. using `export PATH="$PWD/target/debug:$PATH"`.
 
-This manual has been tested against the following commit of the
+This manual was tested against the following commit of the
 [repository](https://github.com/linera-io/linera-protocol):
 
 ```text

@@ -1,8 +1,5 @@
 # Wallets
 
-The command-line tool `linera` is the main way to interact with a Linera network
-and manage the user wallets present locally on the system.
-
 As in traditional blockchains, Linera wallets are in charge of holding user
 private keys. However, instead of signing transactions, Linera wallets are meant
 to sign blocks and propose them to extend the chains owned by their users.
@@ -10,6 +7,13 @@ to sign blocks and propose them to extend the chains owned by their users.
 In practice, wallets include a node which tracks a subset of Linera chains. We
 will see in the [next section](node_service.md) how a Linera wallet can run a
 GraphQL service to expose the state of its chains to web frontends.
+
+> The command-line tool `linera` is the main way for developers to interact with
+> a Linera network and manage the user wallets present locally on the system.
+
+Note that this command-line tool is intended mainly for development purposes.
+Our goal is that end users eventually manage their wallets in a
+[browser extension](overview.html#web3-sdk).
 
 ## Selecting a Wallet
 

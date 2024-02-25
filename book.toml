@@ -13,6 +13,9 @@ additional-js = ["custom.js"]
 [output.html.playground]
 runnable = false
 
+[output.html.redirect]
+"/overview.html" = "/core_concepts/overview.html"
+
 [output.linkcheck]
 
 [build]

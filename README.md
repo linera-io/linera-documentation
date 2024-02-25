@@ -20,12 +20,16 @@ IMPORTANT: The HEAD of linera-protocol should be a commit hash (not a branch nam
 The complete workflow may look like this:
 
 ```bash
-# Set to desired release branch in linera-protocol
-RELEASE_BRANCH=origin/devnet_YYYY_MM_DD
+# Update the files `RELEASE_BRANCH` and `RELEASE_VERSION` to desired release branch and
+# release version of linera-protocol:
+#   echo devnet_YYYY_MM_DD > RELEASE_BRANCH
+#   echo 0.M.N > RELEASE_VERSION
+
+REMOTE_BRANCH="origin/$(cat RELEASE_BRANCH)"
 
 cd linera-protocol
 git fetch origin
-git checkout $(git rev-parse $RELEASE_BRANCH)
+git checkout $(git rev-parse $REMOTE_BRANCH)
 cargo clean
 cargo build -p linera-sdk
 cd ..

@@ -4,8 +4,8 @@ This section is about interacting with the Devnet, running a local development
 network, then compiling and deploying your first application from scratch.
 
 By the end of this section, you'll have a
-[microchain](../core_concepts/microchains.md) on Devnet and on your local
-network and a working application that can be queried using GraphQL.
+[microchain](../core_concepts/microchains.md) on the Devnet and/or on your local
+network, and a working application that can be queried using GraphQL.
 
 ## Using the Devnet
 
@@ -23,6 +23,9 @@ linera wallet init --with-new-chain --faucet https://faucet.devnet.linera.net
 
 This creates a new microchain on Devnet with some initial test tokens, and the
 chain is automatically added to the newly instantiated wallet.
+
+> Make sure to use a Linera toolchain
+> [compatible with the current Devnet](installation.md#installing-from-cratesio).
 
 ## Starting a Local Test Network
 
@@ -66,14 +69,16 @@ local network is restarted, the wallet needs to be reconfigured.
 The main way of interacting with the network and deploying applications is using
 the `linera` client.
 
-To check that the network is working, you can synchronize the balance for your
-[default chain](../core_concepts/wallets.md) with the rest of the network.
+To check that the network is working, you can synchronize your
+[default chain](../core_concepts/wallets.md) with the rest of the network and
+display the chain balance as follows:
 
 ```bash
-linera sync-balance
+linera sync
+linera query-balance
 ```
 
-You should see an output of `10`.
+You should see an output number, e.g. `10`.
 
 ## Building an Example Application
 
