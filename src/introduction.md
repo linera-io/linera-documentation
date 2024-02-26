@@ -12,9 +12,9 @@ Linera Rust SDK.
 > **NEW: Publish and test your Web3 application on the Linera Devnet!**
 >
 > Install
-> [the Linera CLI tool](http://localhost:3000/getting_started/installation.html#installing-from-cratesio)
+> [the Linera CLI tool](getting_started/installation.html#installing-from-cratesio)
 > then follow the instructions on
-> [this page](http://localhost:3000/getting_started/hello_linera.html#using-the-devnet)
+> [this page](getting_started/hello_linera.html#using-the-devnet)
 > to claim a microchain and publish your first application on the current
 > Devnet.
 
