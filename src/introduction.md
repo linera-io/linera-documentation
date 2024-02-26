@@ -2,26 +2,29 @@
 
 # The Linera Developer Manual
 
-Welcome to the developer manual of Linera, **a decentralized protocol designed
-for highly scalable Web3 applications**.
+Welcome to the developer manual of Linera, a decentralized protocol designed for
+**highly scalable, low-latency Web3 applications**.
 
-Linera is currently under
-[active development](overview.html#what-is-the-current-state-of-the-development-of-linera).
 This documentation is intended for developers who wish to learn more about
 Linera and its programming model by prototyping applications on top of the
-current Software Development Kit (SDK).
+Linera Rust SDK.
 
-We assume that you have a basic understanding of blockchain technology,
-decentralized applications, and smart contract development. We will provide
-detailed guides and examples to help you build, test, and deploy your demo
-applications on your machine in a local instance of the Linera protocol.
+> **NEW: Publish and test your Web3 application on the Linera Devnet!**
+>
+> Install
+> [the Linera CLI tool](http://localhost:3000/getting_started/installation.html#installing-from-cratesio)
+> then follow the instructions on
+> [this page](http://localhost:3000/getting_started/hello_linera.html#using-the-devnet)
+> to claim a microchain and publish your first application on the current
+> Devnet.
 
-We encourage you to join our community and get involved in the development of
-the Linera ecosystem. You can find more information on our
-[website](https://linera.io) and on social media channels, including
+To join our community and get involved in the development of the Linera
+ecosystem, check out our
+[GitHub repository](https://github.com/linera-io/linera-protocol), our
+[website](https://linera.io), and find us on social media channels such as
 [youtube](https://www.youtube.com/@linera_io),
 [twitter](https://twitter.com/linera_io),
 [telegram](https://t.me/linera_official), and
 [discord](https://discord.gg/linera).
 
-_Let's get started!_
+Let's get started!
