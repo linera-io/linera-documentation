@@ -14,9 +14,8 @@ Linera Rust SDK.
 > Install
 > [the Linera CLI tool](getting_started/installation.html#installing-from-cratesio)
 > then follow the instructions on
-> [this page](getting_started/hello_linera.html#using-the-devnet)
-> to claim a microchain and publish your first application on the current
-> Devnet.
+> [this page](getting_started/hello_linera.html#using-the-devnet) to claim a
+> microchain and publish your first application on the current Devnet.
 
 To join our community and get involved in the development of the Linera
 ecosystem, check out our
