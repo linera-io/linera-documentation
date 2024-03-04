@@ -41,7 +41,7 @@ To list the chains present in your wallet, you may use the command `show`:
 ```bash
 linera wallet show
 ╭──────────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────╮
-│ Chain Id                                                         ┆ Latest Block                                                                         │
+│ Chain ID                                                         ┆ Latest Block                                                                         │
 ╞══════════════════════════════════════════════════════════════════╪══════════════════════════════════════════════════════════════════════════════════════╡
 │ 668774d6f49d0426f610ad0bfa22d2a06f5f5b7b5c045b84a26286ba6bce93b4 ┆ Public Key:         3812c2bf764e905a3b130a754e7709fe2fc725c0ee346cb15d6d261e4f30b8f1 │
 │                                                                  ┆ Owner:              c9a538585667076981abfe99902bac9f4be93714854281b652d07bb6d444cb76 │
@@ -74,7 +74,7 @@ You can check the default chain for your wallet by running:
 linera wallet show
 ```
 
-The Chain Id which is in green text instead of white text is your default chain.
+The Chain ID which is in green text instead of white text is your default chain.
 
 To change the default chain for your wallet, user the `set-default` command:
 
