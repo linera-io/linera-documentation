@@ -70,8 +70,8 @@ selects as many messages as possible from inboxes, and never discards messages.
 
 Only single-owner chains are currently supported in the Linera SDK. However,
 microchains can create new microchains for other users, and control of a chain
-can be transferred to another user by changing the owner id. A chain is
-permanently deactivated when its owner id is set to `None`.
+can be transferred to another user by changing the owner ID. A chain is
+permanently deactivated when its owner ID is set to `None`.
 
 For more detail and examples on how to open and close chains, see the wallet
 section on [chain management](wallets.md#opening-a-chain).
