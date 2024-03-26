@@ -3,8 +3,8 @@
 The contract binary is the first component of a Linera application. It can
 actually change the state of the application.
 
-To create a contract, we need to implement the `Contract` trait, which is as
-follows:
+To create a contract, we need to create a new type and implement the `Contract`
+trait for it, which is as follows:
 
 ```rust,ignore
 #[async_trait]
@@ -12,47 +12,41 @@ pub trait Contract: WithContractAbi + ContractAbi + Send + Sized {
     /// The type used to report errors to the execution environment.
     type Error: Error + From<serde_json::Error> + From<bcs::Error> + 'static;
 
+    /// The type used to store the persisted application state.
+    type State: Sync;
+
     /// The desired storage backend used to store the application's state.
     type Storage: ContractStateStorage<Self> + Send + 'static;
+
+    /// The type of message executed by the application.
+    type Message: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
+
+    /// Creates a in-memory instance of the contract handler from the application's `state`.
+    async fn new(state: Self::State, runtime: ContractRuntime<Self>) -> Result<Self, Self::Error>;
+
+    /// Returns the current state of the application so that it can be persisted.
+    fn state_mut(&mut self) -> &mut Self::State;
 
     /// Initializes the application on the chain that created it.
     async fn initialize(
         &mut self,
-        context: &OperationContext,
         argument: Self::InitializationArgument,
-    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error>;
+    ) -> Result<(), Self::Error>;
 
     /// Applies an operation from the current block.
     async fn execute_operation(
         &mut self,
-        context: &OperationContext,
         operation: Self::Operation,
-    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error>;
+    ) -> Result<Self::Response, Self::Error>;
 
     /// Applies a message originating from a cross-chain message.
-    async fn execute_message(
-        &mut self,
-        context: &MessageContext,
-        message: Self::Message,
-    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error>;
+    async fn execute_message(&mut self, message: Self::Message) -> Result<(), Self::Error>;
 
-    /// Handles a call from another application.
-    async fn handle_application_call(
-        &mut self,
-        context: &CalleeContext,
-        argument: Self::ApplicationCall,
-        forwarded_sessions: Vec<SessionId>,
-    ) -> Result<ApplicationCallResult<Self::Message, Self::Response, Self::SessionState>, Self::Error>;
-
-    /// Handles a call into a session created by this application.
-    async fn handle_session_call(
-        &mut self,
-        context: &CalleeContext,
-        session: Self::SessionState,
-        argument: Self::SessionCall,
-        forwarded_sessions: Vec<SessionId>,
-    ) -> Result<SessionCallResult<Self::Message, Self::Response, Self::SessionState>, Self::Error>;
-
+    /// Finishes the execution of the current transaction.
+    async fn finalize(&mut self) -> Result<(), Self::Error> {
+        Self::Storage::store(self.state_mut()).await;
+        Ok(())
+    }
 }
 ```
 
