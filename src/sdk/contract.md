@@ -154,7 +154,7 @@ Finally, to link our `Contract` trait implementation with the ABI of the
 application, the following code is added:
 
 ```rust,ignore
-impl WithContractAbi for Counter {
+impl WithContractAbi for CounterContract {
     type Abi = counter::CounterAbi;
 }
 ```
