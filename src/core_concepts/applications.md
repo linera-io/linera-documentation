@@ -9,9 +9,9 @@ Currently, the [Linera SDK](../sdk.md) is focused on the
 
 Linera applications are structured using the familiar notion of **Rust crate**:
 the external interfaces of an application (including initialization parameters,
-operations, messages, and cross-application calls) generally go into the library
-part of its crate, while the core of each application is compiled into binary
-files for the Wasm architecture.
+operations and messages) generally go into the library part of its crate, while
+the core of each application is compiled into binary files for the Wasm
+architecture.
 
 ## The Application Deployment Lifecycle
 
