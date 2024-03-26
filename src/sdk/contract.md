@@ -133,22 +133,18 @@ using its initialization parameters:
 ## Implementing the Increment Operation
 
 Now that we have our counter's state and a way to initialize it to any value we
-would like, a way to increment our counter's value. Changes made by block
-proposers to application states are broadly called 'operations'.
+would like, we need a way to increment our counter's value. Execution requests
+from block proposers or other applications are broadly called 'operations'.
 
 To create a new operation, we need to use the method
 `Contract::execute_operation`. In the counter's case, it will be receiving a
 `u64` which is used to increment the counter:
 
 ```rust,ignore
-    async fn execute_operation(
-        &mut self,
-        _context: &OperationContext,
-        operation: u64,
-    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error> {
+    async fn execute_operation(&mut self, operation: u64) -> Result<(), Self::Error> {
         let current = self.value.get();
         self.value.set(current + operation);
-        Ok(ExecutionOutcome::default())
+        Ok(())
     }
 ```
 
