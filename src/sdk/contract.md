@@ -59,6 +59,53 @@ a time.
 For this application, we'll be using the `initialize` and `execute_operation`
 methods.
 
+## The Contract handler lifecycle
+
+To implement the application contract, we first create a type to be the contract
+handler:
+
+```rust
+pub struct CounterContract {
+    state: Counter,
+    runtime: ContractRuntime<Self>,
+}
+```
+
+This type usually contains at least two fields: the persistent `state` defined
+earlier and a handle to the runtime. The runtime provides access to information
+about the current execution and also allows sending messages, among other
+things. Other fields can be added, and they can be used to store volatile data
+that only exists while the current transaction is being executed, and discarded
+afterwards.
+
+When a transaction is executed, first the application's state is loaded, then
+the contract handler type is created by calling the `Contract::new` method. This
+method receives the state and a handle to the runtime that the contract handler
+can use. For our implementation, we will just store the received parameters:
+
+```rust,ignore
+    async fn new(state: Counter, runtime: ContractRuntime<Self>) -> Result<Self, Self::Error> {
+        CounterContract { state, runtime }
+    }
+```
+
+When the transaction finishes executing successfully, there's a final step where
+all loaded application contracts are allowed to `finalize`, similarly to
+executing a destructor. The default implementation of `finalize` just persists
+the application's state, and that's why we must provide it access to the state
+through the `state_mut` method:
+
+```rust,ignore
+    fn state_mut(&mut self) -> &mut Self::State {
+        &mut self.state
+    }
+```
+
+Applications may want to override the `finalize` method in more advanced
+scenarios, but they must ensure the don't forget to *persist* their state if
+they do so. For more information see the
+[Contract finalization section](../advanced_topics/contract_finalize.md).
+
 ## Initializing our Application
 
 The first thing we need to do is initialize our application by using
