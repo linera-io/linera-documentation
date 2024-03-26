@@ -89,10 +89,11 @@ pub enum Operation {
 ```
 
 **Messages** result from the execution of operations or other messages. Messages
-can be sent from one chain to another. Block proposers also actively include
-messages in their block proposal, but unlike with operations, they are only
-allowed to include them in the right order (possibly skipping some), and only if
-they were actually created by another chain (or the same chain, earlier).
+can be sent from one chain to another, always within the same application. Block
+proposers also actively include messages in their block proposal, but unlike with
+operations, they are only allowed to include them in the right order (possibly
+skipping some), and only if they were actually created by another chain (or the
+same chain, earlier).
 
 In our "fungible token" application, a message to credit an account would look
 like this:
