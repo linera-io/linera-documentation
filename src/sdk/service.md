@@ -20,15 +20,17 @@ pub trait Service: WithServiceAbi + ServiceAbi {
     /// Type used to report errors to the execution environment.
     type Error: Error + From<serde_json::Error>;
 
+    /// The type used to store the persisted application state.
+    type State;
+
     /// The desired storage backend used to store the application's state.
     type Storage: ServiceStateStorage;
 
+    /// Creates a in-memory instance of the service handler from the application's `state`.
+    async fn new(state: Self::State, runtime: ServiceRuntime<Self>) -> Result<Self, Self::Error>;
+
     /// Executes a read-only query on the state of this application.
-    async fn handle_query(
-        self: Arc<Self>,
-        context: &QueryContext,
-        argument: Self::Query,
-    ) -> Result<Self::QueryResponse, Self::Error>;
+    async fn handle_query(&self, query: Self::Query) -> Result<Self::QueryResponse, Self::Error>;
 }
 ```
 
@@ -37,32 +39,70 @@ The full service trait definition can be found
 
 Let's implement `Service` for our counter application.
 
-First, we want to generate the necessary boilerplate for implementing the
-service
-[WIT interface](https://component-model.bytecodealliance.org/design/wit.html),
-export the necessary resource types and functions so that the host (the process
-running the bytecode) can call the service. Happily, there is a macro to perform
-this code generation, so just add the following to `service.rs`:
+First, we create a new type for the service handler, similarly to the contract handler:
 
 ```rust,ignore
-linera_sdk::service!(Counter);
+pub struct CounterService {
+    state: Counter,
+}
 ```
 
-Next, we need to implement the `Service` for `Counter`. To do this we need to
-define `Service`'s associated types and implement `handle_query`, as well as
-define the `Error` type:
+Just like with the `CounterContract` type, this type usually has two types: the
+application `state` and the `runtime`. We can omit the fields if we don't use
+them, so in this example we're omitting the `runtime` field.
+
+We need to generate the necessary boilerplate for implementing the service
+[WIT interface](https://component-model.bytecodealliance.org/design/wit.html),
+export the necessary resource types and functions so that the service can be
+executed. Fortunately, there is a macro to perform this code generation, so
+just add the following to `service.rs`:
+
+```rust,ignore
+linera_sdk::service!(CounterService);
+```
+
+Next, we need to implement the `Service` trait for `CounterService` type. The
+first step is to define the `Service`'s associated types:
 
 ```rust,ignore
 #[async_trait]
 impl Service for Counter {
     type Error = Error;
     type Storage = ViewStateStorage<Self>;
+    type State = Counter;
+}
+```
 
-    async fn handle_query(
-        self: Arc<Self>,
-        _context: &QueryContext,
-        request: Request,
-    ) -> Result<Response, Self::Error> {
+The only type specified above that isn't yet defined is the `Error` type, so
+let's create it below the trait implementation:
+
+```rust,ignore
+/// An error that can occur during the contract execution.
+#[derive(Debug, Error)]
+pub enum Error {
+    /// Invalid query argument; could not deserialize GraphQL request.
+    #[error("Invalid query argument; could not deserialize GraphQL request")]
+    InvalidQuery(#[from] serde_json::Error),
+}
+```
+
+Also like in contracts, we must implement a `new` constructor when implementing
+the `Service` trait. The constructor receives the state and the runtime handle:
+
+```rust,ignore
+    async fn new(state: Self::State, _runtime: ServiceRuntime<Self>) -> Result<Self, Self::Error> {
+        Ok(CounterService { state })
+    }
+```
+
+The actual functionality of the service starts in the `handle_query` method. We
+will accept GraphQL queries and handle them using the
+[`async-graphql` crate](https://github.com/async-graphql/async-graphql). To
+forward the queries to custom GraphQL handlers we will implement in the next
+section, we use the following code:
+
+```rust,ignore
+    async fn handle_query(&mut self, request: Request) -> Result<Response, Self::Error> {
         let schema = Schema::build(
             // implemented in the next section
             QueryRoot { value: *self.value.get() },
@@ -73,14 +113,6 @@ impl Service for Counter {
         .finish();
         Ok(schema.execute(request).await)
     }
-}
-
-/// An error that can occur during the contract execution.
-#[derive(Debug, Error)]
-pub enum Error {
-    /// Invalid query argument; could not deserialize GraphQL request.
-    #[error("Invalid query argument; could not deserialize GraphQL request")]
-    InvalidQuery(#[from] serde_json::Error),
 }
 ```
 
@@ -96,19 +128,13 @@ impl WithServiceAbi for Counter {
 ## Adding GraphQL compatibility
 
 Finally, we want our application to have GraphQL compatibility. To achieve this
-we need a `QueryRoot` for intercepting queries and a `MutationRoot` for
-introspection queries for mutations.
+we need a `QueryRoot` to respond to queries and a `MutationRoot` for creating
+serialized `Operation` values that can be placed in blocks.
+
+In the `QueryRoot`, we only create a single `value` query that returns the
+counter's value:
 
 ```rust,ignore
-struct MutationRoot;
-
-#[Object]
-impl MutationRoot {
-    async fn increment(&self, value: u64) -> Vec<u8> {
-        bcs::to_bytes(&value).unwrap()
-    }
-}
-
 struct QueryRoot {
     value: u64,
 }
@@ -117,6 +143,20 @@ struct QueryRoot {
 impl QueryRoot {
     async fn value(&self) -> &u64 {
         &self.value
+    }
+}
+```
+
+In the `MutationRoot`, we only create one `increment` method that returns a
+serialized operation to increment the counter by the provided `value`:
+
+```rust,ignore
+struct MutationRoot;
+
+#[Object]
+impl MutationRoot {
+    async fn increment(&self, value: u64) -> Vec<u8> {
+        bcs::to_bytes(&value).unwrap()
     }
 }
 ```
