@@ -112,8 +112,8 @@ pub enum Message {
 
 Operations are always authenticated and messages may be authenticated. The
 signer of a block becomes the authenticator of all the operations in that block.
-As operations are executed by applications, messages can be created to be sent
-to other chains. When they are created, they can be configured to be
+As operations are being executed by applications, messages can be created to be
+sent to other chains. When they are created, they can be configured to be
 authenticated. In that case, the message receives the same authentication as the
 operation that created it. If handling an incoming message creates new messages,
 those may also be configured to have the same authentication as the received
