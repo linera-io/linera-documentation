@@ -68,7 +68,9 @@ and messages.
 **Operations** are defined by an application developer and each application can
 have a completely different set of operations. Chain owners then actively create
 operations and put them in their block proposals to interact with an
-application.
+application. Other applications may also call the application by providing an
+operation for it to execute, this is called a cross-application call and always
+happens within the same chain.
 
 Taking the "fungible token" application as an example, an operation for a user
 to transfer funds to another user would look like this:
