@@ -108,8 +108,9 @@ they do so. For more information see the
 
 ## Initializing our Application
 
-The first thing we need to do is initialize our application by using
-`Contract::initialize`.
+The first thing that happens when an application is created from a bytecode is
+that it is initialized. This is done by calling the contract handler's
+`Contract::initialize` method.
 
 `Contract::initialize` is only called once when the application is created and
 only on the microchain that created the application.
@@ -123,13 +124,9 @@ application to an arbitrary number that can be specified on application creation
 using its initialization parameters:
 
 ```rust,ignore
-    async fn initialize(
-        &mut self,
-        _context: &OperationContext,
-        value: u64,
-    ) -> Result<ExecutionOutcome<Self::Message>, Self::Error> {
-        self.value.set(value);
-        Ok(ExecutionOutcome::default())
+    async fn initialize(&mut self, value: u64) -> Result<(), Self::Error> {
+        self.state.value.set(value);
+        Ok(())
     }
 ```
 
