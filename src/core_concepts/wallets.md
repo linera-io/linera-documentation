@@ -125,8 +125,7 @@ fc9384defb0bcd8f6e206ffda32599e24ba715f45ec88d4ac81ec47eb84fa111
 ```
 
 The first line is the message ID specifying the cross-chain message that creates
-the new chain. of the newly created chain. The second line is the new chain's
-ID.
+the new chain. The second line is the new chain's ID.
 
 Finally, to add the chain to `wallet2` for the given unassigned key we use the
 `assign` command:
