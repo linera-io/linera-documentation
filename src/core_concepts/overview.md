@@ -215,8 +215,6 @@ as follows.
 - [x] Local GraphQL service to query and browse system state
 - [x] Local GraphQL service to query and browse application states
 - [x] Use GraphQL mutations to execute operations and create blocks
-- [x] Initial support for unit tests
-- [x] Support for integration tests
 - [x] Initial ABIs for contract and service interfaces
 - [ ] Allowing message sender to pay for message execution fees
 - [ ] Bindings to use native cryptographic primitives from Wasm
