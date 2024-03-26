@@ -135,7 +135,7 @@ the proposer is always the chain owner. Messages that have authentication use
 the one from the operation or message that created it.
 
 One example in the figure is that chain A produced a block with Operation 1,
-which is authenticated by the owner of chain A (written `(a)`). That operations
+which is authenticated by the owner of chain A (written `(a)`). That operation
 sent a message to chain B, and assuming the message was sent with the
 authentication forwarding enabled, it is received and executed in chain B with
 the authentication of `(a)`. Another example is that chain D produced a block
