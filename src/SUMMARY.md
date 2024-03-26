@@ -32,6 +32,7 @@
 
   - [Views](advanced_topics/views.md)
   - [Persistent Storage](advanced_topics/persistent_storage.md)
+  - [Contract Finalization](advanced_topics/contract_finalize.md)
   - [Validators](advanced_topics/validators.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
 
