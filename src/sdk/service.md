@@ -54,8 +54,8 @@ them, so in this example we're omitting the `runtime` field.
 We need to generate the necessary boilerplate for implementing the service
 [WIT interface](https://component-model.bytecodealliance.org/design/wit.html),
 export the necessary resource types and functions so that the service can be
-executed. Fortunately, there is a macro to perform this code generation, so
-just add the following to `service.rs`:
+executed. Fortunately, there is a macro to perform this code generation, so just
+add the following to `service.rs`:
 
 ```rust,ignore
 linera_sdk::service!(CounterService);
