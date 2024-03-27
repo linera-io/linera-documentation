@@ -66,7 +66,7 @@ first step is to define the `Service`'s associated types:
 
 ```rust,ignore
 #[async_trait]
-impl Service for Counter {
+impl Service for CounterService {
     type Error = Error;
     type Storage = ViewStateStorage<Self>;
     type State = Counter;
