@@ -63,7 +63,7 @@ methods.
 
 To implement the application contract, we first create a type for the contract:
 
-```rust
+```rust,ignore
 pub struct CounterContract {
     state: Counter,
     runtime: ContractRuntime<Self>,
