@@ -59,10 +59,9 @@ a time.
 For this application, we'll be using the `initialize` and `execute_operation`
 methods.
 
-## The Contract handler lifecycle
+## The Contract Lifecycle
 
-To implement the application contract, we first create a type to be the contract
-handler:
+To implement the application contract, we first create a type for the contract:
 
 ```rust
 pub struct CounterContract {
@@ -79,9 +78,9 @@ that only exists while the current transaction is being executed, and discarded
 afterwards.
 
 When a transaction is executed, first the application's state is loaded, then
-the contract handler type is created by calling the `Contract::new` method. This
-method receives the state and a handle to the runtime that the contract handler
-can use. For our implementation, we will just store the received parameters:
+the contract type is created by calling the `Contract::new` method. This method
+receives the state and a handle to the runtime that the contract can use. For
+our implementation, we will just store the received parameters:
 
 ```rust,ignore
     async fn new(state: Counter, runtime: ContractRuntime<Self>) -> Result<Self, Self::Error> {
@@ -109,7 +108,7 @@ they do so. For more information see the
 ## Initializing our Application
 
 The first thing that happens when an application is created from a bytecode is
-that it is initialized. This is done by calling the contract handler's
+that it is initialized. This is done by calling the contract's
 `Contract::initialize` method.
 
 `Contract::initialize` is only called once when the application is created and
