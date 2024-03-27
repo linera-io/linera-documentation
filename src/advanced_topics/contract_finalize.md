@@ -22,11 +22,10 @@ other applications, because they are all also finalizing.
 > the developer must ensure that the application's state is persisted correctly.
 
 While finalizing, contracts can force the transaction to fail by panicking or
-returning an error. The block is then rejected, even if the entire
-transaction's operation had succeeded before `finalize` was called. This allows
-a contract to reject transactions if other applications don't follow any
-required constraints it establishes after it responds to a cross-application
-call.
+returning an error. The block is then rejected, even if the entire transaction's
+operation had succeeded before `finalize` was called. This allows a contract to
+reject transactions if other applications don't follow any required constraints
+it establishes after it responds to a cross-application call.
 
 As an example, a contract that executes a cross-application call with
 `Operation::StartSession` may require the same caller to perform another

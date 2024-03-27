@@ -33,15 +33,15 @@ as the destination parameter to `send_to`.
 
 After block execution in the _sending_ chain, sent messages are placed in the
 _target_ chains' inboxes for processing. There is no guarantee that it will be
-handled: For this to happen, an owner of the target chain needs to include it
-in the `incoming_messages` in one of their blocks. When that happens, the
+handled: For this to happen, an owner of the target chain needs to include it in
+the `incoming_messages` in one of their blocks. When that happens, the
 contract's `execute_message` method gets called on their chain.
 
 While preparing the message to be sent, it is possible to enable authentication
 forwarding and/or tracking. Authentication forwarding means that the message is
 executed with the same authenticated signer as the sender of the message, while
-tracking means that the message is sent back to the sender if the receiver
-skips it. The example below enables both flags:
+tracking means that the message is sent back to the sender if the receiver skips
+it. The example below enables both flags:
 
 ```rust,ignore
     self.runtime
