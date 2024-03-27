@@ -146,7 +146,7 @@ If a new validator wants to start participating, or an old one wants to leave,
 all chains must be updated.
 
 The system has one designated _admin chain_, where the validators can join or
-leave or, and where new _epochs_ are defined. During every epoch, the set of
+leave, and where new _epochs_ are defined. During every epoch, the set of
 validators is fixed. If you own the admin chain, you can use the `set-validator`
 and `remove-validator` commands to start a new epoch with a modified set of
 validators:

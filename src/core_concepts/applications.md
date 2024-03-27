@@ -89,10 +89,11 @@ pub enum Operation {
 ```
 
 **Messages** result from the execution of operations or other messages. Messages
-can be sent from one chain to another. Block proposers also actively include
-messages in their block proposal, but unlike with operations, they are only
-allowed to include them in the right order (possibly skipping some), and only if
-they were actually created by another chain (or the same chain, earlier).
+can be sent from one chain to another, always within the same application. Block
+proposers also actively include messages in their block proposal, but unlike
+with operations, they are only allowed to include them in the right order
+(possibly skipping some), and only if they were actually created by another
+chain (or the same chain, earlier).
 
 In our "fungible token" application, a message to credit an account would look
 like this:
@@ -111,8 +112,8 @@ pub enum Message {
 
 Operations are always authenticated and messages may be authenticated. The
 signer of a block becomes the authenticator of all the operations in that block.
-As operations are executed by applications, messages can be created to be sent
-to other chains. When they are created, they can be configured to be
+As operations are being executed by applications, messages can be created to be
+sent to other chains. When they are created, they can be configured to be
 authenticated. In that case, the message receives the same authentication as the
 operation that created it. If handling an incoming message creates new messages,
 those may also be configured to have the same authentication as the received
@@ -134,7 +135,7 @@ the proposer is always the chain owner. Messages that have authentication use
 the one from the operation or message that created it.
 
 One example in the figure is that chain A produced a block with Operation 1,
-which is authenticated by the owner of chain A (written `(a)`). That operations
+which is authenticated by the owner of chain A (written `(a)`). That operation
 sent a message to chain B, and assuming the message was sent with the
 authentication forwarding enabled, it is received and executed in chain B with
 the authentication of `(a)`. Another example is that chain D produced a block
