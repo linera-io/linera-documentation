@@ -21,7 +21,7 @@ pub trait Contract: WithContractAbi + ContractAbi + Send + Sized {
     /// The type of message executed by the application.
     type Message: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
 
-    /// Creates a in-memory instance of the contract handler from the application's `state`.
+    /// Creates an in-memory instance of the contract handler from the application's `state`.
     async fn new(state: Self::State, runtime: ContractRuntime<Self>) -> Result<Self, Self::Error>;
 
     /// Returns the current state of the application so that it can be persisted.
