@@ -102,7 +102,7 @@ through the `state_mut` method:
 ```
 
 Applications may want to override the `finalize` method in more advanced
-scenarios, but they must ensure the don't forget to *persist* their state if
+scenarios, but they must ensure they don't forget to *persist* their state if
 they do so. For more information see the
 [Contract finalization section](../advanced_topics/contract_finalize.md).
 
