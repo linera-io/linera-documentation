@@ -74,9 +74,10 @@
 - **Network**: The totality of all protocol participants. A network is the
   combination of committee, clients and auditors.
 
-- **Operation**: Operations are transactions directly added to a block by the
-  creator (and signer) of the block. Users typically use operations to start
-  interacting with an application on their own chain.
+- **Operation**: Operations are either transactions directly added to a block by
+  the creator (and signer) of the block, or calls to an application from
+  another. Users typically use operations to start interacting with an
+  application on their own chain.
 
 - **Permissioned Chain**: A microchain which is owned by more than one user.
   Users take turns proposing blocks and the likelihood of selection is
