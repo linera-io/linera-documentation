@@ -39,7 +39,7 @@ The full service trait definition can be found
 
 Let's implement `Service` for our counter application.
 
-First, we create a new type for the service handler, similarly to the contract handler:
+First, we create a new type for the service, similarly to the contract:
 
 ```rust,ignore
 pub struct CounterService {
