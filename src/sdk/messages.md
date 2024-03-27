@@ -31,7 +31,7 @@ is specify a
 [`ChannelName`](https://docs.rs/linera-base/latest/linera_base/identifiers/struct.ChannelName.html)
 as the destination parameter to `send_to`.
 
-During block execution in the _sending_ chain, sent messages are placed in the
+After block execution in the _sending_ chain, sent messages are placed in the
 _target_ chains' inboxes for processing. There is no guarantee that it will be
 handled: For this to happen, an owner of the target chain needs to include it
 in the `incoming_messages` in one of their blocks. When that happens, the
