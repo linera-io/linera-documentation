@@ -9,9 +9,9 @@ Currently, the [Linera SDK](../sdk.md) is focused on the
 
 Linera applications are structured using the familiar notion of **Rust crate**:
 the external interfaces of an application (including initialization parameters,
-operations, messages, and cross-application calls) generally go into the library
-part of its crate, while the core of each application is compiled into binary
-files for the Wasm architecture.
+operations and messages) generally go into the library part of its crate, while
+the core of each application is compiled into binary files for the Wasm
+architecture.
 
 ## The Application Deployment Lifecycle
 
@@ -68,7 +68,10 @@ and messages.
 **Operations** are defined by an application developer and each application can
 have a completely different set of operations. Chain owners then actively create
 operations and put them in their block proposals to interact with an
-application.
+application. Other applications may also call the application by providing an
+operation for it to execute, this is called a cross-application call and always
+happens within the same chain. Operations for cross-application calls may return
+a response value back to the caller.
 
 Taking the "fungible token" application as an example, an operation for a user
 to transfer funds to another user would look like this:
@@ -110,14 +113,14 @@ pub enum Message {
 
 ### Authentication
 
-Operations are always authenticated and messages may be authenticated. The
-signer of a block becomes the authenticator of all the operations in that block.
-As operations are being executed by applications, messages can be created to be
-sent to other chains. When they are created, they can be configured to be
-authenticated. In that case, the message receives the same authentication as the
-operation that created it. If handling an incoming message creates new messages,
-those may also be configured to have the same authentication as the received
-message.
+Operations in a block are always authenticated and messages may be
+authenticated. The signer of a block becomes the authenticator of all the
+operations in that block. As operations are being executed by applications,
+messages can be created to be sent to other chains. When they are created, they
+can be configured to be authenticated. In that case, the message receives the
+same authentication as the operation that created it. If handling an incoming
+message creates new messages, those may also be configured to have the same
+authentication as the received message.
 
 In other words, the block signer can have its authority propagated across chains
 through series of messages. This allows applications to safely store user state

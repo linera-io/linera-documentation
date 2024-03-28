@@ -172,7 +172,6 @@ as follows.
 - [x] Support for the Wasmtime VM (experimental)
 - [x] Test gas metering and deterministic execution across VMs
 - [x] Composing Wasm applications on the same chain (initial version)
-- [x] Enhanced composability with "sessions"
 - [x] Support for non-blocking (yet deterministic) calls to storage
 - [x] Support for read-only GraphQL services in Wasm
 - [x] Support for mocked system APIs (initial version)

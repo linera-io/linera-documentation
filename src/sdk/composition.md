@@ -6,17 +6,17 @@ always handled by the _same_ application on the target chain.
 This section is about calling other applications using _cross-application
 calls_.
 
-Such calls happen on the same chain and typically use the `call_application`
-method implemented by default in the trait `Contract`:
+Such calls happen on the same chain and are made with the
+[`ContractRuntime::call_application`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ContractRuntime.html#call_application)
+method:
 
 ```rust,ignore
-async fn call_application<A: ContractAbi + Send>(
+pub fn call_application<A: ContractAbi + Send>(
     &mut self,
     authenticated: bool,
     application: ApplicationId<A>,
-    call: &A::ApplicationCall,
-    forwarded_sessions: Vec<SessionId>,
-) -> Result<(A::Response, Vec<SessionId>), Self::Error> { .. }
+    call: &A::Operation,
+) -> A::Response {
 ```
 
 The `authenticated` argument specifies whether the callee is allowed to perform
@@ -26,11 +26,7 @@ block that caused this call.
 The `application` argument is the callee's application ID, and `A` is the
 callee's ABI.
 
-`call` are the arguments of the application call, in a type defined by the
-callee.
-
-`forwarded_sessions` are session data that need to be consumed within this
-transaction. Sessions will be explained in a separate section.
+The `call` argument is the operation requested by the application call.
 
 ## Example: Crowd-Funding
 
@@ -57,7 +53,7 @@ Now she can make her pledge by running the `linera service` and making a query
 to Bob's application:
 
 ```json
-mutation { pledgeWithTransfer(owner: "User:841…6c0", amount: "10") }
+mutation { pledge(owner: "User:841…6c0", amount: "10") }
 ```
 
 This will add a block to Carol's chain containing the pledge operation that gets
@@ -68,19 +64,18 @@ First `CrowdFunding::execute_operation` calls the `fungible` application on
 Carol's chain to transfer 10 tokens to Carol's account on Bob's chain:
 
 ```rust,ignore
-self.call_application(
-    true,                 // The call is authenticated by Carol, who signed this block.
-    Self::fungible_id()?, // The Pugecoin application ID.
-    &fungible::ApplicationCall::Transfer {
-        owner,            // Carol
-        amount,           // 10 tokens
-        destination,      // Bob's chain.
-    },
-    vec![],
-).await?;
+// ...
+let call = fungible::Operation::Transfer {
+    owner,
+    amount,
+    target_account,
+};
+// ...
+self.runtime
+    .call_application(/* authenticated by owner */ true, fungible_id, &call);
 ```
 
-This causes `Fungible::handle_application_call` to be run, which will create a
+This causes `Fungible::execute_operation` to be run, which will create a
 cross-chain message sending the amount 10 to the Pugecoin application instance
 on Bob's chain.
 
