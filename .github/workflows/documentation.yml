@@ -31,6 +31,11 @@ jobs:
         with:
           mdbook-version: 'latest'
 
+      - name: 'Install Protoc'
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: 'Build the Linera SDK'
         run: |
           cd linera-protocol
