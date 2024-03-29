@@ -24,6 +24,7 @@ The complete workflow may look like this:
 # release version of linera-protocol:
 #   echo devnet_YYYY_MM_DD > RELEASE_BRANCH
 #   echo 0.M.N > RELEASE_VERSION
+#   cat RELEASE_BRANCH | sed 's/_/-/g' > RELEASE_DOMAIN
 
 REMOTE_BRANCH="origin/$(cat RELEASE_BRANCH)"
 
