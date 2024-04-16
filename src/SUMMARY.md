@@ -35,6 +35,7 @@
   - [Contract Finalization](advanced_topics/contract_finalize.md)
   - [Validators](advanced_topics/validators.md)
   - [Creating New Blocks](advanced_topics/block_creation.md)
+  - [Applications that Handle Assets](advanced_topics/assets.md)
 
 - [Appendix](appendix/glossary.md)
   - [Glossary](appendix/glossary.md)
