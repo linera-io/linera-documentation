@@ -78,6 +78,7 @@ Download the source from [GitHub](https://github.com/linera-io/linera-protocol):
 
 ```bash
 git clone https://github.com/linera-io/linera-protocol.git
+cd linera-protocol
 git checkout -t origin/{{#include ../../RELEASE_BRANCH}}  # Current release branch
 ```
 
