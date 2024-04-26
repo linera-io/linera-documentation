@@ -37,9 +37,9 @@
   - [Creating New Blocks](advanced_topics/block_creation.md)
   - [Applications that Handle Assets](advanced_topics/assets.md)
 
-- [Appendix](appendix/glossary.md)
+- [Appendix](appendix.md)
   - [Glossary](appendix/glossary.md)
-  - [Videos](videos.md)
+  - [Videos](appendix/videos.md)
 
 <!-- prettier-ignore-start -->
 <!--
