@@ -89,7 +89,8 @@ execute bytecode.
 Let's build the `counter` application from the `examples/` subdirectory:
 
 ```bash
-cd examples/counter && cargo build --release
+cd examples && cargo build --release && \
+cd counter
 ```
 
 > Note: This will automatically build Wasm, not native code, thanks to the
