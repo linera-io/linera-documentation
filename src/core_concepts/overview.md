@@ -124,8 +124,10 @@ The
 [reference open-source implementation](https://github.com/linera-io/linera-protocol)
 of Linera is under active development. It already includes a Web3 SDK with the
 necessary features to prototype simple Web3 applications and test them locally
-on the same machine. Notably, Web UIs (possibly reactive) can already be built
-on top of Wasm-embedded GraphQL services, and tested locally in the browser.
+on the same machine and deploying them to the Devnet.
+
+Web UIs (possibly reactive) can already be built on top of Wasm-embedded GraphQL
+services, and tested locally in the browser.
 
 The main limitations of our current Web3 SDK include:
 
@@ -133,9 +135,9 @@ The main limitations of our current Web3 SDK include:
   meant to be temporary and for testing only: in the future, web UIs will
   securely connect to a Wallet installed as a browser extension, as usual.
 
-- Only user chains are currently available for testing and documented in this
-  manual. Support for other types of chain (called "public" and "permissioned")
-  will be added later.
+- Only user chains are currently documented in this manual. Permissioned chains
+  (aka "temporary" chains) were recently added. Support for public chains is in
+  progress.
 
 The main development workstreams of Linera, beyond its SDK, can be broken down
 as follows.
