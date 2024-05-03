@@ -184,7 +184,7 @@ as follows.
 - [x] Support for read-only GraphQL services in Wasm
 - [x] Support for mocked system APIs
 - [x] Improve host/guest stub generation to make mocks easier
-- [ ] Support for Wasm/JS
+- [ ] Support for running Wasm applications in the browser
 
 ### Storage
 
