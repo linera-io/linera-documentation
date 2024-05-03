@@ -89,11 +89,8 @@ execute bytecode.
 Let's build the `counter` application from the `examples/` subdirectory:
 
 ```bash
-cd examples/counter && cargo build --release
+cd examples/counter && cargo build --release --target wasm32-unknown-unknown
 ```
-
-> Note: This will automatically build Wasm, not native code, thanks to the
-> configuration file `examples/.cargo/config.toml`.
 
 ## Publishing your Application
 
