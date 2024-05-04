@@ -212,7 +212,7 @@ as follows.
 - [x] Observability
 - [x] Kubernetes support in CI
 - [x] Deployment using a cloud provider
-- [ ] Horizontal scalable frontend (aka. proxy)
+- [ ] Horizontally scalable frontend (aka. proxy)
 - [ ] Dynamic shard assignment
 - [ ] Cloud integration to demonstrate elastic scaling
 
