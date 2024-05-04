@@ -23,15 +23,17 @@ important specificities:
 ## Cross-Chain Messaging
 
 In traditional networks with a single blockchain, every transaction can access
-the entire execution state. This is not the case in Linera where the state of a
-microchain is only affected by its own blocks.
+the application's entire execution state. This is not the case in Linera where
+the state of an application is spread across multiple microchains, and the state
+on any individual microchain is only affected by the blocks of that microchain.
 
 Cross-chain messaging is a way for different microchains to communicate with
 each other asynchronously. This method allows applications and data to be
 distributed across multiple chains for better scalability. When an application
-on one chain sends a message to another chain, a cross-chain request is created.
-These requests are implemented using remote procedure calls (RPCs) within the
-validators' internal network, ensuring that each request is executed only once.
+on one chain sends a message to itself on another chain, a cross-chain request
+is created. These requests are implemented using remote procedure calls (RPCs)
+within the validators' internal network, ensuring that each request is executed
+only once.
 
 Instead of immediately modifying the target chain, messages are placed first in
 the target chain's **inbox**. When an owner of the target chain creates its next
@@ -62,9 +64,10 @@ over consecutive blocks.
 
 The Linera protocol allows receivers to discard messages but not to change the
 ordering of selected messages inside the communication queue between two chains.
-If a selected message fails to execute, it is skipped during the execution of
-the receiver's block. The current implementation of the Linera client always
-selects as many messages as possible from inboxes, and never discards messages.
+If a selected message fails to execute, the wallet will automatically skip it
+when proposing the receiver's block. The current implementation of the Linera
+client always selects as many messages as possible from inboxes, and never
+discards messages unless they fail to execute.
 
 ## Chain Ownership Semantics
 
