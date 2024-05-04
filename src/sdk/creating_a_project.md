@@ -19,5 +19,3 @@ files:
   contract bytecode;
 - `src/service.rs`: the application's service, and the binary target for the
   service bytecode.
-- `.cargo/config.toml`: modifies the default target used by `cargo` to be
-  `wasm32-unknown-unknown`
