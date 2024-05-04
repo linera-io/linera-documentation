@@ -54,9 +54,6 @@ The **service** is non-metered and read-only. It is used primarily to query the
 state of an application and populate the presentation layer (think front-end)
 with the data required for a user interface.
 
-Finally, the application's state is shared by the contract and service in the
-form of a [View](./../advanced_topics/views.md), but more on that later.
-
 ## Operations and Messages
 
 > For this section we'll be using a simplified version of the example
