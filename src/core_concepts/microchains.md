@@ -64,7 +64,7 @@ over consecutive blocks.
 
 The Linera protocol allows receivers to discard messages but not to change the
 ordering of selected messages inside the communication queue between two chains.
-If a selected message fails to execute, the wallet will automatically skip it
+If a selected message fails to execute, the wallet will automatically reject it
 when proposing the receiver's block. The current implementation of the Linera
 client always selects as many messages as possible from inboxes, and never
 discards messages unless they fail to execute.
