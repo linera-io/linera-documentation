@@ -121,7 +121,7 @@ authentication as the received message.
 
 In other words, the block signer can have its authority propagated across chains
 through series of messages. This allows applications to safely store user state
-in chains that the user may not have the authority to produce blocks. The
+on chains that the user may not have the authority to produce blocks. The
 application may also allow only the authorized user to change that state, and
 not even the chain owner is able to override that.
 
