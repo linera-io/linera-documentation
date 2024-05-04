@@ -8,7 +8,7 @@ execute user applications. Currently, the [Linera SDK](../sdk.md) is focused on
 the [Rust](https://www.rust-lang.org/) programming language.
 
 Linera applications are structured using the familiar notion of **Rust crate**:
-the external interfaces of an application (including initialization parameters,
+the external interfaces of an application (including instantiation parameters,
 operations and messages) generally go into the library part of its crate, while
 the core of each application is compiled into binary files for the Wasm
 architecture.
@@ -26,7 +26,7 @@ flexible:
 2. The bytecode is published to the network on a microchain, and assigned an
    identifier.
 3. A user can create a new application instance, by providing the bytecode
-   identifier and initialization arguments. This process returns an application
+   identifier and instantiation arguments. This process returns an application
    identifier which can be used to reference and interact with the application.
 4. The same bytecode identifier can be used as many times needed by as many
    users needed to create distinct applications.
@@ -38,7 +38,7 @@ and an application can be published with a single command:
 linera publish-and-create <contract-path> <service-path> <init-args>
 ```
 
-This will publish the bytecode as well as initialize the application for you.
+This will publish the bytecode as well as instantiate the application for you.
 
 ## Anatomy of an Application
 
