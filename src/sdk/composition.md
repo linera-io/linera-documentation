@@ -39,15 +39,15 @@ they are refunded.
 If Alice used the `fungible` example to create a Pugecoin application (with an
 impressionable pug as its mascot), then Bob can create a `crowd-funding`
 application, use Pugecoin's application ID as `CrowdFundingAbi::Parameters`, and
-specify in `CrowdFundingAbi::InitializationArgument` that his campaign will run
+specify in `CrowdFundingAbi::InstantiationArgument` that his campaign will run
 for one week and has a target of 1000 Pugecoins.
 
 Now let's say Carol wants to pledge 10 Pugecoin tokens to Bob's campaign.
 
 First she needs to make sure she has his crowd-funding application on her chain,
 e.g. using the `linera request-application` command. This will automatically
-also register Alice's application on her chain, because it is a dependency of
-Bob's.
+also register Alice's Pugecoin application on her chain, because it is a
+dependency of Bob's.
 
 Now she can make her pledge by running the `linera service` and making a query
 to Bob's application:
@@ -94,5 +94,10 @@ indirectly by signing her block. The crowd-funding application now makes a note
 in its application state on Bob's chain that Carol has pledged 10 Pugecoin
 tokens.
 
-For the complete code please take a look at the `crowd-funding` and `fungible`
-applications in the `examples` folder in `linera-protocol`.
+For the complete code please take a look at the
+[`crowd-funding`](https://github.com/linera-io/linera-protocol/blob/{{#include
+../../.git/modules/linera-protocol/HEAD}}/examples/crowd-funding/src/contract.rs)
+and the
+[`fungible`](https://github.com/linera-io/linera-protocol/blob/{{#include
+../../.git/modules/linera-protocol/HEAD}}/examples/fungible/src/contract.rs)
+application contracts in the `examples` folder in `linera-protocol`.
