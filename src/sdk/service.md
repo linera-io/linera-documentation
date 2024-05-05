@@ -14,28 +14,21 @@ The `Service` trait is how you define the interface into your application. The
 `Service` trait is defined as follows:
 
 ```rust,ignore
-/// The service interface of a Linera application.
-#[async_trait]
-pub trait Service: WithServiceAbi + ServiceAbi {
-    /// Type used to report errors to the execution environment.
-    type Error: Error + From<serde_json::Error>;
+pub trait Service: WithServiceAbi + ServiceAbi + Sized {
+    /// Immutable parameters specific to this application.
+    type Parameters: Serialize + DeserializeOwned + Send + Sync + Clone + Debug + 'static;
 
-    /// The type used to store the persisted application state.
-    type State;
-
-    /// The desired storage backend used to store the application's state.
-    type Storage: ServiceStateStorage;
-
-    /// Creates a in-memory instance of the service handler from the application's `state`.
-    async fn new(state: Self::State, runtime: ServiceRuntime<Self>) -> Result<Self, Self::Error>;
+    /// Creates a in-memory instance of the service handler.
+    async fn new(runtime: ServiceRuntime<Self>) -> Self;
 
     /// Executes a read-only query on the state of this application.
-    async fn handle_query(&self, query: Self::Query) -> Result<Self::QueryResponse, Self::Error>;
+    async fn handle_query(&self, query: Self::Query) -> Self::QueryResponse;
 }
 ```
 
 The full service trait definition can be found
-[here](https://github.com/linera-io/linera-protocol/blob/main/linera-sdk/src/lib.rs).
+[here](https://github.com/linera-io/linera-protocol/blob/{{#include
+../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/lib.rs).
 
 Let's implement `Service` for our counter application.
 
@@ -49,7 +42,8 @@ pub struct CounterService {
 
 Just like with the `CounterContract` type, this type usually has two types: the
 application `state` and the `runtime`. We can omit the fields if we don't use
-them, so in this example we're omitting the `runtime` field.
+them, so in this example we're omitting the `runtime` field, since its only used
+when constructing the `CounterService` type.
 
 We need to generate the necessary boilerplate for implementing the service
 [WIT interface](https://component-model.bytecodealliance.org/design/wit.html),
@@ -62,38 +56,32 @@ linera_sdk::service!(CounterService);
 ```
 
 Next, we need to implement the `Service` trait for `CounterService` type. The
-first step is to define the `Service`'s associated types:
+first step is to define the `Service`'s associated type, which is the global
+parameters specified when the application is instantiated. In our case, the
+global paramters aren't used, so we can just specify the unit type:
 
 ```rust,ignore
 #[async_trait]
 impl Service for CounterService {
-    type Error = Error;
-    type Storage = ViewStateStorage<Self>;
-    type State = Counter;
+    type Parameters = ();
 }
 ```
 
-The only type specified above that isn't yet defined is the `Error` type, so
-let's create it below the trait implementation:
+Also like in contracts, we must implement a `load` constructor when implementing
+the `Service` trait. The constructor receives the runtime handle and should use
+it to load the application state:
 
 ```rust,ignore
-/// An error that can occur during the contract execution.
-#[derive(Debug, Error)]
-pub enum Error {
-    /// Invalid query argument; could not deserialize GraphQL request.
-    #[error("Invalid query argument; could not deserialize GraphQL request")]
-    InvalidQuery(#[from] serde_json::Error),
-}
-```
-
-Also like in contracts, we must implement a `new` constructor when implementing
-the `Service` trait. The constructor receives the state and the runtime handle:
-
-```rust,ignore
-    async fn new(state: Self::State, _runtime: ServiceRuntime<Self>) -> Result<Self, Self::Error> {
+    async fn load(runtime: ServiceRuntime<Self>) -> Self {
+        let state = Counter::load(ViewStorageContext::from(runtime.key_value_store()))
+            .await
+            .expect("Failed to load state");
         Ok(CounterService { state })
     }
 ```
+
+Services don't have a `store` method because they are read-only and can't
+persist any changes back to the storage.
 
 The actual functionality of the service starts in the `handle_query` method. We
 will accept GraphQL queries and handle them using the
@@ -102,7 +90,7 @@ forward the queries to custom GraphQL handlers we will implement in the next
 section, we use the following code:
 
 ```rust,ignore
-    async fn handle_query(&mut self, request: Request) -> Result<Response, Self::Error> {
+    async fn handle_query(&mut self, request: Request) -> Response {
         let schema = Schema::build(
             // implemented in the next section
             QueryRoot { value: *self.value.get() },
@@ -111,7 +99,7 @@ section, we use the following code:
             EmptySubscription,
         )
         .finish();
-        Ok(schema.execute(request).await)
+        schema.execute(request).await
     }
 }
 ```
@@ -163,6 +151,7 @@ impl MutationRoot {
 
 We haven't included the imports in the above code; they are left as an exercise
 to the reader (but remember to import `async_graphql::Object`). If you want the
-full source code and associated tests check out the
-[examples section](https://github.com/linera-io/linera-protocol/blob/main/examples/counter/src/service.rs)
-on GitHub.
+full source code and associated tests check out the [examples
+section](https://github.com/linera-io/linera-protocol/blob/{{#include
+../../.git/modules/linera-protocol/HEAD}}/examples/counter/src/service.rs) on
+GitHub.
