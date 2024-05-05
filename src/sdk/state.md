@@ -1,7 +1,8 @@
 # Creating the Application State
 
 The `struct` which defines your application's state can be found in
-`src/state.rs`.
+`src/state.rs`. An application state is the data that is persisted on storage
+between transactions.
 
 To represent our counter, we're going to need a single `u64`. To persist the
 counter we'll be using Linera's [view](../advanced_topics/views.md) paradigm.
