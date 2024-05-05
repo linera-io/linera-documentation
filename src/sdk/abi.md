@@ -41,16 +41,13 @@ contract. Each type represents a specific part of the contract's behavior:
 All these types must implement the `Serialize`, `DeserializeOwned`, `Send`,
 `Sync`, `Debug` traits, and have a `'static` lifetime.
 
-In our example, we would like to change our `InitializationArgument`,
-`Operation` to `u64`, like so:
+In our example, we would like to change our `Operation` to `u64`, like so:
 
 ```rust
 # extern crate linera_base;
 # use linera_base::abi::ContractAbi;
 # struct CounterAbi;
 impl ContractAbi for CounterAbi {
-    type InitializationArgument = u64;
-    type Parameters = ();
     type Operation = u64;
     type Response = ();
 }
@@ -79,6 +76,5 @@ For our Counter example, we'll be using GraphQL to query our application so our
 impl ServiceAbi for CounterAbi {
     type Query = async_graphql::Request;
     type QueryResponse = async_graphql::Response;
-    type Parameters = ();
 }
 ```
