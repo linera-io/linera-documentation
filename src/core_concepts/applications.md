@@ -3,9 +3,9 @@
 The programming model of Linera is designed so that developers can take
 advantage of microchains to scale their applications.
 
-Linera uses the WebAssembly Virtual Machine (Wasm) to execute user applications.
-Currently, the [Linera SDK](../sdk.md) is focused on the
-[Rust](https://www.rust-lang.org/) programming language.
+Linera uses the [WebAssembly (Wasm)](https://webassembly.org) Virtual Machine to
+execute user applications. Currently, the [Linera SDK](../sdk.md) is focused on
+the [Rust](https://www.rust-lang.org/) programming language.
 
 Linera applications are structured using the familiar notion of **Rust crate**:
 the external interfaces of an application (including initialization parameters,
@@ -28,8 +28,8 @@ flexible:
 3. A user can create a new application instance, by providing the bytecode
    identifier and initialization arguments. This process returns an application
    identifier which can be used to reference and interact with the application.
-4. The same bytecode identifier can be used as many times is needed by as many
-   users are needed to create distinct applications.
+4. The same bytecode identifier can be used as many times needed by as many
+   users needed to create distinct applications.
 
 Importantly, the application deployment lifecycle is abstracted from the user,
 and an application can be published with a single command:
@@ -53,9 +53,6 @@ application's state. The details are covered in more depth in the
 The **service** is non-metered and read-only. It is used primarily to query the
 state of an application and populate the presentation layer (think front-end)
 with the data required for a user interface.
-
-Finally, the application's state is shared by the contract and service in the
-form of a [View](./../advanced_topics/views.md), but more on that later.
 
 ## Operations and Messages
 
@@ -96,7 +93,7 @@ can be sent from one chain to another, always within the same application. Block
 proposers also actively include messages in their block proposal, but unlike
 with operations, they are only allowed to include them in the right order
 (possibly skipping some), and only if they were actually created by another
-chain (or the same chain, earlier).
+chain (or by a previous block of the same chain).
 
 In our "fungible token" application, a message to credit an account would look
 like this:
@@ -124,7 +121,7 @@ authentication as the received message.
 
 In other words, the block signer can have its authority propagated across chains
 through series of messages. This allows applications to safely store user state
-in chains that the user may not have the authority to produce blocks. The
+on chains that the user may not have the authority to produce blocks. The
 application may also allow only the authorized user to change that state, and
 not even the chain owner is able to override that.
 
