@@ -1,29 +1,16 @@
 # Contract Finalization
 
 When a transaction finishes executing successfully, there's a final step where
-all loaded application contracts are allowed to `finalize`, similarly to
-executing a destructor. The default implementation of `finalize` just persists
-the application's state:
+all loaded application contracts have their `Contract::store` implementation
+called. This can be seen to be similar to executing a destructor. In that sense,
+applications may want to perform some final operations after execution finished.
+While finalizing, contracts may send messages, read and write to the state, but
+are not allowed to call other applications, because they are all also in the
+process of finalizing.
 
-```rust,ignore
-    /// Finishes the execution of the current transaction.
-    async fn finalize(&mut self) -> Result<(), Self::Error> {
-        Self::Storage::store(self.state_mut()).await;
-        Ok(())
-    }
-```
-
-Applications may want to override the `finalize` method, which allows performing
-some clean-up operations after execution finished. While finalizing, contracts
-may send messages, read and write to the state, but are not allowed to call
-other applications, because they are all also finalizing.
-
-> If `finalize` is overriden, the default implementation is **not** executed, so
-> the developer must ensure that the application's state is persisted correctly.
-
-While finalizing, contracts can force the transaction to fail by panicking or
-returning an error. The block is then rejected, even if the entire transaction's
-operation had succeeded before `finalize` was called. This allows a contract to
+While finalizing, contracts can force the transaction to fail by panicking. The
+block is then rejected, even if the entire transaction's operation had succeeded
+before the application's `Contract::store` was called. This allows a contract to
 reject transactions if other applications don't follow any required constraints
 it establishes after it responds to a cross-application call.
 
@@ -38,14 +25,16 @@ pub struct MyContract {
     active_sessions: HashSet<ApplicationId>;
 }
 
-#[async_trait]
 impl Contract for MyContract {
-    type Error = MyError;
-    type State = MyState;
-    type Storage = ViewStateStorage<Self>;
     type Message = ();
+    type InstantiationArgument = ();
+    type Parameters = ();
 
-    async fn new(state: Self::State, runtime: ContractRuntime<Self>) -> Result<Self, Self::Error> {
+    async fn load(runtime: ContractRuntime<Self>) -> Self {
+        let state = MyState::load(ViewStorageContext::from(runtime.key_value_store()))
+            .await
+            .expect("Failed to load state");
+
         MyContract {
             state,
             runtime,
@@ -53,21 +42,9 @@ impl Contract for MyContract {
         }
     }
 
-    fn state_mut(&mut self) -> &mut Self::State {
-        &mut self.state
-    }
+    async fn instantiate(&mut self, (): Self::InstantiationArgument) {}
 
-    async fn initialize(
-        &mut self,
-        argument: Self::InitializationArgument,
-    ) -> Result<(), Self::Error> {
-        Ok(())
-    }
-
-    async fn execute_operation(
-        &mut self,
-        operation: Self::Operation,
-    ) -> Result<Self::Response, Self::Error> {
+    async fn execute_operation(&mut self, operation: Self::Operation) -> Self::Response {
         let caller = self.runtime
             .authenticated_caller_id()
             .expect("Missing caller ID");
@@ -92,15 +69,13 @@ impl Contract for MyContract {
         unreachable!("This example doesn't support messages");
     }
 
-    async fn finalize(&mut self) -> Result<(), Self::Error> {
+    async fn store(&mut self) {
         assert!(
             self.active_sessions.is_empty(),
             "Some sessions have not ended"
         );
 
-        Self::Storage::store(self.state_mut()).await;
-
-        Ok(())
+        self.state.save().await.expect("Failed to save state");
     }
 }
 ```
