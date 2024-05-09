@@ -59,8 +59,8 @@ This manual was tested with the following Rust toolchain:
 You may install the Linera binaries with
 
 ```bash
-cargo install linera-sdk@{{#include ../../RELEASE_VERSION}}
-cargo install linera-service@{{#include ../../RELEASE_VERSION}}
+cargo install --locked linera-sdk@{{#include ../../RELEASE_VERSION}}
+cargo install --locked linera-service@{{#include ../../RELEASE_VERSION}}
 ```
 
 and use `linera-sdk` as a library for Linera Wasm applications:
@@ -85,8 +85,8 @@ git checkout -t origin/{{#include ../../RELEASE_BRANCH}}  # Current release bran
 To install the Linera toolchain locally from source, you may run:
 
 ```bash
-cargo install --path linera-sdk
-cargo install --path linera-service
+cargo install --locked --path linera-sdk
+cargo install --locked --path linera-service
 ```
 
 Alternatively, for developing and debugging, you may instead use the binaries
