@@ -109,7 +109,7 @@ mod tests {
 Running `linera project test` is easier, but if there's a need to run
 `cargo test` explicitly to run the unit tests, Cargo must be configured to use
 the custom test runner `linera-wasm-test-runner`. This binary can be built from
-the repository or installed with `cargo install linera-sdk`.
+the repository or installed with `cargo install --locked linera-sdk`.
 
 ```bash
 cd linera-protocol
