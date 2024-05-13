@@ -32,7 +32,7 @@ cd linera-protocol
 git fetch origin
 git checkout $(git rev-parse $REMOTE_BRANCH)
 cargo clean
-cargo build -p linera-sdk
+cargo build --locked -p linera-sdk
 cd ..
 mdbook test -L linera-protocol/target/debug/deps
 git commit -a
