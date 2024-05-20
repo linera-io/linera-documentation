@@ -134,6 +134,24 @@ Finally, to add the chain to `wallet2` for the given unassigned key we use the
  linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --message-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 ```
 
+#### Opening a Chain with Multiple Users
+
+The `open-chain` commands is a simplified version of `open-multi-owner-chain`,
+which gives you fine-grained control over the set and kinds of owners and rounds
+for the new chain, and the timeout settings for the rounds. E.g. this creates a
+chain with two owners and two multi-leader rounds.
+
+```bash
+linera open-multi-owner-chain \
+    --chain-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000 \
+    --owner-public-keys 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 \
+                        ca909dcf60df014c166be17eb4a9f6e2f9383314a57510206a54cd841ade455e \
+    --multi-leader-rounds 2
+```
+
+The `change-ownership` command offers the same options to add or remove owners
+and change round settings for an existing chain.
+
 ## Setting up Extra Wallets Automatically with `linera net up`
 
 For testing, rather than using `linera open-chain` and `linera assign` as above,
