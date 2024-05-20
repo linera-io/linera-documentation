@@ -7,46 +7,31 @@ To create a contract, we need to create a new type and implement the `Contract`
 trait for it, which is as follows:
 
 ```rust,ignore
-#[async_trait]
-pub trait Contract: WithContractAbi + ContractAbi + Send + Sized {
-    /// The type used to report errors to the execution environment.
-    type Error: Error + From<serde_json::Error> + From<bcs::Error> + 'static;
-
-    /// The type used to store the persisted application state.
-    type State: Sync;
-
-    /// The desired storage backend used to store the application's state.
-    type Storage: ContractStateStorage<Self> + Send + 'static;
-
+pub trait Contract: WithContractAbi + ContractAbi + Sized {
     /// The type of message executed by the application.
-    type Message: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
+    type Message: Serialize + DeserializeOwned + Debug;
 
-    /// Creates an in-memory instance of the contract handler from the application's `state`.
-    async fn new(state: Self::State, runtime: ContractRuntime<Self>) -> Result<Self, Self::Error>;
+    /// Immutable parameters specific to this application (e.g. the name of a token).
+    type Parameters: Serialize + DeserializeOwned + Clone + Debug;
 
-    /// Returns the current state of the application so that it can be persisted.
-    fn state_mut(&mut self) -> &mut Self::State;
+    /// Instantiation argument passed to a new application on the chain that created it
+    /// (e.g. an initial amount of tokens minted).
+    type InstantiationArgument: Serialize + DeserializeOwned + Debug;
 
-    /// Initializes the application on the chain that created it.
-    async fn initialize(
-        &mut self,
-        argument: Self::InitializationArgument,
-    ) -> Result<(), Self::Error>;
+    /// Creates a in-memory instance of the contract handler.
+    async fn load(runtime: ContractRuntime<Self>) -> Self;
+
+    /// Instantiates the application on the chain that created it.
+    async fn instantiate(&mut self, argument: Self::InstantiationArgument);
 
     /// Applies an operation from the current block.
-    async fn execute_operation(
-        &mut self,
-        operation: Self::Operation,
-    ) -> Result<Self::Response, Self::Error>;
+    async fn execute_operation(&mut self, operation: Self::Operation) -> Self::Response;
 
     /// Applies a message originating from a cross-chain message.
-    async fn execute_message(&mut self, message: Self::Message) -> Result<(), Self::Error>;
+    async fn execute_message(&mut self, message: Self::Message);
 
     /// Finishes the execution of the current transaction.
-    async fn finalize(&mut self) -> Result<(), Self::Error> {
-        Self::Storage::store(self.state_mut()).await;
-        Ok(())
-    }
+    async fn store(self);
 }
 ```
 
@@ -57,7 +42,7 @@ The full trait definition can be found
 There's quite a bit going on here, so let's break it down and take one method at
 a time.
 
-For this application, we'll be using the `initialize` and `execute_operation`
+For this application, we'll be using the `load`, `execute_operation` and `store`
 methods.
 
 ## The Contract Lifecycle
@@ -78,55 +63,56 @@ things. Other fields can be added, and they can be used to store volatile data
 that only exists while the current transaction is being executed, and discarded
 afterwards.
 
-When a transaction is executed, first the application's state is loaded, then
-the contract type is created by calling the `Contract::new` method. This method
-receives the state and a handle to the runtime that the contract can use. For
-our implementation, we will just store the received parameters:
+When a transaction is executed, the contract type is created through a call to
+`Contract::load` method. This method receives a handle to the runtime that the
+contract can use, and should use it to load the application state. For our
+implementation, we will load the state and create the `CounterContract`
+instance:
 
 ```rust,ignore
-    async fn new(state: Counter, runtime: ContractRuntime<Self>) -> Result<Self, Self::Error> {
+    async fn load(runtime: ContractRuntime<Self>) -> Self {
+        let state = Counter::load(ViewStorageContext::from(runtime.key_value_store()))
+            .await
+            .expect("Failed to load state");
         CounterContract { state, runtime }
     }
 ```
 
 When the transaction finishes executing successfully, there's a final step where
-all loaded application contracts are allowed to `finalize`, similarly to
-executing a destructor. The default implementation of `finalize` just persists
-the application's state, and that's why we must provide it access to the state
-through the `state_mut` method:
+all loaded application contracts are called in order to do any final checks and
+persist its state to storage. That final step is a call to the `Contract::store`
+method, which can be thought of as similar to executing a destructor. In our
+implementation we will persist the state back to storage:
 
 ```rust,ignore
-    fn state_mut(&mut self) -> &mut Self::State {
-        &mut self.state
+    async fn store(mut self) {
+        self.state.save().await.expect("Failed to save state");
     }
 ```
 
-Applications may want to override the `finalize` method in more advanced
-scenarios, but they must ensure they don't forget to _persist_ their state if
-they do so. For more information see the
-[Contract finalization section](../advanced_topics/contract_finalize.md).
+It's possible to do more than just saving the state, and the
+[Contract finalization section](../advanced_topics/contract_finalize.md)
+provides more details on that.
 
-## Initializing our Application
+## Instantiating our Application
 
 The first thing that happens when an application is created from a bytecode is
-that it is initialized. This is done by calling the contract's
-`Contract::initialize` method.
+that it is instantiated. This is done by calling the contract's
+`Contract::instantiate` method.
 
-`Contract::initialize` is only called once when the application is created and
+`Contract::instantiate` is only called once when the application is created and
 only on the microchain that created the application.
 
-Deployment on other microchains will use the `Default` implementation of the
-application state if `SimpleStateStorage` is used, or the `Default` value of all
-sub-views in the state if the `ViewStateStorage` is used.
+Deployment on other microchains will use the `Default` value of all sub-views in
+the state if the state uses the view paradigm.
 
 For our example application, we'll want to initialize the state of the
 application to an arbitrary number that can be specified on application creation
-using its initialization parameters:
+using its instatiation parameters:
 
 ```rust,ignore
-    async fn initialize(&mut self, value: u64) -> Result<(), Self::Error> {
+    async fn instantiate(&mut self, value: u64) {
         self.state.value.set(value);
-        Ok(())
     }
 ```
 
@@ -136,15 +122,14 @@ Now that we have our counter's state and a way to initialize it to any value we
 would like, we need a way to increment our counter's value. Execution requests
 from block proposers or other applications are broadly called 'operations'.
 
-To create a new operation, we need to use the method
-`Contract::execute_operation`. In the counter's case, it will be receiving a
-`u64` which is used to increment the counter:
+To handle an operation, we need to implement the `Contract::execute_operation`
+method. In the counter's case, the operation it will be receiving is a `u64`
+which is used to increment the counter by that value:
 
 ```rust,ignore
-    async fn execute_operation(&mut self, operation: u64) -> Result<(), Self::Error> {
+    async fn execute_operation(&mut self, operation: u64) {
         let current = self.value.get();
         self.value.set(current + operation);
-        Ok(())
     }
 ```
 

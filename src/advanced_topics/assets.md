@@ -24,7 +24,7 @@ The
 does this:
 
 ```rust,ignore
-    async fn execute_operation(&mut self, operation: Operation) -> Result<(), Self::Error> {
+    async fn execute_operation(&mut self, operation: Operation) -> Self::Response {
         match operation {
             // ...
             Operation::CloseChain => {
@@ -38,7 +38,7 @@ does this:
                 }
                 self.runtime
                     .close_chain()
-                    .map_err(|_| MatchingEngineError::CloseChainError)?;
+                    .expect("The application does not have permissions to close the chain.");
             }
         }
     }

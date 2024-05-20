@@ -9,9 +9,9 @@ handling code is guaranteed to be the same as the sending code, but the state
 may be different.
 
 For your application, you can specify any serializable type as the `Message`
-type in your `ContractAbi` implementation. To send a message, use the
+type in your `Contract` implementation. To send a message, use the
 [`ContractRuntime`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ContractRuntime.html)
-made available as an argument to the contract's [`Contract::new`] constructor.
+made available as an argument to the contract's [`Contract::load`] constructor.
 The runtime is usually stored inside the contract object, as we did when
 [writing the contract binary](./contract.md). We can then call
 [`ContractRuntime::prepare_message`](https://docs.rs/linera-sdk/latest/linera_sdk/struct.ContractRuntime.html#prepare_message)
@@ -39,9 +39,9 @@ contract's `execute_message` method gets called on their chain.
 
 While preparing the message to be sent, it is possible to enable authentication
 forwarding and/or tracking. Authentication forwarding means that the message is
-executed with the same authenticated signer as the sender of the message, while
-tracking means that the message is sent back to the sender if the receiver skips
-it. The example below enables both flags:
+executed by the receiver with the same authenticated signer as the sender of the
+message, while tracking means that the message is sent back to the sender if the
+receiver rejects it. The example below enables both flags:
 
 ```rust,ignore
     self.runtime
@@ -53,17 +53,15 @@ it. The example below enables both flags:
 
 ## Example: Fungible Token
 
-In the
-[`fungible` example application](https://github.com/linera-io/linera-protocol/tree/main/examples/fungible),
-such a message can be the transfer of tokens from one chain to another. If the
-sender includes a `Transfer` operation on their chain, it decreases their
-account balance and sends a `Credit` message to the recipient's chain:
+In the [`fungible` example
+application](https://github.com/linera-io/linera-protocol/tree/{{#include
+../../.git/modules/linera-protocol/HEAD}}/examples/fungible), such a message can
+be the transfer of tokens from one chain to another. If the sender includes a
+`Transfer` operation on their chain, it decreases their account balance and
+sends a `Credit` message to the recipient's chain:
 
 ```rust,ignore
-async fn execute_operation(
-    &mut self,
-    operation: Self::Operation,
-) -> Result<Self::Response, Self::Error> {
+async fn execute_operation(&mut self, operation: Self::Operation) -> Self::Response {
     match operation {
         // ...
         Operation::Transfer {
@@ -75,7 +73,7 @@ async fn execute_operation(
             self.state.debit(owner, amount).await?;
             self.finish_transfer_to_account(amount, target_account, owner)
                 .await;
-            Ok(FungibleResponse::Ok)
+            FungibleResponse::Ok
         }
         // ...
     }
@@ -98,6 +96,7 @@ async fn finish_transfer_to_account(
         self.runtime
             .prepare_message(message)
             .with_authentication()
+            .with_tracking()
             .send_to(target_account.chain_id);
     }
 }
@@ -107,7 +106,7 @@ On the recipient's chain, `execute_message` is called, which increases their
 account balance.
 
 ```rust,ignore
-async fn execute_message(&mut self, message: Message) -> Result<(), Self::Error> {
+async fn execute_message(&mut self, message: Message) {
     match message {
         Message::Credit {
             amount,
@@ -119,7 +118,5 @@ async fn execute_message(&mut self, message: Message) -> Result<(), Self::Error>
         }
         // ...
     }
-
-    Ok(())
 }
 ```
