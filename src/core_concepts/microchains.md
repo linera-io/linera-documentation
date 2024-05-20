@@ -71,10 +71,33 @@ discards messages unless they fail to execute.
 
 ## Chain Ownership Semantics
 
-Only single-owner chains are currently supported in the Linera SDK. However,
-microchains can create new microchains for other users, and control of a chain
-can be transferred to another user by changing the owner ID. A chain is
-permanently deactivated when its owner ID is set to `None`.
+Active chains can have one or multiple owners. Chains with zero owners are
+permanently deactivated.
+
+In Linera, the validators guarantee _safety_: On each chain, at each height,
+there is at most one unique block.
+
+But _liveness_—actually adding blocks to a chain at all—relies on the owners.
+There are different types of rounds and owners, optimized for different use
+cases:
+
+- First an optional _fast_ round, where a _super owner_ can propose blocks that
+  get confirmed with very particularly low latency, optimal for single-owner
+  chains with no contention.
+- Then a number of _multi-leader rounds_, where all _regular owners_ can propose
+  blocks. This works well even if there is occasional, temporary contention: an
+  owner using multiple devices, or multiple people using the same chain
+  infrequently.
+- And finally _single-leader rounds_: These give each regular chain owner a time
+  slot in which only they can propose a new block, without being hindered by any
+  other owners' proposals. This is ideal for chains with many users that are
+  trying to commit blocks at the same time.
+
+The number of multi-leader rounds is configurable: On chains with fluctuating
+levels of activity, this allows the system to dynamically switch to
+single-leader mode whenever all multi-leader rounds fail during periods of high
+contention. Chains that very often have high activity from multiple owners can
+set the number of multi-leader rounds to 0.
 
 For more detail and examples on how to open and close chains, see the wallet
 section on [chain management](wallets.md#opening-a-chain).
