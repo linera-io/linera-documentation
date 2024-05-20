@@ -48,7 +48,9 @@ jobs:
       - run: mdbook build
 
       - name: 'Check documentation'
-        run: mdbook test -L linera-protocol/target/debug/deps/
+        run: |
+          rustup default 1.78
+          mdbook test -L linera-protocol/target/debug/deps/
 
   formatting:
     runs-on: ubuntu-latest
