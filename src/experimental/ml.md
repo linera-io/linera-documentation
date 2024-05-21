@@ -147,7 +147,7 @@ availability of which is guaranteed by the validators.
 The maximum size of a model which can be loaded into an application's service is
 currently constrained by:
 
-1. The addressable memory of the service's Wasm runtime being 4 Gb.
+1. The addressable memory of the service's Wasm runtime being 4 GiB.
 2. Not being able to load models directly to the GPU.
 
 It is recommended that smaller models (50 Mb - 100 Mb) are used at current state
