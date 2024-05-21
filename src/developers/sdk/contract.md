@@ -37,7 +37,7 @@ pub trait Contract: WithContractAbi + ContractAbi + Sized {
 
 The full trait definition can be found
 [here](https://github.com/linera-io/linera-protocol/blob/{{#include
-../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/lib.rs).
+../../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/lib.rs).
 
 There's quite a bit going on here, so let's break it down and take one method at
 a time.
