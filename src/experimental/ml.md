@@ -92,9 +92,9 @@ impl Service for MyService {
 This can be served from a local webserver or pulled directly from a model
 provider such as Hugging Face.
 
-At this we have the raw bytes which correspond to the models and tokenizer.
-`candle` supports multiple formats for storing model weights, both quantized and
-not (`gguf`, `ggml`, `safetensors`, etc.).
+At this point we have the raw bytes which correspond to the models and
+tokenizer. `candle` supports multiple formats for storing model weights, both
+quantized and not (`gguf`, `ggml`, `safetensors`, etc.).
 
 Depending on the model format that you're using, `candle` exposes convenience
 functions to convert the bytes into a typed `struct` which can then be used to
