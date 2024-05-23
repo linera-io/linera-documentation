@@ -18,7 +18,7 @@ level = 0
 runnable = false
 
 [output.html.redirect]
-"/overview.html" = "/core_concepts/overview.html"
+"/overview.html" = "/developers/core_concepts/overview.html"
 
 [output.linkcheck]
 

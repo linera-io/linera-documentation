@@ -2,7 +2,7 @@
 
 [The Linera Manual](introduction.md)
 
-- [Developers](./developers.md)
+- [Developers](developers.md)
 
   - [Getting Started](developers/getting_started.md)
 

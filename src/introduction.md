@@ -7,10 +7,10 @@ scalable, low-latency Web3 applications**.
 
 The documentation is split in two parts:
 
-1. The [Developers](./operators.md) section is intended for developers who wish
+1. The [Developers](developers.md) section is intended for developers who wish
    to learn more about Linera and its programming model by prototyping
    applications on top of the Linera Rust SDK.
-2. The [Operators](./operators.md) section is intended for operators who wish to
+2. The [Operators](operators.md) section is intended for operators who wish to
    run Linera validators.
 
 > **NEW: Publish and test your Web3 application on the Linera Devnet!**

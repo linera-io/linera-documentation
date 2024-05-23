@@ -1,6 +1,6 @@
 # Running devnets with `kind`
 
-Linera validators are built on Kubernetes for resilience and scalability. In
+The Linera validator reference implementation is a deployment on Kubernetes. In
 this section we'll be using `kind` to run a full devnet (network of validators)
 locally.
 
@@ -64,7 +64,6 @@ To run `kind` locally, you also need the following dependencies:
 ### Installing the Linera Toolchain
 
 To install the `Linera` toolchain, download the Linera source from
-[GitHub](Download the source from
 [GitHub](https://github.com/linera-io/linera-protocol)):
 
 ```bash
@@ -76,7 +75,7 @@ git checkout -t origin/{{#include ../../../RELEASE_BRANCH}}  # Current release b
 and to install the Linera toolchain:
 
 ```bash
-cargo install --locked --path linera-service
+cargo install --locked --path linera-service --features kubernetes
 ```
 
 ## Running with `kind`
