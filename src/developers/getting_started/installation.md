@@ -50,7 +50,7 @@ protocol itself, see the installation section on
 This manual was tested with the following Rust toolchain:
 
 ```text
-{{#include ../../linera-protocol/rust-toolchain.toml}}
+{{#include ../../../linera-protocol/rust-toolchain.toml}}
 ```
 
 ## Installing from crates.io
@@ -58,16 +58,16 @@ This manual was tested with the following Rust toolchain:
 You may install the Linera binaries with
 
 ```bash
-cargo install --locked linera-service@{{#include ../../RELEASE_VERSION}}
+cargo install --locked linera-service@{{#include ../../../RELEASE_VERSION}}
 ```
 
 and use `linera-sdk` as a library for Linera Wasm applications:
 
 ```bash
-cargo add linera-sdk@{{#include ../../RELEASE_VERSION}}
+cargo add linera-sdk@{{#include ../../../RELEASE_VERSION}}
 ```
 
-The version number `{{#include ../../RELEASE_VERSION}}` corresponds to the
+The version number `{{#include ../../../RELEASE_VERSION}}` corresponds to the
 current Devnet of Linera and may change frequently.
 
 ## Installing from GitHub
@@ -77,7 +77,7 @@ Download the source from [GitHub](https://github.com/linera-io/linera-protocol):
 ```bash
 git clone https://github.com/linera-io/linera-protocol.git
 cd linera-protocol
-git checkout -t origin/{{#include ../../RELEASE_BRANCH}}  # Current release branch
+git checkout -t origin/{{#include ../../../RELEASE_BRANCH}}  # Current release branch
 ```
 
 To install the Linera toolchain locally from source, you may run:
@@ -93,7 +93,7 @@ This manual was tested against the following commit of the
 [repository](https://github.com/linera-io/linera-protocol):
 
 ```text
-{{#include ../../.git/modules/linera-protocol/HEAD}}
+{{#include ../../../.git/modules/linera-protocol/HEAD}}
 ```
 
 ## Bash helper (optional)

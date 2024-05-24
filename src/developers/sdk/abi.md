@@ -24,7 +24,7 @@ The `Abi` trait combines the `ContractAbi` and `ServiceAbi` traits to include
 the types that your application exports.
 
 ```rust,ignore
-{{#include ../../linera-protocol/linera-base/src/abi.rs:abi}}
+{{#include ../../../linera-protocol/linera-base/src/abi.rs:abi}}
 ```
 
 Next, we're going to implement each of the two traits.
@@ -35,7 +35,7 @@ The `ContractAbi` trait defines the data types that your application uses in a
 contract. Each type represents a specific part of the contract's behavior:
 
 ```rust,ignore
-{{#include ../../linera-protocol/linera-base/src/abi.rs:contract_abi}}
+{{#include ../../../linera-protocol/linera-base/src/abi.rs:contract_abi}}
 ```
 
 All these types must implement the `Serialize`, `DeserializeOwned`, `Send`,
@@ -62,7 +62,7 @@ The `ServiceAbi` trait defines the types used by the service part of your
 application:
 
 ```rust,ignore
-{{#include ../../linera-protocol/linera-base/src/abi.rs:service_abi}}
+{{#include ../../../linera-protocol/linera-base/src/abi.rs:service_abi}}
 ```
 
 For our Counter example, we'll be using GraphQL to query our application so our

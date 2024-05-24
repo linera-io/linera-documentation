@@ -28,7 +28,7 @@ pub trait Service: WithServiceAbi + ServiceAbi + Sized {
 
 The full service trait definition can be found
 [here](https://github.com/linera-io/linera-protocol/blob/{{#include
-../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/lib.rs).
+../../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/lib.rs).
 
 Let's implement `Service` for our counter application.
 
@@ -153,5 +153,5 @@ We haven't included the imports in the above code; they are left as an exercise
 to the reader (but remember to import `async_graphql::Object`). If you want the
 full source code and associated tests check out the [examples
 section](https://github.com/linera-io/linera-protocol/blob/{{#include
-../../.git/modules/linera-protocol/HEAD}}/examples/counter/src/service.rs) on
+../../../.git/modules/linera-protocol/HEAD}}/examples/counter/src/service.rs) on
 GitHub.

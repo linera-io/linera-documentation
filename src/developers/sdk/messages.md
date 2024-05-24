@@ -55,9 +55,9 @@ receiver rejects it. The example below enables both flags:
 
 In the [`fungible` example
 application](https://github.com/linera-io/linera-protocol/tree/{{#include
-../../.git/modules/linera-protocol/HEAD}}/examples/fungible), such a message can
-be the transfer of tokens from one chain to another. If the sender includes a
-`Transfer` operation on their chain, it decreases their account balance and
+../../../.git/modules/linera-protocol/HEAD}}/examples/fungible), such a message
+can be the transfer of tokens from one chain to another. If the sender includes
+a `Transfer` operation on their chain, it decreases their account balance and
 sends a `Credit` message to the recipient's chain:
 
 ```rust,ignore

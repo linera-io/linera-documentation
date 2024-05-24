@@ -96,8 +96,8 @@ tokens.
 
 For the complete code please take a look at the
 [`crowd-funding`](https://github.com/linera-io/linera-protocol/blob/{{#include
-../../.git/modules/linera-protocol/HEAD}}/examples/crowd-funding/src/contract.rs)
+../../../.git/modules/linera-protocol/HEAD}}/examples/crowd-funding/src/contract.rs)
 and the
 [`fungible`](https://github.com/linera-io/linera-protocol/blob/{{#include
-../../.git/modules/linera-protocol/HEAD}}/examples/fungible/src/contract.rs)
+../../../.git/modules/linera-protocol/HEAD}}/examples/fungible/src/contract.rs)
 application contracts in the `examples` folder in `linera-protocol`.
