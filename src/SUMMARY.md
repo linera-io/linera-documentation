@@ -48,7 +48,7 @@
     - [Videos](developers/appendix/videos.md)
 
 - [Operators](operators.md)
-  - [Devnets]()
+  - [Devnets](operators/devnets.md)
     - [kind](operators/devnets/kind.md)
 
 <!-- prettier-ignore-start -->
