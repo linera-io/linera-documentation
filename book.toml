@@ -12,7 +12,7 @@ additional-js = ["custom.js"]
 
 [output.html.fold]
 enable = true
-level = 2
+level = 1
 
 [output.html.playground]
 runnable = false
