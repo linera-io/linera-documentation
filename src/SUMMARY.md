@@ -44,16 +44,10 @@
     - [Machine Learning](developers/experimental/ml.md)
 
 - [Operators](operators.md)
+
   - [Devnets](operators/devnets.md)
     - [kind](operators/devnets/kind.md)
 
 - [Appendix](appendix.md)
   - [Glossary](appendix/glossary.md)
   - [Videos](appendix/videos.md)
-
-<!-- prettier-ignore-start -->
-<!--
-  - [Adding Re-Entrancy](advanced_topics/reentrancy.md)
-  - [Execution Model](advanced_topics/execution_model.md)
--->
-<!-- prettier-ignore-end -->
