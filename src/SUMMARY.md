@@ -43,13 +43,13 @@
 
     - [Machine Learning](developers/experimental/ml.md)
 
-  - [Appendix](developers/appendix.md)
-    - [Glossary](developers/appendix/glossary.md)
-    - [Videos](developers/appendix/videos.md)
-
 - [Operators](operators.md)
   - [Devnets](operators/devnets.md)
     - [kind](operators/devnets/kind.md)
+
+- [Appendix](appendix.md)
+  - [Glossary](appendix/glossary.md)
+  - [Videos](appendix/videos.md)
 
 <!-- prettier-ignore-start -->
 <!--
