@@ -46,6 +46,7 @@
 - [Operators](operators.md)
 
   - [Devnets](operators/devnets.md)
+    - [Docker Compose](operators/devnets/compose.md)
     - [kind](operators/devnets/kind.md)
 
 - [Appendix](appendix.md)
