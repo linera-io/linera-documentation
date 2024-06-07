@@ -15,6 +15,8 @@ docker-compose down.
 This section covers everything you need to install to run a Linera network with
 Docker Compose.
 
+Note: This section was only tested under Linux.
+
 ### Docker Compose Requirements
 
 To install Docker Compose see the
