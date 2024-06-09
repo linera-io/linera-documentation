@@ -15,6 +15,8 @@ docker-compose down.
 This section covers everything you need to install to run a Linera network with
 Docker Compose.
 
+Note: This section was only tested under Linux.
+
 ### Docker Compose Requirements
 
 To install Docker Compose see the
@@ -26,7 +28,7 @@ the Docker docs.
 To install the Linera Toolchain refer to the
 [installation section](../../developers/getting_started/installation.md#installing-from-github).
 
-You want to install thge toolchain from the GitHub, as you'll be using the
+You want to install the toolchain from the GitHub, as you'll be using the
 repository to run the Docker Compose validator service.
 
 ## Running with Docker Compose
