@@ -6,8 +6,8 @@
 
 The oracles can be accessed via an HTTP POST operation which is part of the
 `linera-sdk` API. This request is executed by the validators. It is essential
-for effective running of the system that all the validator read the same value
-for this request.
+for the liveness of chains using the application that the validators have
+a high chance of reading the same value for each request.
 
 Access to the Ethereum blockchain is a particular case of oracles. The access is
 provided by the `EthereumClient` type that contains the endpoint to the Ethereum
