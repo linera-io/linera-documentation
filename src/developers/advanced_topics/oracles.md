@@ -1,6 +1,6 @@
 # Oracles and Ethereum
 
-> Oracles are a specific functionality of Linera chain that allows linera
+> Oracles are a specific functionality of Linera chain that allows Linera
 > applications to know the state of the world. One example is accessing to the
 > state of Ethereum smart contract.
 
