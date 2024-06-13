@@ -1,17 +1,24 @@
 # Oracles and Ethereum
 
-> Oracles are a specific functionality of Linera chain that allows Linera
-> applications to know the state of the world. One example is accessing to the
-> state of Ethereum smart contract.
+> Oracles are a mechanism that allows applications to get information from the
+> outside world that is not on-chain yet. One example is accessing the state of
+> an Ethereum smart contract from a Linera application.
 
-The oracles can be accessed via an HTTP POST operation which is part of the
-`linera-sdk` API. This request is executed by the validators. It is essential
-for the liveness of chains using the application that the validators have a high
-chance of reading the same value for each request.
+The contract runtime currently has two oracle methods:
 
-Access to the Ethereum blockchain is a particular case of oracles. The access is
-provided by the `EthereumClient` type that contains the endpoint to the Ethereum
-client. From the Ethereum client we have access to the followings functions:
+- `query_service` allows the contract to make a call to the application's own
+  service code. Services can access some off-chain information, so these are not
+  guaranteed to return the same result each time they are called.
+- `http_post` makes an HTTP POST request and returns the response.
+
+Applications should use these methods only in ways that make it very likely that
+all validators see the same result, otherwise any block proposals running that
+application's code are likely to fail, hurting the liveness of the users'
+chains. (Also, oracle methods are disallowed completely in fast rounds; see
+[Chain Ownership Semantics](../core_concepts/microchains.md#chain-ownership-semantics).)
+
+The Linera SDK uses `http_post` to implement the `EthereumClient` type, which
+provides functions to query an Ethereum node:
 
 - `get_balance` for accessing the balance of an Ethereum account at a specific
   block number.
