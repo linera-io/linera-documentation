@@ -19,6 +19,7 @@ runnable = false
 
 [output.html.redirect]
 "/overview.html" = "/developers/core_concepts/overview.html"
+"/core_concepts/microchains.html" = "/developers/core_concepts/microchains.html"
 
 [output.linkcheck]
 
