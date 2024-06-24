@@ -1,7 +1,6 @@
 # Running devnets with `kind`
 
-The Linera validator reference implementation is a deployment on Kubernetes. In
-this section we'll be using `kind` to run a full devnet (network of validators)
+In this section, we use `kind` to run a full devnet (network of validators)
 locally.
 
 Kind (Kubernetes in Docker) is a tool for running local Kubernetes clusters
