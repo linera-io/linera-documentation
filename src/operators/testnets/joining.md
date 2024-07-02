@@ -1,17 +1,12 @@
-# Running a Linera Validator
+# Joining an Existing Testnet
 
 In this section, we use Docker Compose to run a validator and join an existing
 Testnet.
 
-> Note: Some of these steps are centralized. They require trusting the Linera
-> Protocol core team for being added to the network and the distribution of the
-> genesis configuration. Over time this will be replaced with more decentralized
-> processes to the same effect.
-
 ## Installation
 
 This section covers everything you need to install to run a Linera validator
-with Docker Compose.
+node with Docker Compose.
 
 > Note: This section was only tested under Linux.
 
@@ -74,10 +69,10 @@ metrics_port = 21100
 The genesis configuration describes the committee of validators and chains at
 the point of network creation. It is required for validators to function.
 
-For now the genesis configuration for each Testnet can be found in a public
+Initially, the genesis configuration for each Testnet will be found in a public
 bucket managed by the Linera Protocol core team.
 
-Download it using:
+An example can be found here:
 
 ```bash
 wget "https://storage.cloud.google.com/linera-io-dev-public/{{#include ../../../RELEASE_DOMAIN}}/genesis.json"
@@ -131,7 +126,7 @@ $ docker build -f docker/Dockerfile . -t linera
 
 This can take several minutes.
 
-### Running a Validator
+### Running a Validator Node
 
 Now that the genesis configuration is available at `docker/genesis.json` and the
 server configuration is available at `docker/server.json`, the validator can be

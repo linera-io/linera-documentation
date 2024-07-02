@@ -43,13 +43,13 @@
 
     - [Machine Learning](developers/experimental/ml.md)
 
-- [Operators](operators.md)
+- [Node Operators](operators.md)
 
   - [Devnets](operators/devnets.md)
     - [Docker Compose](operators/devnets/compose.md)
     - [kind](operators/devnets/kind.md)
-  - [Validators](operators/validators.md)
-    - [Joining an existing Testnet](operators/validators/joining.md)
+  - [Testnets](operators/testnets.md)
+    - [Joining a Testnet](operators/testnets/joining.md)
 
 - [Appendix](appendix.md)
   - [Glossary](appendix/glossary.md)

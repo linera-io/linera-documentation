@@ -54,6 +54,11 @@
   communication primitive which enable communication on the same application
   running on different chains.
 
+- **Devnet**: An experimental deployment of the Linera protocol meant for
+  testing and development. In a Devnet, the validator nodes are often run by the
+  same operator for simplicity. Devnets may be shut down and restarted from a
+  genesis configuration any time. Devnets do not handle real assets.
+
 - **Epoch**: A period of time when a particular set of validators with
   particular voting weights can certify new blocks. Since each chain has to
   transition explicitly from one epoch to the next, epochs can overlap.
@@ -64,6 +69,8 @@
 
 - **Inbox**: A commutative data structure storing incoming messages for a given
   chain.
+
+- **Mainnet**: A deployment meant to be used in production, with real assets.
 
 - **Message**: See 'Cross-Chain Message'.
 
@@ -101,6 +108,11 @@
 
 - **Stake**: An amount of tokens pledged by a validator or auditor, as a
   collateral to guarantee their honest and correct participation in the network.
+
+- **Testnet**: A deployment of the Linera protocol meant for testing and
+  development. In a Testnet, the validator nodes are operated by multiple
+  operators. Testnets will gain in stability and decentralization over time in
+  preparation of the mainnet launch. Testnets do not handle real assets.
 
 - **User Chain**: Used interchangeably with _Single-Owner Chain_. User chains
   are chains which are owned by a single user on the network. Only the chain
