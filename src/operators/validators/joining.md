@@ -1,7 +1,12 @@
 # Running a Linera Validator
 
-In this section, we use Docker Compose to run a validator and join and existing
-network.
+In this section, we use Docker Compose to run a validator and join an existing
+Testnet.
+
+> Note: Some of these steps are centralized. They require trusting the Linera
+> Protocol core team for being added to the network and the distribution of the
+> genesis configuration. Over time this will be replaced with more decentralized
+> processes to the same effect.
 
 ## Installation
 
@@ -26,22 +31,22 @@ to run the Docker Compose validator service.
 
 ## Setting up a Linera Validator
 
-For the next section, will be working out of the `docker` subdirectory in the
+For the next section, we'll be working out of the `docker` subdirectory in the
 `linera-protocol` repository.
 
 ### Infrastructure Configuration
 
-Validators run via Docker Compose do not come with a pre-packaged Load Balancer
+Validators run via Docker Compose do not come with a pre-packaged load balancer
 to perform TLS termination (unlike validators running on Kubernetes).
 
-Thus, it is required of Validator Operators to provide TLS termination and
+Thus, it is required of validator operators to provide TLS termination and
 support long-lived HTTP/2 connections required for the functioning of the Linera
 notification system.
 
 ### Creating your Validator Configuration
 
-Validators are defined in TOML based configuration files. You can use the
-following template to setup you own validator configuration:
+Validators are configured using a TOML file. You can use the following template
+to set up you own validator configuration:
 
 ```toml
 server_config_path = "server.json"
@@ -69,7 +74,7 @@ metrics_port = 21100
 The genesis configuration describes the committee of validators and chains at
 the point of network creation. It is required for validators to function.
 
-For now the Genesis Configuration for each network can be found in a public
+For now the genesis configuration for each Testnet can be found in a public
 bucket managed by the Linera Protocol core team.
 
 Download it using:
@@ -81,9 +86,9 @@ wget "https://storage.cloud.google.com/linera-io-dev-public/{{#include ../../../
 ### Creating Your Keys
 
 Now that the
-[Validator Configuration](joining.md#creating-your-validator-configuration) has
-been created and the [Genesis Configuration](joining.md#genesis-configuration)
-is available, the Validator private keys can be generated.
+[validator configuration](joining.md#creating-your-validator-configuration) has
+been created and the [genesis configuration](joining.md#genesis-configuration)
+is available, the validator private keys can be generated.
 
 To generate the private keys, the `linera-server` binary is used:
 
@@ -92,9 +97,9 @@ linera-server generate --validators /path/to/validator/configuration.toml
 ```
 
 This will generate a file called `server.json` with the information required for
-a Validator to operate, including a cryptographic keypair.
+a validator to operate, including a cryptographic keypair.
 
-The Public Key will be printed after the command has finished executing, for
+The public key will be printed after the command has finished executing, for
 example:
 
 ```bash
@@ -108,9 +113,12 @@ $ linera-server generate --validators /path/to/validator/configuration.toml
 92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196 # <- Public Key
 ```
 
-The Public Key, in this case beginning with `92f`, must be communicated with the
+The public key, in this case beginning with `92f`, must be communicated to the
 Linera Protocol core team along with the chosen host name for onboarding in the
 next epoch.
+
+> Note: Before being included in the next epoch, validator nodes will receive no
+> traffic from existing users.
 
 ### Building the Linera Docker image
 
@@ -125,8 +133,8 @@ This can take several minutes.
 
 ### Running a Validator
 
-Now that the Genesis Configuration is available at `docker/genesis.json` and the
-Server Configuration is available at `docker/server.json`, the validator can be
+Now that the genesis configuration is available at `docker/genesis.json` and the
+server configuration is available at `docker/server.json`, the validator can be
 started by running from inside the `docker` directory:
 
 ```bash

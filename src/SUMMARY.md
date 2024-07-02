@@ -49,7 +49,7 @@
     - [Docker Compose](operators/devnets/compose.md)
     - [kind](operators/devnets/kind.md)
   - [Validators](operators/validators.md)
-    - [Joining an existing network](operators/validators/joining.md)
+    - [Joining an existing Testnet](operators/validators/joining.md)
 
 - [Appendix](appendix.md)
   - [Glossary](appendix/glossary.md)
