@@ -1,12 +1,25 @@
 # Videos
 
-We're consistently improving the SDK and creating new material. We recorded the
-following tutorial videos for the Linera Developer Summer School 2023:
+We're consistently improving the SDK and creating new material. Below are some of our recent tutorial and presentation videos:
 
-- [Build and deploy your first applications](https://www.youtube.com/watch?v=Zr6BWodQ0sI)
+## [Rust on Linera: Spring 2024 Hackathon Kick-Off](https://www.youtube.com/watch?v=gVOHsS7d5qI&t=1747s)
+Exploring the Linera protocol with our founder, Mathieu Baudet, followed by an overview of the Rust on Linera hackathon specifics and resources.
 
-- [Add testing, logging, and more to your app](https://www.youtube.com/watch?v=Aq9jCeEl02k)
+## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #1](https://www.youtube.com/watch?v=Px_9AapmZPY&t=3s)
+Building and deploying your first Linera application using the Linera devnet with one of our engineers, Christos Hadjiaslanis.
 
-- [Use cross-application calls to call other apps](https://www.youtube.com/watch?v=5M5Ju35AnPE)
+## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #2](https://www.youtube.com/watch?v=Y-wunX2SwSs&t=1s)
+Making your Linera application robust by adding testing, logging, and more.
+
+## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #3](https://www.youtube.com/watch?v=UkAYdolV9vw&t=1s)
+Building a meta-fungible token application on Linera.
+
+## [Secure Reactive Web3 for Everyone](https://www.youtube.com/watch?v=GViOuQzs_fo&t=6s)
+Discussing how user wallets track on-chain data using WebAssembly and microchains with Mathieu Baudet and Andreas Fackler from Eth Prague 2024.
+
+## [Linera x Movement Labs Integrated Day Party Panel Discussion](https://www.youtube.com/watch?v=BSWEZU70WAE)
+Discussing the importance of blockchain and Web3 technologies, challenges and opportunities in the industry, and the significance of security and user empowerment in the new web ecosystem from Consensus 2024.
+
+For the latest videos and highlights, check out our [YouTube channel](https://www.youtube.com/@linera_io) and [Twitter Media](https://twitter.com/linera_io).
 
 _Happy viewing!_
