@@ -2,19 +2,19 @@
 
 We're consistently improving the SDK and creating new material. Below are some of our recent tutorial and presentation videos:
 
-## [Rust on Linera: Spring 2024 Hackathon Kick-Off](https://www.youtube.com/watch?v=gVOHsS7d5qI&t=1747s)
+## [Rust on Linera: Spring 2024 Hackathon Kick-Off](https://www.youtube.com/watch?v=gVOHsS7d5qI)
 Exploring the Linera protocol with our founder, Mathieu Baudet, followed by an overview of the Rust on Linera hackathon specifics and resources.
 
-## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #1](https://www.youtube.com/watch?v=Px_9AapmZPY&t=3s)
+## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #1](https://www.youtube.com/watch?v=Px_9AapmZPY)
 Building and deploying your first Linera application using the Linera devnet with one of our engineers, Christos Hadjiaslanis.
 
-## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #2](https://www.youtube.com/watch?v=Y-wunX2SwSs&t=1s)
+## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #2](https://www.youtube.com/watch?v=Y-wunX2SwSs)
 Making your Linera application robust by adding testing, logging, and more.
 
-## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #3](https://www.youtube.com/watch?v=UkAYdolV9vw&t=1s)
+## [Rust on Linera: Spring 2024 Hackathon Coding Workshop #3](https://www.youtube.com/watch?v=UkAYdolV9vw)
 Building a meta-fungible token application on Linera.
 
-## [Secure Reactive Web3 for Everyone](https://www.youtube.com/watch?v=GViOuQzs_fo&t=6s)
+## [Secure Reactive Web3 for Everyone](https://www.youtube.com/watch?v=GViOuQzs_fo)
 Discussing how user wallets track on-chain data using WebAssembly and microchains with Mathieu Baudet and Andreas Fackler from Eth Prague 2024.
 
 ## [Linera x Movement Labs Integrated Day Party Panel Discussion](https://www.youtube.com/watch?v=BSWEZU70WAE)
