@@ -38,6 +38,9 @@ Thus, it is required of validator operators to provide TLS termination and
 support long-lived HTTP/2 connections required for the functioning of the Linera
 notification system.
 
+Finally, the load balancer that performs TLS termination must redirect traffic
+from `443` to `19100` (the port exposed by the proxy).
+
 ### Creating your Validator Configuration
 
 Validators are configured using a TOML file. You can use the following template
@@ -46,7 +49,7 @@ to set up you own validator configuration:
 ```toml
 server_config_path = "server.json"
 host = "<your-host>" # e.g. my-subdomain.my-domain.net
-port = 443
+port = 19100
 metrics_host = "proxy"
 metrics_port = 21100
 internal_host = "proxy"
