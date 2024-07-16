@@ -38,6 +38,9 @@ Thus, it is required of validator operators to provide TLS termination and
 support long-lived HTTP/2 connections required for the functioning of the Linera
 notification system.
 
+Finally, the load balancer that performs TLS termination must redirect traffic
+from `443` to `19100` (the port exposed by the proxy).
+
 ### Creating your Validator Configuration
 
 Validators are configured using a TOML file. You can use the following template
@@ -46,7 +49,7 @@ to set up you own validator configuration:
 ```toml
 server_config_path = "server.json"
 host = "<your-host>" # e.g. my-subdomain.my-domain.net
-port = 443
+port = 19100
 metrics_host = "proxy"
 metrics_port = 21100
 internal_host = "proxy"
@@ -75,7 +78,7 @@ bucket managed by the Linera Protocol core team.
 An example can be found here:
 
 ```bash
-wget "https://storage.cloud.google.com/linera-io-dev-public/{{#include ../../../RELEASE_DOMAIN}}/genesis.json"
+wget "https://storage.googleapis.com/linera-io-dev-public/{{#include ../../../RELEASE_DOMAIN}}/genesis.json"
 ```
 
 ### Creating Your Keys
@@ -121,7 +124,7 @@ To build the Linera Docker image, run the following command from the root of the
 `linera-protocol` repository:
 
 ```bash
-$ docker build -f docker/Dockerfile . -t linera
+docker build -f docker/Dockerfile . -t linera
 ```
 
 This can take several minutes.
