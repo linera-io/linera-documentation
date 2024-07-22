@@ -55,7 +55,7 @@ metrics_port = 21100
 internal_host = "proxy"
 internal_port = 20100
 [external_protocol]
-Grpc = "Tls"
+Grpc = "ClearText" # Depending on your load balancer you may need "Tls" here.
 [internal_protocol]
 Grpc = "ClearText"
 
