@@ -156,7 +156,7 @@ as follows.
 - [x] External service (aka. "Faucet") to help users create their first chain
 - [x] Permissioned chains (adding operation access control, demo of atomic
       swaps, etc)
-- [ ] Avoid repeatedly loading chain states from storage
+- [x] Avoid repeatedly loading chain states from storage
 - [ ] Blob storage usable by system and user applications
       (generalizing/replacing bytecode storage)
 - [ ] Support for easy onboarding of user chains into a new application
