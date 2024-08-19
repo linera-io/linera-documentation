@@ -34,9 +34,13 @@ For the next section, we'll be working out of the `docker` subdirectory in the
 Validators run via Docker Compose do not come with a pre-packaged load balancer
 to perform TLS termination (unlike validators running on Kubernetes).
 
-Thus, it is required of validator operators to provide TLS termination and
-support long-lived HTTP/2 connections required for the functioning of the Linera
-notification system.
+The load balancer configuration _must_ have the following properties:
+
+1. Support HTTP/2 connections.
+2. Support gRPC connections.
+3. Support long-lived HTTP/2 connections.
+4. Support a maximum body size of up to 20 Mb.
+5. Provide TLS termination with a certificate signed by a known CA.
 
 Finally, the load balancer that performs TLS termination must redirect traffic
 from `443` to `19100` (the port exposed by the proxy).
