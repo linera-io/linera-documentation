@@ -18,6 +18,9 @@ the Docker docs.
 
 ### Installing the Linera Toolchain
 
+> When installing the Linera Toolchain, you **must** check out the
+> `{{#include ../../../TESTNET_BRANCH}}` branch.
+
 To install the Linera Toolchain refer to the
 [installation section](../../developers/getting_started/installation.md#installing-from-github).
 
@@ -34,9 +37,13 @@ For the next section, we'll be working out of the `docker` subdirectory in the
 Validators run via Docker Compose do not come with a pre-packaged load balancer
 to perform TLS termination (unlike validators running on Kubernetes).
 
-Thus, it is required of validator operators to provide TLS termination and
-support long-lived HTTP/2 connections required for the functioning of the Linera
-notification system.
+The load balancer configuration **must** have the following properties:
+
+1. Support HTTP/2 connections.
+2. Support gRPC connections.
+3. Support long-lived HTTP/2 connections.
+4. Support a maximum body size of up to 20 MB.
+5. Provide TLS termination with a certificate signed by a known CA.
 
 Finally, the load balancer that performs TLS termination must redirect traffic
 from `443` to `19100` (the port exposed by the proxy).
@@ -78,7 +85,7 @@ bucket managed by the Linera Protocol core team.
 An example can be found here:
 
 ```bash
-wget "https://storage.googleapis.com/linera-io-dev-public/{{#include ../../../RELEASE_DOMAIN}}/genesis.json"
+wget "https://storage.googleapis.com/linera-io-dev-public/{{#include ../../../TESTNET_DOMAIN}}/genesis.json"
 ```
 
 ### Creating Your Keys
