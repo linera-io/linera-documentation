@@ -42,7 +42,7 @@ The load balancer configuration **must** have the following properties:
 1. Support HTTP/2 connections.
 2. Support gRPC connections.
 3. Support long-lived HTTP/2 connections.
-4. Support a maximum body size of up to 20 Mb.
+4. Support a maximum body size of up to 20 MB.
 5. Provide TLS termination with a certificate signed by a known CA.
 
 Finally, the load balancer that performs TLS termination must redirect traffic
