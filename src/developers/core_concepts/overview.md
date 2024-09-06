@@ -157,7 +157,7 @@ as follows.
 - [x] Permissioned chains (adding operation access control, demo of atomic
       swaps, etc)
 - [x] Avoid repeatedly loading chain states from storage
-- [ ] Blob storage usable by system and user applications
+- [x] Blob storage usable by system and user applications
       (generalizing/replacing bytecode storage)
 - [ ] Support for easy onboarding of user chains into a new application
       (removing the need to accept requests)
