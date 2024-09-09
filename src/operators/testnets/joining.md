@@ -3,7 +3,38 @@
 In this section, we use Docker Compose to run a validator and join an existing
 Testnet.
 
-## Installation
+## One-Click Deploy
+
+> Note: This section was only tested under Linux.
+
+After downloading the `linera-protocol` repository, and checkout the testnet
+branch `{{#include ../../../TESTNET_BRANCH}}` you can run
+`scripts/deploy-validator.sh <hostname>` to deploy a Linera validator.
+
+For example:
+
+```bash
+$ git checkout {{#include ../../../TESTNET_BRANCH}}
+$ ./scripts/deploy-validator.sh linera.mydomain.com
+```
+
+The public key will be printed after the command has finished executing, for
+example:
+
+```bash
+$ ./scripts/deploy-validator.sh linera.mydomain.com
+...
+Public Key: 92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196
+```
+
+The public key, in this case beginning with `92f`, must be communicated to the
+Linera Protocol core team along with the chosen host name for onboarding in the
+next epoch.
+
+For a more bespoke deployment, refer to the manual installation instrucitons
+below.
+
+## Manual Installation
 
 This section covers everything you need to install to run a Linera validator
 node with Docker Compose.
