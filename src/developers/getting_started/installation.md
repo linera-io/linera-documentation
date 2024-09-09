@@ -4,7 +4,7 @@ Let's start with the installation of the Linera development tools.
 
 ## Overview
 
-The Linera toolchain consist of two crates:
+The Linera toolchain consists of two crates:
 
 - `linera-sdk` is the main library to program Linera applications in Rust.
 

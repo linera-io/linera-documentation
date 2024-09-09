@@ -10,6 +10,10 @@ The contract runtime currently has two oracle methods:
   service code. Services can access some off-chain information, so these are not
   guaranteed to return the same result each time they are called.
 - `http_post` makes an HTTP POST request and returns the response.
+- `assert_before` asserts that the block is being validated before a given time.
+
+The first two are disabled on public devnets and testnets for now, but can be
+used locally by compiling with the `unstable-oracles` flag.
 
 Applications should use these methods only in ways that make it very likely that
 all validators see the same result, otherwise any block proposals running that
