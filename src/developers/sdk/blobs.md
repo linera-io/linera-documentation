@@ -10,7 +10,8 @@ determined by the application(s) that read(s) them.
 
 You can use the `linera publish-data-blob` command to publish the contents of a
 file, as an operation in a block on one of your chains. This will print the ID
-of the new blob, including its hash.
+of the new blob, including its hash. Alternatively, you can run `linera service`
+and use the `publishDataBlob` GraphQL mutation.
 
 Applications can now use `runtime.read_data_blob(blob_hash)` to read the blob.
 This works on any chain, not only the one that published it. The first time your
