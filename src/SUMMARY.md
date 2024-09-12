@@ -27,6 +27,7 @@
     - [Deploying the Application](developers/sdk/deploy.md)
     - [Cross-Chain Messages](developers/sdk/messages.md)
     - [Calling other Applications](developers/sdk/composition.md)
+    - [Using Data Blobs](developers/sdk/blobs.md)
     - [Printing Logs from an Application](developers/sdk/logging.md)
     - [Writing Tests](developers/sdk/testing.md)
 
