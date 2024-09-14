@@ -14,7 +14,8 @@ branch `{{#include ../../../TESTNET_BRANCH}}` you can run
 For example:
 
 ```bash
-$ git checkout {{#include ../../../TESTNET_BRANCH}}
+$ git fetch origin
+$ git checkout -t origin/{{#include ../../../TESTNET_BRANCH}}
 $ ./scripts/deploy-validator.sh linera.mydomain.com
 ```
 
