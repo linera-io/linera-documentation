@@ -31,7 +31,7 @@ chain is automatically added to the newly instantiated wallet.
 
 Another option is to start your own local development network. A development
 network consists of a number of [validators](../advanced_topics/validators.md),
-each of which consist of an ingress proxy (aka. a "load balancer") and a number
+each of which consists of an ingress proxy (aka. a "load balancer") and a number
 of workers (aka. "physical shards").
 
 To start a local network, run the following command:
