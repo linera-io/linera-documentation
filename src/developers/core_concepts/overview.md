@@ -161,7 +161,7 @@ as follows.
       (generalizing/replacing bytecode storage)
 - [ ] Support for easy onboarding of user chains into a new application
       (removing the need to accept requests)
-- [ ] Replace pub/sub channels by data streams (removing the need to accept
+- [ ] Replace pub/sub channels with data streams (removing the need to accept
       subscriptions)
 - [ ] Allow chain clients to control which chains they track (lazily/actively)
       and execute (do not execute all tracked chains)

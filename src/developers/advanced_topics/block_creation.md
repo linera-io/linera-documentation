@@ -57,6 +57,6 @@ validators, it becomes impossible to collect a quorum of votes for either block.
 In the future, we anticipate that most users will use _permissioned chains_ even
 if they are the only owners of their chains. Permissioned chains have two
 confirmation steps instead of one, but it is not possible to accidentally make a
-chain unextendable. They also allow users to delegate certain admistrative tasks
-to third-parties, notably to help with epoch changes (i.e. when the validators
-change if reconfigured).
+chain unextendable. They also allow users to delegate certain administrative
+tasks to third-parties, notably to help with epoch changes (i.e. when the
+validators change if reconfigured).

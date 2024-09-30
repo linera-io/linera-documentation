@@ -108,7 +108,7 @@ the state if the state uses the view paradigm.
 
 For our example application, we'll want to initialize the state of the
 application to an arbitrary number that can be specified on application creation
-using its instatiation parameters:
+using its instantiation parameters:
 
 ```rust,ignore
     async fn instantiate(&mut self, value: u64) {
