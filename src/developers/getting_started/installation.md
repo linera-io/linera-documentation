@@ -58,6 +58,7 @@ This manual was tested with the following Rust toolchain:
 You may install the Linera binaries with
 
 ```bash
+cargo install --locked linera-storage-service@{{#include ../../../RELEASE_VERSION}}
 cargo install --locked linera-service@{{#include ../../../RELEASE_VERSION}}
 ```
 
@@ -83,6 +84,7 @@ git checkout -t origin/{{#include ../../../RELEASE_BRANCH}}  # Current release b
 To install the Linera toolchain locally from source, you may run:
 
 ```bash
+cargo install --locked --path linera-storage-service
 cargo install --locked --path linera-service
 ```
 
