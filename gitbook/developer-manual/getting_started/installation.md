@@ -81,7 +81,7 @@ This manual was tested against the following commit of the [repository](https://
 
 ## Bash helper (optional)
 
-Consider adding the output of `linera net helper` to your `~/.bash_profile` to help with [automation](../core\_concepts-1/wallets.md#automation-in-bash).
+Consider adding the output of `linera net helper` to your `~/.bash_profile` to help with [automation](../core\_concepts/wallets.md#automation-in-bash).
 
 ## Getting help
 

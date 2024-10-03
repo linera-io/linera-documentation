@@ -71,7 +71,7 @@ When the transaction finishes executing successfully, there's a final step where
     }
 ```
 
-It's possible to do more than just saving the state, and the [Contract finalization section](../advanced\_topics-1/contract\_finalize.md) provides more details on that.
+It's possible to do more than just saving the state, and the [Contract finalization section](../advanced\_topics/contract\_finalize.md) provides more details on that.
 
 ## Instantiating our Application
 

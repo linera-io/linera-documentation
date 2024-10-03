@@ -10,7 +10,7 @@ The contract runtime currently has two oracle methods:
 
 The first two are disabled on public devnets and testnets for now, but can be used locally by compiling with the `unstable-oracles` flag.
 
-Applications should use these methods only in ways that make it very likely that all validators see the same result, otherwise any block proposals running that application's code are likely to fail, hurting the liveness of the users' chains. (Also, oracle methods are disallowed completely in fast rounds; see [Chain Ownership Semantics](../core\_concepts-1/microchains.md#chain-ownership-semantics).)
+Applications should use these methods only in ways that make it very likely that all validators see the same result, otherwise any block proposals running that application's code are likely to fail, hurting the liveness of the users' chains. (Also, oracle methods are disallowed completely in fast rounds; see [Chain Ownership Semantics](../core\_concepts/microchains.md#chain-ownership-semantics).)
 
 The Linera SDK uses `http_post` to implement the `EthereumClient` type, which provides functions to query an Ethereum node:
 

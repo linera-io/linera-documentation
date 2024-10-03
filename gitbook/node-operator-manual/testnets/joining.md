@@ -42,7 +42,7 @@ To install Docker Compose see the [installing Docker Compose](https://docs.docke
 
 > When installing the Linera Toolchain, you **must** check out the `{{#include ../../../TESTNET_BRANCH}}` branch.
 
-To install the Linera Toolchain refer to the [installation section](../../developer-manual/getting\_started-1/installation.md#installing-from-github).
+To install the Linera Toolchain refer to the [installation section](../../developer-manual/getting\_started/installation.md#installing-from-github).
 
 You want to install the toolchain from GitHub, as you'll be using the repository to run the Docker Compose validator service.
 

@@ -2,7 +2,7 @@
 
 This section is about interacting with the Devnet, running a local development network, then compiling and deploying your first application from scratch.
 
-By the end of this section, you'll have a [microchain](../core\_concepts-1/microchains.md) on the Devnet and/or on your local network, and a working application that can be queried using GraphQL.
+By the end of this section, you'll have a [microchain](../core\_concepts/microchains.md) on the Devnet and/or on your local network, and a working application that can be queried using GraphQL.
 
 ## Using the Devnet
 
@@ -20,7 +20,7 @@ This creates a new microchain on Devnet with some initial test tokens, and the c
 
 ## Starting a Local Test Network
 
-Another option is to start your own local development network. A development network consists of a number of [validators](../advanced\_topics-1/validators.md), each of which consists of an ingress proxy (aka. a "load balancer") and a number of workers (aka. "physical shards").
+Another option is to start your own local development network. A development network consists of a number of [validators](../advanced\_topics/validators.md), each of which consists of an ingress proxy (aka. a "load balancer") and a number of workers (aka. "physical shards").
 
 To start a local network, run the following command:
 
@@ -49,7 +49,7 @@ This wallet is only valid for the lifetime of a single network. Every time a loc
 
 The main way of interacting with the network and deploying applications is using the `linera` client.
 
-To check that the network is working, you can synchronize your [default chain](../core\_concepts-1/wallets.md) with the rest of the network and display the chain balance as follows:
+To check that the network is working, you can synchronize your [default chain](../core\_concepts/wallets.md) with the rest of the network and display the chain balance as follows:
 
 ```bash
 linera sync
@@ -86,13 +86,13 @@ Congratulations! You've published your first application on Linera!
 
 ## Querying your Application
 
-Now let's query your application to get the current counter value. To do that, we need to use the client running in [_service_ mode](../core\_concepts-1/node\_service.md). This will expose a bunch of APIs locally which we can use to interact with applications on the network.
+Now let's query your application to get the current counter value. To do that, we need to use the client running in [_service_ mode](../core\_concepts/node\_service.md). This will expose a bunch of APIs locally which we can use to interact with applications on the network.
 
 ```bash
 linera service
 ```
 
-Navigate to `http://localhost:8080` in your browser to access the GraphiQL, the [GraphQL](https://graphql.org) IDE. We'll look at this in more detail in a [later section](../core\_concepts-1/node\_service.md#graphiql-ide); for now, list the applications deployed on your default chain e476… by running:
+Navigate to `http://localhost:8080` in your browser to access the GraphiQL, the [GraphQL](https://graphql.org) IDE. We'll look at this in more detail in a [later section](../core\_concepts/node\_service.md#graphiql-ide); for now, list the applications deployed on your default chain e476… by running:
 
 ```gql
 query {
