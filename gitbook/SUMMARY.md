@@ -1,38 +1,21 @@
-# Table of contents
+# Summary
 
-* [README](README.md)
-* [Appendix](appendix.md)
-* [Developer Manual](developers.md)
-* [Node Operator Manual](operators.md)
-* [appendix](appendix-1/README.md)
-  * [glossary](appendix-1/glossary.md)
-  * [videos](appendix-1/videos.md)
-* [developers](developers-1/README.md)
-  * [Advanced Topics](developers-1/advanced\_topics.md)
-  * [The Linera Protocol](developers-1/core\_concepts.md)
-  * [Experimental Topics](developers-1/experimental.md)
-  * [Getting started](developers-1/getting\_started.md)
-  * [Writing Linera Applications](developers-1/sdk.md)
-  * [advanced\_topics](developers-1/advanced\_topics-1/README.md)
-    * [Applications that Handle Assets](developers-1/advanced\_topics-1/assets.md)
-    * [Creating New Blocks](developers-1/advanced\_topics-1/block\_creation.md)
-    * [Contract Finalization](developers-1/advanced\_topics-1/contract\_finalize.md)
-    * [Oracles and Ethereum](developers-1/advanced\_topics-1/oracles.md)
-    * [Persistent storage](developers-1/advanced\_topics-1/persistent\_storage.md)
-    * [Validators](developers-1/advanced\_topics-1/validators.md)
-    * [Views](developers-1/advanced\_topics-1/views.md)
-  * [core\_concepts](developers-1/core\_concepts-1/README.md)
+## Developer Manual
+
+* [Developer Manual](developers-1/README.md)
+
+  * [Getting started](developers-1/getting\_started-1/README.md)
+    * [Hello, Linera](developers-1/getting\_started-1/hello\_linera.md)
+    * [Installation](developers-1/getting\_started-1/installation.md)
+
+  * [The Linera Protocol](developers-1/core\_concepts-1/README.md)
     * [Applications](developers-1/core\_concepts-1/applications.md)
     * [Microchains](developers-1/core\_concepts-1/microchains.md)
     * [Node Service](developers-1/core\_concepts-1/node\_service.md)
     * [Overview](developers-1/core\_concepts-1/overview.md)
     * [Wallets](developers-1/core\_concepts-1/wallets.md)
-  * [experimental](developers-1/experimental-1/README.md)
-    * [Machine Learning on Linera](developers-1/experimental-1/ml.md)
-  * [getting\_started](developers-1/getting\_started-1/README.md)
-    * [Hello, Linera](developers-1/getting\_started-1/hello\_linera.md)
-    * [Installation](developers-1/getting\_started-1/installation.md)
-  * [sdk](developers-1/sdk-1/README.md)
+
+  * [Writing Linera Applications](developers-1/sdk-1/README.md)
     * [Defining the ABI](developers-1/sdk-1/abi.md)
     * [Using Data Blobs](developers-1/sdk-1/blobs.md)
     * [Calling other Applications](developers-1/sdk-1/composition.md)
@@ -44,11 +27,32 @@
     * [Writing the Service Binary](developers-1/sdk-1/service.md)
     * [Creating the Application State](developers-1/sdk-1/state.md)
     * [Writing Tests](developers-1/sdk-1/testing.md)
-* [operators](operators-1/README.md)
-  * [Devnets](operators-1/devnets.md)
-  * [Testnets](operators-1/testnets.md)
-  * [devnets](operators-1/devnets-1/README.md)
+
+  * [Advanced Topics](developers-1/advanced\_topics-1/README.md)
+    * [Applications that Handle Assets](developers-1/advanced\_topics-1/assets.md)
+    * [Creating New Blocks](developers-1/advanced\_topics-1/block\_creation.md)
+    * [Contract Finalization](developers-1/advanced\_topics-1/contract\_finalize.md)
+    * [Oracles and Ethereum](developers-1/advanced\_topics-1/oracles.md)
+    * [Persistent storage](developers-1/advanced\_topics-1/persistent\_storage.md)
+    * [Validators](developers-1/advanced\_topics-1/validators.md)
+    * [Views](developers-1/advanced\_topics-1/views.md)
+
+* [Experimental Topics](developers-1/experimental-1/README.md)
+    * [Machine Learning on Linera](developers-1/experimental-1/ml.md)
+
+## Node Operator Manual
+
+* [Node Operator Manual](operators-1/README.md)
+
+  * [Devnets](operators-1/devnets-1/README.md)
     * [Running devnets with Docker Compose](operators-1/devnets-1/compose.md)
     * [Running devnets with kind](operators-1/devnets-1/kind.md)
-  * [testnets](operators-1/testnets-1/README.md)
+
+  * [Testnets](operators-1/testnets-1/README.md)
     * [Joining an Existing Testnet](operators-1/testnets-1/joining.md)
+
+## Appendix
+
+* [Appendix](appendix-1/README.md)
+  * [glossary](appendix-1/glossary.md)
+  * [videos](appendix-1/videos.md)
