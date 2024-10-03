@@ -46,5 +46,5 @@
 
 ## Appendix
 
-* [glossary](appendix/glossary.md)
-* [videos](appendix/videos.md)
+* [Glossary](appendix/glossary.md)
+* [Videos](appendix/videos.md)
