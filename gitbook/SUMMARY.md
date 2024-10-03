@@ -1,5 +1,7 @@
 # Summary
 
+* [Welcome](welcome.md)
+
 ## Developer Manual
 
 * [Developer Manual](developers-1/README.md)

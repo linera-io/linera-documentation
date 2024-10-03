@@ -1,4 +1,4 @@
-# The Linera Manual
+## The Linera Manual
 
 <!-- ![The Linera banner](.gitbook/assets/Linera-Header\_1920x284px.svg) -->
 
