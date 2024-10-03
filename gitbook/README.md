@@ -1,17 +1,15 @@
-## The Linera Manual
-
-<!-- ![The Linera banner](.gitbook/assets/Linera-Header\_1920x284px.svg) -->
+# Welcome
 
 Welcome to the Linera manual, a decentralized protocol designed for **highly scalable, low-latency Web3 applications**.
 
 The documentation is split in two parts:
 
-1. The [Developers](developer-manual) section is intended for developers who wish to learn more about Linera and its programming model by prototyping applications on top of the Linera Rust SDK.
-2. The [Operators](operator-manual) section is intended for operators who wish to run Linera validators.
+1. The [Developers](broken-reference) section is intended for developers who wish to learn more about Linera and its programming model by prototyping applications on top of the Linera Rust SDK.
+2. The [Operators](broken-reference) section is intended for operators who wish to run Linera validators.
 
 > **NEW: Publish and test your Web3 application on the Linera Devnet!**
 >
-> Install [the Linera CLI tool](developer-manual/getting_started/installation#installing-from-crates.io) then follow the instructions on [this page](developer-manual/getting_started/hello_linera#using-the-devnet) to claim a microchain and publish your first application on the current Devnet.
+> Install [the Linera CLI tool](developer-manual/getting\_started/installation.md#installing-from-crates.io) then follow the instructions on [this page](developer-manual/getting\_started/hello\_linera.md#using-the-devnet) to claim a microchain and publish your first application on the current Devnet.
 
 To join our community and get involved in the development of the Linera ecosystem, check out our [GitHub repository](https://github.com/linera-io/linera-protocol), our [website](https://linera.io), and find us on social media channels such as [youtube](https://www.youtube.com/@linera\_io), [twitter](https://twitter.com/linera\_io), [telegram](https://t.me/linera\_official), and [discord](https://discord.gg/linera).
 
