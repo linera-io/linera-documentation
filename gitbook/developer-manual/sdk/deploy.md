@@ -4,7 +4,7 @@ The first step to deploy your application is to configure a wallet. This will de
 
 ## Local Net
 
-To configure the local network, follow the steps in the [Getting Started section](../../developers/getting\_started/hello\_linera.html#using-the-initial-test-wallet).
+To configure the local network, follow the steps in the [Getting Started section](../../developer-manual/getting\_started/hello\_linera.html#using-the-initial-test-wallet).
 
 Afterwards, the `LINERA_WALLET` and the `LINERA_STORAGE` environment variables should be set and can be used in the `publish-and-create` command to deploy the application while also specifying:
 
@@ -40,4 +40,4 @@ linera publish-and-create \
 
 ## Interacting with the Application
 
-To interact with the deployed application, a [node service](../../developers/core\_concepts/node\_service.html) must be used.
+To interact with the deployed application, a [node service](../../developer-manual/core\_concepts/node\_service.html) must be used.

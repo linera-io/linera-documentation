@@ -6,7 +6,7 @@ In practice, wallets include a node which tracks a subset of Linera chains. We w
 
 > The command-line tool `linera` is the main way for developers to interact with a Linera network and manage the user wallets present locally on the system.
 
-Note that this command-line tool is intended mainly for development purposes. Our goal is that end users eventually manage their wallets in a [browser extension](../../developers/core\_concepts/overview.html#web3-sdk).
+Note that this command-line tool is intended mainly for development purposes. Our goal is that end users eventually manage their wallets in a [browser extension](../../developer-manual/core\_concepts/overview.html#web3-sdk).
 
 ## Selecting a Wallet
 
