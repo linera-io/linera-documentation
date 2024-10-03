@@ -4,8 +4,6 @@
 
 ## Developer Manual
 
-* [Developer Manual](developers-1/README.md)
-
   * [Getting started](developers-1/getting\_started-1/README.md)
     * [Hello, Linera](developers-1/getting\_started-1/hello\_linera.md)
     * [Installation](developers-1/getting\_started-1/installation.md)
@@ -39,12 +37,10 @@
     * [Applications that Handle Assets](developers-1/advanced\_topics-1/assets.md)
     * [Oracles and Ethereum](developers-1/advanced\_topics-1/oracles.md)
 
-* [Experimental Topics](developers-1/experimental-1/README.md)
+  * [Experimental Topics](developers-1/experimental-1/README.md)
     * [Machine Learning on Linera](developers-1/experimental-1/ml.md)
 
 ## Node Operator Manual
-
-* [Node Operator Manual](operators-1/README.md)
 
   * [Devnets](operators-1/devnets-1/README.md)
     * [Running devnets with Docker Compose](operators-1/devnets-1/compose.md)
@@ -55,6 +51,6 @@
 
 ## Appendix
 
-* [Appendix](appendix-1/README.md)
   * [glossary](appendix-1/glossary.md)
+
   * [videos](appendix-1/videos.md)
