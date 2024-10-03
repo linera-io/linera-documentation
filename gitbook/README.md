@@ -1,6 +1,6 @@
-![The Linera banner](.gitbook/assets/Linera-Header\_1920x284px.svg)
+# The Linera Manual
 
-## The Linera Manual
+<!-- ![The Linera banner](.gitbook/assets/Linera-Header\_1920x284px.svg) -->
 
 Welcome to the Linera manual, a decentralized protocol designed for **highly scalable, low-latency Web3 applications**.
 
