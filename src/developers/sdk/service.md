@@ -93,7 +93,7 @@ section, we use the following code:
     async fn handle_query(&mut self, request: Request) -> Response {
         let schema = Schema::build(
             // implemented in the next section
-            QueryRoot { value: *self.value.get() },
+            QueryRoot { value: *self.state.value.get() },
             // implemented in the next section
             MutationRoot {},
             EmptySubscription,
