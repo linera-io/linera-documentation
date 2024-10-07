@@ -128,8 +128,8 @@ which is used to increment the counter by that value:
 
 ```rust,ignore
     async fn execute_operation(&mut self, operation: u64) {
-        let current = self.value.get();
-        self.value.set(current + operation);
+        let current = self.state.value.get();
+        self.state.value.set(current + operation);
     }
 ```
 
