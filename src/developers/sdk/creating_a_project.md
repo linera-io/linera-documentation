@@ -20,6 +20,6 @@ files:
 - `src/service.rs`: the application's service, and the binary target for the
   service bytecode.
 
-> When writing Linera Application it is a convention to use your app's name as a
+> When writing Linera applications it is a convention to use your app's name as a
 > prefix for names of `trait`, `struct`, etc. Hence, in the following manual, we
 > will use `CounterContract`, `CounterService`, etc.
