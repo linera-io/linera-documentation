@@ -59,7 +59,7 @@ You may install the Linera binaries with
 
 ```bash
 cargo install --locked linera-storage-service@{{#include ../../../RELEASE_VERSION}}
-cargo install --locked linera-service@{{#include ../../../RELEASE_VERSION}}
+cargo install --locked linera-service@{{#include ../../../RELEASE_VERSION}} --features storage-service
 ```
 
 and use `linera-sdk` as a library for Linera Wasm applications:
@@ -85,7 +85,7 @@ To install the Linera toolchain locally from source, you may run:
 
 ```bash
 cargo install --locked --path linera-storage-service
-cargo install --locked --path linera-service
+cargo install --locked --path linera-service --features storage-service
 ```
 
 Alternatively, for developing and debugging, you may instead use the binaries
