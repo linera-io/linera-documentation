@@ -261,7 +261,7 @@ To build the Linera Docker image, run the following command from the root of the
 `linera-protocol` repository:
 
 ```bash
-docker build -f docker/Dockerfile . -t linera
+docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
 ```
 
 This can take several minutes.
