@@ -66,7 +66,7 @@ server {
 
 Minimum supported version: v2.4.3
 
-Below is an example Caddt configuration which upholds the infrastructure
+Below is an example Caddy configuration which upholds the infrastructure
 requirements found in `/etc/caddy/Caddyfile`:
 
 ```
