@@ -62,6 +62,25 @@ server {
 }
 ```
 
+### Using Caddy
+
+Minimum supported version: v2.4.3
+
+Below is an example Caddt configuration which upholds the infrastructure
+requirements found in `/etc/caddy/Caddyfile`:
+
+```
+example.com {
+  reverse_proxy localhost:19100 {
+    transport http {
+      versions h2c
+      read_timeout 10m
+      write_timeout 10m
+    }
+  }
+}
+```
+
 ### ScyllaDB Configuration
 
 ScyllaDB is an open-source distributed NoSQL database built for high-performance
