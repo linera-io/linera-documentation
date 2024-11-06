@@ -108,14 +108,14 @@ For example:
 ```bash
 $ git fetch origin
 $ git checkout -t origin/{{#include ../../../TESTNET_BRANCH}}
-$ ./scripts/deploy-validator.sh linera.mydomain.com
+$ scripts/deploy-validator.sh linera.mydomain.com
 ```
 
 The public key will be printed after the command has finished executing, for
 example:
 
 ```bash
-$ ./scripts/deploy-validator.sh linera.mydomain.com
+$ scripts/deploy-validator.sh linera.mydomain.com
 ...
 Public Key: 92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196
 ```
@@ -261,7 +261,7 @@ To build the Linera Docker image, run the following command from the root of the
 `linera-protocol` repository:
 
 ```bash
-docker build -f docker/Dockerfile . -t linera
+docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
 ```
 
 This can take several minutes.
