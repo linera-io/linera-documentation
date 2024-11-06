@@ -52,7 +52,7 @@ mod tests {
         // Check that the state in memory is different from the state in storage
         assert_ne!(
             contract.state,
-            ApplicatonState::load(ViewStorageContext::from(runtime.key_value_store()))
+            ApplicationState::load(ViewStorageContext::from(runtime.key_value_store()))
         );
     }
 }
