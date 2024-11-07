@@ -84,10 +84,10 @@ example.com {
 ### ScyllaDB Configuration
 
 ScyllaDB is an open-source distributed NoSQL database built for high-performance
-and low-latency. Linera validators use ScyllaDB as their persistenct storage.
+and low-latency. Linera validators use ScyllaDB as their persistent storage.
 
 ScyllaDB may require kernel parameters to be modified in order to work.
-Specifically the the number of events allowed in asynchronous I/O contexts.
+Specifically the number of events allowed in asynchronous I/O contexts.
 
 To set this run:
 
@@ -181,7 +181,7 @@ For the next section, we'll be working out of the `docker` subdirectory in the
 ### Creating your Validator Configuration
 
 Validators are configured using a TOML file. You can use the following template
-to set up you own validator configuration:
+to set up your own validator configuration:
 
 ```toml
 server_config_path = "server.json"

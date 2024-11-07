@@ -58,7 +58,7 @@ linera_sdk::service!(CounterService);
 Next, we need to implement the `Service` trait for `CounterService` type. The
 first step is to define the `Service`'s associated type, which is the global
 parameters specified when the application is instantiated. In our case, the
-global paramters aren't used, so we can just specify the unit type:
+global parameters aren't used, so we can just specify the unit type:
 
 ```rust,ignore
 #[async_trait]
