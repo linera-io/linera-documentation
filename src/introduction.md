@@ -5,11 +5,10 @@
 Welcome to the Linera manual, a decentralized protocol designed for **highly
 scalable, low-latency Web3 applications**.
 
-The documentation is split in two parts:
+The documentation is split into two parts:
 
 1. The [Developers](developers.md) section is intended for developers who wish
-   to learn more about Linera and its programming model by prototyping
-   applications on top of the Linera Rust SDK.
+   to learn more about Linera and its programming model by prototyping applications using the Linera Rust SDK.
 2. The [Operators](operators.md) section is intended for operators who wish to
    run Linera validators.
 
@@ -24,10 +23,10 @@ The documentation is split in two parts:
 To join our community and get involved in the development of the Linera
 ecosystem, check out our
 [GitHub repository](https://github.com/linera-io/linera-protocol), our
-[website](https://linera.io), and find us on social media channels such as
-[youtube](https://www.youtube.com/@linera_io),
-[twitter](https://twitter.com/linera_io),
-[telegram](https://t.me/linera_official), and
-[discord](https://discord.gg/linera).
+[Website](https://linera.io), and find us on social media channels such as
+[Youtube](https://www.youtube.com/@linera_io),
+[Twitter](https://twitter.com/linera_io),
+[Telegram](https://t.me/linera_official), and
+[Discord](https://discord.gg/linera).
 
 Let's get started!
