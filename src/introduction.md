@@ -8,7 +8,8 @@ scalable, low-latency Web3 applications**.
 The documentation is split into two parts:
 
 1. The [Developers](developers.md) section is intended for developers who wish
-   to learn more about Linera and its programming model by prototyping applications using the Linera Rust SDK.
+   to learn more about Linera and its programming model by prototyping
+   applications using the Linera Rust SDK.
 2. The [Operators](operators.md) section is intended for operators who wish to
    run Linera validators.
 
