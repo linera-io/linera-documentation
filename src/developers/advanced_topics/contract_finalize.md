@@ -31,7 +31,7 @@ impl Contract for MyContract {
     type Parameters = ();
 
     async fn load(runtime: ContractRuntime<Self>) -> Self {
-        let state = MyState::load(ViewStorageContext::from(runtime.key_value_store()))
+        let state = MyState::load(runtime.root_view_storage_context())
             .await
             .expect("Failed to load state");
 
