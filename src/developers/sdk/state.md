@@ -1,28 +1,32 @@
 # Creating the Application State
 
-The `struct` which defines your application's state can be found in
-`src/state.rs`. An application state is the data that is persisted on storage
+The state of a Linera application consists of onchain data that are persisted
 between transactions.
 
-To represent our counter, we're going to need a single `u64`. To persist the
-counter we'll be using Linera's [view](../advanced_topics/views.md) paradigm.
+The `struct` which defines your application's state can be found in
+`src/state.rs`. To represent our counter, we're going to use a `u64` integer.
 
-Views are a little like an
-[ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping), however
-instead of mapping data structures to a relational database like Postgres, they
-are instead mapped onto key-value stores like [RocksDB](https://rocksdb.org/).
-
-In vanilla Rust, we might represent our Counter as so:
+While we could use a plain data-structure for the entire application state:
 
 ```rust,ignore
-// do not use this
 struct Counter {
   value: u64
 }
 ```
 
-However, to persist your data, you'll need to replace the existing `Application`
-state struct in `src/state.rs` with the following view:
+in general, we prefer to manage persistent data using the concept of "views":
+
+> [Views](https://docs.rs/linera-views/latest/linera_views/) allow an
+> application to load persistent data in memory and stage modifications in a
+> flexible way.
+>
+> Views resemble the persistent objects of an
+> [ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping)
+> framework, except that they are stored as a set of key-values (instead of a
+> SQL row).
+
+In this case, the placeholder `Application` struct in `src/state.rs` should be
+replaced by
 
 ```rust,ignore
 /// The application state.
@@ -30,21 +34,25 @@ state struct in `src/state.rs` with the following view:
 #[view(context = "ViewStorageContext")]
 pub struct Counter {
     pub value: RegisterView<u64>,
+    // Additional fields here will get their own key in storage.
 }
 ```
 
-and all other occurrences of `Application` in your app.
+and the occurrences of `Application` in the rest of the project should be
+replaced by `Counter`.
 
-The `RegisterView<T>` supports modifying a single value of type `T`. There are
-different types of views for different use-cases, but the majority of common
-data structures have already been implemented:
+The derive macro `async_graphql::SimpleObject` is related to GraphQL queries
+discussed in the [next section](service.md).
 
-- A `Vec` or `VecDeque` corresponds to a `LogView`
-- A `BTreeMap` corresponds to a `MapView` if its values are primitive, or to
-  `CollectionView` if its values are other views;
-- A `Queue` corresponds to a `QueueView`
+A `RegisterView<T>` supports modifying a single value of type `T`. Other data
+structures available in the library
+[`linera_views`](https://docs.rs/linera-views/latest/linera_views/) include:
 
-For an exhaustive list refer to the Views
-[documentation](../advanced_topics/views.md).
+- `LogView` for a growing vector of values;
+- `QueueView` for queues;
+- `MapView` and `CollectionView` for associative maps; specifically, `MapView`
+  in the case of static values, and `CollectionView` when values are other
+  views.
 
-Finally, run `cargo check` to ensure that your changes compile.
+For an exhaustive list of the different constructions, refer to the crate
+[documentation](https://docs.rs/linera-views/latest/linera_views/).
