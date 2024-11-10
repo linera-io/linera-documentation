@@ -6,8 +6,8 @@ added `linera-db` for that purpose.
 
 ## Available persistent storage
 
-The persistent storage that is available right now includes `RocksDB`, `DynamoDB`, 
-and `ScyllaDB`. Each has its own strengths and weaknesses.
+The persistent storage that is available right now includes `RocksDB`,
+`DynamoDB`, and `ScyllaDB`. Each has its own strengths and weaknesses.
 
 - [`RocksDB`](https://rocksdb.org/): Data is stored on disk and cannot be shared
   between shards but is very fast.
