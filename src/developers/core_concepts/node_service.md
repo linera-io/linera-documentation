@@ -4,7 +4,7 @@ So far we've seen how to use the Linera client treating it as a binary in your
 terminal. However, the client also acts as a node which:
 
 1. Executes blocks
-2. Exposes an GraphQL API and IDE for dynamically interacting with applications
+2. Exposes a GraphQL API and IDE for dynamically interacting with applications
    and the system
 3. Listens for notifications from validators and automatically updates local
    chains.
