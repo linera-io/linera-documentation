@@ -18,7 +18,7 @@ pub trait Contract: WithContractAbi + ContractAbi + Sized {
     /// (e.g. an initial amount of tokens minted).
     type InstantiationArgument: Serialize + DeserializeOwned + Debug;
 
-    /// Creates a in-memory instance of the contract handler.
+    /// Creates an in-memory instance of the contract handler.
     async fn load(runtime: ContractRuntime<Self>) -> Self;
 
     /// Instantiates the application on the chain that created it.
