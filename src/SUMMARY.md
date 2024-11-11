@@ -33,8 +33,6 @@
 
   - [Advanced Topics](developers/advanced_topics.md)
 
-    - [Views](developers/advanced_topics/views.md)
-    - [Persistent Storage](developers/advanced_topics/persistent_storage.md)
     - [Contract Finalization](developers/advanced_topics/contract_finalize.md)
     - [Validators](developers/advanced_topics/validators.md)
     - [Creating New Blocks](developers/advanced_topics/block_creation.md)
