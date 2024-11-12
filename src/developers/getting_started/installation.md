@@ -69,7 +69,8 @@ cargo add linera-sdk@{{#include ../../../RELEASE_VERSION}}
 ```
 
 The version number `{{#include ../../../RELEASE_VERSION}}` corresponds to the
-current Devnet of Linera and may change frequently.
+current Testnet of Linera. The minor version may change frequently but should
+not induce breaking changes.
 
 ## Installing from GitHub
 

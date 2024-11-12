@@ -2,7 +2,7 @@
 
 The first step to deploy your application is to configure a wallet. This will
 determine where the application will be deployed: either to a local net or to
-the devnet.
+the public deployment (i.e. a devnet or a testnet).
 
 ## Local Net
 
@@ -23,10 +23,10 @@ linera publish-and-create \
   --json-argument "42"
 ```
 
-## Devnet
+## Devnets and Testnets
 
-To configure the wallet for the devnet while creating a new microchain, the
-following command can be used:
+To configure the wallet for the current testnet while creating a new microchain,
+the following command can be used:
 
 ```bash
 linera wallet init --with-new-chain --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
