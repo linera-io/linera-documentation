@@ -1,19 +1,24 @@
 # Hello, Linera
 
-This section is about interacting with the Devnet, running a local development
-network, then compiling and deploying your first application from scratch.
+This section is about interacting with the current Testnet, running a local
+development network, then compiling and deploying your first application from
+scratch.
 
 By the end of this section, you'll have a
-[microchain](../core_concepts/microchains.md) on the Devnet and/or on your local
-network, and a working application that can be queried using GraphQL.
+[microchain](../core_concepts/microchains.md) on the Testnet and/or on your
+local network, and a working application that can be queried using GraphQL.
 
-## Using the Devnet
+## Using the Testnet
 
-The Linera Devnet is a deployment of the Linera protocol that's useful for
-developers. It should not be considered stable, and can be restarted from a
-clean slate and new genesis at any time.
+The Linera Testnet is a deployment of the Linera protocol useful for developers
+and able to host applications.
 
-To interact with the Devnet, some tokens are needed. A Faucet service is
+> The current Testnet (codename "Archimedes") is the first deployment of Linera
+> run in partnership with external validators. While it should be considered
+> stable, it will be replaced by a new Testnet when needed. The next Linera
+> Testnet will be restarted from a clean slate and a new genesis block.
+
+To interact with the Testnet, some tokens are needed. A Faucet service is
 available to create new microchains and obtain some test tokens. To do so, this
 must be configured when initializing the wallet:
 
@@ -21,11 +26,11 @@ must be configured when initializing the wallet:
 linera wallet init --with-new-chain --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
 ```
 
-This creates a new microchain on Devnet with some initial test tokens, and the
+This creates a new microchain on Testnet with some initial test tokens, and the
 chain is automatically added to the newly instantiated wallet.
 
 > Make sure to use a Linera toolchain
-> [compatible with the current Devnet](installation.md#installing-from-cratesio).
+> [compatible with the current Testnet](installation.md#installing-from-cratesio).
 
 ## Starting a Local Test Network
 
