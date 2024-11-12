@@ -1,10 +1,10 @@
 # Hello, Linera
 
-This section is about interacting with the current Testnet, running a local
-development network, then compiling and deploying your first application from
+In this section, you will learn how to interact with the current Testnet, run a
+local development network, then compile and deploy your first application from
 scratch.
 
-By the end of this section, you'll have a
+By the end of this section, you will have a
 [microchain](../core_concepts/microchains.md) on the Testnet and/or on your
 local network, and a working application that can be queried using GraphQL.
 
