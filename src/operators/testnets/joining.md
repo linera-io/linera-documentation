@@ -108,14 +108,20 @@ For example:
 ```bash
 $ git fetch origin
 $ git checkout -t origin/{{#include ../../../TESTNET_BRANCH}}
-$ scripts/deploy-validator.sh linera.mydomain.com
+$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
 ```
+
+The deployment automatically listens for new image updates and will pull them
+automatically.
+
+> Note: Optionally you can build the image from source by not specifying
+> `--remote-image`.
 
 The public key will be printed after the command has finished executing, for
 example:
 
 ```bash
-$ scripts/deploy-validator.sh linera.mydomain.com
+$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
 ...
 Public Key: 92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196
 ```
