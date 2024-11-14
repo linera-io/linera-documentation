@@ -18,7 +18,7 @@ pub trait Service: WithServiceAbi + ServiceAbi + Sized {
     /// Immutable parameters specific to this application.
     type Parameters: Serialize + DeserializeOwned + Send + Sync + Clone + Debug + 'static;
 
-    /// Creates a in-memory instance of the service handler.
+    /// Creates an in-memory instance of the service handler.
     async fn new(runtime: ServiceRuntime<Self>) -> Self;
 
     /// Executes a read-only query on the state of this application.
