@@ -94,7 +94,7 @@
   bytecode which is instantiated as an application on the Linera Network.
 
 - **Public Chain**: A microchain with full BFT consensus with a strict set of
-  permissions relied on for the operation of the network,
+  permissions relied on for the operation of the network.
 
 - **Quorum**: A set of validators representing > ⅔ of the total stake. A quorum
   is required to create a certificate.
