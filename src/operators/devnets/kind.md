@@ -63,7 +63,7 @@ To run `kind` locally, you also need the following dependencies:
 ### Installing the Linera Toolchain
 
 To install the `Linera` toolchain, download the Linera source from
-[GitHub](https://github.com/linera-io/linera-protocol)):
+[GitHub](https://github.com/linera-io/linera-protocol):
 
 ```bash
 git clone https://github.com/linera-io/linera-protocol.git
