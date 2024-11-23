@@ -99,7 +99,7 @@ echo 1048576 > /proc/sys/fs/aio-max-nr
 
 > Note: This section was only tested under Linux.
 
-After downloading the `linera-protocol` repository, and checkout the testnet
+After downloading the `linera-protocol` repository, and checking out the testnet
 branch `{{#include ../../../TESTNET_BRANCH}}` you can run
 `scripts/deploy-validator.sh <hostname>` to deploy a Linera validator.
 
