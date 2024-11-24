@@ -76,7 +76,7 @@ linera wallet show
 
 The Chain ID which is in green text instead of white text is your default chain.
 
-To change the default chain for your wallet, user the `set-default` command:
+To change the default chain for your wallet, use the `set-default` command:
 
 ```bash
 linera wallet set-default <chain-id>
@@ -136,7 +136,7 @@ Finally, to add the chain to `wallet2` for the given unassigned key we use the
 
 #### Opening a Chain with Multiple Users
 
-The `open-chain` commands is a simplified version of `open-multi-owner-chain`,
+The `open-chain` command is a simplified version of `open-multi-owner-chain`,
 which gives you fine-grained control over the set and kinds of owners and rounds
 for the new chain, and the timeout settings for the rounds. E.g. this creates a
 chain with two owners and two multi-leader rounds.
@@ -158,7 +158,7 @@ For testing, rather than using `linera open-chain` and `linera assign` as above,
 it is often more convenient to pass the option `--extra-wallets N` to
 `linera net up`.
 
-This option will create create `N` additional user wallets and output Bash
+This option will create `N` additional user wallets and output Bash
 commands to define the environment variables `LINERA_{WALLET,STORAGE}_$I` where
 `I` ranges over `0..=N` (`I=0` being the wallet for the initial chains).
 
