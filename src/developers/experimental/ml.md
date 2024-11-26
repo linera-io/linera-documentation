@@ -129,10 +129,9 @@ perform inference in Wasm:
 
 ### Hardware Acceleration
 
-Although SIMD instructions _are_ supported by the service runtime, general
-purpose GPU hardware acceleration is
-[currently not supported](https://github.com/linera-io/linera-protocol/issues/1931).
-Therefore, performance in local model inference degraded for larger models.
+Although SIMD instructions _are_ supported by the service runtime, general-purpose GPU hardware acceleration is
+[not currently supported](https://github.com/linera-io/linera-protocol/issues/1931).
+Therefore, performance in local model inference degrades for larger models.
 
 ### On-Chain Models
 
