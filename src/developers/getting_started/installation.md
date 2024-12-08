@@ -38,7 +38,7 @@ Protoc. They can be installed as follows on Linux:
   - `curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v21.11/protoc-21.11-linux-x86_64.zip`
   - `unzip protoc-21.11-linux-x86_64.zip -d $HOME/.local`
   - If `~/.local` is not in your path, add it:
-    `export PATH="$PATH:$HOME/.local/bin"`
+    `export PATH="$HOME/.local/bin:$PATH"`
 
 - On certain Linux distributions, you may have to install development packages
   such as `g++`, `libclang-dev` and `libssl-dev`.
