@@ -5,7 +5,7 @@ Linera SDK.
 
 We'll use a simple "counter" application as a running example.
 
-We'll focus on the back end of the application, which consists of two main
+We'll focus on the backend of the application, which consists of two main
 parts: a _smart contract_ and its GraphQL service.
 
 Both the contract and the service of an application are written in Rust using
