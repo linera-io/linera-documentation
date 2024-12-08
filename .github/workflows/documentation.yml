@@ -27,9 +27,9 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: 'Setup mdbook'
-        uses: peaceiris/actions-mdbook@v1
+        uses: peaceiris/actions-mdbook@v2
         with:
-          mdbook-version: 'latest'
+          mdbook-version: '0.4.37'
 
       - name: 'Install Protoc'
         uses: arduino/setup-protoc@v3
