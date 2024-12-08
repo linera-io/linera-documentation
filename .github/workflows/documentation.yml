@@ -47,9 +47,8 @@ jobs:
 
       - run: mdbook build
 
-# TODO(#108): https://github.com/linera-io/linera-documentation/issues/108
-#      - name: 'Check documentation'
-#        run: mdbook test -L linera-protocol/target/debug/deps/
+      - name: 'Check documentation'
+        run: mdbook test -L linera-protocol/target/debug/deps/
 
   formatting:
     runs-on: ubuntu-latest
