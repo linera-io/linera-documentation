@@ -73,9 +73,11 @@ a response value back to the caller.
 Taking the "fungible token" application as an example, an operation for a user
 to transfer funds to another user would look like this:
 
-```rust,ignore
+```rust
 # extern crate serde;
+# extern crate linera_sdk;
 # use serde::{Deserialize, Serialize};
+# use linera_sdk::base::*;
 #[derive(Debug, Deserialize, Serialize)]
 pub enum Operation {
     /// A transfer from a (locally owned) account to a (possibly remote) account.
@@ -100,9 +102,11 @@ block.
 In our "fungible token" application, a message to credit an account would look
 like this:
 
-```rust,ignore
+```rust
 # extern crate serde;
+# extern crate linera_sdk;
 # use serde::{Deserialize, Serialize};
+# use linera_sdk::base::*;
 #[derive(Debug, Deserialize, Serialize)]
 pub enum Message {
     Credit { owner: AccountOwner, amount: Amount },
