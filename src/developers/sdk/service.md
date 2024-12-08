@@ -152,5 +152,6 @@ impl MutationRoot {
 We haven't included the imports in the above code; they are left as an exercise
 to the reader (but remember to import `async_graphql::Object`). If you want the
 full source code and associated tests check out the [examples
-section](https://github.com/linera-io/linera-protocol/blob/{{#include ../../../.git/modules/linera-protocol/HEAD}}/examples/counter/src/service.rs)
-on GitHub.
+section](https://github.com/linera-io/linera-protocol/blob/{{#include
+../../../.git/modules/linera-protocol/HEAD}}/examples/counter/src/service.rs) on
+GitHub.
