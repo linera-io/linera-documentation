@@ -25,7 +25,7 @@ in general, we prefer to manage persistent data using the concept of "views":
 > framework, except that they are stored as a set of key-value pairs (instead of
 > a SQL row).
 
-In this case, the placeholder `Application` struct in `src/state.rs` should be
+In this case, the placeholder `Counter` struct in `src/state.rs` should be
 replaced by
 
 ```rust,ignore
