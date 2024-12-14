@@ -111,6 +111,9 @@ $ git checkout -t origin/{{#include ../../../TESTNET_BRANCH}}
 $ scripts/deploy-validator.sh linera.mydomain.com
 ```
 
+> NB: Optionally you can pull the pre-built Docker image:
+> `scripts/deploy-validator.sh linera.mydomain.com --remote-image`
+
 The public key will be printed after the command has finished executing, for
 example:
 
