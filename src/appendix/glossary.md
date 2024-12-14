@@ -1,143 +1,81 @@
 # Glossary
 
-- **Address**: A unique public alphanumeric identifier used to designate the
-  identity of an entity on the Linera network.
+1. **Address**: A unique alphanumeric identifier representing an entity on the Linera network.
 
-- **Admin Chain**: The Linera Network has one designated _admin chain_ where
-  validators can join or leave and where new epochs are defined.
+2. **Admin Chain**: A special chain on the Linera Network where validators can join or leave, and where new epochs are defined.
 
-- **Application**: Similar to a smart-contract on Ethereum, an application is
-  code deployed on the Linera network which is executed by all validators. An
-  application has a metered _contract_ which executes 'business logic' and
-  modifies state and an unmetered 'service' which is a read-only view into an
-  application's state.
+3. **Application**: Code deployed on the Linera network, similar to a smart contract on Ethereum. It consists of two parts: a metered **contract** (which executes business logic and modifies state) and an unmetered **service** (which provides read-only access to the application's state).
 
-- **Byzantine Fault-Tolerant (BFT)**: A system which can operate correctly and
-  achieve consensus even if components of the system fail or act maliciously.
+4. **Byzantine Fault-Tolerant (BFT)**: A system that can continue to function correctly and reach consensus even if some components fail or act maliciously.
 
-- **Block Height**: The number of blocks preceding a given block on a specific
-  microchain.
+5. **Block Height**: The number of blocks that precede a given block on a specific microchain.
 
-- **Block Proposal**: A candidate block proposed by a chain owner which may be
-  selected at the next block height.
+6. **Block Proposal**: A candidate block suggested by a chain owner, which may be selected in the next block height.
 
-- **Bytecode**: A collection of bytes corresponding to a program that can be run
-  by the Wasm virtual machine.
+7. **Bytecode**: A collection of binary instructions that can be executed by the Wasm virtual machine.
 
-- **Client**: The `linera` program, which is a local node and wallet operated by
-  users to make requests to the network. In Linera, clients drive the network by
-  proposing new blocks and validators are mostly reactive.
+8. **Client**: The `linera` program, a local node and wallet used by users to interact with the network. Clients propose new blocks, while validators primarily react to them.
 
-- **Certificate**: A value with signatures from a quorum of validators. Values
-  can be confirmed blocks, meaning that the block has been added to the chain
-  and is final. There are other values that are used for reaching consensus,
-  before certifying a confirmed block.
+9. **Certificate**: A value signed by a quorum of validators, confirming the finality of a block (i.e., that it has been added to the chain).
 
-- **Committee**: The set of all validators for a particular _epoch_, together
-  with their voting weights.
+10. **Committee**: The group of validators for a specific epoch, along with their voting weights.
 
-- **Chain Owner**: The owner of a _user chain_ or _permissioned chain_. This is
-  represented as the alphanumeric identifier derived from the hash of the
-  owner's public key.
+11. **Chain Owner**: The entity (represented by an alphanumeric identifier derived from their public key hash) that owns a user chain or permissioned chain.
 
-- **Channel**: A broadcast mechanism enabling publish-subscribe behavior across
-  chains.
+12. **Channel**: A broadcast mechanism that enables publish-subscribe behavior across chains.
 
-- **Contract**: The metered part of an application which executes business logic
-  and can modify the application's state.
+13. **Contract**: The metered component of an application that executes business logic and modifies the state.
 
-- **Cross-Application Call**: A call from one application to another on the
-  _same chain_.
+14. **Cross-Application Call**: A call made from one application to another on the same chain.
 
-- **Cross-Chain Message**: A message containing a data payload which is sent
-  from one chain to another. Cross-Chain messages are the asynchronous
-  communication primitive which enable communication on the same application
-  running on different chains.
+15. **Cross-Chain Message**: A message containing data sent between chains, allowing asynchronous communication for applications running on different chains.
 
-- **Devnet**: An experimental deployment of the Linera protocol meant for
-  testing and development. In a Devnet, the validator nodes are often run by the
-  same operator for simplicity. Devnets may be shut down and restarted from a
-  genesis configuration any time. Devnets do not handle real assets.
+16. **Devnet**: A test deployment of the Linera protocol used for experimentation and development. Validators are often controlled by a single operator, and devnets can be reset at any time. Devnets do not handle real assets.
 
-- **Epoch**: A period of time when a particular set of validators with
-  particular voting weights can certify new blocks. Since each chain has to
-  transition explicitly from one epoch to the next, epochs can overlap.
+17. **Epoch**: A time period during which a specific set of validators with defined voting weights can certify new blocks. Epochs can overlap, and each chain explicitly transitions from one epoch to the next.
 
-- **Genesis Configuration**: The configuration determining the state of a newly
-  created network; the voting weights of the initial set of validators, the
-  initial fee structure, and initial chains that the network starts with.
+18. **Genesis Configuration**: The initial configuration of a newly created network, including the initial validators' voting weights, fee structure, and starting chains.
 
-- **Inbox**: A commutative data structure storing incoming messages for a given
-  chain.
+19. **Inbox**: A data structure that stores incoming messages for a specific chain.
 
-- **Mainnet**: A deployment meant to be used in production, with real assets.
+20. **Mainnet**: The production deployment of the Linera network, handling real assets and transactions.
 
-- **Message**: See 'Cross-Chain Message'.
+21. **Message**: See 'Cross-Chain Message'.
 
-- **Microchain**: A lightweight chain of blocks holding a subset of the
-  network's state running on every validator. This is used interchangeably with
-  'chain'. _All_ Linera chains are microchains.
+22. **Microchain**: A lightweight blockchain that holds a subset of the network's state, running on every validator. All Linera chains are microchains.
 
-- **Network**: The totality of all protocol participants. A network is the
-  combination of committee, clients and auditors.
+23. **Network**: The entire set of participants in the Linera protocol, including validators, clients, and auditors.
 
-- **Operation**: Operations are either transactions directly added to a block by
-  the creator (and signer) of the block, or calls to an application from
-  another. Users typically use operations to start interacting with an
-  application on their own chain.
+24. **Operation**: An action performed on a chain, either a transaction added to a block by its creator or a call to an application from another source. Users initiate operations to interact with applications on their chains.
 
-- **Permissioned Chain**: A microchain which is owned by more than one user.
-  Users take turns proposing blocks and the likelihood of selection is
-  proportional to their _weight_.
+25. **Permissioned Chain**: A microchain owned by multiple users, where block proposals are made by different users based on their weighted stakes.
 
-- **Project**: The collection of files and dependencies which are built into the
-  bytecode which is instantiated as an application on the Linera Network.
+26. **Project**: A collection of files and dependencies that are compiled into bytecode and deployed as an application on the Linera network.
 
-- **Public Chain**: A microchain with full BFT consensus with a strict set of
-  permissions relied on for the operation of the network.
+27. **Public Chain**: A microchain that uses full BFT consensus and enforces strict permissions for network operation.
 
-- **Quorum**: A set of validators representing > ⅔ of the total stake. A quorum
-  is required to create a certificate.
+28. **Quorum**: A set of validators holding more than ⅔ of the total stake. A quorum is required to issue a certificate.
 
-- **Single-Owner Chain**: See 'User Chain'.
+29. **Single-Owner Chain**: A chain owned by a single user, also known as a **User Chain**. Only the owner can propose blocks and advance the chain’s state.
 
-- **Service**: An unmetered read-only view into an application's state.
+30. **Service**: The read-only component of an application that provides access to its state without modifying it.
 
-- **Shard**: A logical subset of all microchains on a given validator. This
-  corresponds directly to a physical _worker_.
+31. **Shard**: A logical subset of microchains handled by a specific validator, corresponding to a physical **worker**.
 
-- **Stake**: An amount of tokens pledged by a validator or auditor, as a
-  collateral to guarantee their honest and correct participation in the network.
+32. **Stake**: The tokens pledged by a validator or auditor as collateral to ensure their honest participation in the network.
 
-- **Testnet**: A deployment of the Linera protocol meant for testing and
-  development. In a Testnet, the validator nodes are operated by multiple
-  operators. Testnets will gain in stability and decentralization over time in
-  preparation of the mainnet launch. Testnets do not handle real assets.
+33. **Testnet**: A deployment of the Linera protocol used for testing and development, typically operated by multiple validators. Testnets do not handle real assets but help prepare the network for mainnet launch.
 
-- **User Chain**: Used interchangeably with _Single-Owner Chain_. User chains
-  are chains which are owned by a single user on the network. Only the chain
-  owner can propose blocks, and therefore only the chain owner can forcibly
-  advance the state of a user chain.
+34. **User Chain**: A chain owned by a single user, sometimes called a **Single-Owner Chain**. Only the owner can propose blocks and directly modify the chain’s state.
 
-- **Validator**: Validators run the servers that allow users to download and
-  create blocks. They validate, execute and cryptographically certify the blocks
-  of all the chains.
+35. **Validator**: Entities that run servers to validate and execute blocks across all chains in the network. They cryptographically certify blocks and ensure the integrity of the network.
 
-- **View**: Views are like an Object-Relational Mapping (ORM) for mapping
-  complex types onto key-value stores. Views group complex state changes into a
-  set of elementary operations and commit them atomically. They are full or
-  partial in-memory representations of complex types saved on disk in a
-  key-value store
+36. **View**: A mechanism for mapping complex types to key-value stores, similar to Object-Relational Mapping (ORM). Views represent full or partial in-memory states that are stored in a key-value database.
 
-- **Wallet**: A file containing a user's public and private keys along with
-  configuration and information regarding the chains they own.
+37. **Wallet**: A file containing a user's public and private keys, along with information about the chains they own and configuration settings.
 
-- **WebAssembly (Wasm)**: A binary compilation target and instruction format
-  that runs on a stack-based VM. Linera applications are compiled to Wasm and
-  run on Wasm VMs inside validators and clients.
+38. **WebAssembly (Wasm)**: A binary instruction format executed by a stack-based virtual machine. Linera applications are compiled into Wasm and run inside validators and clients.
 
-- **Web3**: A natural evolution of the internet focusing on decentralization by
-  leveraging blockchains and smart contracts.
+39. **Web3**: The next phase of the internet, focused on decentralization and powered by blockchains and smart contracts.
 
-- **Worker**: A process which runs a subset of all microchains on a given
-  validator. This corresponds directly to a logical _shard_.
+40. **Worker**: A process running on a validator that handles a subset of microchains. Each worker corresponds to a logical **shard**.
