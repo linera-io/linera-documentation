@@ -76,7 +76,7 @@ linera wallet show
 
 The Chain ID which is in green text instead of white text is your default chain.
 
-To change the default chain for your wallet, user the `set-default` command:
+To change the default chain for your wallet, use the `set-default` command:
 
 ```bash
 linera wallet set-default <chain-id>
