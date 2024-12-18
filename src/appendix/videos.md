@@ -1,7 +1,7 @@
 # Videos
 
 We're constantly improving the SDK and creating new material. Below are some of
-our recent tutorial and presentation videos:
+our recent tutorials and presentations videos:
 
 ### [Rust on Linera: Spring 2024 Hackathon Kick-Off](https://www.youtube.com/watch?v=gVOHsS7d5qI)
 
@@ -34,6 +34,6 @@ empowerment in the new web ecosystem from Consensus 2024.
 
 For the latest videos and highlights, check out our
 [YouTube channel](https://www.youtube.com/@linera_io) and
-[Twitter Media](https://twitter.com/linera_io).
+[X Media](https://x.com/linera_io).
 
 _Happy viewing!_
