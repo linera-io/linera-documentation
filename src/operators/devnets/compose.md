@@ -18,7 +18,7 @@ For a more complete setup, consider using Kind as described
 This section covers everything you need to install to run a Linera network with
 Docker Compose.
 
-Note: This section was tested only on Linux.
+Note: This section has been tested only on Linux.
 
 ### Docker Compose Requirements
 
