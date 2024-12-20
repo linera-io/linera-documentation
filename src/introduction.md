@@ -25,8 +25,8 @@ To join our community and get involved in the development of the Linera
 ecosystem, check out our
 [GitHub repository](https://github.com/linera-io/linera-protocol), our
 [Website](https://linera.io), and find us on social media channels such as
-[Youtube](https://www.youtube.com/@linera_io),
-[Twitter](https://twitter.com/linera_io),
+[YouTube](https://www.youtube.com/@linera_io),
+[X](https://x.com/linera_io),
 [Telegram](https://t.me/linera_official), and
 [Discord](https://discord.gg/linera).
 
