@@ -43,7 +43,7 @@ tokenizers = { git = "https://github.com/christos-h/tokenizers", default-feature
 ### Providing Randomness
 
 ML frameworks use random numbers to perform inference. Linera services run in a
-Wasm VM which do not have access to the OS Rng. For this reason, we need to
+Wasm VM which does not have access to the OS Rng. For this reason, we need to
 manually seed RNG used by `candle`. We do this by writing a custom `getrandom`.
 
 Create a file under `src/random.rs` and add the following:
