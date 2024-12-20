@@ -177,8 +177,7 @@ claim a microchain and publish your first application on the current Testnet.</p
 ecosystem, check out our
 <a href="https://github.com/linera-io/linera-protocol">GitHub repository</a>, our
 <a href="https://linera.io">Website</a>, and find us on social media channels such as
-<a href="https://www.youtube.com/@linera_io">YouTube</a>,
-<a href="https://x.com/linera_io">X</a>,
+<a href="https://www.youtube.com/@linera_io">YouTube</a>, <a href="https://x.com/linera_io">X</a>,
 <a href="https://t.me/linera_official">Telegram</a>, and
 <a href="https://discord.gg/linera">Discord</a>.</p>
 <p>Let's get started!</p>
@@ -898,9 +897,9 @@ and change round settings for an existing chain.</p>
 <p>For testing, rather than using <code>linera open-chain</code> and <code>linera assign</code> as above,
 it is often more convenient to pass the option <code>--extra-wallets N</code> to
 <code>linera net up</code>.</p>
-<p>This option will create <code>N</code> additional user wallets and output Bash
-commands to define the environment variables <code>LINERA_{WALLET,STORAGE}_$I</code> where
-<code>I</code> ranges over <code>0..=N</code> (<code>I=0</code> being the wallet for the initial chains).</p>
+<p>This option will create <code>N</code> additional user wallets and output Bash commands to
+define the environment variables <code>LINERA_{WALLET,STORAGE}_$I</code> where <code>I</code> ranges
+over <code>0..=N</code> (<code>I=0</code> being the wallet for the initial chains).</p>
 <p>Once all the environment variables are defined, you may switch between wallets
 using <code>linera --with-wallet I</code> or <code>linera -w I</code> for short.</p>
 <h2 id="automation-in-bash"><a class="header" href="#automation-in-bash">Automation in Bash</a></h2>
@@ -1129,8 +1128,8 @@ the client in service mode), he can start using the application.</p>
 <p>In this section, we'll be exploring how to create Web3 applications using the
 Linera SDK.</p>
 <p>We'll use a simple "counter" application as a running example.</p>
-<p>We'll focus on the backend of the application, which consists of two main
-parts: a <em>smart contract</em> and its GraphQL service.</p>
+<p>We'll focus on the backend of the application, which consists of two main parts:
+a <em>smart contract</em> and its GraphQL service.</p>
 <p>Both the contract and the service of an application are written in Rust using
 the crate <a href="https://crates.io/crates/linera-sdk"><code>linera-sdk</code></a>, and compiled to
 Wasm bytecode.</p>
@@ -1179,8 +1178,7 @@ flexible way.</p>
 framework, except that they are stored as a set of key-value pairs (instead of
 a SQL row).</p>
 </blockquote>
-<p>In this case, the struct in <code>src/state.rs</code> should be
-replaced by</p>
+<p>In this case, the struct in <code>src/state.rs</code> should be replaced by</p>
 <pre><code class="language-rust ignore">/// The application state.
 #[derive(RootView, async_graphql::SimpleObject)]
 #[view(context = "ViewStorageContext")]
@@ -2304,8 +2302,8 @@ validator nodes.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="devnets"><a class="header" href="#devnets">Devnets</a></h1>
 <p>This section discusses how to deploy developer networks, aka "Devnets", for
 testing and development purposes.</p>
-<p>Devnets always start from a genesis configuration and an empty state. Validator nodes are typically run on a single infrastructure to simplify operations. Devnets do
-not handle real assets.</p>
+<p>Devnets always start from a genesis configuration and an empty state. Validator
+nodes are run by the core Linera team. Devnets do not handle real assets.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="running-devnets-with-docker-compose"><a class="header" href="#running-devnets-with-docker-compose">Running devnets with Docker Compose</a></h1>
 <p>In this section, we use Docker Compose to run a simple devnet with a single
 validator.</p>
@@ -2555,8 +2553,8 @@ below.</p>
 docker volumes (<code>docker_linera-scylla-data</code> and <code>docker_linera-shared</code>).</p>
 </blockquote>
 <h3 id="verifying-installation"><a class="header" href="#verifying-installation">Verifying installation</a></h3>
-<p>To verify the installation, you can use the <code>linera query-validator</code> command. For
-example:</p>
+<p>To verify the installation, you can use the <code>linera query-validator</code> command.
+For example:</p>
 <pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-archimedes.linera.net
 $ linera query-validator grpcs:my-domain.com:443
 

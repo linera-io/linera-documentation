@@ -261,9 +261,9 @@ and change round settings for an existing chain.</p>
 <p>For testing, rather than using <code>linera open-chain</code> and <code>linera assign</code> as above,
 it is often more convenient to pass the option <code>--extra-wallets N</code> to
 <code>linera net up</code>.</p>
-<p>This option will create <code>N</code> additional user wallets and output Bash
-commands to define the environment variables <code>LINERA_{WALLET,STORAGE}_$I</code> where
-<code>I</code> ranges over <code>0..=N</code> (<code>I=0</code> being the wallet for the initial chains).</p>
+<p>This option will create <code>N</code> additional user wallets and output Bash commands to
+define the environment variables <code>LINERA_{WALLET,STORAGE}_$I</code> where <code>I</code> ranges
+over <code>0..=N</code> (<code>I=0</code> being the wallet for the initial chains).</p>
 <p>Once all the environment variables are defined, you may switch between wallets
 using <code>linera --with-wallet I</code> or <code>linera -w I</code> for short.</p>
 <h2 id="automation-in-bash"><a class="header" href="#automation-in-bash">Automation in Bash</a></h2>
