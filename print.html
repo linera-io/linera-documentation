@@ -1010,8 +1010,10 @@ happens within the same chain. Operations for cross-application calls may return
 a response value back to the caller.</p>
 <p>Taking the "fungible token" application as an example, an operation for a user
 to transfer funds to another user would look like this:</p>
-<pre><code class="language-rust ignore"><span class="boring">extern crate serde;
+<pre><code class="language-rust"><span class="boring">extern crate serde;
+</span><span class="boring">extern crate linera_sdk;
 </span><span class="boring">use serde::{Deserialize, Serialize};
+</span><span class="boring">use linera_sdk::base::*;
 </span>#[derive(Debug, Deserialize, Serialize)]
 pub enum Operation {
     /// A transfer from a (locally owned) account to a (possibly remote) account.
@@ -1032,8 +1034,10 @@ the same transaction are included as a single transaction in the receiving
 block.</p>
 <p>In our "fungible token" application, a message to credit an account would look
 like this:</p>
-<pre><code class="language-rust ignore"><span class="boring">extern crate serde;
+<pre><code class="language-rust"><span class="boring">extern crate serde;
+</span><span class="boring">extern crate linera_sdk;
 </span><span class="boring">use serde::{Deserialize, Serialize};
+</span><span class="boring">use linera_sdk::base::*;
 </span>#[derive(Debug, Deserialize, Serialize)]
 pub enum Message {
     Credit { owner: AccountOwner, amount: Amount },
