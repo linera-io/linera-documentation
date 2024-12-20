@@ -18,7 +18,7 @@ For a more complete setup, consider using Kind as described
 This section covers everything you need to install to run a Linera network with
 Docker Compose.
 
-Note: This section was tested only on Linux.
+Note: This section has been tested only on Linux.
 
 ### Docker Compose Requirements
 
@@ -44,7 +44,7 @@ cd docker && ./compose.sh
 ```
 
 This will take some time as Docker images are built from the Linera source. When
-the service is ready, a temporary wallet and database is available under the
+the service is ready, a temporary wallet and database are available under the
 `docker` subdirectory.
 
 Referencing these variables with the `linera` binary will enable you to interact

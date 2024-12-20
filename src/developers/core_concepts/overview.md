@@ -184,7 +184,7 @@ as follows.
 - [x] Support for read-only GraphQL services in Wasm
 - [x] Support for mocked system APIs
 - [x] Improve host/guest stub generation to make mocks easier
-- [ ] Support for running Wasm applications in the browser
+- [x] Support for running Wasm applications in the browser
 
 ### Storage
 
@@ -226,8 +226,8 @@ as follows.
 - [x] Use GraphQL mutations to execute operations and create blocks
 - [x] ABIs for contract and service interfaces
 - [x] Allowing message sender to pay for message execution fees
-- [ ] Wallet as a browser extension (no VM)
-- [ ] Wallet as a browser extension (with Wasm VM)
+- [x] Wallet as a browser extension (no VM)
+- [x] Wallet as a browser extension (with Wasm VM)
 - [ ] Easier communication with EVM chains
 - [ ] Bindings to use native cryptographic primitives from Wasm
 - [ ] Allowing applications to pay for user fees

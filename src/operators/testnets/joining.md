@@ -26,7 +26,7 @@ Minimum supported version: 1.18.0.
 Below is an example Nginx configuration which upholds the infrastructure
 requirements found in `/etc/nginx/sites-available/default`:
 
-```
+```ignore
 server {
         listen 80 http2;
 
@@ -69,7 +69,7 @@ Minimum supported version: v2.4.3
 Below is an example Caddy configuration which upholds the infrastructure
 requirements found in `/etc/caddy/Caddyfile`:
 
-```
+```ignore
 example.com {
   reverse_proxy localhost:19100 {
     transport http {
@@ -132,10 +132,10 @@ below.
 
 ### Verifying installation
 
-To verify the installation, you can use the `query-validator` command. For
+To verify the installation, you can use the `linera query-validator` command. For
 example:
 
-```
+```bash
 $ linera wallet init --with-new-chain --faucet https://faucet.{{#include ../../../TESTNET_DOMAIN}}.linera.net
 $ linera query-validator grpcs:my-domain.com:443
 

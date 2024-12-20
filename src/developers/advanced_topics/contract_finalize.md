@@ -20,9 +20,9 @@ cross-application call with `Operation::EndSession` before the transaction ends.
 
 ```rust,ignore
 pub struct MyContract {
-    state: MyState;
-    runtime: ContractRuntime<Self>;
-    active_sessions: HashSet<ApplicationId>;
+    state: MyState,
+    runtime: ContractRuntime<Self>,
+    active_sessions: HashSet<ApplicationId>,
 }
 
 impl Contract for MyContract {
