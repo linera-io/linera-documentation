@@ -27,8 +27,8 @@ provides functions to query an Ethereum node:
 - `get_balance` for accessing the balance of an Ethereum account at a specific
   block number.
 
-- `read_events` for reading events from a specified Ethereum smart contract
-  from one block to the last block.
+- `read_events` for reading events from a specified Ethereum smart contract from
+  one block to the last block.
 
 - `non_executive_call` for executing a function in an Ethereum smart contract at
   a specific block, with the result not being included in the chain.

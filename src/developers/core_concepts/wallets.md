@@ -158,9 +158,9 @@ For testing, rather than using `linera open-chain` and `linera assign` as above,
 it is often more convenient to pass the option `--extra-wallets N` to
 `linera net up`.
 
-This option will create `N` additional user wallets and output Bash
-commands to define the environment variables `LINERA_{WALLET,STORAGE}_$I` where
-`I` ranges over `0..=N` (`I=0` being the wallet for the initial chains).
+This option will create `N` additional user wallets and output Bash commands to
+define the environment variables `LINERA_{WALLET,STORAGE}_$I` where `I` ranges
+over `0..=N` (`I=0` being the wallet for the initial chains).
 
 Once all the environment variables are defined, you may switch between wallets
 using `linera --with-wallet I` or `linera -w I` for short.
