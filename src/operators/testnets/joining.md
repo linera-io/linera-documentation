@@ -132,7 +132,7 @@ below.
 
 ### Verifying installation
 
-To verify the installation, you can use the `query-validator` command. For
+To verify the installation, you can use the `linera query-validator` command. For
 example:
 
 ```bash
