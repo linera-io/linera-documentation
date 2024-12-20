@@ -245,7 +245,7 @@ the new chain. The second line is the new chain's ID.</p>
 <pre><code class="language-bash"> linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --message-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 </code></pre>
 <h4 id="opening-a-chain-with-multiple-users"><a class="header" href="#opening-a-chain-with-multiple-users">Opening a Chain with Multiple Users</a></h4>
-<p>The <code>open-chain</code> commands is a simplified version of <code>open-multi-owner-chain</code>,
+<p>The <code>open-chain</code> command is a simplified version of <code>open-multi-owner-chain</code>,
 which gives you fine-grained control over the set and kinds of owners and rounds
 for the new chain, and the timeout settings for the rounds. E.g. this creates a
 chain with two owners and two multi-leader rounds.</p>
@@ -261,7 +261,7 @@ and change round settings for an existing chain.</p>
 <p>For testing, rather than using <code>linera open-chain</code> and <code>linera assign</code> as above,
 it is often more convenient to pass the option <code>--extra-wallets N</code> to
 <code>linera net up</code>.</p>
-<p>This option will create create <code>N</code> additional user wallets and output Bash
+<p>This option will create <code>N</code> additional user wallets and output Bash
 commands to define the environment variables <code>LINERA_{WALLET,STORAGE}_$I</code> where
 <code>I</code> ranges over <code>0..=N</code> (<code>I=0</code> being the wallet for the initial chains).</p>
 <p>Once all the environment variables are defined, you may switch between wallets
