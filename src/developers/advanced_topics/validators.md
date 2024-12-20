@@ -18,7 +18,7 @@ infrastructure in the sense that:
 - If one block on a particular height is certified, no other block on the same
   height is.
 
-These properties are guaranteed to hold as long as two third of the validators
+These properties are guaranteed to hold as long as two thirds of the validators
 (weighted by their stake) follow the protocol. In the future, deviating from the
 protocol may cause a validator to be considered malicious and to lose their
 _stake_.
