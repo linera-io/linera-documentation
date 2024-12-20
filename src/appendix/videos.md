@@ -34,6 +34,6 @@ empowerment in the new web ecosystem from Consensus 2024.
 
 For the latest videos and highlights, check out our
 [YouTube channel](https://www.youtube.com/@linera_io) and
-[X Media](https://x.com/linera_io).
+[X (formerly Twitter) Media](https://x.com/linera_io).
 
 _Happy viewing!_
