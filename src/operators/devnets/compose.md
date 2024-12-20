@@ -44,7 +44,7 @@ cd docker && ./compose.sh
 ```
 
 This will take some time as Docker images are built from the Linera source. When
-the service is ready, a temporary wallet and database is available under the
+the service is ready, a temporary wallet and database are available under the
 `docker` subdirectory.
 
 Referencing these variables with the `linera` binary will enable you to interact
