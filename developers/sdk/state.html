@@ -171,7 +171,7 @@ flexible way.</p>
 framework, except that they are stored as a set of key-value pairs (instead of
 a SQL row).</p>
 </blockquote>
-<p>In this case, the placeholder <code>Application</code> struct in <code>src/state.rs</code> should be
+<p>In this case, the struct in <code>src/state.rs</code> should be
 replaced by</p>
 <pre><code class="language-rust ignore">/// The application state.
 #[derive(RootView, async_graphql::SimpleObject)]
