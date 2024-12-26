@@ -16,7 +16,7 @@ Such an application should have a designated operation or message that causes it
 to close the chain: when that operation is executed, it should send back all
 remaining assets, and call the runtime's `close_chain` method.
 
-Once the chain is closed, owners can still create blocks to reject messages..
+Once the chain is closed, owners can still create blocks to reject messages.
 That way, even assets that are in flight can be returned.
 
 The
