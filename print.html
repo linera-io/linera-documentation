@@ -2154,7 +2154,7 @@ of parties who want to participate is limited and known in advance, we can:</p>
 <p>Such an application should have a designated operation or message that causes it
 to close the chain: when that operation is executed, it should send back all
 remaining assets, and call the runtime's <code>close_chain</code> method.</p>
-<p>Once the chain is closed, owners can still create blocks to reject messages..
+<p>Once the chain is closed, owners can still create blocks to reject messages.
 That way, even assets that are in flight can be returned.</p>
 <p>The
 <a href="https://github.com/linera-io/linera-protocol/tree/main/examples/matching-engine"><code>matching-engine</code> example application</a>
