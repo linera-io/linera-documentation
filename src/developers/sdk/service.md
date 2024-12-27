@@ -10,7 +10,7 @@ want to expose this state in its entirety to those who would like to interact
 with your app. Instead, you might prefer to define a distinct set of queries
 that can be made against your application.
 
-The `Service` trait is how you define the interface into your application. The
+The `Service` trait is shows you define the interface into your application. The
 `Service` trait is defined as follows:
 
 ```rust,ignore
