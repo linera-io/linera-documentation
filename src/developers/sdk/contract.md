@@ -96,7 +96,7 @@ provides more details on that.
 
 ## Instantiating our Application
 
-The first thing that happens when an application is created from a bytecode is
+The first thing that happens when an application is created from bytecode is
 that it is instantiated. This is done by calling the contract's
 `Contract::instantiate` method.
 
