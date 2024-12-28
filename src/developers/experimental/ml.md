@@ -64,7 +64,7 @@ fn custom_getrandom(buf: &mut [u8]) -> Result<(), getrandom::Error> {
     Ok(())
 }
 
-getrandom::register_custom_getrandom!(custom_getrandom);
+getrandom::register_custom_getrandom!(custom_getrandom)?;
 ```
 
 This will enable `candle` and any other crates which rely on `getrandom` access
