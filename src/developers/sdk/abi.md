@@ -16,7 +16,7 @@ For a reference guide, check out the
 The library part of your application (generally in `src/lib.rs`) must define a
 public empty struct that implements the `Abi` trait.
 
-```rust,ignore
+```rust
 struct CounterAbi;
 ```
 
