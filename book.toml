@@ -22,6 +22,8 @@ runnable = false
 "/core_concepts/microchains.html" = "/developers/core_concepts/microchains.html"
 
 [output.linkcheck]
+follow-web-links = true
+exclude = [ 'x\.com', 'crates\.io' ]
 
 [build]
 build-dir = "book"
