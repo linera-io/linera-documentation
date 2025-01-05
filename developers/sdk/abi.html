@@ -164,7 +164,7 @@ services.</p>
 <h2 id="defining-a-marker-struct"><a class="header" href="#defining-a-marker-struct">Defining a marker struct</a></h2>
 <p>The library part of your application (generally in <code>src/lib.rs</code>) must define a
 public empty struct that implements the <code>Abi</code> trait.</p>
-<pre><code class="language-rust ignore">struct CounterAbi;</code></pre>
+<pre><code class="language-rust">struct CounterAbi;</code></pre>
 <p>The <code>Abi</code> trait combines the <code>ContractAbi</code> and <code>ServiceAbi</code> traits to include
 the types that your application exports.</p>
 <pre><code class="language-rust ignore">/// A trait that includes all the types exported by a Linera application (both contract
