@@ -210,7 +210,9 @@ happens within the same chain. Operations for cross-application calls may return
 a response value back to the caller.</p>
 <p>Taking the "fungible token" application as an example, an operation for a user
 to transfer funds to another user would look like this:</p>
-<pre><code class="language-rust"><span class="boring">extern crate serde;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">extern crate serde;
 </span><span class="boring">extern crate linera_sdk;
 </span><span class="boring">use serde::{Deserialize, Serialize};
 </span><span class="boring">use linera_sdk::base::*;
@@ -223,7 +225,8 @@ pub enum Operation {
         target_account: Account,
     },
     // Meant to be extended here
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 <p><strong>Messages</strong> result from the execution of operations or other messages. Messages
 can be sent from one chain to another, always within the same application. Block
 proposers also actively include messages in their block proposal, but unlike
@@ -234,7 +237,9 @@ the same transaction are included as a single transaction in the receiving
 block.</p>
 <p>In our "fungible token" application, a message to credit an account would look
 like this:</p>
-<pre><code class="language-rust"><span class="boring">extern crate serde;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">extern crate serde;
 </span><span class="boring">extern crate linera_sdk;
 </span><span class="boring">use serde::{Deserialize, Serialize};
 </span><span class="boring">use linera_sdk::base::*;
@@ -242,7 +247,8 @@ like this:</p>
 pub enum Message {
     Credit { owner: AccountOwner, amount: Amount },
     // Meant to be extended here
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 <h3 id="authentication"><a class="header" href="#authentication">Authentication</a></h3>
 <p>Operations in a block are always authenticated and messages may be
 authenticated. The signer of a block becomes the authenticator of all the
@@ -372,7 +378,6 @@ the client in service mode), he can start using the application.</p>
         <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../custom.js"></script>
 
 
     </div>

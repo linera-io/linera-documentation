@@ -164,7 +164,10 @@ services.</p>
 <h2 id="defining-a-marker-struct"><a class="header" href="#defining-a-marker-struct">Defining a marker struct</a></h2>
 <p>The library part of your application (generally in <code>src/lib.rs</code>) must define a
 public empty struct that implements the <code>Abi</code> trait.</p>
-<pre><code class="language-rust">struct CounterAbi;</code></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct CounterAbi;
+<span class="boring">}</span></code></pre></pre>
 <p>The <code>Abi</code> trait combines the <code>ContractAbi</code> and <code>ServiceAbi</code> traits to include
 the types that your application exports.</p>
 <pre><code class="language-rust ignore">/// A trait that includes all the types exported by a Linera application (both contract
@@ -189,13 +192,16 @@ pub trait ContractAbi {
 <p>All these types must implement the <code>Serialize</code>, <code>DeserializeOwned</code>, <code>Send</code>,
 <code>Sync</code>, <code>Debug</code> traits, and have a <code>'static</code> lifetime.</p>
 <p>In our example, we would like to change our <code>Operation</code> to <code>u64</code>, like so:</p>
-<pre><code class="language-rust"><span class="boring">extern crate linera_base;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">extern crate linera_base;
 </span><span class="boring">use linera_base::abi::ContractAbi;
 </span><span class="boring">struct CounterAbi;
 </span>impl ContractAbi for CounterAbi {
     type Operation = u64;
     type Response = ();
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 <h2 id="service-abi"><a class="header" href="#service-abi">Service ABI</a></h2>
 <p>The <code>ServiceAbi</code> is in principle very similar to the <code>ContractAbi</code>, just for the
 service component of your application.</p>
@@ -211,14 +217,17 @@ pub trait ServiceAbi {
 }</code></pre>
 <p>For our Counter example, we'll be using GraphQL to query our application so our
 <code>ServiceAbi</code> should reflect that:</p>
-<pre><code class="language-rust"><span class="boring">extern crate linera_base;
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">extern crate linera_base;
 </span><span class="boring">extern crate async_graphql;
 </span><span class="boring">use linera_base::abi::ServiceAbi;
 </span><span class="boring">struct CounterAbi;
 </span>impl ServiceAbi for CounterAbi {
     type Query = async_graphql::Request;
     type QueryResponse = async_graphql::Response;
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 
                     </main>
 
@@ -266,7 +275,6 @@ pub trait ServiceAbi {
         <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../custom.js"></script>
 
 
     </div>

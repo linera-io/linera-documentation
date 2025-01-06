@@ -158,7 +158,7 @@ always handled by the <em>same</em> application on the target chain.</p>
 <p>This section is about calling other applications using <em>cross-application
 calls</em>.</p>
 <p>Such calls happen on the same chain and are made with the
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/struct.ContractRuntime.html#call_application"><code>ContractRuntime::call_application</code></a>
+<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#call_application"><code>ContractRuntime::call_application</code></a>
 method:</p>
 <pre><code class="language-rust ignore">pub fn call_application&lt;A: ContractAbi + Send&gt;(
     &amp;mut self,
@@ -274,7 +274,6 @@ application contracts in the <code>examples</code> folder in <code>linera-protoc
         <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../custom.js"></script>
 
 
     </div>
