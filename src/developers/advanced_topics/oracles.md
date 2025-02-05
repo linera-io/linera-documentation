@@ -4,7 +4,7 @@
 > outside world that is not on-chain yet. One example is accessing the state of
 > an Ethereum smart contract from a Linera application.
 
-The contract runtime currently has two oracle methods:
+The contract runtime currently has three oracle methods:
 
 - `query_service` allows the contract to make a call to the application's own
   service code. Services can access some off-chain information, so these are not
