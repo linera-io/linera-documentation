@@ -108,7 +108,7 @@ Finally, as before, the following code is needed to incorporate the ABI
 definitions into your `Service` implementation:
 
 ```rust,ignore
-impl WithServiceAbi for Counter {
+impl WithServiceAbi for CounterService {
     type Abi = counter::CounterAbi;
 }
 ```
