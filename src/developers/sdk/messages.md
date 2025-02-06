@@ -114,7 +114,7 @@ async fn execute_message(&mut self, message: Message) {
             source,
         } => {
             // ...
-            self.state.credit(receiver, amount).await;
+            self.state.credit(target, amount).await;
         }
         // ...
     }
