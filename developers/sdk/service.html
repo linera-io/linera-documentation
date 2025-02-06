@@ -228,7 +228,7 @@ section, we use the following code:</p>
 }</code></pre>
 <p>Finally, as before, the following code is needed to incorporate the ABI
 definitions into your <code>Service</code> implementation:</p>
-<pre><code class="language-rust ignore">impl WithServiceAbi for Counter {
+<pre><code class="language-rust ignore">impl WithServiceAbi for CounterService {
     type Abi = counter::CounterAbi;
 }</code></pre>
 <h2 id="adding-graphql-compatibility"><a class="header" href="#adding-graphql-compatibility">Adding GraphQL compatibility</a></h2>

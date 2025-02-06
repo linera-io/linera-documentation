@@ -248,7 +248,7 @@ account balance.</p>
             source,
         } =&gt; {
             // ...
-            self.state.credit(receiver, amount).await;
+            self.state.credit(target, amount).await;
         }
         // ...
     }
