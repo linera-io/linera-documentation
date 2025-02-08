@@ -191,9 +191,9 @@ as follows.
 - [x] Object management library ("linera-views") on top of Key-Value store
       abstraction
 - [x] Support for Rocksdb
-- [x] Experimental support for DynamoDb
+- [x] Experimental support for DynamoDB
 - [x] Derive macros for GraphQL
-- [x] Support for ScyllaDb
+- [x] Support for ScyllaDB
 - [x] Make library fully extensible by users (requires better GraphQL macros)
 - [x] In-memory storage service for testing purposes
 - [x] Support for Web storage (IndexedDB)
