@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+:root {
+    /* Brand Colors */
+    --color-primary: #0e2630; /* Background color */
+    --color-secondary: #70D4D3; /* Highlight or link color */
+    --color-tertiary: #F3EEE2; /* Navigation or heading color */
+
+    /* Accent Colors */
+    --color-accent-blue: #70D4D3;
+    --color-accent-light-blue: #A0E3E2; 
+    --color-accent-light-green: #D2E8C8;
+    --color-accent-beige: #EDE4D2;
+
+    /* Additional Defaults & Theme Overrides */
+    --color-text: var(--color-tertiary); /* Tertiary for main text */
+    --color-background: var(--color-primary); /* Primary for page background */
+    --links: var(--color-secondary); /* Override the default --links variable so it works in code blocks */
+    --table-header-bg: var(--color-primary) !important; /* Set table header background */
+    --theme-hover: var(--color-accent-light-blue) !important; /* Hover color for "Next chapter" arrow */
+    --theme-popup-bg: var(--color-primary) !important; /* Background for copy icon on code blocks */
+    --icons: var(--color-secondary) !important; /* Set icon colors like the menu and print icons */
+}
+
+/* General Styling */
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: 'Epilogue', sans-serif; /* Set Epilogue as the default font */
+    margin: 0;
+    padding: 0;
+}
+
+.light, html:not(.js) {
+    --bg: var(--color-background) !important;
+}
+
+/* Body Content & Links */
+body a {
+    color: var(--color-secondary) !important; /* Default link color in body */
+    text-decoration: underline, bold !important;
+}
+
+body a:hover {
+    color: var(--color-secondary); /* Hover color for links in body */
+    text-decoration: underline;
+}
+
+/* Code Elements */
+.hljs, .hljs-comment {
+    font-family: "IBM Plex Mono", "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace !important; /* Keep code elements in monospace */
+    display: block;
+    overflow-x: auto;
+    background: var(--color-primary) !important; /* Code block background */
+    color: var(--color-tertiary) !important; /* Default text color for code blocks */
+    border: 2px solid var(--color-accent-light-blue); /* Accent-light-blue border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 0.5em; /* Add spacing inside the border */
+    margin: 1em 0; /* Add spacing around the code block */
+}
+
+/* Code Elements Inside Blockquotes */
+blockquote .hljs {
+    color: var(--color-primary) !important; /* Default text color for code blocks */
+    background: var(--color-accent-light-blue) !important; /* Match blockquote background */
+    border: 2px solid var(--color-primary) !important; /* Primary color border */
+}
+
+/* Highlighted Keywords */
+.hljs-keyword {
+    color: var(--color-secondary); /* Secondary color for keywords */
+    font-weight: bold; /* Emphasize keywords */
+}
+
+/* Highlighted Keywords */
+.hljs-built_in, .hljs-literal, .hljs-string {
+    color: var(--color-secondary); /* Secondary color for keywords */
+    font-weight: bold; /* Emphasize keywords */
+}
+
+/* Highlighted Titles */
+.hljs-title {
+    color: var(--color-tertiary); /* Accent tertiary for titles */
+    font-weight: bold; /* Optional: Bold titles */
+}
+
+/* Links in Code Elements */
+.hljs a {
+    color: var(--color-secondary, #DE2A02) !important; /* Fallback to Secondary color */
+    font-weight: bold !important;
+    text-decoration: underline !important;
+}
+
+/* Navigation & Links */
+.sidebar .chapter li a {
+    color: var(--color-tertiary) !important; /* Default navigation text color */
+    text-decoration: none;
+}
+
+.sidebar .chapter li a.active {
+    color: var(--color-secondary) !important; /* Active link color */
+    font-weight: bold;
+}
+
+.sidebar .chapter li a:hover {
+    color: var(--color-secondary) !important; /* Hover link color */
+}
+
+/* Navigation Bar (Using Primary) */
+.sidebar {
+    background-color: var(--color-primary);
+    color: var(--color-primary);
+    padding: 1em;
+}
+
+/* Blockquote Styling */
+blockquote {
+    border-block-start: none !important;
+    border-block-end: none !important;
+    /* Add other styles for blockquote here */
+    background-color: var(--color-accent-light-blue); /* Background: Light Blue */
+    color: var(--color-primary); /* Main text: Tertiary */
+    margin: 1em 0;
+    border-left: 0px solid var(--color-accent-blue); 
+    border-radius: 15px; /* Rounded corners */
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Links in Blockquotes */
+blockquote a {
+    color: var(--color-primary) !important; /* Links: Accent Tertiary */
+    font-weight: bold !important; /* Make links bold */
+}
+
+blockquote a:hover {
+    text-decoration: underline; /* Keep underlined on hover */
+    text-decoration-thickness: 2px; /* Optional: Thicker underline on hover */
+    color: var(--color-secondary); /* Optional: Change color on hover */
+}
+
+.mobile-nav-chapters {
+    background-color: var(--color-primary); /* Primary background color */
+}
+
+#linera-banner {
+    content: url("images/Linera-Header-Dark_1920x284px.svg");
+}
