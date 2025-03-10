@@ -6,9 +6,8 @@ src = "src"
 description = "The Linera Developer Manual"
 
 [output.html]
-default-theme = "Light"
-default-dark-theme = "Ayu"
-additional-js = ["custom.js"]
+no-default-themes = true
+additional-css = ["theme/theme.css"]
 
 [output.html.fold]
 enable = true
