@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
     /* Brand Colors */
     --color-primary: #0e2630; /* Background color */
+    --color-primary-code: #1A4456; /* Background code block color */
     --color-secondary: #70D4D3; /* Highlight or link color */
     --color-tertiary: #F3EEE2; /* Navigation or heading color */
 
@@ -49,11 +50,10 @@ body a:hover {
 /* Code Elements */
 .hljs, .hljs-comment {
     font-family: "IBM Plex Mono", "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace !important; /* Keep code elements in monospace */
-    display: block;
     overflow-x: auto;
-    background: var(--color-primary) !important; /* Code block background */
-    color: var(--color-tertiary) !important; /* Default text color for code blocks */
-    border: 2px solid var(--color-accent-light-blue); /* Accent-light-blue border */
+    background: var(--color-primary-code) !important; /* Code block background */
+    color: var(--color-accent-light-green) !important; /* Default text color for code blocks */
+    /* border: 2px solid var(--color-accent-light-blue); /* Accent-light-blue border */
     border-radius: 10px; /* Rounded corners */
     padding: 0.5em; /* Add spacing inside the border */
     margin: 1em 0; /* Add spacing around the code block */
@@ -61,9 +61,9 @@ body a:hover {
 
 /* Code Elements Inside Blockquotes */
 blockquote .hljs {
-    color: var(--color-primary) !important; /* Default text color for code blocks */
-    background: var(--color-accent-light-blue) !important; /* Match blockquote background */
-    border: 2px solid var(--color-primary) !important; /* Primary color border */
+    color: var(--color-accent-light-blue) !important; /* Default text color for code blocks */
+    background: var(--color-primary-code) !important; /* Match blockquote background */
+    /* border: 2px solid var(--color-primary) !important; /* Primary color border */
 }
 
 /* Highlighted Keywords */
@@ -74,7 +74,7 @@ blockquote .hljs {
 
 /* Highlighted Keywords */
 .hljs-built_in, .hljs-literal, .hljs-string {
-    color: var(--color-secondary); /* Secondary color for keywords */
+    color: var(--color-accent-light-blue); /* Secondary color for keywords */
     font-weight: bold; /* Emphasize keywords */
 }
 
@@ -86,7 +86,7 @@ blockquote .hljs {
 
 /* Links in Code Elements */
 .hljs a {
-    color: var(--color-secondary, #DE2A02) !important; /* Fallback to Secondary color */
+    color: var(--color-accent-light-blue, #DE2A02) !important; /* Fallback to Secondary color */
     font-weight: bold !important;
     text-decoration: underline !important;
 }
@@ -141,8 +141,4 @@ blockquote a:hover {
 
 .mobile-nav-chapters {
     background-color: var(--color-primary); /* Primary background color */
-}
-
-#linera-banner {
-    content: url("images/Linera-Header-Dark_1920x284px.svg");
 }
