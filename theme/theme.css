@@ -11,6 +11,7 @@
     --color-accent-blue: #70D4D3;
     --color-accent-light-blue: #A0E3E2;
     --color-accent-light-green: #D2E8C8;
+    --color-accent-light-orange: #ffa96c;
     --color-accent-beige: #EDE4D2;
 
     /* Additional Defaults & Theme Overrides */
@@ -36,34 +37,40 @@ body {
     --bg: var(--color-background) !important;
 }
 
-/* Body Content & Links */
-body a {
+/* Body Content & Links (outside blockquotes) */
+body a:not(blockquote a):not(:visited) {
     color: var(--color-secondary) !important; /* Default link color in body */
-    text-decoration: underline, bold !important;
 }
 
-body a:hover {
-    color: var(--color-secondary); /* Hover color for links in body */
-    text-decoration: underline;
+body a:not(blockquote a):hover {
+    color: var(--color-secondary) !important; /* Hover color for links in body */
+   color: var(--color-secondary); /* Hover color for links in body */
 }
 
 /* Code Elements */
-.hljs, .hljs-comment {
-    font-family: "IBM Plex Mono", "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace !important; /* Keep code elements in monospace */
+.hljs {
+    font-family: "IBM Plex Mono", "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace !important;
     overflow-x: auto;
-    background: var(--color-primary-code) !important; /* Code block background */
-    color: var(--color-accent-light-green) !important; /* Default text color for code blocks */
-    /* border: 2px solid var(--color-accent-light-blue); /* Accent-light-blue border */
-    border-radius: 10px; /* Rounded corners */
-    padding: 0.5em; /* Add spacing inside the border */
-    margin: 1em 0; /* Add spacing around the code block */
+    color: var(--color-accent-light-blue) !important; /* Default text color for code blocks */
+    background: var(--color-primary-code) !important;
+    border-radius: 10px;
+    padding: 0.5em;
+    margin: 1em 0;
 }
 
-/* Code Elements Inside Blockquotes */
-blockquote .hljs {
+/* Links in Code Elements */
+.hljs a, a:visited {
+    color: var(--color-accent-light-blue, #70D4D3) !important; /* Fallback to Secondary color */
+    font-weight: bold !important;
+    text-decoration: underline !important;
+}
+
+.hljs-comment {
     color: var(--color-accent-light-blue) !important; /* Default text color for code blocks */
-    background: var(--color-primary-code) !important; /* Match blockquote background */
-    /* border: 2px solid var(--color-primary) !important; /* Primary color border */
+}
+
+.hljs-literal, .hljs-built_in, .hljs-meta {
+    color: var(--color-accent-light-orange) !important;
 }
 
 /* Highlighted Keywords */
@@ -82,13 +89,6 @@ blockquote .hljs {
 .hljs-title {
     color: var(--color-tertiary); /* Accent tertiary for titles */
     font-weight: bold; /* Optional: Bold titles */
-}
-
-/* Links in Code Elements */
-.hljs a {
-    color: var(--color-accent-light-blue, #DE2A02) !important; /* Fallback to Secondary color */
-    font-weight: bold !important;
-    text-decoration: underline !important;
 }
 
 /* Navigation & Links */
@@ -117,7 +117,6 @@ blockquote .hljs {
 blockquote {
     border-block-start: none !important;
     border-block-end: none !important;
-    /* Add other styles for blockquote here */
     background-color: var(--color-accent-light-blue); /* Background: Light Blue */
     color: var(--color-primary); /* Main text: Tertiary */
     margin: 1em 0;
@@ -128,7 +127,7 @@ blockquote {
 }
 
 /* Links in Blockquotes */
-blockquote a {
+blockquote a, blockquote a:visited {
     color: var(--color-primary) !important; /* Links: Accent Tertiary */
     font-weight: bold !important; /* Make links bold */
 }
