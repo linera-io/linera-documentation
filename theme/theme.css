@@ -28,7 +28,7 @@
 body {
     background-color: var(--color-background);
     color: var(--color-text);
-    font-family: 'Epilogue', sans-serif; /* Set Epilogue as the default font */
+    font-family: 'Inter', sans-serif; /* Set Inter as the default font */
     margin: 0;
     padding: 0;
 }
