@@ -25,6 +25,7 @@ runnable = false
 "/core_concepts/microchains.html" = "/developers/core_concepts/microchains.html"
 
 [output.linkcheck]
+optional = true
 follow-web-links = true
 exclude = [ 'x\.com', 'crates\.io' ]
 

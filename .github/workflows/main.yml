@@ -19,7 +19,6 @@ jobs:
           mdbook-version: 'latest'
 
       - run: |
-          sed -i'' -e 's/\[output.linkcheck\]//g' book.toml
           mdbook build
 
       - name: Deploy
