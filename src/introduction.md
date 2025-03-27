@@ -1,4 +1,4 @@
-![The Linera banner](developers/images/Linera-Header_1920x284px.svg)
+![The Linera banner](images/linera_banner_db73e9b.svg)
 
 # The Linera Manual
 
