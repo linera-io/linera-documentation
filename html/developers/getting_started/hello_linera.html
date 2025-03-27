@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hello, Linera</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The Linera Developer Manual">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/getting_started/hello_linera.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="hello-linera"><a class="header" href="#hello-linera">Hello, Linera</a></h1>
+<p>In this section, you will learn how to interact with the current Testnet, run a
+local development network, then compile and deploy your first application from
+scratch.</p>
+<p>By the end of this section, you will have a
+<a href="../core_concepts/microchains.html">microchain</a> on the Testnet and/or on your
+local network, and a working application that can be queried using GraphQL.</p>
+<h2 id="using-the-testnet"><a class="header" href="#using-the-testnet">Using the Testnet</a></h2>
+<p>The Linera Testnet is a deployment of the Linera protocol useful for developers
+and able to host applications.</p>
+<blockquote>
+<p>The current Testnet (codename "Archimedes") is the first deployment of Linera
+run in partnership with external validators. While it should be considered
+stable, it will be replaced by a new Testnet when needed. The next Linera
+Testnet will be restarted from a clean slate and a new genesis block.</p>
+</blockquote>
+<p>To interact with the Testnet, some tokens are needed. A Faucet service is
+available to create new microchains and obtain some test tokens. To do so, this
+must be configured when initializing the wallet:</p>
+<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-archimedes.linera.net
+</code></pre>
+<p>This creates a new microchain on Testnet with some initial test tokens, and the
+chain is automatically added to the newly instantiated wallet.</p>
+<blockquote>
+<p>Make sure to use a Linera toolchain
+<a href="installation.html#installing-from-cratesio">compatible with the current Testnet</a>.</p>
+</blockquote>
+<h2 id="starting-a-local-test-network"><a class="header" href="#starting-a-local-test-network">Starting a Local Test Network</a></h2>
+<p>Another option is to start your own local development network. A development
+network consists of a number of <a href="../advanced_topics/validators.html">validators</a>,
+each of which consists of an ingress proxy (aka. a "load balancer") and a number
+of workers (aka. "physical shards").</p>
+<p>To start a local network, run the following command:</p>
+<pre><code class="language-bash">linera net up
+</code></pre>
+<p>This will start a validator with the default number of shards and create a
+temporary directory storing the entire network state.</p>
+<p>This will set up a number of initial chains and create an initial wallet to
+operate them.</p>
+<h3 id="using-the-initial-test-wallet"><a class="header" href="#using-the-initial-test-wallet">Using the Initial Test Wallet</a></h3>
+<p><code>linera net up</code> prints Bash statements on its standard output to help you
+configure your terminal to use the initial wallet of the new test network, for
+instance:</p>
+<pre><code class="language-bash">export LINERA_WALLET="/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/wallet.json"
+export LINERA_STORAGE="rocksdb:/var/folders/3d/406tbklx3zx2p3_hzzpfqdbc0000gn/T/.tmpvJ6lJI/linera.db"
+</code></pre>
+<p>This wallet is only valid for the lifetime of a single network. Every time a
+local network is restarted, the wallet needs to be reconfigured.</p>
+<h2 id="interacting-with-the-network"><a class="header" href="#interacting-with-the-network">Interacting with the Network</a></h2>
+<blockquote>
+<p>In the following examples, we assume that either the wallet was initialized to
+interact with the Devnet or the variables <code>LINERA_WALLET</code> and <code>LINERA_STORAGE</code>
+are both set and point to the initial wallet of the running local network.</p>
+</blockquote>
+<p>The main way of interacting with the network and deploying applications is using
+the <code>linera</code> client.</p>
+<p>To check that the network is working, you can synchronize your
+<a href="../core_concepts/wallets.html">default chain</a> with the rest of the network and
+display the chain balance as follows:</p>
+<pre><code class="language-bash">linera sync
+linera query-balance
+</code></pre>
+<p>You should see an output number, e.g. <code>10</code>.</p>
+<h2 id="building-an-example-application"><a class="header" href="#building-an-example-application">Building an Example Application</a></h2>
+<p>Applications running on Linera are <a href="https://webassembly.org/">Wasm</a> bytecode.
+Each validator and client has a built-in Wasm virtual machine (VM) which can
+execute bytecode.</p>
+<p>Let's build the <code>counter</code> application from the <code>examples/</code> subdirectory:</p>
+<pre><code class="language-bash">cd examples/counter &amp;&amp; cargo build --release --target wasm32-unknown-unknown
+</code></pre>
+<h2 id="publishing-your-application"><a class="header" href="#publishing-your-application">Publishing your Application</a></h2>
+<p>You can publish the bytecode and create an application using it on your local
+network using the <code>linera</code> client's <code>publish-and-create</code> command and provide:</p>
+<ol>
+<li>The location of the contract bytecode</li>
+<li>The location of the service bytecode</li>
+<li>The JSON encoded initialization arguments</li>
+</ol>
+<pre><code class="language-bash">linera publish-and-create \
+  ../target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
+  --json-argument "42"
+</code></pre>
+<p>Congratulations! You've published your first application on Linera!</p>
+<h2 id="querying-your-application"><a class="header" href="#querying-your-application">Querying your Application</a></h2>
+<p>Now let's query your application to get the current counter value. To do that,
+we need to use the client running in
+<a href="../core_concepts/node_service.html"><em>service</em> mode</a>. This will expose a bunch of
+APIs locally which we can use to interact with applications on the network.</p>
+<pre><code class="language-bash">linera service
+</code></pre>
+<!-- TODO: add graphiql image here -->
+<p>Navigate to <code>http://localhost:8080</code> in your browser to access GraphiQL, the
+<a href="https://graphql.org">GraphQL</a> IDE. We'll look at this in more detail in a
+<a href="../core_concepts/node_service.html#graphiql-ide">later section</a>; for now, list
+the applications deployed on your default chain e476… by running:</p>
+<pre><code class="language-gql">query {
+  applications(
+    chainId: "e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65"
+  ) {
+    id
+    description
+    link
+  }
+}
+</code></pre>
+<p>Since we've only deployed one application, the results returned have a single
+entry.</p>
+<p>At the bottom of the returned JSON there is a field <code>link</code>. To interact with
+your application copy and paste the link into a new browser tab.</p>
+<p>Finally, to query the counter value, run:</p>
+<pre><code class="language-gql">query {
+  value
+}
+</code></pre>
+<p>This will return a value of <code>42</code>, which is the initialization argument we
+specified when deploying our application.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../developers/getting_started/installation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../developers/core_concepts.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../developers/getting_started/installation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../developers/core_concepts.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../custom.js"></script>
+
+
+    </div>
+    </body>
+</html>

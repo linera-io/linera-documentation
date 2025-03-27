@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Applications</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The Linera Developer Manual">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/core_concepts/applications.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="applications"><a class="header" href="#applications">Applications</a></h1>
+<p>The programming model of Linera is designed so that developers can take
+advantage of microchains to scale their applications.</p>
+<p>Linera uses the <a href="https://webassembly.org">WebAssembly (Wasm)</a> Virtual Machine to
+execute user applications. Currently, the <a href="../sdk.html">Linera SDK</a> is focused on
+the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
+<p>Linera applications are structured using the familiar notion of <strong>Rust crate</strong>:
+the external interfaces of an application (including instantiation parameters,
+operations and messages) generally go into the library part of its crate, while
+the core of each application is compiled into binary files for the Wasm
+architecture.</p>
+<h2 id="the-application-deployment-lifecycle"><a class="header" href="#the-application-deployment-lifecycle">The Application Deployment Lifecycle</a></h2>
+<p>Linera Applications are designed to be powerful yet re-usable. For this reason
+there is a distinction between the bytecode and an application instance on the
+network.</p>
+<p>Applications undergo a lifecycle transition aimed at making development easy and
+flexible:</p>
+<ol>
+<li>The bytecode is built from a Rust project with the <code>linera-sdk</code> dependency.</li>
+<li>The bytecode is published to the network on a microchain, and assigned an
+identifier.</li>
+<li>A user can create a new application instance, by providing the bytecode
+identifier and instantiation arguments. This process returns an application
+identifier which can be used to reference and interact with the application.</li>
+<li>The same bytecode identifier can be used as many times needed by as many
+users needed to create distinct applications.</li>
+</ol>
+<p>Importantly, the application deployment lifecycle is abstracted from the user,
+and an application can be published with a single command:</p>
+<pre><code class="language-bash">linera publish-and-create &lt;contract-path&gt; &lt;service-path&gt; &lt;init-args&gt;
+</code></pre>
+<p>This will publish the bytecode as well as instantiate the application for you.</p>
+<h2 id="anatomy-of-an-application"><a class="header" href="#anatomy-of-an-application">Anatomy of an Application</a></h2>
+<p>An <strong>application</strong> is broken into two major components, the <em>contract</em> and the
+<em>service</em>.</p>
+<p>The <strong>contract</strong> is gas-metered, and is the part of the application which
+executes operations and messages, make cross-application calls and modifies the
+application's state. The details are covered in more depth in the
+<a href="../sdk.html">SDK docs</a>.</p>
+<p>The <strong>service</strong> is non-metered and read-only. It is used primarily to query the
+state of an application and populate the presentation layer (think front-end)
+with the data required for a user interface.</p>
+<h2 id="operations-and-messages"><a class="header" href="#operations-and-messages">Operations and Messages</a></h2>
+<blockquote>
+<p>For this section we'll be using a simplified version of the example
+application called "fungible" where users can send tokens to each other.</p>
+</blockquote>
+<p>At the system-level, interacting with an application can be done via operations
+and messages.</p>
+<p><strong>Operations</strong> are defined by an application developer and each application can
+have a completely different set of operations. Chain owners then actively create
+operations and put them in their block proposals to interact with an
+application. Other applications may also call the application by providing an
+operation for it to execute, this is called a cross-application call and always
+happens within the same chain. Operations for cross-application calls may return
+a response value back to the caller.</p>
+<p>Taking the "fungible token" application as an example, an operation for a user
+to transfer funds to another user would look like this:</p>
+<pre><code class="language-rust"><span class="boring">extern crate serde;
+</span><span class="boring">extern crate linera_sdk;
+</span><span class="boring">use serde::{Deserialize, Serialize};
+</span><span class="boring">use linera_sdk::base::*;
+</span>#[derive(Debug, Deserialize, Serialize)]
+pub enum Operation {
+    /// A transfer from a (locally owned) account to a (possibly remote) account.
+    Transfer {
+        owner: AccountOwner,
+        amount: Amount,
+        target_account: Account,
+    },
+    // Meant to be extended here
+}</code></pre>
+<p><strong>Messages</strong> result from the execution of operations or other messages. Messages
+can be sent from one chain to another, always within the same application. Block
+proposers also actively include messages in their block proposal, but unlike
+with operations, they are only allowed to include them in the right order
+(possibly skipping some), and only if they were actually created by another
+chain (or by a previous block of the same chain). Messages that originate from
+the same transaction are included as a single transaction in the receiving
+block.</p>
+<p>In our "fungible token" application, a message to credit an account would look
+like this:</p>
+<pre><code class="language-rust"><span class="boring">extern crate serde;
+</span><span class="boring">extern crate linera_sdk;
+</span><span class="boring">use serde::{Deserialize, Serialize};
+</span><span class="boring">use linera_sdk::base::*;
+</span>#[derive(Debug, Deserialize, Serialize)]
+pub enum Message {
+    Credit { owner: AccountOwner, amount: Amount },
+    // Meant to be extended here
+}</code></pre>
+<h3 id="authentication"><a class="header" href="#authentication">Authentication</a></h3>
+<p>Operations in a block are always authenticated and messages may be
+authenticated. The signer of a block becomes the authenticator of all the
+operations in that block. As operations are being executed by applications,
+messages can be created to be sent to other chains. When they are created, they
+can be configured to be authenticated. In that case, the message receives the
+same authentication as the operation that created it. If handling an incoming
+message creates new messages, those may also be configured to have the same
+authentication as the received message.</p>
+<p>In other words, the block signer can have its authority propagated across chains
+through series of messages. This allows applications to safely store user state
+on chains that the user may not have the authority to produce blocks. The
+application may also allow only the authorized user to change that state, and
+not even the chain owner is able to override that.</p>
+<p>The figure below shows four chains (A, B, C, D) and some blocks produced in
+them. In this example, each chain is owned by a single owner (aka. address).
+Owners are in charge of producing blocks and sign new blocks using their signing
+keys. Some blocks show the operations and incoming messages they accept, where
+the authentication is shown inside parenthesis. All operations produced are
+authenticated by the block proposer, and if these are all single user chains,
+the proposer is always the chain owner. Messages that have authentication use
+the one from the operation or message that created it.</p>
+<p>One example in the figure is that chain A produced a block with Operation 1,
+which is authenticated by the owner of chain A (written <code>(a)</code>). That operation
+sent a message to chain B, and assuming the message was sent with the
+authentication forwarding enabled, it is received and executed in chain B with
+the authentication of <code>(a)</code>. Another example is that chain D produced a block
+with Operation 2, which is authenticated by the owner of chain D (written
+<code>(d)</code>). That operation sent a message to chain C, which is executed with
+authentication of <code>(d)</code> like the example before. Handling that message in chain
+C produced a new message, which was sent to chain B. That message, when received
+by chain B is executed with the authentication of <code>(d)</code>.</p>
+<pre><code class="language-ignore">                            ┌───┐     ┌─────────────────┐     ┌───┐
+       Chain A owned by (a) │   ├────►│ Operation 1 (a) ├────►│   │
+                            └───┘     └────────┬────────┘     └───┘
+                                               │
+                                               └────────────┐
+                                                            ▼
+                                                ┌──────────────────────────┐
+                            ┌───┐     ┌───┐     │ Message from chain A (a) │
+       Chain B owned by (b) │   ├────►│   ├────►│ Message from chain C (d) |
+                            └───┘     └───┘     │ Operation 3 (b)          │
+                                                └──────────────────────────┘
+                                                            ▲
+                                                   ┌────────┘
+                                                   │
+                            ┌───┐     ┌──────────────────────────┐     ┌───┐
+       Chain C owned by (c) │   ├────►│ Message from chain D (d) ├────►│   │
+                            └───┘     └──────────────────────────┘     └───┘
+                                                 ▲
+                                     ┌───────────┘
+                                     │
+                            ┌─────────────────┐     ┌───┐     ┌───┐
+       Chain D owned by (d) │ Operation 2 (d) ├────►│   ├────►│   │
+                            └─────────────────┘     └───┘     └───┘
+</code></pre>
+<p>An example where this is used is in the Fungible application, where a <code>Claim</code>
+operation allows retrieving money from a chain the user does not control (but
+the user still trusts will produce a block receiving their message). Without the
+<code>Claim</code> operation, users would only be able to store their tokens on their own
+chains, and multi-owner and public chains would have their tokens shared between
+anyone able to produce a block.</p>
+<p>With the <code>Claim</code> operation, users can store their tokens on another chain where
+they're able to produce blocks or where they trust the owner will produce blocks
+receiving their messages. Only they are able to move their tokens, even on
+chains where ownership is shared or where they are not able to produce blocks.</p>
+<h2 id="registering-an-application-across-chains"><a class="header" href="#registering-an-application-across-chains">Registering an Application across Chains</a></h2>
+<p>If Alice is using an application on her chain and starts interacting with Bob
+via the application, e.g. sends him some tokens using the <code>fungible</code> example,
+the application automatically gets registered on Bob's chain, too, as soon as he
+handles the incoming cross-chain messages. After that, he can execute the
+application's operations on his chain, too, and e.g. send tokens to someone.</p>
+<p>But there are also cases where Bob may want to start using an application he
+doesn't have yet. E.g. maybe Alice regularly makes posts using the <code>social</code>
+example, and Bob wants to subscribe to her.</p>
+<p>In that case, trying to execute an application-specific operation would fail,
+because the application is not registered on his chain. He needs to request it
+from Alice first:</p>
+<pre><code class="language-bash">linera request-application &lt;application-id&gt; --target-chain-id &lt;alices-chain-id&gt;
+</code></pre>
+<p>Once Alice processes his message (which happens automatically if she is running
+the client in service mode), he can start using the application.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../developers/core_concepts/node_service.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../developers/sdk.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../developers/core_concepts/node_service.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../developers/sdk.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../custom.js"></script>
+
+
+    </div>
+    </body>
+</html>
