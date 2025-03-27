@@ -1,0 +1,412 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Glossary</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The Linera Developer Manual">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">The Linera Manual</a></li><li class="chapter-item expanded "><a href="developers.html"><strong aria-hidden="true">1.</strong> Developers</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="developers/getting_started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="developers/getting_started/installation.html"><strong aria-hidden="true">1.1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="developers/getting_started/hello_linera.html"><strong aria-hidden="true">1.1.2.</strong> Hello, Linera</a></li></ol></li><li class="chapter-item expanded "><a href="developers/core_concepts.html"><strong aria-hidden="true">1.2.</strong> The Linera Protocol</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="developers/core_concepts/overview.html"><strong aria-hidden="true">1.2.1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="developers/core_concepts/microchains.html"><strong aria-hidden="true">1.2.2.</strong> Microchains</a></li><li class="chapter-item expanded "><a href="developers/core_concepts/wallets.html"><strong aria-hidden="true">1.2.3.</strong> Wallets</a></li><li class="chapter-item expanded "><a href="developers/core_concepts/node_service.html"><strong aria-hidden="true">1.2.4.</strong> Node Service</a></li><li class="chapter-item expanded "><a href="developers/core_concepts/applications.html"><strong aria-hidden="true">1.2.5.</strong> Applications</a></li></ol></li><li class="chapter-item expanded "><a href="developers/sdk.html"><strong aria-hidden="true">1.3.</strong> Writing Linera Applications</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="developers/sdk/creating_a_project.html"><strong aria-hidden="true">1.3.1.</strong> Creating a Project</a></li><li class="chapter-item expanded "><a href="developers/sdk/state.html"><strong aria-hidden="true">1.3.2.</strong> Creating the Application State</a></li><li class="chapter-item expanded "><a href="developers/sdk/abi.html"><strong aria-hidden="true">1.3.3.</strong> Defining the ABI</a></li><li class="chapter-item expanded "><a href="developers/sdk/contract.html"><strong aria-hidden="true">1.3.4.</strong> Writing the Contract Binary</a></li><li class="chapter-item expanded "><a href="developers/sdk/service.html"><strong aria-hidden="true">1.3.5.</strong> Writing the Service Binary</a></li><li class="chapter-item expanded "><a href="developers/sdk/deploy.html"><strong aria-hidden="true">1.3.6.</strong> Deploying the Application</a></li><li class="chapter-item expanded "><a href="developers/sdk/messages.html"><strong aria-hidden="true">1.3.7.</strong> Cross-Chain Messages</a></li><li class="chapter-item expanded "><a href="developers/sdk/composition.html"><strong aria-hidden="true">1.3.8.</strong> Calling other Applications</a></li><li class="chapter-item expanded "><a href="developers/sdk/blobs.html"><strong aria-hidden="true">1.3.9.</strong> Using Data Blobs</a></li><li class="chapter-item expanded "><a href="developers/sdk/logging.html"><strong aria-hidden="true">1.3.10.</strong> Printing Logs from an Application</a></li><li class="chapter-item expanded "><a href="developers/sdk/testing.html"><strong aria-hidden="true">1.3.11.</strong> Writing Tests</a></li></ol></li><li class="chapter-item expanded "><a href="developers/advanced_topics.html"><strong aria-hidden="true">1.4.</strong> Advanced Topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="developers/advanced_topics/contract_finalize.html"><strong aria-hidden="true">1.4.1.</strong> Contract Finalization</a></li><li class="chapter-item expanded "><a href="developers/advanced_topics/validators.html"><strong aria-hidden="true">1.4.2.</strong> Validators</a></li><li class="chapter-item expanded "><a href="developers/advanced_topics/block_creation.html"><strong aria-hidden="true">1.4.3.</strong> Creating New Blocks</a></li><li class="chapter-item expanded "><a href="developers/advanced_topics/assets.html"><strong aria-hidden="true">1.4.4.</strong> Applications that Handle Assets</a></li></ol></li><li class="chapter-item expanded "><a href="developers/experimental.html"><strong aria-hidden="true">1.5.</strong> Experimental</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="developers/experimental/ml.html"><strong aria-hidden="true">1.5.1.</strong> Machine Learning</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="operators.html"><strong aria-hidden="true">2.</strong> Node Operators</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="operators/devnets.html"><strong aria-hidden="true">2.1.</strong> Devnets</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="operators/devnets/compose.html"><strong aria-hidden="true">2.1.1.</strong> Docker Compose</a></li><li class="chapter-item expanded "><a href="operators/devnets/kind.html"><strong aria-hidden="true">2.1.2.</strong> kind</a></li></ol></li><li class="chapter-item expanded "><a href="operators/testnets.html"><strong aria-hidden="true">2.2.</strong> Testnets</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="operators/testnets/joining.html"><strong aria-hidden="true">2.2.1.</strong> Joining a Testnet</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="appendix.html"><strong aria-hidden="true">3.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix/glossary.html"><strong aria-hidden="true">3.1.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="appendix/videos.html"><strong aria-hidden="true">3.2.</strong> Videos</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="glossary"><a class="header" href="#glossary">Glossary</a></h1>
+<ul>
+<li>
+<p><strong>Address</strong>: A unique public alphanumeric identifier used to designate the
+identity of an entity on the Linera network.</p>
+</li>
+<li>
+<p><strong>Admin Chain</strong>: The Linera Network has one designated <em>admin chain</em> where
+validators can join or leave and where new epochs are defined.</p>
+</li>
+<li>
+<p><strong>Application</strong>: Similar to a smart-contract on Ethereum, an application is
+code deployed on the Linera network which is executed by all validators. An
+application has a metered <em>contract</em> which executes 'business logic' and
+modifies state and an unmetered 'service' which is a read-only view into an
+application's state.</p>
+</li>
+<li>
+<p><strong>Byzantine Fault-Tolerant (BFT)</strong>: A system which can operate correctly and
+achieve consensus even if components of the system fail or act maliciously.</p>
+</li>
+<li>
+<p><strong>Block Height</strong>: The number of blocks preceding a given block on a specific
+microchain.</p>
+</li>
+<li>
+<p><strong>Block Proposal</strong>: A candidate block proposed by a chain owner which may be
+selected at the next block height.</p>
+</li>
+<li>
+<p><strong>Bytecode</strong>: A collection of bytes corresponding to a program that can be run
+by the Wasm virtual machine.</p>
+</li>
+<li>
+<p><strong>Client</strong>: The <code>linera</code> program, which is a local node and wallet operated by
+users to make requests to the network. In Linera, clients drive the network by
+proposing new blocks and validators are mostly reactive.</p>
+</li>
+<li>
+<p><strong>Certificate</strong>: A value with signatures from a quorum of validators. Values
+can be confirmed blocks, meaning that the block has been added to the chain
+and is final. There are other values that are used for reaching consensus,
+before certifying a confirmed block.</p>
+</li>
+<li>
+<p><strong>Committee</strong>: The set of all validators for a particular <em>epoch</em>, together
+with their voting weights.</p>
+</li>
+<li>
+<p><strong>Chain Owner</strong>: The owner of a <em>user chain</em> or <em>permissioned chain</em>. This is
+represented as the alphanumeric identifier derived from the hash of the
+owner's public key.</p>
+</li>
+<li>
+<p><strong>Channel</strong>: A broadcast mechanism enabling publish-subscribe behavior across
+chains.</p>
+</li>
+<li>
+<p><strong>Contract</strong>: The metered part of an application which executes business logic
+and can modify the application's state.</p>
+</li>
+<li>
+<p><strong>Cross-Application Call</strong>: A call from one application to another on the
+<em>same chain</em>.</p>
+</li>
+<li>
+<p><strong>Cross-Chain Message</strong>: A message containing a data payload which is sent
+from one chain to another. Cross-Chain messages are the asynchronous
+communication primitive which enable communication on the same application
+running on different chains.</p>
+</li>
+<li>
+<p><strong>Devnet</strong>: An experimental deployment of the Linera protocol meant for
+testing and development. In a Devnet, the validator nodes are often run by the
+same operator for simplicity. Devnets may be shut down and restarted from a
+genesis configuration any time. Devnets do not handle real assets.</p>
+</li>
+<li>
+<p><strong>Epoch</strong>: A period of time when a particular set of validators with
+particular voting weights can certify new blocks. Since each chain has to
+transition explicitly from one epoch to the next, epochs can overlap.</p>
+</li>
+<li>
+<p><strong>Genesis Configuration</strong>: The configuration determining the state of a newly
+created network; the voting weights of the initial set of validators, the
+initial fee structure, and initial chains that the network starts with.</p>
+</li>
+<li>
+<p><strong>Inbox</strong>: A commutative data structure storing incoming messages for a given
+chain.</p>
+</li>
+<li>
+<p><strong>Mainnet</strong>: A deployment meant to be used in production, with real assets.</p>
+</li>
+<li>
+<p><strong>Message</strong>: See 'Cross-Chain Message'.</p>
+</li>
+<li>
+<p><strong>Microchain</strong>: A lightweight chain of blocks holding a subset of the
+network's state running on every validator. This is used interchangeably with
+'chain'. <em>All</em> Linera chains are microchains.</p>
+</li>
+<li>
+<p><strong>Network</strong>: The totality of all protocol participants. A network is the
+combination of committee, clients and auditors.</p>
+</li>
+<li>
+<p><strong>Operation</strong>: Operations are either transactions directly added to a block by
+the creator (and signer) of the block, or calls to an application from
+another. Users typically use operations to start interacting with an
+application on their own chain.</p>
+</li>
+<li>
+<p><strong>Permissioned Chain</strong>: A microchain which is owned by more than one user.
+Users take turns proposing blocks and the likelihood of selection is
+proportional to their <em>weight</em>.</p>
+</li>
+<li>
+<p><strong>Project</strong>: The collection of files and dependencies which are built into the
+bytecode which is instantiated as an application on the Linera Network.</p>
+</li>
+<li>
+<p><strong>Public Chain</strong>: A microchain with full BFT consensus with a strict set of
+permissions relied on for the operation of the network.</p>
+</li>
+<li>
+<p><strong>Quorum</strong>: A set of validators representing &gt; ⅔ of the total stake. A quorum
+is required to create a certificate.</p>
+</li>
+<li>
+<p><strong>Single-Owner Chain</strong>: See 'User Chain'.</p>
+</li>
+<li>
+<p><strong>Service</strong>: An unmetered read-only view into an application's state.</p>
+</li>
+<li>
+<p><strong>Shard</strong>: A logical subset of all microchains on a given validator. This
+corresponds directly to a physical <em>worker</em>.</p>
+</li>
+<li>
+<p><strong>Stake</strong>: An amount of tokens pledged by a validator or auditor, as a
+collateral to guarantee their honest and correct participation in the network.</p>
+</li>
+<li>
+<p><strong>Testnet</strong>: A deployment of the Linera protocol meant for testing and
+development. In a Testnet, the validator nodes are operated by multiple
+operators. Testnets will gain in stability and decentralization over time in
+preparation of the mainnet launch. Testnets do not handle real assets.</p>
+</li>
+<li>
+<p><strong>User Chain</strong>: Used interchangeably with <em>Single-Owner Chain</em>. User chains
+are chains which are owned by a single user on the network. Only the chain
+owner can propose blocks, and therefore only the chain owner can forcibly
+advance the state of a user chain.</p>
+</li>
+<li>
+<p><strong>Validator</strong>: Validators run the servers that allow users to download and
+create blocks. They validate, execute and cryptographically certify the blocks
+of all the chains.</p>
+</li>
+<li>
+<p><strong>View</strong>: Views are like an Object-Relational Mapping (ORM) for mapping
+complex types onto key-value stores. Views group complex state changes into a
+set of elementary operations and commit them atomically. They are full or
+partial in-memory representations of complex types saved on disk in a
+key-value store</p>
+</li>
+<li>
+<p><strong>Wallet</strong>: A file containing a user's public and private keys along with
+configuration and information regarding the chains they own.</p>
+</li>
+<li>
+<p><strong>WebAssembly (Wasm)</strong>: A binary compilation target and instruction format
+that runs on a stack-based VM. Linera applications are compiled to Wasm and
+run on Wasm VMs inside validators and clients.</p>
+</li>
+<li>
+<p><strong>Web3</strong>: A natural evolution of the internet focusing on decentralization by
+leveraging blockchains and smart contracts.</p>
+</li>
+<li>
+<p><strong>Worker</strong>: A process which runs a subset of all microchains on a given
+validator. This corresponds directly to a logical <em>shard</em>.</p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../appendix.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../appendix/videos.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../appendix.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../appendix/videos.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
