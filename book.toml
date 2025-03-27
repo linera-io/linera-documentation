@@ -8,6 +8,7 @@ description = "The Linera Developer Manual"
 [output.html]
 default-theme = "Light"
 default-dark-theme = "Ayu"
+additional-css = ["theme/theme.css"]
 additional-js = ["custom.js"]
 git-repository-url = "https://github.com/linera-io/linera-documentation"
 git-repository-icon = "fa-github"
