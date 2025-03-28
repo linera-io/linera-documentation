@@ -468,12 +468,12 @@ window.search = window.search || {};
         showResults(true);
     }
 
-    fetch(path_to_root + 'searchindex.json')
+    fetch(path_to_root + 'searchindex-09b64dd8.json')
         .then(response => response.json())
         .then(json => init(json))        
         .catch(error => { // Try to load searchindex.js if fetch failed
             var script = document.createElement('script');
-            script.src = path_to_root + 'searchindex.js';
+            script.src = path_to_root + 'searchindex-65b0e5eb.js';
             script.onload = () => init(window.search);
             document.head.appendChild(script);
         });
