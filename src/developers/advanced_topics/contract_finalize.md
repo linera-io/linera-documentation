@@ -18,11 +18,41 @@ As an example, a contract that executes a cross-application call with
 `Operation::StartSession` may require the same caller to perform another
 cross-application call with `Operation::EndSession` before the transaction ends.
 
-```rust,ignore
+```rust,edition2021
+# extern crate serde;
+# extern crate linera_sdk;
+# use serde::{Deserialize, Serialize};
+# use linera_sdk::base::*;
+# use linera_sdk::*;
+# use std::collections::HashSet;
+# use linera_sdk::views::{linera_views, RegisterView, RootView, ViewStorageContext};
+# use crate::linera_sdk::views::View as _;
+
+#[derive(RootView)]
+#[view(context = "ViewStorageContext")]
+pub struct MyState {
+    pub value: RegisterView<u64>,
+    // ...
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub enum Operation { StartSession, EndSession }
+
+pub struct MyAbi;
+
+impl ContractAbi for MyAbi {
+    type Operation = Operation;
+    type Response = ();
+}
+
 pub struct MyContract {
     state: MyState,
     runtime: ContractRuntime<Self>,
     active_sessions: HashSet<ApplicationId>,
+}
+
+impl WithContractAbi for MyContract {
+    type Abi = MyAbi;
 }
 
 impl Contract for MyContract {
@@ -45,7 +75,7 @@ impl Contract for MyContract {
     async fn instantiate(&mut self, (): Self::InstantiationArgument) {}
 
     async fn execute_operation(&mut self, operation: Self::Operation) -> Self::Response {
-        let caller = self.runtime
+        let caller_id = self.runtime
             .authenticated_caller_id()
             .expect("Missing caller ID");
 
@@ -65,11 +95,11 @@ impl Contract for MyContract {
         }
     }
 
-    async fn execute_message(&mut self, message: Self::Message) -> Result<(), Self::Error> {
+    async fn execute_message(&mut self, message: Self::Message) {
         unreachable!("This example doesn't support messages");
     }
 
-    async fn store(&mut self) {
+    async fn store(mut self) {
         assert!(
             self.active_sessions.is_empty(),
             "Some sessions have not ended"

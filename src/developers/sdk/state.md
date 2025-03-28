@@ -8,7 +8,7 @@ The `struct` which defines your application's state can be found in
 
 While we could use a plain data-structure for the entire application state:
 
-```rust,ignore
+```rust
 struct Counter {
   value: u64
 }
@@ -27,7 +27,14 @@ in general, we prefer to manage persistent data using the concept of "views":
 
 In this case, the struct in `src/state.rs` should be replaced by
 
-```rust,ignore
+```rust
+# extern crate linera_sdk;
+# extern crate async_graphql;
+# use linera_sdk::base::*;
+# use linera_sdk::*;
+# use std::collections::HashSet;
+# use linera_sdk::views::{linera_views, RegisterView, RootView, ViewStorageContext};
+# use crate::linera_sdk::views::View as _;
 /// The application state.
 #[derive(RootView, async_graphql::SimpleObject)]
 #[view(context = "ViewStorageContext")]

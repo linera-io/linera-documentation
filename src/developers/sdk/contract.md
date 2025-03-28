@@ -7,37 +7,8 @@ To create a contract, we need to create a new type and implement the `Contract`
 trait for it, which is as follows:
 
 ```rust,ignore
-pub trait Contract: WithContractAbi + ContractAbi + Sized {
-    /// The type of message executed by the application.
-    type Message: Serialize + DeserializeOwned + Debug;
-
-    /// Immutable parameters specific to this application (e.g. the name of a token).
-    type Parameters: Serialize + DeserializeOwned + Clone + Debug;
-
-    /// Instantiation argument passed to a new application on the chain that created it
-    /// (e.g. an initial amount of tokens minted).
-    type InstantiationArgument: Serialize + DeserializeOwned + Debug;
-
-    /// Creates an in-memory instance of the contract handler.
-    async fn load(runtime: ContractRuntime<Self>) -> Self;
-
-    /// Instantiates the application on the chain that created it.
-    async fn instantiate(&mut self, argument: Self::InstantiationArgument);
-
-    /// Applies an operation from the current block.
-    async fn execute_operation(&mut self, operation: Self::Operation) -> Self::Response;
-
-    /// Applies a message originating from a cross-chain message.
-    async fn execute_message(&mut self, message: Self::Message);
-
-    /// Finishes the execution of the current transaction.
-    async fn store(self);
-}
+{{#include ../../../linera-protocol/linera-sdk/src/lib.rs:contract}}
 ```
-
-The full trait definition can be found
-[here](https://github.com/linera-io/linera-protocol/blob/{{#include
-../../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/lib.rs).
 
 There's quite a bit going on here, so let's break it down and take one method at
 a time.
@@ -50,10 +21,7 @@ methods.
 To implement the application contract, we first create a type for the contract:
 
 ```rust,ignore
-pub struct CounterContract {
-    state: Counter,
-    runtime: ContractRuntime<Self>,
-}
+{{#include ../../../linera-protocol/examples/counter/src/contract.rs:contract_struct}}
 ```
 
 This type usually contains at least two fields: the persistent `state` defined
@@ -70,12 +38,7 @@ implementation, we will load the state and create the `CounterContract`
 instance:
 
 ```rust,ignore
-    async fn load(runtime: ContractRuntime<Self>) -> Self {
-        let state = Counter::load(runtime.root_view_storage_context())
-            .await
-            .expect("Failed to load state");
-        CounterContract { state, runtime }
-    }
+{{#include ../../../linera-protocol/examples/counter/src/contract.rs:load}}
 ```
 
 When the transaction finishes executing successfully, there's a final step where
@@ -85,9 +48,7 @@ method, which can be thought of as similar to executing a destructor. In our
 implementation we will persist the state back to storage:
 
 ```rust,ignore
-    async fn store(mut self) {
-        self.state.save().await.expect("Failed to save state");
-    }
+{{#include ../../../linera-protocol/examples/counter/src/contract.rs:store}}
 ```
 
 It's possible to do more than just saving the state, and the
@@ -111,9 +72,7 @@ application to an arbitrary number that can be specified on application creation
 using its instantiation parameters:
 
 ```rust,ignore
-    async fn instantiate(&mut self, value: u64) {
-        self.state.value.set(value);
-    }
+{{#include ../../../linera-protocol/examples/counter/src/contract.rs:instantiate}}
 ```
 
 ## Implementing the Increment Operation
@@ -127,19 +86,24 @@ method. In the counter's case, the operation it will be receiving is a `u64`
 which is used to increment the counter by that value:
 
 ```rust,ignore
-    async fn execute_operation(&mut self, operation: u64) {
-        let current = self.state.value.get();
-        self.state.value.set(current + operation);
-    }
+{{#include ../../../linera-protocol/examples/counter/src/contract.rs:execute_operation}}
 ```
 
 ## Declaring the ABI
 
-Finally, to link our `Contract` trait implementation with the ABI of the
-application, the following code is added:
+Finally, we link our `Contract` trait implementation with the ABI of the
+application:
 
 ```rust,ignore
-impl WithContractAbi for CounterContract {
-    type Abi = counter::CounterAbi;
-}
+{{#include ../../../linera-protocol/examples/counter/src/contract.rs:declare_abi}}
 ```
+
+## References
+
+- The full trait definition of `Contract` can be found
+  [here](https://github.com/linera-io/linera-protocol/blob/{{#include
+  ../../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/lib.rs).
+
+- The full `Counter` example application can be found
+  [here](https://github.com/linera-io/linera-protocol/blob/{{#include
+  ../../../.git/modules/linera-protocol/HEAD}}/examples/counter).

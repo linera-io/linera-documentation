@@ -10,7 +10,8 @@ and multiple applications.
 Applications should consider having both types of tests. Unit tests should be
 used to focus on the application's internals and core functionality. Integration
 tests should be used to test how the application behaves on a more complex
-environment that's closer to the real network.
+environment that's closer to the real network. Both types of test are running in
+native Rust.
 
 > For Rust tests, the `cargo test` command can be used to run both the unit and
 > integration tests.
@@ -26,36 +27,11 @@ runtimes, and can be configured to return specific values for different tests.
 
 ### Example
 
-A simple unit test is shown below, which tests if the application contract's
-`do_something` method changes the application state.
+A simple unit test is shown below, which tests if the method `execute_operation`
+method changes the application state of the `Counter` application.
 
-```rust,ignore
-#[cfg(test)]
-mod tests {
-    use crate::{ApplicationContract, ApplicationState};
-    use linera_sdk::{util::BlockingWait, ContractRuntime};
-
-    #[test]
-    fn test_do_something() {
-        let runtime = ContractRuntime::new();
-        let mut contract = ApplicationContract::load(runtime).blocking_wait();
-
-        let result = contract.do_something();
-
-        // Check that `do_something` succeeded
-        assert!(result.is_ok());
-        // Check that the state in memory was updated
-        assert_eq!(contract.state, ApplicationState {
-            // Define the application's expected final state
-            ..ApplicationState::default()
-        });
-        // Check that the state in memory is different from the state in storage
-        assert_ne!(
-            contract.state,
-            ApplicationState::load(runtime.root_view_storage_context())
-        );
-    }
-}
+```rust
+{{#include ../../../linera-protocol/examples/counter/src/contract.rs:counter_test}}
 ```
 
 ## Integration Tests
@@ -69,37 +45,9 @@ the application.
 
 ### Example
 
-A simple test that sends a message between application instances on different
-chains is shown below.
+A simple integration test that execution a block containing an operation for the
+`Counter` application is shown below.
 
-```rust,ignore
-#[tokio::test]
-async fn test_cross_chain_message() {
-    let parameters = vec![];
-    let instantiation_argument = vec![];
-
-    let (validator, application_id) =
-        TestValidator::with_current_application(parameters, instantiation_argument).await;
-
-    let mut sender_chain = validator.get_chain(application_id.creation.chain_id).await;
-    let mut receiver_chain = validator.new_chain().await;
-
-    sender_chain
-        .add_block(|block| {
-            block.with_operation(
-                application_id,
-                Operation::SendMessageTo(receiver_chain.id()),
-            )
-        })
-        .await;
-
-    receiver_chain.handle_received_messages().await;
-
-    assert_eq!(
-        receiver_chain
-            .query::<ChainId>(application_id, Query::LastSender)
-            .await,
-        sender_chain.id(),
-    );
-}
+```rust
+{{#include ../../../linera-protocol/examples/counter/tests/single_chain.rs:counter_integration_test}}
 ```
