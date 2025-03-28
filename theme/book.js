@@ -1,5 +1,8 @@
 "use strict";
 
+// Fix back button cache problem
+window.onunload = function () { };
+
 // Global variable, shared between modules
 function playground_text(playground, hidden = true) {
     let code_block = playground.querySelector("code");
@@ -108,11 +111,11 @@ function playground_text(playground, hidden = true) {
         let text = playground_text(code_block);
         let classes = code_block.querySelector('code').classList;
         let edition = "2015";
-        if(classes.contains("edition2018")) {
-            edition = "2018";
-        } else if(classes.contains("edition2021")) {
-            edition = "2021";
-        }
+        classes.forEach(className => {
+            if (className.startsWith("edition")) {
+                edition = className.slice(7);
+            }
+        });
         var params = {
             version: "stable",
             optimize: "0",
@@ -222,7 +225,7 @@ function playground_text(playground, hidden = true) {
                 }
 
                 var clipButton = document.createElement('button');
-                clipButton.className = 'fa fa-copy clip-button';
+                clipButton.className = 'clip-button';
                 clipButton.title = 'Copy to clipboard';
                 clipButton.setAttribute('aria-label', clipButton.title);
                 clipButton.innerHTML = '<i class=\"tooltiptext\"></i>';
@@ -255,7 +258,7 @@ function playground_text(playground, hidden = true) {
 
         if (window.playground_copyable) {
             var copyCodeClipboardButton = document.createElement('button');
-            copyCodeClipboardButton.className = 'fa fa-copy clip-button';
+            copyCodeClipboardButton.className = 'clip-button';
             copyCodeClipboardButton.innerHTML = '<i class="tooltiptext"></i>';
             copyCodeClipboardButton.title = 'Copy to clipboard';
             copyCodeClipboardButton.setAttribute('aria-label', copyCodeClipboardButton.title);
@@ -286,6 +289,7 @@ function playground_text(playground, hidden = true) {
     var sidebar = document.getElementById("sidebar");
     var sidebarLinks = document.querySelectorAll('#sidebar a');
     var sidebarToggleButton = document.getElementById("sidebar-toggle");
+    var sidebarToggleAnchor = document.getElementById("sidebar-toggle-anchor");
     var sidebarResizeHandle = document.getElementById("sidebar-resize-handle");
     var firstContact = null;
 
@@ -300,17 +304,6 @@ function playground_text(playground, hidden = true) {
         try { localStorage.setItem('mdbook-sidebar', 'visible'); } catch (e) { }
     }
 
-
-    var sidebarAnchorToggles = document.querySelectorAll('#sidebar a.toggle');
-
-    function toggleSection(ev) {
-        ev.currentTarget.parentElement.classList.toggle('expanded');
-    }
-
-    Array.from(sidebarAnchorToggles).forEach(function (el) {
-        el.addEventListener('click', toggleSection);
-    });
-
     function hideSidebar() {
         body.classList.remove('sidebar-visible')
         body.classList.add('sidebar-hidden');
@@ -323,22 +316,16 @@ function playground_text(playground, hidden = true) {
     }
 
     // Toggle sidebar
-    sidebarToggleButton.addEventListener('click', function sidebarToggle() {
-        if (body.classList.contains("sidebar-hidden")) {
+    sidebarToggleAnchor.addEventListener('change', function sidebarToggle() {
+        if (sidebarToggleAnchor.checked) {
             var current_width = parseInt(
                 document.documentElement.style.getPropertyValue('--sidebar-width'), 10);
             if (current_width < 150) {
                 document.documentElement.style.setProperty('--sidebar-width', '150px');
             }
             showSidebar();
-        } else if (body.classList.contains("sidebar-visible")) {
-            hideSidebar();
         } else {
-            if (getComputedStyle(sidebar)['transform'] === 'none') {
-                hideSidebar();
-            } else {
-                showSidebar();
-            }
+            hideSidebar();
         }
     });
 
@@ -438,12 +425,12 @@ function playground_text(playground, hidden = true) {
 
     function hideTooltip(elem) {
         elem.firstChild.innerText = "";
-        elem.className = 'fa fa-copy clip-button';
+        elem.className = 'clip-button';
     }
 
     function showTooltip(elem, msg) {
         elem.firstChild.innerText = msg;
-        elem.className = 'fa fa-copy tooltipped';
+        elem.className = 'clip-button tooltipped';
     }
 
     var clipboardSnippets = new ClipboardJS('.clip-button', {
