@@ -13,7 +13,6 @@ additional-js = ["custom.js"]
 git-repository-url = "https://github.com/linera-io/linera-documentation"
 git-repository-icon = "fa-github"
 edit-url-template = "https://github.com/linera-io/linera-documentation/edit/main/{path}"
-hash-files = true
 
 [output.html.fold]
 enable = true
