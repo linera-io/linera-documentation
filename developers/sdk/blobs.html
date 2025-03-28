@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -12,36 +12,34 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../../favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../../css/variables-d0866e17.css">
-        <link rel="stylesheet" href="../../css/general-e9745eeb.css">
-        <link rel="stylesheet" href="../../css/chrome-d7ced664.css">
-        <link rel="stylesheet" href="../../css/print-ad67d350.css" media="print">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome-799aeb25.css">
-        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../../highlight-493f70e1.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-e19ef5ff.css">
+        <link rel="stylesheet" href="../../theme/theme.css">
 
-
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-        <!-- Start loading toc.js asap -->
-        <script src="../../toc-b049fe7b.js"></script>
-    </head>
-    <body>
-    <div id="body-container">
+
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -63,16 +61,19 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            const html = document.documentElement;
+            var html = document.querySelector('html');
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add("js");
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
+            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -82,20 +83,40 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <!-- populated by js -->
-            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
-            <noscript>
-                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
-            </noscript>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">The Linera Manual</a></li><li class="chapter-item expanded "><a href="developers.html"><strong aria-hidden="true">1.</strong> Developers</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="developers/getting_started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="developers/getting_started/installation.html"><strong aria-hidden="true">1.1.1.</strong> Installation</a></li><li class="chapter-item "><a href="developers/getting_started/hello_linera.html"><strong aria-hidden="true">1.1.2.</strong> Hello, Linera</a></li></ol></li><li class="chapter-item "><a href="developers/core_concepts.html"><strong aria-hidden="true">1.2.</strong> The Linera Protocol</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="developers/core_concepts/overview.html"><strong aria-hidden="true">1.2.1.</strong> Overview</a></li><li class="chapter-item "><a href="developers/core_concepts/microchains.html"><strong aria-hidden="true">1.2.2.</strong> Microchains</a></li><li class="chapter-item "><a href="developers/core_concepts/wallets.html"><strong aria-hidden="true">1.2.3.</strong> Wallets</a></li><li class="chapter-item "><a href="developers/core_concepts/node_service.html"><strong aria-hidden="true">1.2.4.</strong> Node Service</a></li><li class="chapter-item "><a href="developers/core_concepts/applications.html"><strong aria-hidden="true">1.2.5.</strong> Applications</a></li></ol></li><li class="chapter-item "><a href="developers/sdk.html"><strong aria-hidden="true">1.3.</strong> Writing Linera Applications</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="developers/sdk/creating_a_project.html"><strong aria-hidden="true">1.3.1.</strong> Creating a Project</a></li><li class="chapter-item "><a href="developers/sdk/state.html"><strong aria-hidden="true">1.3.2.</strong> Creating the Application State</a></li><li class="chapter-item "><a href="developers/sdk/abi.html"><strong aria-hidden="true">1.3.3.</strong> Defining the ABI</a></li><li class="chapter-item "><a href="developers/sdk/contract.html"><strong aria-hidden="true">1.3.4.</strong> Writing the Contract Binary</a></li><li class="chapter-item "><a href="developers/sdk/service.html"><strong aria-hidden="true">1.3.5.</strong> Writing the Service Binary</a></li><li class="chapter-item "><a href="developers/sdk/deploy.html"><strong aria-hidden="true">1.3.6.</strong> Deploying the Application</a></li><li class="chapter-item "><a href="developers/sdk/messages.html"><strong aria-hidden="true">1.3.7.</strong> Cross-Chain Messages</a></li><li class="chapter-item "><a href="developers/sdk/composition.html"><strong aria-hidden="true">1.3.8.</strong> Calling other Applications</a></li><li class="chapter-item "><a href="developers/sdk/blobs.html"><strong aria-hidden="true">1.3.9.</strong> Using Data Blobs</a></li><li class="chapter-item "><a href="developers/sdk/logging.html"><strong aria-hidden="true">1.3.10.</strong> Printing Logs from an Application</a></li><li class="chapter-item "><a href="developers/sdk/testing.html"><strong aria-hidden="true">1.3.11.</strong> Writing Tests</a></li></ol></li><li class="chapter-item "><a href="developers/advanced_topics.html"><strong aria-hidden="true">1.4.</strong> Advanced Topics</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="developers/advanced_topics/contract_finalize.html"><strong aria-hidden="true">1.4.1.</strong> Contract Finalization</a></li><li class="chapter-item "><a href="developers/advanced_topics/validators.html"><strong aria-hidden="true">1.4.2.</strong> Validators</a></li><li class="chapter-item "><a href="developers/advanced_topics/block_creation.html"><strong aria-hidden="true">1.4.3.</strong> Creating New Blocks</a></li><li class="chapter-item "><a href="developers/advanced_topics/assets.html"><strong aria-hidden="true">1.4.4.</strong> Applications that Handle Assets</a></li></ol></li><li class="chapter-item "><a href="developers/experimental.html"><strong aria-hidden="true">1.5.</strong> Experimental</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="developers/experimental/ml.html"><strong aria-hidden="true">1.5.1.</strong> Machine Learning</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="operators.html"><strong aria-hidden="true">2.</strong> Node Operators</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="operators/devnets.html"><strong aria-hidden="true">2.1.</strong> Devnets</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="operators/devnets/compose.html"><strong aria-hidden="true">2.1.1.</strong> Docker Compose</a></li><li class="chapter-item "><a href="operators/devnets/kind.html"><strong aria-hidden="true">2.1.2.</strong> kind</a></li></ol></li><li class="chapter-item "><a href="operators/testnets.html"><strong aria-hidden="true">2.2.</strong> Testnets</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="operators/testnets/joining.html"><strong aria-hidden="true">2.2.1.</strong> Joining a Testnet</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="appendix.html"><strong aria-hidden="true">3.</strong> Appendix</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="appendix/glossary.html"><strong aria-hidden="true">3.1.</strong> Glossary</a></li><li class="chapter-item "><a href="appendix/videos.html"><strong aria-hidden="true">3.2.</strong> Videos</a></li></ol></li></ol>
+            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
 
         <div id="page-wrapper" class="page-wrapper">
 
@@ -106,16 +127,6 @@
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
-                        </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
-                        </ul>
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
@@ -221,16 +232,16 @@ and <a href="https://github.com/linera-io/linera-protocol/blob/f84b66720b92b2eab
         </script>
 
 
-        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
-        <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <script src="../../clipboard-1626706a.min.js"></script>
-        <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-e98fec48.js"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../custom-6e1704cf.js"></script>
+        <script src="../../custom.js"></script>
 
 
     </div>
