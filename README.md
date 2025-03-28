@@ -2,6 +2,15 @@
 
 Repository for the developer documentation of Linera hosted on https://linera.dev
 
+## Installing mdbook
+
+```
+cargo install mdbook@0.4.47
+```
+
+Because we override the default template, the exact version matters. To upgrade `mdbook`,
+you will have to run `mdbook init --theme` and do a 3-way merge by hand.
+
 ## Initializing git submodules
 
 ```
