@@ -19,6 +19,7 @@ jobs:
           mdbook-version: '0.4.47'
 
       - run: |
+          cargo install mdbook-mermaid
           mdbook build
 
       - name: Deploy

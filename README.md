@@ -7,6 +7,7 @@ Repository for the developer documentation of Linera hosted on https://linera.de
 ```
 cargo install mdbook@0.4.47
 cargo install mdbook-linkcheck
+cargo install mdbook-mermaid
 ```
 
 Because we override the default template, the exact version matters. To upgrade `mdbook`,

@@ -7,9 +7,9 @@ description = "The Linera Manual"
 
 [output.html]
 default-theme = "Light"
-default-dark-theme = "Ayu"
+default-dark-theme = "Light"
 additional-css = ["theme/theme.css"]
-additional-js = ["custom.js"]
+additional-js = ["custom.js", "mermaid.min.js", "mermaid-init.js"]
 git-repository-url = "https://github.com/linera-io/linera-documentation"
 git-repository-icon = "fa-github"
 edit-url-template = "https://github.com/linera-io/linera-documentation/edit/main/{path}"
@@ -33,6 +33,9 @@ runnable = false
 optional = true
 follow-web-links = true
 exclude = [ 'x\.com', 'crates\.io' ]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
 
 [build]
 build-dir = "book"
