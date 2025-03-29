@@ -33,6 +33,11 @@ body {
     padding: 0;
 }
 
+.content p { line-height: 1.7em; }
+.content ol { line-height: 1.7em; }
+.content ul { line-height: 1.7em; }
+code { line-height: 1.4em; }
+
 .light, html:not(.js) {
     --bg: var(--color-background) !important;
 }
