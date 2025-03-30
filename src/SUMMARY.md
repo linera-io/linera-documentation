@@ -50,6 +50,6 @@
   - [Testnets](operators/testnets.md)
     - [Joining a Testnet](operators/testnets/joining.md)
 
-- [Appendix](appendix.md)
-  - [Glossary](appendix/glossary.md)
-  - [Videos](appendix/videos.md)
+[Glossary](appendix/glossary.md)
+
+[Videos](appendix/videos.md)
