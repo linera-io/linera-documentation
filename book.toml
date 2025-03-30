@@ -14,6 +14,7 @@ git-repository-url = "https://github.com/linera-io/linera-documentation"
 git-repository-icon = "fa-github"
 edit-url-template = "https://github.com/linera-io/linera-documentation/edit/main/{path}"
 hash-files = true
+no-section-label = true
 
 [output.html.fold]
 enable = true
@@ -29,7 +30,7 @@ runnable = false
 [output.linkcheck]
 optional = true
 follow-web-links = true
-exclude = [ 'x\.com', 'crates\.io' ]
+exclude = [ '', 'x\.com', 'crates\.io' ]
 
 [build]
 build-dir = "book"

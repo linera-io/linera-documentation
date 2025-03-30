@@ -33,6 +33,15 @@ body {
     padding: 0;
 }
 
+.spacer {
+    height: 2px;
+    background-color: var(--color-primary-code) !important;
+}
+
+.chapter li.part-title {
+    color: var(--color-accent-beige);
+}
+
 .content p { line-height: 1.7em; }
 .content ol { line-height: 1.7em; }
 .content ul { line-height: 1.7em; }

@@ -1,6 +1,10 @@
 # Summary
 
-[The Linera Manual](introduction.md)
+---
+
+[Introduction](introduction.md)
+
+---
 
 - [Developers](developers.md)
 
@@ -42,14 +46,23 @@
 
     - [Machine Learning](developers/experimental/ml.md)
 
+---
+
 - [Node Operators](operators.md)
 
   - [Devnets](operators/devnets.md)
+
     - [Docker Compose](operators/devnets/compose.md)
     - [kind](operators/devnets/kind.md)
+
   - [Testnets](operators/testnets.md)
+
     - [Joining a Testnet](operators/testnets/joining.md)
 
-[Glossary](appendix/glossary.md)
+---
 
-[Videos](appendix/videos.md)
+- [Glossary](appendix/glossary.md)
+
+- [Videos](appendix/videos.md)
+
+---

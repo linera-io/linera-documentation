@@ -2,7 +2,7 @@
 
 # The Linera Manual
 
-Welcome to the Linera manual, a decentralized protocol designed for **highly
+Welcome to the reference manual of Linera, a decentralized protocol designed for **highly
 scalable, low-latency Web3 applications**.
 
 The documentation is split into two parts:
