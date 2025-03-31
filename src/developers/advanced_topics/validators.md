@@ -85,7 +85,7 @@ balancer and the shared database are represented as a single entity but are
 meant to scale out in production.
 
 > For local testing during development, we currently use a single worker and
-> RocksDB as a database.
+> a testing in-memory service as a shared database.
 
 <!--
 ## Configuring Networks, Workers, and Proxies
