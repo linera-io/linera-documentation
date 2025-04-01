@@ -30,7 +30,7 @@ runtimes, and can be configured to return specific values for different tests.
 A simple unit test is shown below, which tests if the method `execute_operation`
 method changes the application state of the `Counter` application.
 
-```rust
+```rust,ignore
 {{#include ../../../linera-protocol/examples/counter/src/contract.rs:counter_test}}
 ```
 
@@ -48,6 +48,6 @@ the application.
 A simple integration test that execution a block containing an operation for the
 `Counter` application is shown below.
 
-```rust
+```rust,ignore
 {{#include ../../../linera-protocol/examples/counter/tests/single_chain.rs:counter_integration_test}}
 ```
