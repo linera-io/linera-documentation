@@ -4,18 +4,18 @@ Linera is a decentralized protocol optimized for Web3 applications that require
 guaranteed performance for an unlimited number of active users.
 
 The core idea of the Linera protocol is to run many parallel chains, called
-**microchains**, in a single set of validators, so that they can run the same
-applications and easily share data and liquidity.
+**microchains**, in a single set of validators, allowing chains to easily share
+applications, data, and liquidity.
 
 ## How does it work?
 
-In Linera, user wallets operate their own chains. The owner of a chain chooses
-when to add new blocks to the chain and what goes inside the blocks. Such chains
-with a single user are called **user chains**.
+In Linera, each user wallet is given a dedicated chain, in which they can propose blocks
+any time. Such chains with a single user are called **user chains** (or sometimes personal
+chains).
 
-Users may add new blocks to their chains in order to process **incoming
-messages** from other chains or to execute secure **operations** on their
-accounts, for instance to transfer assets to another user.
+Users generally add blocks to their chains in order to execute some **operations** on their
+accounts (e.g. sending assets), or to accept **incoming
+messages** from other chains (e.g. to receive assets).
 
 > Besides user chains, the [Linera protocol](https://linera.io/whitepaper) is
 > designed to support other types of microchains, called "multi-user" and

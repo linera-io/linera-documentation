@@ -8,9 +8,7 @@ At Linera, we believe that Web3 applications should be able to serve as many
 Examples of applications that require processing time-sensitive transactions
 created by many simultaneous users (or devices) include:
 
-- Real-time micro-payments and micro-rewards,
-
-- Social data feeds,
+- Real-time payments and micro-rewards,
 
 - Real-time auction systems,
 
@@ -18,13 +16,15 @@ created by many simultaneous users (or devices) include:
 
 - Decentralized physical infrastructure (DePIN),
 
+- Social data feeds,
+
 - Version control systems for software, data pipelines, or AI training
   pipelines.
 
 ## Real-time connectivity and off-chain integrations
 
-In addition to real-time cases, we have also found that Linera's **user chains**
-facilitate communications with external systems in several ways:
+In addition to real-time cases, Linera's unique concept of **user chains** facilitate
+communications with external systems in several ways:
 
 - Transactions can query external Web services, including AI inference systems
   or RPC providers from other blockchains.

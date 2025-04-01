@@ -39,13 +39,13 @@ as follows.
 - [x] Avoid repeatedly loading chain states from storage
 - [x] Blob storage usable by system and user applications
       (generalizing/replacing bytecode storage)
-- [ ] Support for easy onboarding of user chains into a new application
+- [x] Support for easy onboarding of user chains into a new application
       (removing the need to accept requests)
 - [ ] Replace pub/sub channels with data streams (removing the need to accept
       subscriptions)
 - [ ] Allow chain clients to control which chains they track (lazily/actively)
       and execute (do not execute all tracked chains)
-- [ ] Multi-signed events to facilitate future bridges to external chains
+- [x] Multi-signed events to facilitate future bridges to external chains
 - [ ] Public chains (adding leader election, inbox constraints, etc)
 - [ ] Transaction scripts
 - [ ] Support for dynamic shard assignment
@@ -92,7 +92,7 @@ as follows.
 - [x] Observability
 - [x] Kubernetes support in CI
 - [x] Deployment using a cloud provider
-- [ ] Horizontally scalable frontend (aka. proxy)
+- [x] Horizontally scalable frontend (aka. proxy)
 - [ ] Dynamic shard assignment
 - [ ] Cloud integration to demonstrate elastic scaling
 
