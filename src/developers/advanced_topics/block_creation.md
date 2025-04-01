@@ -9,7 +9,7 @@ several types of chains, depending on how new blocks are produced.
 - The simplest and lowest-latency type of chain is called _single-owner_ chain.
 
 - Other types of Linera chains not currently supported in the SDK include
-  _permissioned chains_ and _public chains_ (see the
+  _multi-user chains_ and _public chains_ (see the
   [whitepaper](https://linera.io/whitepaper) for more context).
 
 > For most types of chains (all but _public chains_), Linera validators do not
@@ -54,8 +54,8 @@ that they never propose multiple blocks at the same height. Otherwise, the chain
 may be stuck: once each of the two conflicting blocks has been signed by enough
 validators, it becomes impossible to collect a quorum of votes for either block.
 
-In the future, we anticipate that most users will use _permissioned chains_ even
-if they are the only owners of their chains. Permissioned chains have two
+In the future, we anticipate that most users will use _multi-user chains_ even
+if they are the only owners of their chains. Multi-user chains have two
 confirmation steps instead of one, but it is not possible to accidentally make a
 chain unextendable. They also allow users to delegate certain administrative
 tasks to third-parties, notably to help with epoch changes (i.e. when the

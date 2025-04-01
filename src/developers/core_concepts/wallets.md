@@ -12,8 +12,8 @@ GraphQL service to expose the state of its chains to web frontends.
 > a Linera network and manage the user wallets present locally on the system.
 
 Note that this command-line tool is intended mainly for development purposes.
-Our goal is that end users eventually manage their wallets in a
-[browser extension](overview.html#web3-sdk).
+Our goal is that end users eventually manage their wallets in a browser
+extension.
 
 ## Selecting a Wallet
 

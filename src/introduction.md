@@ -2,16 +2,20 @@
 
 # The Linera Manual
 
-Welcome to the Linera manual, a decentralized protocol designed for **highly
-scalable, low-latency Web3 applications**.
+Welcome to the reference manual of Linera, the decentralized protocol for
+**hyper-connected, real-time Web3 applications**.
 
-The documentation is split into two parts:
+This documentation is split into three main parts:
 
-1. The [Developers](developers.md) section is intended for developers who wish
-   to learn more about Linera and its programming model by prototyping
-   applications using the Linera Rust SDK.
-2. The [Operators](operators.md) section is intended for operators who wish to
-   run Linera validators.
+1. The first section gives a [high-level overview](protocol/overview.md) of the
+   protocol.
+
+2. The second section is intended for
+   [developers](developers/getting_started.md) building applications using the
+   Linera Rust SDK.
+
+3. The third section is intended for [operators](operators/devnets.md) who wish
+   to run Linera validators.
 
 > **NEW: Publish and test your Web3 application on the Linera Testnet!**
 >
@@ -29,4 +33,4 @@ ecosystem, check out our
 [Telegram](https://t.me/linera_official), and
 [Discord](https://discord.gg/linera).
 
-Let's get started!
+_Let's get started!_

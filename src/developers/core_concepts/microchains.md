@@ -18,7 +18,7 @@ important specificities:
 - The task of proposing new blocks in a microchain can be assumed either by
   validators or by end users (or rather their wallets) depending on the
   configuration of a chain. Specifically, microchains can be _single-owner_,
-  _permissioned_, or _public_, depending on who is authorized to propose blocks.
+  _multi-user_, or _public_, depending on who is authorized to propose blocks.
 
 ## Cross-Chain Messaging
 

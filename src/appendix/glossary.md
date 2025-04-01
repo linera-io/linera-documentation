@@ -36,7 +36,7 @@
 - **Committee**: The set of all validators for a particular _epoch_, together
   with their voting weights.
 
-- **Chain Owner**: The owner of a _user chain_ or _permissioned chain_. This is
+- **Chain Owner**: The owner of a _user chain_ or _multi-user chain_. This is
   represented as the alphanumeric identifier derived from the hash of the
   owner's public key.
 
@@ -86,9 +86,9 @@
   another. Users typically use operations to start interacting with an
   application on their own chain.
 
-- **Permissioned Chain**: A microchain which is owned by more than one user.
-  Users take turns proposing blocks and the likelihood of selection is
-  proportional to their _weight_.
+- **Multi-user Chain**: A microchain which is owned by more than one user. Users
+  take turns proposing blocks and the likelihood of selection is proportional to
+  their _weight_.
 
 - **Project**: The collection of files and dependencies which are built into the
   bytecode which is instantiated as an application on the Linera Network.

@@ -1,3 +1,4 @@
-# The Linera Protocol
+# Core concepts
 
-We now describe the main concepts of the Linera protocol in more details.
+We now describe some of the core concepts of the Linera protocol in greater
+details.
