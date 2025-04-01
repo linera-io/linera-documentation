@@ -3,69 +3,67 @@
 Linera is a decentralized protocol optimized for Web3 applications that require
 guaranteed performance for an unlimited number of active users.
 
-The core idea of the Linera protocol is to run many parallel chains, called
-**microchains**, in a single set of validators, allowing chains to easily share
-applications, data, and liquidity.
+The core idea of the [Linera protocol](https://linera.io/whitepaper) is to run
+many parallel chains, called **microchains**, in a single set of validators,
+allowing chains to easily share applications, data, and liquidity.
 
 ## How does it work?
 
-In Linera, each user wallet is given a dedicated chain, in which they can propose blocks
-any time. Such chains with a single user are called **user chains** (or sometimes personal
-chains).
+In Linera, each user wallet is given a dedicated chain, in which they can
+propose blocks any time. Such chains with a single user are called **user
+chains**. They are meant to be used as a personal blockspace to hold assets,
+receive assets, and initiate interactions with Linera applications.
 
-Users generally add blocks to their chains in order to execute some **operations** on their
-accounts (e.g. sending assets), or to accept **incoming
-messages** from other chains (e.g. to receive assets).
+Linera users propose blocks directly to their chains. Importantly, Linera
+validators ensure that all blocks are validated and finalized in the same way
+across all the chains.
 
-> Besides user chains, the [Linera protocol](https://linera.io/whitepaper) is
-> designed to support other types of microchains, called "multi-user" and
-> "public" chains. Public chains are operated by validators. In this regard,
-> they are similar to classical blockchains. Multi-user chains are meant to be
-> used for temporary interactions between users, such as atomic swaps, auctions,
-> or on-chain games.
+> Besides user chains, the Linera protocol supports two other types of
+> microchains, called **multi-user** and **public** chains. Public chains are
+> operated by validators, and generally used by a specific application.
+> Multi-user chains are shared between several users and are generally used for
+> temporary interactions, such as atomic swaps, auctions, or on-chain games.
 
-<!--
-Importantly, validators ensure that all new blocks are **valid**. For instance,
-transfer operations must originate from accounts with sufficient funds; and
-incoming messages must have been actually sent from another chain. Blocks are
-verified by validators in the same way for every chain.
+## Main features
 
-A Linera **application** is a Wasm program that defines its own state and
-operations. Users can publish bytecode and initialize an application on one
-chain, and it will be automatically deployed to all chains where it is needed,
-with a separate state on each chain.
+Infrastructure:
 
-To ensure coordination across chains, an application may rely on asynchronous
-**cross-chain messages**. Message payloads are application-specific and opaque
-to the rest of the system.
+- Finality time under 0.5 seconds for most blocks, including a proof of
+  execution.
 
-```ignore
-                               ┌───┐     ┌───┐     ┌───┐
-                       Chain A │   ├────►│   ├────►│   │
-                               └───┘     └───┘     └───┘
-                                                     ▲
-                                           ┌─────────┘
-                                           │
-                               ┌───┐     ┌─┴─┐     ┌───┐
-                       Chain B │   ├────►│   ├────►│   │
-                               └───┘     └─┬─┘     └───┘
-                                           │         ▲
-                                           │         │
-                                           ▼         │
-                               ┌───┐     ┌───┐     ┌─┴─┐
-                       Chain C │   ├────►│   ├────►│   │
-                               └───┘     └───┘     └───┘
-```
+- New microchains created in one transaction from an existing chain.
 
-The number of applications present on a single chain is not limited. On the same
-chain, applications are **composed** as usual using synchronous calls.
+- No theoretical limit in the number of microchains, hence the number of
+  transactions per second (TPS).
 
-The current Linera SDK uses **Rust** as a source language to create Wasm
-applications. It relies on the normal Rust toolchains so that Rust programmers
-can work in their preferred environments.
--->
+- Bridge-friendly block headers compatible with EVM signatures
 
-## How does Linera compare to existing multi-chain protocols?
+On-chain applications:
+
+- Rich programming model allowing applications to distribute computation across
+  chains using asynchronous messages, shared immutable data, and event
+  streams(\*).
+
+- Full synchronous composability inside each microchain.
+
+- Support for heavy (multi-second) transactions and direct oracle queries to
+  external web services and data storage layers.
+
+Web client and wallet infrastructure:
+
+- Real-time push-notifications from validators to web clients.
+
+- Block synchronization and VM execution for selected microchains, allowing
+  instant pre-confirmation of user transactions.
+
+- Trustless reactive programming using familiar Web2 frameworks.
+
+- On-chain applications programmed in Rust to run on Wasm, or Solidity on
+  EVM(\*).
+
+_Features marked with (\*) are planned for Q2'25._
+
+## How does Linera compare to traditional multi-chain protocols?
 
 Linera is the first blockchain designed to run a virtually unlimited number of
 chains in parallel, including one dedicated **user chain** per user wallet.
@@ -87,3 +85,6 @@ In contrast, **Linera is designed to run as many microchains as needed**:
 
 - Validators are internally sharded (like a regular web service) and may adjust
   their capacity elastically by adding or removing internal workers.
+
+- Users may run heavy transactions in their microchain without affecting other
+  users.

@@ -21,19 +21,20 @@ created by many simultaneous users (or devices) include:
 - Version control systems for software, data pipelines, or AI training
   pipelines.
 
-## Real-time connectivity and off-chain integrations
+## Real-time connectivity and easy off-chain integrations
 
-In addition to real-time cases, Linera's unique concept of **user chains** facilitate
-communications with external systems in several ways:
+Linera's unique concept of **user chains** facilitate communications with
+external systems in several ways:
+
+- Linera blocks instantly generate proofs of execution suitable for low-latency
+  bridges.
 
 - Transactions can query external Web services, including AI inference systems
   or RPC providers from other blockchains.
 
-- Transactions can last several seconds (e.g. to download data and apply
-  validation functions).
-
-- Linera blocks natively generate proofs of execution suitable for low-latency
-  bridges.
+- Transactions can last several seconds, making it easy for applications to
+  download data from external storage or apply expensive validation functions
+  (e.g. ZK verification) on-chain.
 
 ## Learn more
 
