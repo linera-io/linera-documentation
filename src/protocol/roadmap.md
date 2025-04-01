@@ -1,6 +1,6 @@
 # Roadmap
 
-## Testnet #1 -- Archimedes
+## Testnet #1 (current) -- Archimedes
 
 SDK:
 
