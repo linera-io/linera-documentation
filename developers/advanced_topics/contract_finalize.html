@@ -155,10 +155,40 @@ it establishes after it responds to a cross-application call.</p>
 <p>As an example, a contract that executes a cross-application call with
 <code>Operation::StartSession</code> may require the same caller to perform another
 cross-application call with <code>Operation::EndSession</code> before the transaction ends.</p>
-<pre><code class="language-rust ignore">pub struct MyContract {
+<pre><code class="language-rust edition2021"><span class="boring">extern crate serde;
+</span><span class="boring">extern crate linera_sdk;
+</span><span class="boring">use serde::{Deserialize, Serialize};
+</span><span class="boring">use linera_sdk::base::*;
+</span><span class="boring">use linera_sdk::*;
+</span><span class="boring">use std::collections::HashSet;
+</span><span class="boring">use linera_sdk::views::{linera_views, RegisterView, RootView, ViewStorageContext};
+</span><span class="boring">use crate::linera_sdk::views::View as _;
+</span>
+#[derive(RootView)]
+#[view(context = "ViewStorageContext")]
+pub struct MyState {
+    pub value: RegisterView&lt;u64&gt;,
+    // ...
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub enum Operation { StartSession, EndSession }
+
+pub struct MyAbi;
+
+impl ContractAbi for MyAbi {
+    type Operation = Operation;
+    type Response = ();
+}
+
+pub struct MyContract {
     state: MyState,
     runtime: ContractRuntime&lt;Self&gt;,
     active_sessions: HashSet&lt;ApplicationId&gt;,
+}
+
+impl WithContractAbi for MyContract {
+    type Abi = MyAbi;
 }
 
 impl Contract for MyContract {
@@ -181,7 +211,7 @@ impl Contract for MyContract {
     async fn instantiate(&amp;mut self, (): Self::InstantiationArgument) {}
 
     async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response {
-        let caller = self.runtime
+        let caller_id = self.runtime
             .authenticated_caller_id()
             .expect("Missing caller ID");
 
@@ -201,11 +231,11 @@ impl Contract for MyContract {
         }
     }
 
-    async fn execute_message(&amp;mut self, message: Self::Message) -&gt; Result&lt;(), Self::Error&gt; {
+    async fn execute_message(&amp;mut self, message: Self::Message) {
         unreachable!("This example doesn't support messages");
     }
 
-    async fn store(&amp;mut self) {
+    async fn store(mut self) {
         assert!(
             self.active_sessions.is_empty(),
             "Some sessions have not ended"

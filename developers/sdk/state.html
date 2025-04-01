@@ -145,7 +145,7 @@ between transactions.</p>
 <p>The <code>struct</code> which defines your application's state can be found in
 <code>src/state.rs</code>. To represent our counter, we're going to use a <code>u64</code> integer.</p>
 <p>While we could use a plain data-structure for the entire application state:</p>
-<pre><code class="language-rust ignore">struct Counter {
+<pre><code class="language-rust">struct Counter {
   value: u64
 }</code></pre>
 <p>in general, we prefer to manage persistent data using the concept of "views":</p>
@@ -159,7 +159,14 @@ framework, except that they are stored as a set of key-value pairs (instead of
 a SQL row).</p>
 </blockquote>
 <p>In this case, the struct in <code>src/state.rs</code> should be replaced by</p>
-<pre><code class="language-rust ignore">/// The application state.
+<pre><code class="language-rust"><span class="boring">extern crate linera_sdk;
+</span><span class="boring">extern crate async_graphql;
+</span><span class="boring">use linera_sdk::base::*;
+</span><span class="boring">use linera_sdk::*;
+</span><span class="boring">use std::collections::HashSet;
+</span><span class="boring">use linera_sdk::views::{linera_views, RegisterView, RootView, ViewStorageContext};
+</span><span class="boring">use crate::linera_sdk::views::View as _;
+</span>/// The application state.
 #[derive(RootView, async_graphql::SimpleObject)]
 #[view(context = "ViewStorageContext")]
 pub struct Counter {

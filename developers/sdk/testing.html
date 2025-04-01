@@ -149,7 +149,8 @@ and multiple applications.</p>
 <p>Applications should consider having both types of tests. Unit tests should be
 used to focus on the application's internals and core functionality. Integration
 tests should be used to test how the application behaves on a more complex
-environment that's closer to the real network.</p>
+environment that's closer to the real network. Both types of test are running in
+native Rust.</p>
 <blockquote>
 <p>For Rust tests, the <code>cargo test</code> command can be used to run both the unit and
 integration tests.</p>
@@ -162,34 +163,33 @@ usually mocked. When the <code>linera-sdk</code> is compiled with the <code>test
 enabled, the <code>ContractRuntime</code> and <code>SystemRuntime</code> types are actually mock
 runtimes, and can be configured to return specific values for different tests.</p>
 <h3 id="example"><a class="header" href="#example">Example</a></h3>
-<p>A simple unit test is shown below, which tests if the application contract's
-<code>do_something</code> method changes the application state.</p>
-<pre><code class="language-rust ignore">#[cfg(test)]
-mod tests {
-    use crate::{ApplicationContract, ApplicationState};
-    use linera_sdk::{util::BlockingWait, ContractRuntime};
+<p>A simple unit test is shown below, which tests if the method <code>execute_operation</code>
+method changes the application state of the <code>Counter</code> application.</p>
+<pre><code class="language-rust ignore">    #[test]
+    fn operation() {
+        let runtime = ContractRuntime::new().with_application_parameters(());
+        let state = Counter::load(runtime.root_view_storage_context())
+            .blocking_wait()
+            .expect("Failed to read from mock key value store");
+        let mut counter = CounterContract { state, runtime };
 
-    #[test]
-    fn test_do_something() {
-        let runtime = ContractRuntime::new();
-        let mut contract = ApplicationContract::load(runtime).blocking_wait();
+        let initial_value = 72_u64;
+        counter
+            .instantiate(initial_value)
+            .now_or_never()
+            .expect("Initialization of counter state should not await anything");
 
-        let result = contract.do_something();
+        let increment = 42_308_u64;
+        let response = counter
+            .execute_operation(increment)
+            .now_or_never()
+            .expect("Execution of counter operation should not await anything");
 
-        // Check that `do_something` succeeded
-        assert!(result.is_ok());
-        // Check that the state in memory was updated
-        assert_eq!(contract.state, ApplicationState {
-            // Define the application's expected final state
-            ..ApplicationState::default()
-        });
-        // Check that the state in memory is different from the state in storage
-        assert_ne!(
-            contract.state,
-            ApplicationState::load(runtime.root_view_storage_context())
-        );
-    }
-}</code></pre>
+        let expected_value = initial_value + increment;
+
+        assert_eq!(response, expected_value);
+        assert_eq!(*counter.state.value.get(), initial_value + increment);
+    }</code></pre>
 <h2 id="integration-tests"><a class="header" href="#integration-tests">Integration Tests</a></h2>
 <p>Integration tests are usually written separately from the application's source
 code (i.e., inside a <code>tests</code> directory that's beside the <code>src</code> directory).</p>
@@ -197,36 +197,30 @@ code (i.e., inside a <code>tests</code> directory that's beside the <code>src</c
 simulated Linera network, and publish blocks to microchains in order to execute
 the application.</p>
 <h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
-<p>A simple test that sends a message between application instances on different
-chains is shown below.</p>
-<pre><code class="language-rust ignore">#[tokio::test]
-async fn test_cross_chain_message() {
-    let parameters = vec![];
-    let instantiation_argument = vec![];
+<p>A simple integration test that execution a block containing an operation for the
+<code>Counter</code> application is shown below.</p>
+<pre><code class="language-rust ignore">#[tokio::test(flavor = "multi_thread")]
+async fn single_chain_test() {
+    let (validator, bytecode_id) =
+        TestValidator::with_current_bytecode::&lt;counter::CounterAbi, (), u64&gt;().await;
+    let mut chain = validator.new_chain().await;
 
-    let (validator, application_id) =
-        TestValidator::with_current_application(parameters, instantiation_argument).await;
+    let initial_state = 42u64;
+    let application_id = chain
+        .create_application(bytecode_id, (), initial_state, vec![])
+        .await;
 
-    let mut sender_chain = validator.get_chain(application_id.creation.chain_id).await;
-    let mut receiver_chain = validator.new_chain().await;
-
-    sender_chain
+    let increment = 15u64;
+    chain
         .add_block(|block| {
-            block.with_operation(
-                application_id,
-                Operation::SendMessageTo(receiver_chain.id()),
-            )
+            block.with_operation(application_id, increment);
         })
         .await;
 
-    receiver_chain.handle_received_messages().await;
-
-    assert_eq!(
-        receiver_chain
-            .query::&lt;ChainId&gt;(application_id, Query::LastSender)
-            .await,
-        sender_chain.id(),
-    );
+    let final_value = initial_state + increment;
+    let response = chain.graphql_query(application_id, "query { value }").await;
+    let state_value = response["value"].as_u64().expect("Failed to get the u64");
+    assert_eq!(state_value, final_value);
 }</code></pre>
 
                     </main>

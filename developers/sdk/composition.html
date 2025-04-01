@@ -144,18 +144,20 @@
 always handled by the <em>same</em> application on the target chain.</p>
 <p>This section is about calling other applications using <em>cross-application
 calls</em>.</p>
-<p>Such calls happen on the same chain and are made with the
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#call_application"><code>ContractRuntime::call_application</code></a>
-method:</p>
-<pre><code class="language-rust ignore">pub fn call_application&lt;A: ContractAbi + Send&gt;(
-    &amp;mut self,
-    authenticated: bool,
-    application: ApplicationId&lt;A&gt;,
-    call: &amp;A::Operation,
-) -&gt; A::Response {</code></pre>
+<p>Such calls happen on the same chain and are made with the helper method
+<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#call_application"><code>ContractRuntime::call_application</code></a>:</p>
+<pre><code class="language-rust ignore">    pub fn call_application&lt;A: ContractAbi + Send&gt;(
+        &amp;mut self,
+        authenticated: bool,
+        application: ApplicationId&lt;A&gt;,
+        call: &amp;A::Operation,
+    ) -&gt; A::Response</code></pre>
 <p>The <code>authenticated</code> argument specifies whether the callee is allowed to perform
-actions that require authentication on behalf of the signer of the original
-block that caused this call.</p>
+actions that require authentication either</p>
+<ul>
+<li>on behalf of the signer of the original block that caused this call, or</li>
+<li>on behalf of the calling application.</li>
+</ul>
 <p>The <code>application</code> argument is the callee's application ID, and <code>A</code> is the
 callee's ABI.</p>
 <p>The <code>call</code> argument is the operation requested by the application call.</p>
@@ -209,11 +211,14 @@ does now have 10 tokens on this chain and she authenticated the transfer
 indirectly by signing her block. The crowd-funding application now makes a note
 in its application state on Bob's chain that Carol has pledged 10 Pugecoin
 tokens.</p>
-<p>For the complete code please take a look at the
-<a href="https://github.com/linera-io/linera-protocol/blob/f84b66720b92b2eab86622e26b56c3aa2adbc0c0/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a>
+<h1 id="references"><a class="header" href="#references">References</a></h1>
+<p>For the complete code, please take a look at the
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a>
 and the
-<a href="https://github.com/linera-io/linera-protocol/blob/f84b66720b92b2eab86622e26b56c3aa2adbc0c0/examples/fungible/src/contract.rs"><code>fungible</code></a>
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/fungible/src/contract.rs"><code>fungible</code></a>
 application contracts in the <code>examples</code> folder in <code>linera-protocol</code>.</p>
+<p>The implementation of the Runtime made available to contracts is defined in
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-sdk/src/contract/runtime.rs">this file</a>.</p>
 
                     </main>
 

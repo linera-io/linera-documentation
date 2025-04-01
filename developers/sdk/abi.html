@@ -176,12 +176,11 @@ pub trait ContractAbi {
 <p>All these types must implement the <code>Serialize</code>, <code>DeserializeOwned</code>, <code>Send</code>,
 <code>Sync</code>, <code>Debug</code> traits, and have a <code>'static</code> lifetime.</p>
 <p>In our example, we would like to change our <code>Operation</code> to <code>u64</code>, like so:</p>
-<pre><code class="language-rust"><span class="boring">extern crate linera_base;
-</span><span class="boring">use linera_base::abi::ContractAbi;
-</span><span class="boring">struct CounterAbi;
-</span>impl ContractAbi for CounterAbi {
+<pre><code class="language-rust ignore">pub struct CounterAbi;
+
+impl ContractAbi for CounterAbi {
     type Operation = u64;
-    type Response = ();
+    type Response = u64;
 }</code></pre>
 <h2 id="service-abi"><a class="header" href="#service-abi">Service ABI</a></h2>
 <p>The <code>ServiceAbi</code> is in principle very similar to the <code>ContractAbi</code>, just for the
@@ -196,16 +195,25 @@ pub trait ServiceAbi {
     /// The response type of the application's service.
     type QueryResponse: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
 }</code></pre>
-<p>For our Counter example, we'll be using GraphQL to query our application so our
-<code>ServiceAbi</code> should reflect that:</p>
-<pre><code class="language-rust"><span class="boring">extern crate linera_base;
-</span><span class="boring">extern crate async_graphql;
-</span><span class="boring">use linera_base::abi::ServiceAbi;
-</span><span class="boring">struct CounterAbi;
-</span>impl ServiceAbi for CounterAbi {
-    type Query = async_graphql::Request;
-    type QueryResponse = async_graphql::Response;
+<p>For our <code>Counter</code> example, we'll be using GraphQL to query our application so
+our <code>ServiceAbi</code> should reflect that:</p>
+<pre><code class="language-rust ignore">use async_graphql::{Request, Response};
+
+impl ServiceAbi for CounterAbi {
+    type Query = Request;
+    type QueryResponse = Response;
 }</code></pre>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>
+<p>The full trait definition of <code>Abi</code> can be found
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-base/src/abi.rs">here</a>.</p>
+</li>
+<li>
+<p>The full <code>Counter</code> example application can be found
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter">here</a>.</p>
+</li>
+</ul>
 
                     </main>
 

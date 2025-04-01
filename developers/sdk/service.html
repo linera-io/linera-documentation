@@ -154,45 +154,45 @@ that can be made against your application.</p>
     /// Immutable parameters specific to this application.
     type Parameters: Serialize + DeserializeOwned + Send + Sync + Clone + Debug + 'static;
 
-    /// Creates an in-memory instance of the service handler.
+    /// Creates a in-memory instance of the service handler.
     async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self;
 
     /// Executes a read-only query on the state of this application.
     async fn handle_query(&amp;self, query: Self::Query) -&gt; Self::QueryResponse;
 }</code></pre>
-<p>The full service trait definition can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/f84b66720b92b2eab86622e26b56c3aa2adbc0c0/linera-sdk/src/lib.rs">here</a>.</p>
 <p>Let's implement <code>Service</code> for our counter application.</p>
 <p>First, we create a new type for the service, similarly to the contract:</p>
-<pre><code class="language-rust ignore">pub struct CounterService {
+<pre><code class="language-rust ignore">linera_sdk::service!(CounterService);
+
+pub struct CounterService {
     state: Counter,
 }</code></pre>
 <p>Just like with the <code>CounterContract</code> type, this type usually has two types: the
 application <code>state</code> and the <code>runtime</code>. We can omit the fields if we don't use
 them, so in this example we're omitting the <code>runtime</code> field, since its only used
 when constructing the <code>CounterService</code> type.</p>
-<p>We need to generate the necessary boilerplate for implementing the service
+<p>As before, the macro <code>service!</code> generates the necessary boilerplate for
+implementing the service
 <a href="https://component-model.bytecodealliance.org/design/wit.html">WIT interface</a>,
-export the necessary resource types and functions so that the service can be
-executed. Fortunately, there is a macro to perform this code generation, so just
-add the following to <code>service.rs</code>:</p>
-<pre><code class="language-rust ignore">linera_sdk::service!(CounterService);</code></pre>
+exporting the necessary resource types and functions so that the service can be
+executed.</p>
 <p>Next, we need to implement the <code>Service</code> trait for <code>CounterService</code> type. The
 first step is to define the <code>Service</code>'s associated type, which is the global
 parameters specified when the application is instantiated. In our case, the
 global parameters aren't used, so we can just specify the unit type:</p>
-<pre><code class="language-rust ignore">#[async_trait]
-impl Service for CounterService {
+<pre><code class="language-rust ignore">impl Service for CounterService {
     type Parameters = ();
+
+    // ...
 }</code></pre>
 <p>Also like in contracts, we must implement a <code>load</code> constructor when implementing
 the <code>Service</code> trait. The constructor receives the runtime handle and should use
 it to load the application state:</p>
-<pre><code class="language-rust ignore">    async fn load(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self {
+<pre><code class="language-rust ignore">    async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self {
         let state = Counter::load(runtime.root_view_storage_context())
             .await
             .expect("Failed to load state");
-        Ok(CounterService { state })
+        CounterService { state }
     }</code></pre>
 <p>Services don't have a <code>store</code> method because they are read-only and can't
 persist any changes back to the storage.</p>
@@ -201,18 +201,17 @@ will accept GraphQL queries and handle them using the
 <a href="https://github.com/async-graphql/async-graphql"><code>async-graphql</code> crate</a>. To
 forward the queries to custom GraphQL handlers we will implement in the next
 section, we use the following code:</p>
-<pre><code class="language-rust ignore">    async fn handle_query(&amp;mut self, request: Request) -&gt; Response {
+<pre><code class="language-rust ignore">    async fn handle_query(&amp;self, request: Request) -&gt; Response {
         let schema = Schema::build(
-            // implemented in the next section
-            QueryRoot { value: *self.state.value.get() },
-            // implemented in the next section
+            QueryRoot {
+                value: *self.state.value.get(),
+            },
             MutationRoot {},
             EmptySubscription,
         )
         .finish();
         schema.execute(request).await
-    }
-}</code></pre>
+    }</code></pre>
 <p>Finally, as before, the following code is needed to incorporate the ABI
 definitions into your <code>Service</code> implementation:</p>
 <pre><code class="language-rust ignore">impl WithServiceAbi for CounterService {
@@ -244,11 +243,21 @@ impl MutationRoot {
         bcs::to_bytes(&amp;value).unwrap()
     }
 }</code></pre>
-<p>We haven't included the imports in the above code; they are left as an exercise
-to the reader (but remember to import <code>async_graphql::Object</code>). If you want the
-full source code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/f84b66720b92b2eab86622e26b56c3aa2adbc0c0/examples/counter/src/service.rs">examples
+<p>We haven't included the imports in the above code. If you want the full source
+code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter/src/service.rs">examples
 section</a> on
 GitHub.</p>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>
+<p>The full trait definition of <code>Service</code> can be found
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-sdk/src/lib.rs">here</a>.</p>
+</li>
+<li>
+<p>The full <code>Counter</code> example application can be found
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter">here</a>.</p>
+</li>
+</ul>
 
                     </main>
 

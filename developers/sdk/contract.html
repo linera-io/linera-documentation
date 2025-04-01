@@ -155,7 +155,7 @@ trait for it, which is as follows:</p>
     /// (e.g. an initial amount of tokens minted).
     type InstantiationArgument: Serialize + DeserializeOwned + Debug;
 
-    /// Creates an in-memory instance of the contract handler.
+    /// Creates a in-memory instance of the contract handler.
     async fn load(runtime: ContractRuntime&lt;Self&gt;) -&gt; Self;
 
     /// Instantiates the application on the chain that created it.
@@ -170,15 +170,15 @@ trait for it, which is as follows:</p>
     /// Finishes the execution of the current transaction.
     async fn store(self);
 }</code></pre>
-<p>The full trait definition can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/f84b66720b92b2eab86622e26b56c3aa2adbc0c0/linera-sdk/src/lib.rs">here</a>.</p>
 <p>There's quite a bit going on here, so let's break it down and take one method at
 a time.</p>
 <p>For this application, we'll be using the <code>load</code>, <code>execute_operation</code> and <code>store</code>
 methods.</p>
 <h2 id="the-contract-lifecycle"><a class="header" href="#the-contract-lifecycle">The Contract Lifecycle</a></h2>
 <p>To implement the application contract, we first create a type for the contract:</p>
-<pre><code class="language-rust ignore">pub struct CounterContract {
+<pre><code class="language-rust ignore">linera_sdk::contract!(CounterContract);
+
+pub struct CounterContract {
     state: Counter,
     runtime: ContractRuntime&lt;Self&gt;,
 }</code></pre>
@@ -222,6 +222,9 @@ the state if the state uses the view paradigm.</p>
 application to an arbitrary number that can be specified on application creation
 using its instantiation parameters:</p>
 <pre><code class="language-rust ignore">    async fn instantiate(&amp;mut self, value: u64) {
+        // Validate that the application parameters were configured correctly.
+        self.runtime.application_parameters();
+
         self.state.value.set(value);
     }</code></pre>
 <h2 id="implementing-the-increment-operation"><a class="header" href="#implementing-the-increment-operation">Implementing the Increment Operation</a></h2>
@@ -231,16 +234,28 @@ from block proposers or other applications are broadly called 'operations'.</p>
 <p>To handle an operation, we need to implement the <code>Contract::execute_operation</code>
 method. In the counter's case, the operation it will be receiving is a <code>u64</code>
 which is used to increment the counter by that value:</p>
-<pre><code class="language-rust ignore">    async fn execute_operation(&amp;mut self, operation: u64) {
-        let current = self.state.value.get();
-        self.state.value.set(current + operation);
+<pre><code class="language-rust ignore">    async fn execute_operation(&amp;mut self, operation: u64) -&gt; u64 {
+        let new_value = self.state.value.get() + operation;
+        self.state.value.set(new_value);
+        new_value
     }</code></pre>
 <h2 id="declaring-the-abi"><a class="header" href="#declaring-the-abi">Declaring the ABI</a></h2>
-<p>Finally, to link our <code>Contract</code> trait implementation with the ABI of the
-application, the following code is added:</p>
+<p>Finally, we link our <code>Contract</code> trait implementation with the ABI of the
+application:</p>
 <pre><code class="language-rust ignore">impl WithContractAbi for CounterContract {
-    type Abi = counter::CounterAbi;
+    type Abi = CounterAbi;
 }</code></pre>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>
+<p>The full trait definition of <code>Contract</code> can be found
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-sdk/src/lib.rs">here</a>.</p>
+</li>
+<li>
+<p>The full <code>Counter</code> example application can be found
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter">here</a>.</p>
+</li>
+</ul>
 
                     </main>
 
