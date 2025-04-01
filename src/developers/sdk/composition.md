@@ -6,22 +6,18 @@ always handled by the _same_ application on the target chain.
 This section is about calling other applications using _cross-application
 calls_.
 
-Such calls happen on the same chain and are made with the
-[`ContractRuntime::call_application`](https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#call_application)
-method:
+Such calls happen on the same chain and are made with the helper method
+[`ContractRuntime::call_application`](https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#call_application):
 
 ```rust,ignore
-pub fn call_application<A: ContractAbi + Send>(
-    &mut self,
-    authenticated: bool,
-    application: ApplicationId<A>,
-    call: &A::Operation,
-) -> A::Response {
+{{#include ../../../linera-protocol/linera-sdk/src/contract/runtime.rs:call_application}}
 ```
 
 The `authenticated` argument specifies whether the callee is allowed to perform
-actions that require authentication on behalf of the signer of the original
-block that caused this call.
+actions that require authentication either
+
+- on behalf of the signer of the original block that caused this call, or
+- on behalf of the calling application.
 
 The `application` argument is the callee's application ID, and `A` is the
 callee's ABI.
@@ -94,10 +90,16 @@ indirectly by signing her block. The crowd-funding application now makes a note
 in its application state on Bob's chain that Carol has pledged 10 Pugecoin
 tokens.
 
-For the complete code please take a look at the
+# References
+
+For the complete code, please take a look at the
 [`crowd-funding`](https://github.com/linera-io/linera-protocol/blob/{{#include
 ../../../.git/modules/linera-protocol/HEAD}}/examples/crowd-funding/src/contract.rs)
 and the
 [`fungible`](https://github.com/linera-io/linera-protocol/blob/{{#include
 ../../../.git/modules/linera-protocol/HEAD}}/examples/fungible/src/contract.rs)
 application contracts in the `examples` folder in `linera-protocol`.
+
+The implementation of the Runtime made available to contracts is defined in
+[this file](https://github.com/linera-io/linera-protocol/blob/{{#include
+../../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/contract/runtime.rs).

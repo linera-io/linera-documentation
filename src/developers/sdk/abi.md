@@ -43,14 +43,8 @@ All these types must implement the `Serialize`, `DeserializeOwned`, `Send`,
 
 In our example, we would like to change our `Operation` to `u64`, like so:
 
-```rust
-# extern crate linera_base;
-# use linera_base::abi::ContractAbi;
-# struct CounterAbi;
-impl ContractAbi for CounterAbi {
-    type Operation = u64;
-    type Response = ();
-}
+```rust,ignore
+{{#include ../../../linera-protocol/examples/counter/src/lib.rs:contract_abi}}
 ```
 
 ## Service ABI
@@ -65,16 +59,21 @@ application:
 {{#include ../../../linera-protocol/linera-base/src/abi.rs:service_abi}}
 ```
 
-For our Counter example, we'll be using GraphQL to query our application so our
-`ServiceAbi` should reflect that:
+For our `Counter` example, we'll be using GraphQL to query our application so
+our `ServiceAbi` should reflect that:
 
-```rust
-# extern crate linera_base;
-# extern crate async_graphql;
-# use linera_base::abi::ServiceAbi;
-# struct CounterAbi;
-impl ServiceAbi for CounterAbi {
-    type Query = async_graphql::Request;
-    type QueryResponse = async_graphql::Response;
-}
+```rust,ignore
+use async_graphql::{Request, Response};
+
+{{#include ../../../linera-protocol/examples/counter/src/lib.rs:service_abi}}
 ```
+
+## References
+
+- The full trait definition of `Abi` can be found
+  [here](https://github.com/linera-io/linera-protocol/blob/{{#include
+  ../../../.git/modules/linera-protocol/HEAD}}/linera-base/src/abi.rs).
+
+- The full `Counter` example application can be found
+  [here](https://github.com/linera-io/linera-protocol/blob/{{#include
+  ../../../.git/modules/linera-protocol/HEAD}}/examples/counter).

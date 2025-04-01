@@ -62,61 +62,25 @@ sends a `Credit` message to the recipient's chain:
 
 ```rust,ignore
 async fn execute_operation(&mut self, operation: Self::Operation) -> Self::Response {
-    match operation {
-        // ...
-        Operation::Transfer {
-            owner,
-            amount,
-            target_account,
-        } => {
-            self.check_account_authentication(owner)?;
-            self.state.debit(owner, amount).await?;
-            self.finish_transfer_to_account(amount, target_account, owner)
-                .await;
-            FungibleResponse::Ok
+        match operation {
+{{#include ../../../linera-protocol/examples/fungible/src/contract.rs:execute_operation_transfer}}
+            // ...
         }
-        // ...
-    }
 }
+```
 
-async fn finish_transfer_to_account(
-    &mut self,
-    amount: Amount,
-    target_account: Account,
-    source: AccountOwner,
-) {
-    if target_account.chain_id == self.runtime.chain_id() {
-        self.state.credit(target_account.owner, amount).await;
-    } else {
-        let message = Message::Credit {
-            target: target_account.owner,
-            amount,
-            source,
-        };
-        self.runtime
-            .prepare_message(message)
-            .with_authentication()
-            .with_tracking()
-            .send_to(target_account.chain_id);
-    }
-}
+```rust,ignore
+{{#include ../../../linera-protocol/examples/fungible/src/contract.rs:finish_transfer_to_account}}
 ```
 
 On the recipient's chain, `execute_message` is called, which increases their
 account balance.
 
 ```rust,ignore
-async fn execute_message(&mut self, message: Message) {
-    match message {
-        Message::Credit {
-            amount,
-            target,
-            source,
-        } => {
+    async fn execute_message(&mut self, message: Message) {
+        match message {
+{{#include ../../../linera-protocol/examples/fungible/src/contract.rs:execute_message_credit}}
             // ...
-            self.state.credit(target, amount).await;
         }
-        // ...
     }
-}
 ```
