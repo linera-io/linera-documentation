@@ -32,7 +32,7 @@ runnable = false
 [output.linkcheck]
 optional = true
 follow-web-links = true
-exclude = [ '', 'x\.com', 'crates\.io' ]
+exclude = [ 'x\.com', 'crates\.io' ]
 
 [build]
 build-dir = "book"
