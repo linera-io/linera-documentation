@@ -64,7 +64,8 @@ Core protocol:
 
 - Protocol upgradability (block format, VM & SDK)
 
-- Simplify chain creation and support "chain-as-a-service" created by other blockchains
+- Simplify chain creation and support "chain-as-a-service" created by other
+  blockchains
 
 Infrastructure:
 
