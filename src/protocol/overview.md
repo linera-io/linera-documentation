@@ -11,17 +11,16 @@ applications and easily share data and liquidity.
 
 In Linera, user wallets operate their own chains. The owner of a chain chooses
 when to add new blocks to the chain and what goes inside the blocks. Such chains
-with a single user are called **user chains** (or equivalently **personal
-chains**).
+with a single user are called **user chains**.
 
 Users may add new blocks to their chains in order to process **incoming
 messages** from other chains or to execute secure **operations** on their
 accounts, for instance to transfer assets to another user.
 
 > Besides user chains, the [Linera protocol](https://linera.io/whitepaper) is
-> designed to support other types of microchains, called "permissioned" and
+> designed to support other types of microchains, called "multi-user" and
 > "public" chains. Public chains are operated by validators. In this regard,
-> they are similar to classical blockchains. Permissioned chains are meant to be
+> they are similar to classical blockchains. Multi-user chains are meant to be
 > used for temporary interactions between users, such as atomic swaps, auctions,
 > or on-chain games.
 

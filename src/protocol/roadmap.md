@@ -15,7 +15,7 @@ The main limitations of our current Web3 SDK include:
   meant to be temporary and for testing only: in the future, web UIs will
   securely connect to a Wallet installed as a browser extension, as usual.
 
-- Only user chains are currently documented in this manual. Permissioned chains
+- Only user chains are currently documented in this manual. Multi-user chains
   (aka "temporary" chains) were recently added. Support for public chains is in
   progress.
 
@@ -25,7 +25,7 @@ as follows.
 ### Core Protocol
 
 - [x] User chains
-- [x] Permissioned chains (core protocol only)
+- [x] Multi-user chains (core protocol only)
 - [x] Cross-chain messages
 - [x] Cross-chain pub/sub channels (initial version)
 - [x] Bytecode publishing
@@ -34,8 +34,8 @@ as follows.
 - [x] Support for gas fees
 - [x] Support for storage fees and storage limits
 - [x] External service (aka. "Faucet") to help users create their first chain
-- [x] Permissioned chains (adding operation access control, demo of atomic
-      swaps, etc)
+- [x] Multi-user chains (adding operation access control, demo of atomic swaps,
+      etc)
 - [x] Avoid repeatedly loading chain states from storage
 - [x] Blob storage usable by system and user applications
       (generalizing/replacing bytecode storage)
@@ -111,4 +111,4 @@ as follows.
 - [ ] Easier communication with EVM chains
 - [ ] Bindings to use native cryptographic primitives from Wasm
 - [ ] Allowing applications to pay for user fees
-- [ ] Allowing applications to use permissioned chains and public chains
+- [ ] Allowing applications to use multi-user chains and public chains
