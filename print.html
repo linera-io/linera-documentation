@@ -324,188 +324,172 @@ download data from external storage or apply expensive validation functions
 <p>Visit the <a href="https://linera.io">Linera website</a> for the latest updates on Linera
 partnerships and use cases.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
-<p>The
-<a href="https://github.com/linera-io/linera-protocol">reference open-source implementation</a>
-of Linera is under active development. It already includes a Web3 SDK with the
-necessary features to prototype simple Web3 applications and test them locally
-on the same machine and deploying them to the Devnet.</p>
-<p>Web UIs (possibly reactive) can already be built on top of Wasm-embedded GraphQL
-services, and tested locally in the browser.</p>
-<p>The main limitations of our current Web3 SDK include:</p>
+<h2 id="testnet-1----archimedes"><a class="header" href="#testnet-1----archimedes">Testnet #1 -- Archimedes</a></h2>
+<p>SDK:</p>
+<ul>
+<li>First Web demos running a Linera client in the browser</li>
+</ul>
+<p>Core protocol:</p>
 <ul>
 <li>
-<p>Web UIs need to query a local HTTP service acting as a wallet. This setup is
-meant to be temporary and for testing only: in the future, web UIs will
-securely connect to a Wallet installed as a browser extension, as usual.</p>
+<p>Blob storage used internally</p>
 </li>
 <li>
-<p>Only user chains are currently documented in this manual. Multi-user chains
-(aka "temporary" chains) were recently added. Support for public chains is in
-progress.</p>
+<p>Multi-user chains</p>
 </li>
 </ul>
-<p>The main development workstreams of Linera, beyond its SDK, can be broken down
-as follows.</p>
-<h3 id="core-protocol"><a class="header" href="#core-protocol">Core Protocol</a></h3>
+<p>Infrastructure:</p>
 <ul>
-<li><input disabled="" type="checkbox" checked=""/>
-User chains</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Multi-user chains (core protocol only)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Cross-chain messages</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Cross-chain pub/sub channels (initial version)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Bytecode publishing</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Application creation</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Reconfigurations of validators</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for gas fees</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for storage fees and storage limits</li>
-<li><input disabled="" type="checkbox" checked=""/>
-External service (aka. "Faucet") to help users create their first chain</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Multi-user chains (adding operation access control, demo of atomic swaps,
-etc)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Avoid repeatedly loading chain states from storage</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Blob storage usable by system and user applications
-(generalizing/replacing bytecode storage)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for easy onboarding of user chains into a new application
-(removing the need to accept requests)</li>
-<li><input disabled="" type="checkbox"/>
-Replace pub/sub channels with data streams (removing the need to accept
-subscriptions)</li>
-<li><input disabled="" type="checkbox"/>
-Allow chain clients to control which chains they track (lazily/actively)
-and execute (do not execute all tracked chains)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Multi-signed events to facilitate future bridges to external chains</li>
-<li><input disabled="" type="checkbox"/>
-Public chains (adding leader election, inbox constraints, etc)</li>
-<li><input disabled="" type="checkbox"/>
-Transaction scripts</li>
-<li><input disabled="" type="checkbox"/>
-Support for dynamic shard assignment</li>
-<li><input disabled="" type="checkbox"/>
-Support for archiving chains</li>
-<li><input disabled="" type="checkbox"/>
-Tokenomics and incentives for all stakeholders</li>
-<li><input disabled="" type="checkbox"/>
-Governance on the admin chain (e.g. DPoS, onboarding of validators)</li>
-<li><input disabled="" type="checkbox"/>
-Permissionless auditing protocol</li>
+<li>
+<p>Fixed number of workers per validator</p>
+</li>
+<li>
+<p>Onboarding of external validators</p>
+</li>
 </ul>
-<h3 id="wasm-vm-integration"><a class="header" href="#wasm-vm-integration">Wasm VM integration</a></h3>
+<h2 id="testnet-2----babbage"><a class="header" href="#testnet-2----babbage">Testnet #2 -- Babbage</a></h2>
+<p>SDK:</p>
 <ul>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for the Wasmer VM</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for the Wasmtime VM (experimental)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Test gas metering and deterministic execution across VMs</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Composing Wasm applications on the same chain</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for non-blocking (yet deterministic) calls to storage</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for read-only GraphQL services in Wasm</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for mocked system APIs</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Improve host/guest stub generation to make mocks easier</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for running Wasm applications in the browser</li>
+<li>
+<p>Official Web client framework</p>
+</li>
+<li>
+<p>Oracle queries</p>
+</li>
+<li>
+<p>Support for POW public chains</p>
+</li>
+<li>
+<p>Simplified user and application addresses (<code>AccountOwner</code>)</p>
+</li>
 </ul>
-<h3 id="storage"><a class="header" href="#storage">Storage</a></h3>
+<p>Core protocol:</p>
 <ul>
-<li><input disabled="" type="checkbox" checked=""/>
-Object management library ("linera-views") on top of Key-Value store
-abstraction</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for Rocksdb</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Experimental support for DynamoDB</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Derive macros for GraphQL</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for ScyllaDB</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Make library fully extensible by users (requires better GraphQL macros)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-In-memory storage service for testing purposes</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for Web storage (IndexedDB)</li>
-<li><input disabled="" type="checkbox"/>
-Performance benchmarks and improvements (including faster state hashing)</li>
-<li><input disabled="" type="checkbox"/>
-Better configuration management</li>
-<li><input disabled="" type="checkbox"/>
-Local Write-Ahead Log</li>
-<li><input disabled="" type="checkbox"/>
-Production-grade support for the chosen main database</li>
-<li><input disabled="" type="checkbox"/>
-Tooling for debugging</li>
-<li><input disabled="" type="checkbox"/>
-Make the storage library easy to use outside of Linera</li>
+<li>
+<p>More scalable reconfigurations</p>
+</li>
+<li>
+<p>Local blob storage for user applications</p>
+</li>
+<li>
+<p>No more "request-application" operations</p>
+</li>
+<li>
+<p>Bridge-friendly block headers compatible with EVM signatures</p>
+</li>
 </ul>
-<h3 id="validator-infrastructure"><a class="header" href="#validator-infrastructure">Validator Infrastructure</a></h3>
+<p>Infrastructure:</p>
 <ul>
-<li><input disabled="" type="checkbox" checked=""/>
-Simple TCP/UDP networking (used for benchmarks only)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-GRPC networking</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Basic frontend (aka. proxy) supporting fixed internal shards</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Observability</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Kubernetes support in CI</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Deployment using a cloud provider</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Horizontally scalable frontend (aka. proxy)</li>
-<li><input disabled="" type="checkbox"/>
-Dynamic shard assignment</li>
-<li><input disabled="" type="checkbox"/>
-Cloud integration to demonstrate elastic scaling</li>
+<li>
+<p>Better hotfix releases</p>
+</li>
+<li>
+<p>Multi-proxy configuration</p>
+</li>
 </ul>
-<h3 id="web3-sdk"><a class="header" href="#web3-sdk">Web3 SDK</a></h3>
+<h2 id="testnet-3"><a class="header" href="#testnet-3">Testnet #3</a></h2>
+<p>SDK:</p>
 <ul>
-<li><input disabled="" type="checkbox" checked=""/>
-Traits for contract and service interfaces</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for unit testing</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for integration testing</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Local GraphQL service to query and browse system state</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Local GraphQL service to query and browse application states</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Use GraphQL mutations to execute operations and create blocks</li>
-<li><input disabled="" type="checkbox" checked=""/>
-ABIs for contract and service interfaces</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Allowing message sender to pay for message execution fees</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Wallet as a browser extension (no VM)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Wallet as a browser extension (with Wasm VM)</li>
-<li><input disabled="" type="checkbox"/>
-Easier communication with EVM chains</li>
-<li><input disabled="" type="checkbox"/>
-Bindings to use native cryptographic primitives from Wasm</li>
-<li><input disabled="" type="checkbox"/>
-Allowing applications to pay for user fees</li>
-<li><input disabled="" type="checkbox"/>
-Allowing applications to use multi-user chains and public chains</li>
+<li>
+<p>Browser extension and wallet connect</p>
+</li>
+<li>
+<p>Event streams (deprecating pub/sub channels)</p>
+</li>
+<li>
+<p>Experimental support for EVM</p>
+</li>
+<li>
+<p>Compatibility with EVM addresses</p>
+</li>
+</ul>
+<p>Core protocol:</p>
+<ul>
+<li>
+<p>More scalable client-side execution</p>
+</li>
+<li>
+<p>Protocol upgradability (block format, VM &amp; SDK)</p>
+</li>
+<li>
+<p>Simplify chain creation and support "chain-as-a-service" created by other
+blockchains</p>
+</li>
+</ul>
+<p>Infrastructure:</p>
+<ul>
+<li>
+<p>High-TPS configuration</p>
+</li>
+<li>
+<p>Block indexing and Walrus archives</p>
+</li>
+</ul>
+<h2 id="testnet-4"><a class="header" href="#testnet-4">Testnet #4</a></h2>
+<p>SDK:</p>
+<ul>
+<li>
+<p>Stable support for EVM</p>
+</li>
+<li>
+<p>Transaction scripts</p>
+</li>
+<li>
+<p>Application upgradability</p>
+</li>
+</ul>
+<p>Core protocol:</p>
+<ul>
+<li>
+<p>Governance chain</p>
+</li>
+<li>
+<p>Final tokenomics and incentives</p>
+</li>
+<li>
+<p>Public chains</p>
+</li>
+<li>
+<p>Support for archiving chains</p>
+</li>
+</ul>
+<p>Infrastructure:</p>
+<ul>
+<li>Security audits</li>
+</ul>
+<h2 id="mainnet-and-beyond"><a class="header" href="#mainnet-and-beyond">Mainnet and beyond</a></h2>
+<p>SDK:</p>
+<ul>
+<li>
+<p>Account abstraction and fee masters</p>
+</li>
+<li>
+<p>Linera light clients for other chains (Solidity, Sui Move)</p>
+</li>
+</ul>
+<p>Core Protocol</p>
+<ul>
+<li>
+<p>Permissionless auditing protocol</p>
+</li>
+<li>
+<p>Performance improvements</p>
+</li>
+</ul>
+<p>Infrastructure:</p>
+<ul>
+<li>
+<p>Support for dynamic shard assignment and elasticity</p>
+</li>
+<li>
+<p>Geographic sharding</p>
+</li>
+<li>
+<p>Support for more cloud vendors</p>
+</li>
+<li>
+<p>Native bridges</p>
+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h1>
 <p>In this section, we will cover the necessary steps to install the Linera
