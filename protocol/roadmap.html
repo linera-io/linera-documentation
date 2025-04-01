@@ -3,42 +3,42 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Overview</title>
+        <title>Roadmap</title>
 
 
         <!-- Custom HTML head -->
 
-        <meta name="description" content="The Linera Developer Manual">
+        <meta name="description" content="The Linera Manual">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../../favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../../css/variables-d0866e17.css">
-        <link rel="stylesheet" href="../../css/general-e9745eeb.css">
-        <link rel="stylesheet" href="../../css/chrome-d7ced664.css">
-        <link rel="stylesheet" href="../../css/print-ad67d350.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-d0866e17.css">
+        <link rel="stylesheet" href="../css/general-e9745eeb.css">
+        <link rel="stylesheet" href="../css/chrome-d7ced664.css">
+        <link rel="stylesheet" href="../css/print-ad67d350.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome-799aeb25.css">
-        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome-799aeb25.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../../highlight-493f70e1.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-061c46ea.css">
+        <link rel="stylesheet" href="../theme/theme-e16a9b0e.css">
 
 
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "../../";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-b049fe7b.js"></script>
+        <script src="../toc-2bdbaa1c.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -80,7 +80,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -104,13 +104,13 @@
                     <h1 class="menu-title"></h1>
 
                     <div class="right-buttons">
-                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/core_concepts/overview.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/protocol/roadmap.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -139,120 +139,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
-<p>Linera is a decentralized infrastructure optimized for Web3 applications that
-require guaranteed performance for an unlimited number of active users.</p>
-<p>The core idea of the Linera protocol is to run many lightweight blockchains,
-called <strong>microchains</strong>, in parallel in a single set of validators.</p>
-<h2 id="how-does-it-work"><a class="header" href="#how-does-it-work">How does it work?</a></h2>
-<p>In Linera, user wallets operate their own microchains. The owner of a chain
-chooses when to add new blocks to the chain and what goes inside the blocks.
-Such chains with a single user are called <strong>user chains</strong>.</p>
-<p>Users may add new blocks to their chains in order to process <strong>incoming
-messages</strong> from other chains or to execute secure <strong>operations</strong> on their
-accounts, for instance to transfer assets to another user.</p>
-<p>Importantly, validators ensure that all new blocks are <strong>valid</strong>. For instance,
-transfer operations must originate from accounts with sufficient funds; and
-incoming messages must have been actually sent from another chain. Blocks are
-verified by validators in the same way for every chain.</p>
-<p>A Linera <strong>application</strong> is a Wasm program that defines its own state and
-operations. Users can publish bytecode and initialize an application on one
-chain, and it will be automatically deployed to all chains where it is needed,
-with a separate state on each chain.</p>
-<p>To ensure coordination across chains, an application may rely on asynchronous
-<strong>cross-chain messages</strong>. Message payloads are application-specific and opaque
-to the rest of the system.</p>
-<pre><code class="language-ignore">                               ┌───┐     ┌───┐     ┌───┐
-                       Chain A │   ├────►│   ├────►│   │
-                               └───┘     └───┘     └───┘
-                                                     ▲
-                                           ┌─────────┘
-                                           │
-                               ┌───┐     ┌─┴─┐     ┌───┐
-                       Chain B │   ├────►│   ├────►│   │
-                               └───┘     └─┬─┘     └───┘
-                                           │         ▲
-                                           │         │
-                                           ▼         │
-                               ┌───┐     ┌───┐     ┌─┴─┐
-                       Chain C │   ├────►│   ├────►│   │
-                               └───┘     └───┘     └───┘
-</code></pre>
-<p>The number of applications present on a single chain is not limited. On the same
-chain, applications are <strong>composed</strong> as usual using synchronous calls.</p>
-<p>The current Linera SDK uses <strong>Rust</strong> as a source language to create Wasm
-applications. It relies on the normal Rust toolchains so that Rust programmers
-can work in their preferred environments.</p>
-<h2 id="how-does-linera-compare-to-existing-multi-chain-infrastructure"><a class="header" href="#how-does-linera-compare-to-existing-multi-chain-infrastructure">How does Linera compare to existing multi-chain infrastructure?</a></h2>
-<p>Linera is the first infrastructure designed to support many chains in parallel,
-and notably an arbitrary number of <strong>user chains</strong> meant to be operated by user
-wallets.</p>
-<p>In traditional multi-chain infrastructures, each chain usually runs a full
-blockchain protocol in a separate set of validators. Creating a new chain or
-exchanging messages between chains is expensive. As a result, the total number
-of chains is generally limited. Some chains may be specialized to a given use
-case: these are called "app chains".</p>
-<p>In contrast, Linera is optimized for a large number of user chains:</p>
-<ul>
-<li>
-<p>Users only create blocks in their chain when needed;</p>
-</li>
-<li>
-<p>Creating a microchain does not require onboarding validators;</p>
-</li>
-<li>
-<p>All chains have the same level of security;</p>
-</li>
-<li>
-<p>Microchains communicate efficiently using the internal networks of validators;</p>
-</li>
-<li>
-<p>Validators are internally sharded (like a regular web service) and may adjust
-their capacity elastically by adding or removing internal workers.</p>
-</li>
-</ul>
-<blockquote>
-<p>Besides user chains, the <a href="https://linera.io/whitepaper">Linera protocol</a> is
-designed to support other types of microchains, called "permissioned" and
-"public" chains. Public chains are operated by validators. In this regard,
-they are similar to classical blockchains. Permissioned chains are meant to be
-used for temporary interactions between users, such as atomic swaps.</p>
-</blockquote>
-<h2 id="why-build-on-top-of-linera"><a class="header" href="#why-build-on-top-of-linera">Why build on top of Linera?</a></h2>
-<p>We believe that many high-value use cases are currently out of reach of existing
-Web3 infrastructures because of the challenges of serving <strong>many active users</strong>
-simultaneously without degrading user experience (unpredictable fees, latency,
-etc).</p>
-<p>Examples of applications that require processing time-sensitive transactions
-created by many simultaneous users include:</p>
-<ul>
-<li>
-<p>real-time micro-payments and micro-rewards,</p>
-</li>
-<li>
-<p>social data feeds,</p>
-</li>
-<li>
-<p>real-time auction systems,</p>
-</li>
-<li>
-<p>turn-based games,</p>
-</li>
-<li>
-<p>version control systems for software, data pipelines, or AI training
-pipelines.</p>
-</li>
-</ul>
-<p>Lightweight user chains are instrumental in providing elastic scalability but
-they have other benefits as well. Because user chains have fewer blocks than
-traditional blockchains, in Linera, the full-nodes of user chains will be
-embedded into the users' wallets, typically deployed as a browser extension.</p>
-<p>This means that Web UIs connected to a wallet will be able to query the state of
-the user chain directly (no API provider, no light client) using familiar
-frameworks (React/GraphQL). Furthermore, wallets will be able to leverage the
-full node as well for security purposes, including to display meaningful
-confirmation messages to users.</p>
-<h2 id="what-is-the-current-state-of-the-development-of-linera"><a class="header" href="#what-is-the-current-state-of-the-development-of-linera">What is the current state of the development of Linera?</a></h2>
+                        <h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
 <p>The
 <a href="https://github.com/linera-io/linera-protocol">reference open-source implementation</a>
 of Linera is under active development. It already includes a Web3 SDK with the
@@ -268,7 +155,7 @@ meant to be temporary and for testing only: in the future, web UIs will
 securely connect to a Wallet installed as a browser extension, as usual.</p>
 </li>
 <li>
-<p>Only user chains are currently documented in this manual. Permissioned chains
+<p>Only user chains are currently documented in this manual. Multi-user chains
 (aka "temporary" chains) were recently added. Support for public chains is in
 progress.</p>
 </li>
@@ -280,7 +167,7 @@ as follows.</p>
 <li><input disabled="" type="checkbox" checked=""/>
 User chains</li>
 <li><input disabled="" type="checkbox" checked=""/>
-Permissioned chains (core protocol only)</li>
+Multi-user chains (core protocol only)</li>
 <li><input disabled="" type="checkbox" checked=""/>
 Cross-chain messages</li>
 <li><input disabled="" type="checkbox" checked=""/>
@@ -298,14 +185,14 @@ Support for storage fees and storage limits</li>
 <li><input disabled="" type="checkbox" checked=""/>
 External service (aka. "Faucet") to help users create their first chain</li>
 <li><input disabled="" type="checkbox" checked=""/>
-Permissioned chains (adding operation access control, demo of atomic
-swaps, etc)</li>
+Multi-user chains (adding operation access control, demo of atomic swaps,
+etc)</li>
 <li><input disabled="" type="checkbox" checked=""/>
 Avoid repeatedly loading chain states from storage</li>
 <li><input disabled="" type="checkbox" checked=""/>
 Blob storage usable by system and user applications
 (generalizing/replacing bytecode storage)</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 Support for easy onboarding of user chains into a new application
 (removing the need to accept requests)</li>
 <li><input disabled="" type="checkbox"/>
@@ -314,7 +201,7 @@ subscriptions)</li>
 <li><input disabled="" type="checkbox"/>
 Allow chain clients to control which chains they track (lazily/actively)
 and execute (do not execute all tracked chains)</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 Multi-signed events to facilitate future bridges to external chains</li>
 <li><input disabled="" type="checkbox"/>
 Public chains (adding leader election, inbox constraints, etc)</li>
@@ -398,7 +285,7 @@ Observability</li>
 Kubernetes support in CI</li>
 <li><input disabled="" type="checkbox" checked=""/>
 Deployment using a cloud provider</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 Horizontally scalable frontend (aka. proxy)</li>
 <li><input disabled="" type="checkbox"/>
 Dynamic shard assignment</li>
@@ -434,18 +321,18 @@ Bindings to use native cryptographic primitives from Wasm</li>
 <li><input disabled="" type="checkbox"/>
 Allowing applications to pay for user fees</li>
 <li><input disabled="" type="checkbox"/>
-Allowing applications to use permissioned chains and public chains</li>
+Allowing applications to use multi-user chains and public chains</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/core_concepts.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../protocol/use_cases.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/core_concepts/microchains.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../developers/getting_started.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -455,11 +342,11 @@ Allowing applications to use permissioned chains and public chains</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/core_concepts.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../protocol/use_cases.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/core_concepts/microchains.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../developers/getting_started.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -474,16 +361,16 @@ Allowing applications to use permissioned chains and public chains</li>
         </script>
 
 
-        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
-        <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-8b5bd394.js"></script>
 
-        <script src="../../clipboard-1626706a.min.js"></script>
-        <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-ba43d0c1.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-ba43d0c1.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../custom-6e1704cf.js"></script>
+        <script src="../custom-6e1704cf.js"></script>
 
 
     </div>

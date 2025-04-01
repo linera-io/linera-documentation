@@ -9,7 +9,7 @@
 
         <!-- Custom HTML head -->
 
-        <meta name="description" content="The Linera Developer Manual">
+        <meta name="description" content="The Linera Manual">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
@@ -30,7 +30,7 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/theme-061c46ea.css">
+        <link rel="stylesheet" href="theme/theme-e16a9b0e.css">
 
 
         <!-- Provide site root to javascript -->
@@ -39,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b049fe7b.js"></script>
+        <script src="toc-2bdbaa1c.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -139,15 +139,23 @@
                     <main>
                         <p><img src="images/linera_banner_db73e9b.svg" alt="The Linera banner" /></p>
 <h1 id="the-linera-manual"><a class="header" href="#the-linera-manual">The Linera Manual</a></h1>
-<p>Welcome to the Linera manual, a decentralized protocol designed for <strong>highly
-scalable, low-latency Web3 applications</strong>.</p>
-<p>The documentation is split into two parts:</p>
+<p>Welcome to the reference manual of Linera, the decentralized protocol for
+<strong>hyper-connected, real-time Web3 applications</strong>.</p>
+<p>This documentation is split into three main parts:</p>
 <ol>
-<li>The <a href="developers.html">Developers</a> section is intended for developers who wish
-to learn more about Linera and its programming model by prototyping
-applications using the Linera Rust SDK.</li>
-<li>The <a href="operators.html">Operators</a> section is intended for operators who wish to
-run Linera validators.</li>
+<li>
+<p>The first section gives a <a href="protocol/overview.html">high-level overview</a> of the
+protocol.</p>
+</li>
+<li>
+<p>The second section is intended for
+<a href="developers/getting_started.html">developers</a> building applications using the
+Linera Rust SDK.</p>
+</li>
+<li>
+<p>The third section is intended for <a href="operators/devnets.html">operators</a> who wish
+to run Linera validators.</p>
+</li>
 </ol>
 <blockquote>
 <p><strong>NEW: Publish and test your Web3 application on the Linera Testnet!</strong></p>
@@ -164,16 +172,347 @@ ecosystem, check out our
 <a href="https://www.youtube.com/@linera_io">YouTube</a>, <a href="https://x.com/linera_io">X</a>,
 <a href="https://t.me/linera_official">Telegram</a>, and
 <a href="https://discord.gg/linera">Discord</a>.</p>
-<p>Let's get started!</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="developer-manual"><a class="header" href="#developer-manual">Developer Manual</a></h1>
-<p>This section of the Linera Manual is for developers building applications on
-Linera.</p>
+<p><em>Let's get started!</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+<p>Linera is a decentralized protocol optimized for Web3 applications that require
+guaranteed performance for an unlimited number of active users.</p>
+<p>The core idea of the <a href="https://linera.io/whitepaper">Linera protocol</a> is to run
+many parallel chains, called <strong>microchains</strong>, in a single set of validators,
+allowing chains to easily share applications, data, and liquidity.</p>
+<h2 id="how-does-it-work"><a class="header" href="#how-does-it-work">How does it work?</a></h2>
+<p>In Linera, each user wallet is given a dedicated chain, in which they can
+propose blocks any time. Such chains with a single user are called <strong>user
+chains</strong>. They are meant to be used as a personal blockspace to hold assets,
+receive assets, and initiate interactions with Linera applications.</p>
+<p>Linera users propose blocks directly to their chains. Importantly, Linera
+validators ensure that all blocks are validated and finalized in the same way
+across all the chains.</p>
+<blockquote>
+<p>Besides user chains, the Linera protocol supports two other types of
+microchains, called <strong>multi-user</strong> and <strong>public</strong> chains. Public chains are
+operated by validators, and generally used by a specific application.
+Multi-user chains are shared between several users and are generally used for
+temporary interactions, such as atomic swaps, auctions, or on-chain games.</p>
+</blockquote>
+<h2 id="main-features"><a class="header" href="#main-features">Main features</a></h2>
+<p>Infrastructure:</p>
+<ul>
+<li>
+<p>Finality time under 0.5 seconds for most blocks, including a proof of
+execution.</p>
+</li>
+<li>
+<p>New microchains created in one transaction from an existing chain.</p>
+</li>
+<li>
+<p>No theoretical limit in the number of microchains, hence the number of
+transactions per second (TPS).</p>
+</li>
+<li>
+<p>Bridge-friendly block headers compatible with EVM signatures</p>
+</li>
+</ul>
+<p>On-chain applications:</p>
+<ul>
+<li>
+<p>Rich programming model allowing applications to distribute computation across
+chains using asynchronous messages, shared immutable data, and event
+streams(*).</p>
+</li>
+<li>
+<p>Full synchronous composability inside each microchain.</p>
+</li>
+<li>
+<p>Support for heavy (multi-second) transactions and direct oracle queries to
+external web services and data storage layers.</p>
+</li>
+</ul>
+<p>Web client and wallet infrastructure:</p>
+<ul>
+<li>
+<p>Real-time push-notifications from validators to web clients.</p>
+</li>
+<li>
+<p>Block synchronization and VM execution for selected microchains, allowing
+instant pre-confirmation of user transactions.</p>
+</li>
+<li>
+<p>Trustless reactive programming using familiar Web2 frameworks.</p>
+</li>
+<li>
+<p>On-chain applications programmed in Rust to run on Wasm, or Solidity on
+EVM(*).</p>
+</li>
+</ul>
+<p><em>Features marked with (*) are planned for Q2'25.</em></p>
+<h2 id="how-does-linera-compare-to-traditional-multi-chain-protocols"><a class="header" href="#how-does-linera-compare-to-traditional-multi-chain-protocols">How does Linera compare to traditional multi-chain protocols?</a></h2>
+<p>Linera is the first blockchain designed to run a virtually unlimited number of
+chains in parallel, including one dedicated <strong>user chain</strong> per user wallet.</p>
+<p>In traditional multi-chain protocols, each chain usually runs a full blockchain
+protocol in a separate set of validators. Creating a new chain or exchanging
+messages between chains is expensive. As a result, the total number of chains is
+generally limited.</p>
+<p>In contrast, <strong>Linera is designed to run as many microchains as needed</strong>:</p>
+<ul>
+<li>
+<p>Users only create blocks in their chain when needed;</p>
+</li>
+<li>
+<p>Creating a microchain does not require onboarding validators;</p>
+</li>
+<li>
+<p>All chains have the same level of security;</p>
+</li>
+<li>
+<p>Microchains communicate efficiently using the internal networks of validators;</p>
+</li>
+<li>
+<p>Validators are internally sharded (like a regular web service) and may adjust
+their capacity elastically by adding or removing internal workers.</p>
+</li>
+<li>
+<p>Users may run heavy transactions in their microchain without affecting other
+users.</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="why-build-on-top-of-linera"><a class="header" href="#why-build-on-top-of-linera">Why build on top of Linera?</a></h1>
+<h2 id="real-time-interactions-at-scale"><a class="header" href="#real-time-interactions-at-scale">Real-time interactions at scale</a></h2>
+<p>At Linera, we believe that Web3 applications should be able to serve as many
+<strong>active users</strong> as needed without degrading user experience and security.</p>
+<p>Examples of applications that require processing time-sensitive transactions
+created by many simultaneous users (or devices) include:</p>
+<ul>
+<li>
+<p>Real-time payments and micro-rewards,</p>
+</li>
+<li>
+<p>Real-time auction systems,</p>
+</li>
+<li>
+<p>Turn-based on-chain games,</p>
+</li>
+<li>
+<p>Decentralized physical infrastructure (DePIN),</p>
+</li>
+<li>
+<p>Social data feeds,</p>
+</li>
+<li>
+<p>Version control systems for software, data pipelines, or AI training
+pipelines.</p>
+</li>
+</ul>
+<h2 id="real-time-connectivity-and-easy-off-chain-integrations"><a class="header" href="#real-time-connectivity-and-easy-off-chain-integrations">Real-time connectivity and easy off-chain integrations</a></h2>
+<p>Linera's unique concept of <strong>user chains</strong> facilitate communications with
+external systems in several ways:</p>
+<ul>
+<li>
+<p>Linera blocks instantly generate proofs of execution suitable for low-latency
+bridges.</p>
+</li>
+<li>
+<p>Transactions can query external Web services, including AI inference systems
+or RPC providers from other blockchains.</p>
+</li>
+<li>
+<p>Transactions can last several seconds, making it easy for applications to
+download data from external storage or apply expensive validation functions
+(e.g. ZK verification) on-chain.</p>
+</li>
+</ul>
+<h2 id="learn-more"><a class="header" href="#learn-more">Learn more</a></h2>
+<p>Visit the <a href="https://linera.io">Linera website</a> for the latest updates on Linera
+partnerships and use cases.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
+<p>The
+<a href="https://github.com/linera-io/linera-protocol">reference open-source implementation</a>
+of Linera is under active development. It already includes a Web3 SDK with the
+necessary features to prototype simple Web3 applications and test them locally
+on the same machine and deploying them to the Devnet.</p>
+<p>Web UIs (possibly reactive) can already be built on top of Wasm-embedded GraphQL
+services, and tested locally in the browser.</p>
+<p>The main limitations of our current Web3 SDK include:</p>
+<ul>
+<li>
+<p>Web UIs need to query a local HTTP service acting as a wallet. This setup is
+meant to be temporary and for testing only: in the future, web UIs will
+securely connect to a Wallet installed as a browser extension, as usual.</p>
+</li>
+<li>
+<p>Only user chains are currently documented in this manual. Multi-user chains
+(aka "temporary" chains) were recently added. Support for public chains is in
+progress.</p>
+</li>
+</ul>
+<p>The main development workstreams of Linera, beyond its SDK, can be broken down
+as follows.</p>
+<h3 id="core-protocol"><a class="header" href="#core-protocol">Core Protocol</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+User chains</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Multi-user chains (core protocol only)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Cross-chain messages</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Cross-chain pub/sub channels (initial version)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Bytecode publishing</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Application creation</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Reconfigurations of validators</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for gas fees</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for storage fees and storage limits</li>
+<li><input disabled="" type="checkbox" checked=""/>
+External service (aka. "Faucet") to help users create their first chain</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Multi-user chains (adding operation access control, demo of atomic swaps,
+etc)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Avoid repeatedly loading chain states from storage</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Blob storage usable by system and user applications
+(generalizing/replacing bytecode storage)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for easy onboarding of user chains into a new application
+(removing the need to accept requests)</li>
+<li><input disabled="" type="checkbox"/>
+Replace pub/sub channels with data streams (removing the need to accept
+subscriptions)</li>
+<li><input disabled="" type="checkbox"/>
+Allow chain clients to control which chains they track (lazily/actively)
+and execute (do not execute all tracked chains)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Multi-signed events to facilitate future bridges to external chains</li>
+<li><input disabled="" type="checkbox"/>
+Public chains (adding leader election, inbox constraints, etc)</li>
+<li><input disabled="" type="checkbox"/>
+Transaction scripts</li>
+<li><input disabled="" type="checkbox"/>
+Support for dynamic shard assignment</li>
+<li><input disabled="" type="checkbox"/>
+Support for archiving chains</li>
+<li><input disabled="" type="checkbox"/>
+Tokenomics and incentives for all stakeholders</li>
+<li><input disabled="" type="checkbox"/>
+Governance on the admin chain (e.g. DPoS, onboarding of validators)</li>
+<li><input disabled="" type="checkbox"/>
+Permissionless auditing protocol</li>
+</ul>
+<h3 id="wasm-vm-integration"><a class="header" href="#wasm-vm-integration">Wasm VM integration</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for the Wasmer VM</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for the Wasmtime VM (experimental)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Test gas metering and deterministic execution across VMs</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Composing Wasm applications on the same chain</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for non-blocking (yet deterministic) calls to storage</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for read-only GraphQL services in Wasm</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for mocked system APIs</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Improve host/guest stub generation to make mocks easier</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for running Wasm applications in the browser</li>
+</ul>
+<h3 id="storage"><a class="header" href="#storage">Storage</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+Object management library ("linera-views") on top of Key-Value store
+abstraction</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for Rocksdb</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Experimental support for DynamoDB</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Derive macros for GraphQL</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for ScyllaDB</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Make library fully extensible by users (requires better GraphQL macros)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+In-memory storage service for testing purposes</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for Web storage (IndexedDB)</li>
+<li><input disabled="" type="checkbox"/>
+Performance benchmarks and improvements (including faster state hashing)</li>
+<li><input disabled="" type="checkbox"/>
+Better configuration management</li>
+<li><input disabled="" type="checkbox"/>
+Local Write-Ahead Log</li>
+<li><input disabled="" type="checkbox"/>
+Production-grade support for the chosen main database</li>
+<li><input disabled="" type="checkbox"/>
+Tooling for debugging</li>
+<li><input disabled="" type="checkbox"/>
+Make the storage library easy to use outside of Linera</li>
+</ul>
+<h3 id="validator-infrastructure"><a class="header" href="#validator-infrastructure">Validator Infrastructure</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+Simple TCP/UDP networking (used for benchmarks only)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+GRPC networking</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Basic frontend (aka. proxy) supporting fixed internal shards</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Observability</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Kubernetes support in CI</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Deployment using a cloud provider</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Horizontally scalable frontend (aka. proxy)</li>
+<li><input disabled="" type="checkbox"/>
+Dynamic shard assignment</li>
+<li><input disabled="" type="checkbox"/>
+Cloud integration to demonstrate elastic scaling</li>
+</ul>
+<h3 id="web3-sdk"><a class="header" href="#web3-sdk">Web3 SDK</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+Traits for contract and service interfaces</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for unit testing</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Support for integration testing</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Local GraphQL service to query and browse system state</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Local GraphQL service to query and browse application states</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Use GraphQL mutations to execute operations and create blocks</li>
+<li><input disabled="" type="checkbox" checked=""/>
+ABIs for contract and service interfaces</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Allowing message sender to pay for message execution fees</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Wallet as a browser extension (no VM)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Wallet as a browser extension (with Wasm VM)</li>
+<li><input disabled="" type="checkbox"/>
+Easier communication with EVM chains</li>
+<li><input disabled="" type="checkbox"/>
+Bindings to use native cryptographic primitives from Wasm</li>
+<li><input disabled="" type="checkbox"/>
+Allowing applications to pay for user fees</li>
+<li><input disabled="" type="checkbox"/>
+Allowing applications to use multi-user chains and public chains</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h1>
 <p>In this section, we will cover the necessary steps to install the Linera
 toolchain and give a short example to get started with the Linera SDK.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
 <p>Let's start with the installation of the Linera development tools.</p>
-<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<h2 id="overview-1"><a class="header" href="#overview-1">Overview</a></h2>
 <p>The Linera toolchain consists of two crates:</p>
 <ul>
 <li>
@@ -382,305 +721,9 @@ your application copy and paste the link into a new browser tab.</p>
 </code></pre>
 <p>This will return a value of <code>42</code>, which is the initialization argument we
 specified when deploying our application.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="the-linera-protocol"><a class="header" href="#the-linera-protocol">The Linera Protocol</a></h1>
-<p>We now describe the main concepts of the Linera protocol in more details.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overview-1"><a class="header" href="#overview-1">Overview</a></h1>
-<p>Linera is a decentralized infrastructure optimized for Web3 applications that
-require guaranteed performance for an unlimited number of active users.</p>
-<p>The core idea of the Linera protocol is to run many lightweight blockchains,
-called <strong>microchains</strong>, in parallel in a single set of validators.</p>
-<h2 id="how-does-it-work"><a class="header" href="#how-does-it-work">How does it work?</a></h2>
-<p>In Linera, user wallets operate their own microchains. The owner of a chain
-chooses when to add new blocks to the chain and what goes inside the blocks.
-Such chains with a single user are called <strong>user chains</strong>.</p>
-<p>Users may add new blocks to their chains in order to process <strong>incoming
-messages</strong> from other chains or to execute secure <strong>operations</strong> on their
-accounts, for instance to transfer assets to another user.</p>
-<p>Importantly, validators ensure that all new blocks are <strong>valid</strong>. For instance,
-transfer operations must originate from accounts with sufficient funds; and
-incoming messages must have been actually sent from another chain. Blocks are
-verified by validators in the same way for every chain.</p>
-<p>A Linera <strong>application</strong> is a Wasm program that defines its own state and
-operations. Users can publish bytecode and initialize an application on one
-chain, and it will be automatically deployed to all chains where it is needed,
-with a separate state on each chain.</p>
-<p>To ensure coordination across chains, an application may rely on asynchronous
-<strong>cross-chain messages</strong>. Message payloads are application-specific and opaque
-to the rest of the system.</p>
-<pre><code class="language-ignore">                               ┌───┐     ┌───┐     ┌───┐
-                       Chain A │   ├────►│   ├────►│   │
-                               └───┘     └───┘     └───┘
-                                                     ▲
-                                           ┌─────────┘
-                                           │
-                               ┌───┐     ┌─┴─┐     ┌───┐
-                       Chain B │   ├────►│   ├────►│   │
-                               └───┘     └─┬─┘     └───┘
-                                           │         ▲
-                                           │         │
-                                           ▼         │
-                               ┌───┐     ┌───┐     ┌─┴─┐
-                       Chain C │   ├────►│   ├────►│   │
-                               └───┘     └───┘     └───┘
-</code></pre>
-<p>The number of applications present on a single chain is not limited. On the same
-chain, applications are <strong>composed</strong> as usual using synchronous calls.</p>
-<p>The current Linera SDK uses <strong>Rust</strong> as a source language to create Wasm
-applications. It relies on the normal Rust toolchains so that Rust programmers
-can work in their preferred environments.</p>
-<h2 id="how-does-linera-compare-to-existing-multi-chain-infrastructure"><a class="header" href="#how-does-linera-compare-to-existing-multi-chain-infrastructure">How does Linera compare to existing multi-chain infrastructure?</a></h2>
-<p>Linera is the first infrastructure designed to support many chains in parallel,
-and notably an arbitrary number of <strong>user chains</strong> meant to be operated by user
-wallets.</p>
-<p>In traditional multi-chain infrastructures, each chain usually runs a full
-blockchain protocol in a separate set of validators. Creating a new chain or
-exchanging messages between chains is expensive. As a result, the total number
-of chains is generally limited. Some chains may be specialized to a given use
-case: these are called "app chains".</p>
-<p>In contrast, Linera is optimized for a large number of user chains:</p>
-<ul>
-<li>
-<p>Users only create blocks in their chain when needed;</p>
-</li>
-<li>
-<p>Creating a microchain does not require onboarding validators;</p>
-</li>
-<li>
-<p>All chains have the same level of security;</p>
-</li>
-<li>
-<p>Microchains communicate efficiently using the internal networks of validators;</p>
-</li>
-<li>
-<p>Validators are internally sharded (like a regular web service) and may adjust
-their capacity elastically by adding or removing internal workers.</p>
-</li>
-</ul>
-<blockquote>
-<p>Besides user chains, the <a href="https://linera.io/whitepaper">Linera protocol</a> is
-designed to support other types of microchains, called "permissioned" and
-"public" chains. Public chains are operated by validators. In this regard,
-they are similar to classical blockchains. Permissioned chains are meant to be
-used for temporary interactions between users, such as atomic swaps.</p>
-</blockquote>
-<h2 id="why-build-on-top-of-linera"><a class="header" href="#why-build-on-top-of-linera">Why build on top of Linera?</a></h2>
-<p>We believe that many high-value use cases are currently out of reach of existing
-Web3 infrastructures because of the challenges of serving <strong>many active users</strong>
-simultaneously without degrading user experience (unpredictable fees, latency,
-etc).</p>
-<p>Examples of applications that require processing time-sensitive transactions
-created by many simultaneous users include:</p>
-<ul>
-<li>
-<p>real-time micro-payments and micro-rewards,</p>
-</li>
-<li>
-<p>social data feeds,</p>
-</li>
-<li>
-<p>real-time auction systems,</p>
-</li>
-<li>
-<p>turn-based games,</p>
-</li>
-<li>
-<p>version control systems for software, data pipelines, or AI training
-pipelines.</p>
-</li>
-</ul>
-<p>Lightweight user chains are instrumental in providing elastic scalability but
-they have other benefits as well. Because user chains have fewer blocks than
-traditional blockchains, in Linera, the full-nodes of user chains will be
-embedded into the users' wallets, typically deployed as a browser extension.</p>
-<p>This means that Web UIs connected to a wallet will be able to query the state of
-the user chain directly (no API provider, no light client) using familiar
-frameworks (React/GraphQL). Furthermore, wallets will be able to leverage the
-full node as well for security purposes, including to display meaningful
-confirmation messages to users.</p>
-<h2 id="what-is-the-current-state-of-the-development-of-linera"><a class="header" href="#what-is-the-current-state-of-the-development-of-linera">What is the current state of the development of Linera?</a></h2>
-<p>The
-<a href="https://github.com/linera-io/linera-protocol">reference open-source implementation</a>
-of Linera is under active development. It already includes a Web3 SDK with the
-necessary features to prototype simple Web3 applications and test them locally
-on the same machine and deploying them to the Devnet.</p>
-<p>Web UIs (possibly reactive) can already be built on top of Wasm-embedded GraphQL
-services, and tested locally in the browser.</p>
-<p>The main limitations of our current Web3 SDK include:</p>
-<ul>
-<li>
-<p>Web UIs need to query a local HTTP service acting as a wallet. This setup is
-meant to be temporary and for testing only: in the future, web UIs will
-securely connect to a Wallet installed as a browser extension, as usual.</p>
-</li>
-<li>
-<p>Only user chains are currently documented in this manual. Permissioned chains
-(aka "temporary" chains) were recently added. Support for public chains is in
-progress.</p>
-</li>
-</ul>
-<p>The main development workstreams of Linera, beyond its SDK, can be broken down
-as follows.</p>
-<h3 id="core-protocol"><a class="header" href="#core-protocol">Core Protocol</a></h3>
-<ul>
-<li><input disabled="" type="checkbox" checked=""/>
-User chains</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Permissioned chains (core protocol only)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Cross-chain messages</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Cross-chain pub/sub channels (initial version)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Bytecode publishing</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Application creation</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Reconfigurations of validators</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for gas fees</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for storage fees and storage limits</li>
-<li><input disabled="" type="checkbox" checked=""/>
-External service (aka. "Faucet") to help users create their first chain</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Permissioned chains (adding operation access control, demo of atomic
-swaps, etc)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Avoid repeatedly loading chain states from storage</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Blob storage usable by system and user applications
-(generalizing/replacing bytecode storage)</li>
-<li><input disabled="" type="checkbox"/>
-Support for easy onboarding of user chains into a new application
-(removing the need to accept requests)</li>
-<li><input disabled="" type="checkbox"/>
-Replace pub/sub channels with data streams (removing the need to accept
-subscriptions)</li>
-<li><input disabled="" type="checkbox"/>
-Allow chain clients to control which chains they track (lazily/actively)
-and execute (do not execute all tracked chains)</li>
-<li><input disabled="" type="checkbox"/>
-Multi-signed events to facilitate future bridges to external chains</li>
-<li><input disabled="" type="checkbox"/>
-Public chains (adding leader election, inbox constraints, etc)</li>
-<li><input disabled="" type="checkbox"/>
-Transaction scripts</li>
-<li><input disabled="" type="checkbox"/>
-Support for dynamic shard assignment</li>
-<li><input disabled="" type="checkbox"/>
-Support for archiving chains</li>
-<li><input disabled="" type="checkbox"/>
-Tokenomics and incentives for all stakeholders</li>
-<li><input disabled="" type="checkbox"/>
-Governance on the admin chain (e.g. DPoS, onboarding of validators)</li>
-<li><input disabled="" type="checkbox"/>
-Permissionless auditing protocol</li>
-</ul>
-<h3 id="wasm-vm-integration"><a class="header" href="#wasm-vm-integration">Wasm VM integration</a></h3>
-<ul>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for the Wasmer VM</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for the Wasmtime VM (experimental)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Test gas metering and deterministic execution across VMs</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Composing Wasm applications on the same chain</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for non-blocking (yet deterministic) calls to storage</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for read-only GraphQL services in Wasm</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for mocked system APIs</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Improve host/guest stub generation to make mocks easier</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for running Wasm applications in the browser</li>
-</ul>
-<h3 id="storage"><a class="header" href="#storage">Storage</a></h3>
-<ul>
-<li><input disabled="" type="checkbox" checked=""/>
-Object management library ("linera-views") on top of Key-Value store
-abstraction</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for Rocksdb</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Experimental support for DynamoDB</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Derive macros for GraphQL</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for ScyllaDB</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Make library fully extensible by users (requires better GraphQL macros)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-In-memory storage service for testing purposes</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for Web storage (IndexedDB)</li>
-<li><input disabled="" type="checkbox"/>
-Performance benchmarks and improvements (including faster state hashing)</li>
-<li><input disabled="" type="checkbox"/>
-Better configuration management</li>
-<li><input disabled="" type="checkbox"/>
-Local Write-Ahead Log</li>
-<li><input disabled="" type="checkbox"/>
-Production-grade support for the chosen main database</li>
-<li><input disabled="" type="checkbox"/>
-Tooling for debugging</li>
-<li><input disabled="" type="checkbox"/>
-Make the storage library easy to use outside of Linera</li>
-</ul>
-<h3 id="validator-infrastructure"><a class="header" href="#validator-infrastructure">Validator Infrastructure</a></h3>
-<ul>
-<li><input disabled="" type="checkbox" checked=""/>
-Simple TCP/UDP networking (used for benchmarks only)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-GRPC networking</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Basic frontend (aka. proxy) supporting fixed internal shards</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Observability</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Kubernetes support in CI</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Deployment using a cloud provider</li>
-<li><input disabled="" type="checkbox"/>
-Horizontally scalable frontend (aka. proxy)</li>
-<li><input disabled="" type="checkbox"/>
-Dynamic shard assignment</li>
-<li><input disabled="" type="checkbox"/>
-Cloud integration to demonstrate elastic scaling</li>
-</ul>
-<h3 id="web3-sdk"><a class="header" href="#web3-sdk">Web3 SDK</a></h3>
-<ul>
-<li><input disabled="" type="checkbox" checked=""/>
-Traits for contract and service interfaces</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for unit testing</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Support for integration testing</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Local GraphQL service to query and browse system state</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Local GraphQL service to query and browse application states</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Use GraphQL mutations to execute operations and create blocks</li>
-<li><input disabled="" type="checkbox" checked=""/>
-ABIs for contract and service interfaces</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Allowing message sender to pay for message execution fees</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Wallet as a browser extension (no VM)</li>
-<li><input disabled="" type="checkbox" checked=""/>
-Wallet as a browser extension (with Wasm VM)</li>
-<li><input disabled="" type="checkbox"/>
-Easier communication with EVM chains</li>
-<li><input disabled="" type="checkbox"/>
-Bindings to use native cryptographic primitives from Wasm</li>
-<li><input disabled="" type="checkbox"/>
-Allowing applications to pay for user fees</li>
-<li><input disabled="" type="checkbox"/>
-Allowing applications to use permissioned chains and public chains</li>
-</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="core-concepts"><a class="header" href="#core-concepts">Core concepts</a></h1>
+<p>We now describe some of the core concepts of the Linera protocol in greater
+details.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="microchains"><a class="header" href="#microchains">Microchains</a></h1>
 <p>This section provides an introduction to microchains, the main building block of
 the Linera Protocol. For a more formal treatment refer to the
@@ -700,7 +743,7 @@ new microchain only takes one transaction on an existing chain.</p>
 <p>The task of proposing new blocks in a microchain can be assumed either by
 validators or by end users (or rather their wallets) depending on the
 configuration of a chain. Specifically, microchains can be <em>single-owner</em>,
-<em>permissioned</em>, or <em>public</em>, depending on who is authorized to propose blocks.</p>
+<em>multi-user</em>, or <em>public</em>, depending on who is authorized to propose blocks.</p>
 </li>
 </ul>
 <h2 id="cross-chain-messaging"><a class="header" href="#cross-chain-messaging">Cross-Chain Messaging</a></h2>
@@ -784,8 +827,8 @@ GraphQL service to expose the state of its chains to web frontends.</p>
 a Linera network and manage the user wallets present locally on the system.</p>
 </blockquote>
 <p>Note that this command-line tool is intended mainly for development purposes.
-Our goal is that end users eventually manage their wallets in a
-<a href="developers/core_concepts/overview.html#web3-sdk">browser extension</a>.</p>
+Our goal is that end users eventually manage their wallets in a browser
+extension.</p>
 <h2 id="selecting-a-wallet"><a class="header" href="#selecting-a-wallet">Selecting a Wallet</a></h2>
 <p>The private state of a wallet is conventionally stored in a file <code>wallet.json</code>,
 while the state of its node is stored in a file <code>linera.db</code>.</p>
@@ -2138,7 +2181,7 @@ several types of chains, depending on how new blocks are produced.</p>
 </li>
 <li>
 <p>Other types of Linera chains not currently supported in the SDK include
-<em>permissioned chains</em> and <em>public chains</em> (see the
+<em>multi-user chains</em> and <em>public chains</em> (see the
 <a href="https://linera.io/whitepaper">whitepaper</a> for more context).</p>
 </li>
 </ul>
@@ -2188,8 +2231,8 @@ validators have seen the message, so it must be correct.</p>
 that they never propose multiple blocks at the same height. Otherwise, the chain
 may be stuck: once each of the two conflicting blocks has been signed by enough
 validators, it becomes impossible to collect a quorum of votes for either block.</p>
-<p>In the future, we anticipate that most users will use <em>permissioned chains</em> even
-if they are the only owners of their chains. Permissioned chains have two
+<p>In the future, we anticipate that most users will use <em>multi-user chains</em> even
+if they are the only owners of their chains. Multi-user chains have two
 confirmation steps instead of one, but it is not possible to accidentally make a
 chain unextendable. They also allow users to delegate certain administrative
 tasks to third-parties, notably to help with epoch changes (i.e. when the
@@ -2351,9 +2394,6 @@ currently constrained by:</p>
 </ol>
 <p>It is recommended that smaller models (50 MB - 100 MB) are used at current state
 of development.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="node-operator-manual"><a class="header" href="#node-operator-manual">Node Operator Manual</a></h1>
-<p>This section of the Linera Manual is meant for operators running Linera
-validator nodes.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="devnets"><a class="header" href="#devnets">Devnets</a></h1>
 <p>This section discusses how to deploy developer networks, aka "Devnets", for
 testing and development purposes.</p>
@@ -2721,9 +2761,6 @@ started by running from inside the <code>docker</code> directory:</p>
 </code></pre>
 <p>This will run the Docker Compose deployment in a detached mode. It can take a
 few minutes for the ScyllaDB image to be downloaded and started.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="appendix"><a class="header" href="#appendix">Appendix</a></h1>
-<p>Congrats on reading this manual to the end! In this section, we will be sharing
-additional material.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="glossary"><a class="header" href="#glossary">Glossary</a></h1>
 <ul>
 <li>
@@ -2773,7 +2810,7 @@ before certifying a confirmed block.</p>
 with their voting weights.</p>
 </li>
 <li>
-<p><strong>Chain Owner</strong>: The owner of a <em>user chain</em> or <em>permissioned chain</em>. This is
+<p><strong>Chain Owner</strong>: The owner of a <em>user chain</em> or <em>multi-user chain</em>. This is
 represented as the alphanumeric identifier derived from the hash of the
 owner's public key.</p>
 </li>
@@ -2837,9 +2874,9 @@ another. Users typically use operations to start interacting with an
 application on their own chain.</p>
 </li>
 <li>
-<p><strong>Permissioned Chain</strong>: A microchain which is owned by more than one user.
-Users take turns proposing blocks and the likelihood of selection is
-proportional to their <em>weight</em>.</p>
+<p><strong>Multi-user Chain</strong>: A microchain which is owned by more than one user. Users
+take turns proposing blocks and the likelihood of selection is proportional to
+their <em>weight</em>.</p>
 </li>
 <li>
 <p><strong>Project</strong>: The collection of files and dependencies which are built into the

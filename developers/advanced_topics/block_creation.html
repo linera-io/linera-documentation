@@ -8,7 +8,7 @@
 
         <!-- Custom HTML head -->
 
-        <meta name="description" content="The Linera Developer Manual">
+        <meta name="description" content="The Linera Manual">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
@@ -29,7 +29,7 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-061c46ea.css">
+        <link rel="stylesheet" href="../../theme/theme-e16a9b0e.css">
 
 
         <!-- Provide site root to javascript -->
@@ -38,7 +38,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-b049fe7b.js"></script>
+        <script src="../../toc-2bdbaa1c.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -152,7 +152,7 @@ several types of chains, depending on how new blocks are produced.</p>
 </li>
 <li>
 <p>Other types of Linera chains not currently supported in the SDK include
-<em>permissioned chains</em> and <em>public chains</em> (see the
+<em>multi-user chains</em> and <em>public chains</em> (see the
 <a href="https://linera.io/whitepaper">whitepaper</a> for more context).</p>
 </li>
 </ul>
@@ -202,8 +202,8 @@ validators have seen the message, so it must be correct.</p>
 that they never propose multiple blocks at the same height. Otherwise, the chain
 may be stuck: once each of the two conflicting blocks has been signed by enough
 validators, it becomes impossible to collect a quorum of votes for either block.</p>
-<p>In the future, we anticipate that most users will use <em>permissioned chains</em> even
-if they are the only owners of their chains. Permissioned chains have two
+<p>In the future, we anticipate that most users will use <em>multi-user chains</em> even
+if they are the only owners of their chains. Multi-user chains have two
 confirmation steps instead of one, but it is not possible to accidentally make a
 chain unextendable. They also allow users to delegate certain administrative
 tasks to third-parties, notably to help with epoch changes (i.e. when the

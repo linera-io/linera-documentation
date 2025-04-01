@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Testnets</title>
+        <title>Overview</title>
 
 
         <!-- Custom HTML head -->
@@ -110,7 +110,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/operators/testnets.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/protocol/overview.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -139,26 +139,118 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="testnets"><a class="header" href="#testnets">Testnets</a></h1>
-<p>This section discusses how to deploy a validator node and join an existing
-Testnet.</p>
-<p>In a Testnet, the validator nodes are run by different operators. Testnets will
-gain in stability and decentralization over time in preparation of the mainnet
-launch. Testnets do not handle real assets.</p>
+                        <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+<p>Linera is a decentralized protocol optimized for Web3 applications that require
+guaranteed performance for an unlimited number of active users.</p>
+<p>The core idea of the <a href="https://linera.io/whitepaper">Linera protocol</a> is to run
+many parallel chains, called <strong>microchains</strong>, in a single set of validators,
+allowing chains to easily share applications, data, and liquidity.</p>
+<h2 id="how-does-it-work"><a class="header" href="#how-does-it-work">How does it work?</a></h2>
+<p>In Linera, each user wallet is given a dedicated chain, in which they can
+propose blocks any time. Such chains with a single user are called <strong>user
+chains</strong>. They are meant to be used as a personal blockspace to hold assets,
+receive assets, and initiate interactions with Linera applications.</p>
+<p>Linera users propose blocks directly to their chains. Importantly, Linera
+validators ensure that all blocks are validated and finalized in the same way
+across all the chains.</p>
 <blockquote>
-<p>In the initial Testnets of Linera, the set of validator nodes will be managed
-by the Linera Core team.</p>
+<p>Besides user chains, the Linera protocol supports two other types of
+microchains, called <strong>multi-user</strong> and <strong>public</strong> chains. Public chains are
+operated by validators, and generally used by a specific application.
+Multi-user chains are shared between several users and are generally used for
+temporary interactions, such as atomic swaps, auctions, or on-chain games.</p>
 </blockquote>
+<h2 id="main-features"><a class="header" href="#main-features">Main features</a></h2>
+<p>Infrastructure:</p>
+<ul>
+<li>
+<p>Finality time under 0.5 seconds for most blocks, including a proof of
+execution.</p>
+</li>
+<li>
+<p>New microchains created in one transaction from an existing chain.</p>
+</li>
+<li>
+<p>No theoretical limit in the number of microchains, hence the number of
+transactions per second (TPS).</p>
+</li>
+<li>
+<p>Bridge-friendly block headers compatible with EVM signatures</p>
+</li>
+</ul>
+<p>On-chain applications:</p>
+<ul>
+<li>
+<p>Rich programming model allowing applications to distribute computation across
+chains using asynchronous messages, shared immutable data, and event
+streams(*).</p>
+</li>
+<li>
+<p>Full synchronous composability inside each microchain.</p>
+</li>
+<li>
+<p>Support for heavy (multi-second) transactions and direct oracle queries to
+external web services and data storage layers.</p>
+</li>
+</ul>
+<p>Web client and wallet infrastructure:</p>
+<ul>
+<li>
+<p>Real-time push-notifications from validators to web clients.</p>
+</li>
+<li>
+<p>Block synchronization and VM execution for selected microchains, allowing
+instant pre-confirmation of user transactions.</p>
+</li>
+<li>
+<p>Trustless reactive programming using familiar Web2 frameworks.</p>
+</li>
+<li>
+<p>On-chain applications programmed in Rust to run on Wasm, or Solidity on
+EVM(*).</p>
+</li>
+</ul>
+<p><em>Features marked with (*) are planned for Q2'25.</em></p>
+<h2 id="how-does-linera-compare-to-traditional-multi-chain-protocols"><a class="header" href="#how-does-linera-compare-to-traditional-multi-chain-protocols">How does Linera compare to traditional multi-chain protocols?</a></h2>
+<p>Linera is the first blockchain designed to run a virtually unlimited number of
+chains in parallel, including one dedicated <strong>user chain</strong> per user wallet.</p>
+<p>In traditional multi-chain protocols, each chain usually runs a full blockchain
+protocol in a separate set of validators. Creating a new chain or exchanging
+messages between chains is expensive. As a result, the total number of chains is
+generally limited.</p>
+<p>In contrast, <strong>Linera is designed to run as many microchains as needed</strong>:</p>
+<ul>
+<li>
+<p>Users only create blocks in their chain when needed;</p>
+</li>
+<li>
+<p>Creating a microchain does not require onboarding validators;</p>
+</li>
+<li>
+<p>All chains have the same level of security;</p>
+</li>
+<li>
+<p>Microchains communicate efficiently using the internal networks of validators;</p>
+</li>
+<li>
+<p>Validators are internally sharded (like a regular web service) and may adjust
+their capacity elastically by adding or removing internal workers.</p>
+</li>
+<li>
+<p>Users may run heavy transactions in their microchain without affecting other
+users.</p>
+</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../operators/devnets/kind.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../operators/testnets/joining.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../protocol/use_cases.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -168,11 +260,11 @@ by the Linera Core team.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../operators/devnets/kind.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../operators/testnets/joining.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../protocol/use_cases.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
