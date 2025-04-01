@@ -2,8 +2,8 @@
 
 # The Linera Manual
 
-Welcome to the manual of Linera, the decentralized protocol for **real-time Web3
-applications**.
+Welcome to the reference manual of Linera, the decentralized protocol for
+**real-time Web3 applications**.
 
 This documentation is split into three main parts:
 

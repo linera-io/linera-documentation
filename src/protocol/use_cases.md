@@ -1,31 +1,41 @@
 # Why build on top of Linera?
 
-We believe that many high-value use cases are currently out of reach of existing
-Web3 infrastructures because of the challenges of serving **many active users**
-simultaneously without degrading user experience (unpredictable fees, latency,
-etc).
+## Real-time interactions at scale
+
+At Linera, we believe that Web3 applications should be able to serve as many
+**active users** as needed without degrading user experience and security.
 
 Examples of applications that require processing time-sensitive transactions
-created by many simultaneous users include:
+created by many simultaneous users (or devices) include:
 
-- real-time micro-payments and micro-rewards,
+- Real-time micro-payments and micro-rewards,
 
-- social data feeds,
+- Social data feeds,
 
-- real-time auction systems,
+- Real-time auction systems,
 
-- turn-based games,
+- Turn-based on-chain games,
 
-- version control systems for software, data pipelines, or AI training
+- Decentralized physical infrastructure (DePIN),
+
+- Version control systems for software, data pipelines, or AI training
   pipelines.
 
-Lightweight user chains are instrumental in providing elastic scalability but
-they have other benefits as well. Because user chains have fewer blocks than
-traditional blockchains, in Linera, the full-nodes of user chains will be
-embedded into the users' wallets, typically deployed as a browser extension.
+## Real-time connectivity and off-chain integrations
 
-This means that Web UIs connected to a wallet will be able to query the state of
-the user chain directly (no API provider, no light client) using familiar
-frameworks (React/GraphQL). Furthermore, wallets will be able to leverage the
-full node as well for security purposes, including to display meaningful
-confirmation messages to users.
+In addition to real-time cases, we have also found that Linera's **user chains**
+facilitate communications with external systems in several ways:
+
+- Transactions can query external Web services, including AI inference systems
+  or RPC providers from other blockchains.
+
+- Transactions can last several seconds (e.g. to download data and apply
+  validation functions).
+
+- Linera blocks natively generate proofs of execution suitable for low-latency
+  bridges.
+
+## Learn more
+
+Visit the [Linera website](https://linera.io) for the latest updates on Linera
+partnerships and use cases.
