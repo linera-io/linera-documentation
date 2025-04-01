@@ -38,10 +38,6 @@ body {
     background-color: var(--color-primary-code) !important;
 }
 
-.chapter li.part-title {
-    color: var(--color-accent-beige);
-}
-
 .content p { line-height: 1.7em; }
 .content ol { line-height: 1.7em; }
 .content ul { line-height: 1.7em; }
@@ -118,6 +114,10 @@ body a:not(blockquote a):hover {
 
 .sidebar .chapter li a:hover {
     color: var(--color-secondary) !important; /* Hover link color */
+}
+
+.sidebar .chapter li.part-title {
+    color: var(--color-accent-beige);
 }
 
 /* Navigation Bar (Using Primary) */

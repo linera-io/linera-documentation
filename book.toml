@@ -3,7 +3,7 @@ authors = ["Linera"]
 language = "en"
 multilingual = false
 src = "src"
-description = "The Linera Developer Manual"
+description = "The Linera Manual"
 
 [output.html]
 default-theme = "Light"
@@ -18,14 +18,16 @@ no-section-label = true
 
 [output.html.fold]
 enable = true
-level = 1
+level = 0
 
 [output.html.playground]
 runnable = false
 
 [output.html.redirect]
-"/overview.html" = "/developers/core_concepts/overview.html"
-"/core_concepts/microchains.html" = "/developers/core_concepts/microchains.html"
+"/overview.html" = "/core_concepts/overview.html"
+"/core_concepts.html" = "/core_concepts/overview.html"
+"/developers.html" = "/developers/getting_started.html"
+"/operators.html" = "/operators/devnets.html"
 
 [output.linkcheck]
 optional = true
