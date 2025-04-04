@@ -1,54 +1,60 @@
 # Roadmap
 
-## Testnet #1 (current) -- Archimedes
+## Testnet #1 -- Archimedes (released Nov 2024)
 
-SDK:
+**SDK**
+
+- Released Rust SDK v0.13+
 
 - First Web demos running a Linera client in the browser
 
-Core protocol:
+- Blob storage for user data
 
-- Blob storage used internally
+**Core protocol**
 
-- Multi-user chains
+- Blob storage for application bytecode and user data
 
-Infrastructure:
+- Multi-user chains (e.g. used in on-chain game demo)
+
+- Initial support for fees
+
+**Infrastructure**
 
 - Fixed number of workers per validator
 
-- Onboarding of external validators
+- Onboarding of 20+ external validators
 
-## Testnet #2 -- Babbage
+## Testnet #2 -- Babbage (planned Apr 2025)
 
-SDK:
+**SDK**
 
 - Official Web client framework
 
-- Oracle queries
+- Support for native oracles: http queries and non-deterministic computations
 
 - Support for POW public chains
 
-- Simplified user and application addresses (`AccountOwner`)
+- Simplified user and application addresses
 
-Core protocol:
+**Core protocol**
 
 - More scalable reconfigurations
-
-- Local blob storage for user applications
 
 - No more "request-application" operations
 
 - Bridge-friendly block headers compatible with EVM signatures
 
-Infrastructure:
+**Infrastructure**
 
-- Better hotfix releases
+- Better hotfix release process
+
+- Support for resizing workers offline
 
 - Multi-proxy configuration
 
 ## Testnet #3
 
-SDK:
+**SDK**
 
 - Browser extension and wallet connect
 
@@ -58,16 +64,19 @@ SDK:
 
 - Compatibility with EVM addresses
 
-Core protocol:
+**Core protocol**
 
-- More scalable client-side execution
+- More scalable client with partial chain execution and optimized block
+  synchronization
 
-- Protocol upgradability (block format, VM & SDK)
+- Execution cache for faster server-side and client-side block execution
 
-- Simplify chain creation and support "chain-as-a-service" created by other
-  blockchains
+- Protocol upgradability, including block format, virtual machines, and system
+  APIs
 
-Infrastructure:
+- Simplify chain creation and support externally created microchains
+
+**Infrastructure**
 
 - High-TPS configuration
 
@@ -75,7 +84,7 @@ Infrastructure:
 
 ## Testnet #4
 
-SDK:
+**SDK**
 
 - Stable support for EVM
 
@@ -83,7 +92,7 @@ SDK:
 
 - Application upgradability
 
-Core protocol:
+**Core protocol**
 
 - Governance chain
 
@@ -93,25 +102,25 @@ Core protocol:
 
 - Support for archiving chains
 
-Infrastructure:
+**Infrastructure**
 
 - Security audits
 
 ## Mainnet and beyond
 
-SDK:
+**SDK**
 
 - Account abstraction and fee masters
 
 - Linera light clients for other chains (Solidity, Sui Move)
 
-Core Protocol
+**Core Protocol**
 
 - Permissionless auditing protocol
 
 - Performance improvements
 
-Infrastructure:
+**Infrastructure**
 
 - Support for dynamic shard assignment and elasticity
 
