@@ -1,6 +1,8 @@
 # Roadmap
 
-## Testnet #1 -- Archimedes (released Nov 2024)
+## Testnet #1 (released Nov 2024)
+
+Codename: Archimedes
 
 **SDK**
 
@@ -24,7 +26,9 @@
 
 - Onboarding of 20+ external validators
 
-## Testnet #2 -- Babbage (planned Apr 2025)
+## Testnet #2 (planned Apr 2025)
+
+Codename: Babbage
 
 **SDK**
 
