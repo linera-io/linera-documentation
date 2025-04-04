@@ -195,7 +195,7 @@ Multi-user chains are shared between several users and are generally used for
 temporary interactions, such as atomic swaps, auctions, or on-chain games.</p>
 </blockquote>
 <h2 id="main-features"><a class="header" href="#main-features">Main features</a></h2>
-<p>Infrastructure:</p>
+<p><strong>Infrastructure</strong></p>
 <ul>
 <li>
 <p>Finality time under 0.5 seconds for most blocks, including a proof of
@@ -212,7 +212,7 @@ transactions per second (TPS).</p>
 <p>Bridge-friendly block headers compatible with EVM signatures</p>
 </li>
 </ul>
-<p>On-chain applications:</p>
+<p><strong>On-chain applications</strong></p>
 <ul>
 <li>
 <p>Rich programming model allowing applications to distribute computation across
@@ -227,7 +227,7 @@ streams(*).</p>
 external web services and data storage layers.</p>
 </li>
 </ul>
-<p>Web client and wallet infrastructure:</p>
+<p><strong>Web client and wallet infrastructure</strong></p>
 <ul>
 <li>
 <p>Real-time push-notifications from validators to web clients.</p>
@@ -324,52 +324,60 @@ download data from external storage or apply expensive validation functions
 <p>Visit the <a href="https://linera.io">Linera website</a> for the latest updates on Linera
 partnerships and use cases.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
-<h2 id="testnet-1-current----archimedes"><a class="header" href="#testnet-1-current----archimedes">Testnet #1 (current) -- Archimedes</a></h2>
-<p>SDK:</p>
-<ul>
-<li>First Web demos running a Linera client in the browser</li>
-</ul>
-<p>Core protocol:</p>
+<h2 id="testnet-1----archimedes-released-nov-2024"><a class="header" href="#testnet-1----archimedes-released-nov-2024">Testnet #1 -- Archimedes (released Nov 2024)</a></h2>
+<p><strong>SDK</strong></p>
 <ul>
 <li>
-<p>Blob storage used internally</p>
+<p>Released Rust SDK v0.13+</p>
 </li>
 <li>
-<p>Multi-user chains</p>
+<p>First Web demos running a Linera client in the browser</p>
+</li>
+<li>
+<p>Blob storage for user data</p>
 </li>
 </ul>
-<p>Infrastructure:</p>
+<p><strong>Core protocol</strong></p>
+<ul>
+<li>
+<p>Blob storage for application bytecode and user data</p>
+</li>
+<li>
+<p>Multi-user chains (e.g. used in on-chain game demo)</p>
+</li>
+<li>
+<p>Initial support for fees</p>
+</li>
+</ul>
+<p><strong>Infrastructure</strong></p>
 <ul>
 <li>
 <p>Fixed number of workers per validator</p>
 </li>
 <li>
-<p>Onboarding of external validators</p>
+<p>Onboarding of 20+ external validators</p>
 </li>
 </ul>
-<h2 id="testnet-2----babbage"><a class="header" href="#testnet-2----babbage">Testnet #2 -- Babbage</a></h2>
-<p>SDK:</p>
+<h2 id="testnet-2----babbage-planned-apr-2025"><a class="header" href="#testnet-2----babbage-planned-apr-2025">Testnet #2 -- Babbage (planned Apr 2025)</a></h2>
+<p><strong>SDK</strong></p>
 <ul>
 <li>
 <p>Official Web client framework</p>
 </li>
 <li>
-<p>Oracle queries</p>
+<p>Support for native oracles: http queries and non-deterministic computations</p>
 </li>
 <li>
 <p>Support for POW public chains</p>
 </li>
 <li>
-<p>Simplified user and application addresses (<code>AccountOwner</code>)</p>
+<p>Simplified user and application addresses</p>
 </li>
 </ul>
-<p>Core protocol:</p>
+<p><strong>Core protocol</strong></p>
 <ul>
 <li>
 <p>More scalable reconfigurations</p>
-</li>
-<li>
-<p>Local blob storage for user applications</p>
 </li>
 <li>
 <p>No more "request-application" operations</p>
@@ -378,17 +386,20 @@ partnerships and use cases.</p>
 <p>Bridge-friendly block headers compatible with EVM signatures</p>
 </li>
 </ul>
-<p>Infrastructure:</p>
+<p><strong>Infrastructure</strong></p>
 <ul>
 <li>
-<p>Better hotfix releases</p>
+<p>Better hotfix release process</p>
+</li>
+<li>
+<p>Support for resizing workers offline</p>
 </li>
 <li>
 <p>Multi-proxy configuration</p>
 </li>
 </ul>
 <h2 id="testnet-3"><a class="header" href="#testnet-3">Testnet #3</a></h2>
-<p>SDK:</p>
+<p><strong>SDK</strong></p>
 <ul>
 <li>
 <p>Browser extension and wallet connect</p>
@@ -403,20 +414,24 @@ partnerships and use cases.</p>
 <p>Compatibility with EVM addresses</p>
 </li>
 </ul>
-<p>Core protocol:</p>
+<p><strong>Core protocol</strong></p>
 <ul>
 <li>
-<p>More scalable client-side execution</p>
+<p>More scalable client with partial chain execution and optimized block
+synchronization</p>
 </li>
 <li>
-<p>Protocol upgradability (block format, VM &amp; SDK)</p>
+<p>Execution cache for faster server-side and client-side block execution</p>
 </li>
 <li>
-<p>Simplify chain creation and support "chain-as-a-service" created by other
-blockchains</p>
+<p>Protocol upgradability, including block format, virtual machines, and system
+APIs</p>
+</li>
+<li>
+<p>Simplify chain creation and support externally created microchains</p>
 </li>
 </ul>
-<p>Infrastructure:</p>
+<p><strong>Infrastructure</strong></p>
 <ul>
 <li>
 <p>High-TPS configuration</p>
@@ -426,7 +441,7 @@ blockchains</p>
 </li>
 </ul>
 <h2 id="testnet-4"><a class="header" href="#testnet-4">Testnet #4</a></h2>
-<p>SDK:</p>
+<p><strong>SDK</strong></p>
 <ul>
 <li>
 <p>Stable support for EVM</p>
@@ -438,7 +453,7 @@ blockchains</p>
 <p>Application upgradability</p>
 </li>
 </ul>
-<p>Core protocol:</p>
+<p><strong>Core protocol</strong></p>
 <ul>
 <li>
 <p>Governance chain</p>
@@ -453,12 +468,12 @@ blockchains</p>
 <p>Support for archiving chains</p>
 </li>
 </ul>
-<p>Infrastructure:</p>
+<p><strong>Infrastructure</strong></p>
 <ul>
 <li>Security audits</li>
 </ul>
 <h2 id="mainnet-and-beyond"><a class="header" href="#mainnet-and-beyond">Mainnet and beyond</a></h2>
-<p>SDK:</p>
+<p><strong>SDK</strong></p>
 <ul>
 <li>
 <p>Account abstraction and fee masters</p>
@@ -467,7 +482,7 @@ blockchains</p>
 <p>Linera light clients for other chains (Solidity, Sui Move)</p>
 </li>
 </ul>
-<p>Core Protocol</p>
+<p><strong>Core Protocol;</strong></p>
 <ul>
 <li>
 <p>Permissionless auditing protocol</p>
@@ -476,7 +491,7 @@ blockchains</p>
 <p>Performance improvements</p>
 </li>
 </ul>
-<p>Infrastructure:</p>
+<p><strong>Infrastructure</strong></p>
 <ul>
 <li>
 <p>Support for dynamic shard assignment and elasticity</p>
