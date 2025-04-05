@@ -1,5 +1,29 @@
 # Roadmap
 
+This section outlines our current technical roadmap. Please note that this
+roadmap is provided for informational purposes only and is subject to change at
+any time.
+
+```mermaid
+%%{init: { 'logLevel': 'debug', 'theme': 'dark' } }%%
+timeline
+    section 2024
+      Testnet 1 (Archimedes): Multi-user chains
+                            : Data blobs
+                            : Fees
+    section 2025+
+      Testnet 2 (Babbage): Web client
+               : POW public chains
+               : Block headers
+      Testnet 3: Browser extension & wallet connect
+               : EVM support
+               : Block explorer
+      Testnet 4: Tokenomics
+               : Governance
+               : Security audits
+      Mainnet
+```
+
 ## Testnet #1 (released Nov 2024)
 
 Codename: Archimedes
