@@ -12,7 +12,7 @@ created by many simultaneous users (or devices) include:
 
 - Real-time auction systems,
 
-- Turn-based on-chain games,
+- On-chain games,
 
 - Decentralized physical infrastructure (DePIN),
 
