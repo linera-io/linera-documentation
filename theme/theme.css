@@ -33,6 +33,10 @@ body {
     padding: 0;
 }
 
+.mermaid {
+    color: var(--color-primary);
+}
+
 .spacer {
     height: 2px;
     background-color: var(--color-primary-code) !important;
