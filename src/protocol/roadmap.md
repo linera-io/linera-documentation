@@ -18,8 +18,8 @@ timeline
       Testnet 3: Browser extension & wallet connect
                : EVM support
                : Block explorer
-      Testnet 4: Tokenomics
-               : Governance
+      Testnet 4: Governance
+               : Tokenomics
                : Security audits
       Mainnet
 ```
@@ -124,13 +124,13 @@ Codename: Babbage
 
 - Governance chain
 
-- Final tokenomics and incentives
+- Final tokenomics and fees
 
-- Public chains
-
-- Support for archiving chains
+- Storage durability
 
 **Infrastructure**
+
+- Network performance measurements and validator incentives
 
 - Security audits
 
@@ -140,7 +140,7 @@ Codename: Babbage
 
 - Account abstraction and fee masters
 
-- Linera light clients for other chains (Solidity, Sui Move)
+- Linera light clients for other contract languages (e.g. Solidity, Sui Move)
 
 **Core Protocol**
 
