@@ -78,8 +78,6 @@ Codename: Babbage
 
 - Support for resizing workers offline
 
-- Multi-proxy configuration
-
 ## Testnet #3
 
 **SDK**
