@@ -3,12 +3,10 @@
 The programming model of Linera is designed so that developers can take
 advantage of microchains to scale their applications.
 
-Linera uses the [WebAssembly (Wasm)](https://webassembly.org) Virtual
-Machine to execute user applications. Currently, the [Linera
-SDK](../backend.md) is focused on the
-[Rust](https://www.rust-lang.org/) programming language for the
-backend and [TypeScript](https://www.typescriptlang.org/) for the
-frontend.
+Linera uses the [WebAssembly (Wasm)](https://webassembly.org) Virtual Machine to
+execute user applications. Currently, the [Linera SDK](../backend.md) is focused
+on the [Rust](https://www.rust-lang.org/) programming language for the backend
+and [TypeScript](https://www.typescriptlang.org/) for the frontend.
 
 Linera applications are structured using the familiar notion of **Rust crate**:
 the external interfaces of an application (including instantiation parameters,

@@ -2,32 +2,30 @@
 
 ## Supported browsers
 
-The Linera client library is supported by most mainstream browsers at
-the time of writing (Baseline 2023).  It does make use of some fairly
-modern features, so if your browser version is too old you may
-struggle to follow this tutorial.  Specifically, your browser should
-support:
+The Linera client library is supported by most mainstream browsers at the time
+of writing (Baseline 2023). It does make use of some fairly modern features, so
+if your browser version is too old you may struggle to follow this tutorial.
+Specifically, your browser should support:
 
 - [import maps](https://caniuse.com/import-maps)
 - [`SharedArrayBuffer`](https://caniuse.com/sharedarraybuffer)
 - [WebAssembly threading primitives](https://caniuse.com/wasm-threads)
-- [top-level
-  `await`](https://caniuse.com/mdn-javascript_operators_await_top_level)
-  — this will be used for brevity in the tutorial, but is easy to
-  factor out if your browser doesn't support it
+- [top-level `await`](https://caniuse.com/mdn-javascript_operators_await_top_level)
+  — this will be used for brevity in the tutorial, but is easy to factor out if
+  your browser doesn't support it
 
 ## Creating a basic HTML page
 
-Let's start by creating a simple HTML UI.  This page won't connect to
-Linera yet, but we can use it as scaffolding to get our development
-environment set up.  We'll call this page `index.html`, and it will be
-the only file we need to edit to build our frontend.
+Let's start by creating a simple HTML UI. This page won't connect to Linera yet,
+but we can use it as scaffolding to get our development environment set up.
+We'll call this page `index.html`, and it will be the only file we need to edit
+to build our frontend.
 
-``` html
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Counter</title>
   </head>
   <body>
@@ -40,30 +38,29 @@ the only file we need to edit to build our frontend.
 
 ## Serving your frontend
 
-In order to use the JavaScript client API, we will need a Web server.
-Since we use a
+In order to use the JavaScript client API, we will need a Web server. Since we
+use a
 [`SharedArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)
-to share memory between WebAssembly threads, running your frontend
-from disk using a `file://` URI will not work, as `SharedArrayBuffer`
-requires [cross-origin
-isolation](https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated)
+to share memory between WebAssembly threads, running your frontend from disk
+using a `file://` URI will not work, as `SharedArrayBuffer` requires
+[cross-origin isolation](https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated)
 for security.
 
 In this tutorial we'll be using
-[`http-server`](https://github.com/http-party/http-server), but any
-server will do so long as it can set the `Cross-Origin-Opener-Policy`
-and `Cross-Origin-Embedder-Policy` headers.
+[`http-server`](https://github.com/http-party/http-server), but any server will
+do so long as it can set the `Cross-Origin-Opener-Policy` and
+`Cross-Origin-Embedder-Policy` headers.
 
-To use `http-server`, first ensure you have Node.js installed.  On
-Ubuntu, this can be accomplished with:
+To use `http-server`, first ensure you have Node.js installed. On Ubuntu, this
+can be accomplished with:
 
-``` shellsession
+```shellsession
 sudo apt install nodejs
 ```
 
 Then, the command
 
-``` shellsession
+```shellsession
 npx http-party/http-server \
   --header Cross-Origin-Embedder-Policy:require-corp \
   --header Cross-Origin-Opener-Policy:same-origin
@@ -71,24 +68,22 @@ npx http-party/http-server \
 
 can be used to serve our HTML page on <http://localhost:3000/>.
 
-~~~admonish info
+```admonish info
 Note that we use `http-party/http-server` here to use `http-server`
 from GitHub.  Writing just `http-server` will pull the version from
 npm, which at the time of writing is very old and doesn't support
 custom headers.
-~~~
+```
 
 ## Getting the client library
 
-The entire Linera client, WebAssembly and all, is published to the
-Node package repository as
-[`@linera/client`](https://www.npmjs.com/package/@linera/client).  The
-easiest way to use it is to include it directly from
-[unpkg](https://unpkg.com/), a CDN for npm packages.  By using unpkg,
-we remove any need for a build step, so no preparation is required
-here.
+The entire Linera client, WebAssembly and all, is published to the Node package
+repository as [`@linera/client`](https://www.npmjs.com/package/@linera/client).
+The easiest way to use it is to include it directly from
+[unpkg](https://unpkg.com/), a CDN for npm packages. By using unpkg, we remove
+any need for a build step, so no preparation is required here.
 
-~~~admonish warning title="A note on bundlers"
+````admonish warning title="A note on bundlers"
 We're using unpkg here, so no bundling step is required.  However, if
 you do choose to bundle your frontend, it is important that both the
 Web worker entry point and the `@linera/client` library itself remain
@@ -115,4 +110,4 @@ export default defineConfig({
   },
 })
 ```
-~~~
+````
