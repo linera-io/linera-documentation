@@ -13,7 +13,7 @@ import map into the `<head>` of your HTML page:
 <script type="importmap">
   {
     "imports": {
-      "@linera/client": "https://unpkg.com/@linera/client@0.0.3/linera_web.js"
+      "@linera/client": "https://unpkg.com/@linera/client@0.14.0/linera_web.js"
     }
   }
 </script>
@@ -35,7 +35,7 @@ refers to a counter app published there:
 
 ```javascript
 const COUNTER_APP_ID =
-  'a2b93d1da68bc052f5b8650b5484103244ab9662c3a2e7112c71acc825f8f76e1073f4e0775a9212fff735f4fa30c228334a44d098e81a828839ef22f927f461ee44e4b2c6372d9d235c7beecaa08697cbb9d62685c409d70f3374b00d4abd7c00';
+  '2b1a0df8868206a4b7d6c2fdda911e4355d6c0115b896d4947ef8e535ee3c6b8';
 ```
 
 If you wish to use a different network or deploy your own backend, you may need
@@ -61,7 +61,9 @@ with a fresh chain owning some tokens. We will also update our `#chain-id`
 element to let the user know the ID of their new chain.
 
 ```javascript
-const faucet = await new linera.Faucet('https://faucet.mini-net.linera.net');
+const faucet = await new linera.Faucet(
+  'https://faucet.testnet-babbage.linera.net',
+);
 const wallet = await faucet.createWallet();
 const client = await new linera.Client(wallet);
 document.getElementById('chain-id').innerText = await faucet.claimChain(client);
