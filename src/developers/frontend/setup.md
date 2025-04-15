@@ -66,7 +66,7 @@ npx http-party/http-server \
   --header Cross-Origin-Opener-Policy:same-origin
 ```
 
-can be used to serve our HTML page on <http://localhost:3000/>.
+can be used to serve our HTML page on `localhost`.
 
 ```admonish info
 Note that we use `http-party/http-server` here to use `http-server`
