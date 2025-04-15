@@ -3,9 +3,12 @@
 The programming model of Linera is designed so that developers can take
 advantage of microchains to scale their applications.
 
-Linera uses the [WebAssembly (Wasm)](https://webassembly.org) Virtual Machine to
-execute user applications. Currently, the [Linera SDK](../sdk.md) is focused on
-the [Rust](https://www.rust-lang.org/) programming language.
+Linera uses the [WebAssembly (Wasm)](https://webassembly.org) Virtual
+Machine to execute user applications. Currently, the [Linera
+SDK](../backend.md) is focused on the
+[Rust](https://www.rust-lang.org/) programming language for the
+backend and [TypeScript](https://www.typescriptlang.org/) for the
+frontend.
 
 Linera applications are structured using the familiar notion of **Rust crate**:
 the external interfaces of an application (including instantiation parameters,
@@ -48,7 +51,7 @@ _service_.
 The **contract** is gas-metered, and is the part of the application which
 executes operations and messages, make cross-application calls and modifies the
 application's state. The details are covered in more depth in the
-[SDK docs](../sdk.md).
+[application backend guide](../backend.md).
 
 The **service** is non-metered and read-only. It is used primarily to query the
 state of an application and populate the presentation layer (think front-end)
