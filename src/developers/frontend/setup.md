@@ -79,18 +79,21 @@ custom headers.
 
 The entire Linera client, WebAssembly and all, is published to the Node package
 repository as [`@linera/client`](https://www.npmjs.com/package/@linera/client).
-The easiest way to use it is to include it directly from
-[unpkg](https://unpkg.com/), a CDN for npm packages. By using unpkg, we remove
-any need for a build step, so no preparation is required here.
+We'll include it into our `node_modules` with:
+
+```shellsession
+npm install @linera/client@0.14.0
+```
 
 ````admonish warning title="A note on bundlers"
-We're using unpkg here, so no bundling step is required.  However, if
-you do choose to bundle your frontend, it is important that both the
-Web worker entry point and the `@linera/client` library itself remain
-in separate files, with their signatures intact, in order for the Web
-worker to be able to refer to them.  For example, if using Vite, make
-sure to define an extra entrypoint for `@linera/client`, preserve its
-signature, and exclude it from dependency optimization:
+We're serving our `node_modules` here, so no bundling step is
+required.  However, if you do choose to bundle your frontend, it is
+important that both the Web worker entry point and the
+`@linera/client` library itself remain in separate files, with their
+signatures intact, in order for the Web worker to be able to refer to
+them.  For example, if using Vite, make sure to define an extra
+entrypoint for `@linera/client`, preserve its signature, and exclude
+it from dependency optimization:
 
 ``` typescript
 export default defineConfig({

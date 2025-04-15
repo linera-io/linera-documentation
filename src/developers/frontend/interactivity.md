@@ -6,14 +6,14 @@ write all the JavaScript necessary to interact with Linera.
 
 ## Importing the Linera client library
 
-To add the Linera client library to your page using unpkg, put the following
-import map into the `<head>` of your HTML page:
+To add the Linera client library to your page, put the following import map into
+the `<head>` of your HTML:
 
 ```html
 <script type="importmap">
   {
     "imports": {
-      "@linera/client": "https://unpkg.com/@linera/client@0.14.0/linera_web.js"
+      "@linera/client": "./node_modules/@linera/client/dist/linera_web.js"
     }
   }
 </script>
