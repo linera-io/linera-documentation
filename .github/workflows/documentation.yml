@@ -34,7 +34,7 @@ jobs:
       - name: 'Setup mdbook'
         uses: peaceiris/actions-mdbook@v2
         with:
-          mdbook-version: '0.4.47'
+          mdbook-version: '0.4.48'
 
       - name: 'Install Protoc'
         uses: arduino/setup-protoc@v3
@@ -46,9 +46,9 @@ jobs:
           cd linera-protocol
           cargo build --locked -p linera-sdk --features test,wasmer
 
-      - name: Install linkcheck
+      - name: Install mdbook preprocessors
         run: |
-          cargo install mdbook-linkcheck
+          cargo install mdbook-linkcheck mdbook-mermaid mdbook-admonish
 
       - run: mdbook build
 
