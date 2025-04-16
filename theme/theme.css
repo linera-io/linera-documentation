@@ -22,6 +22,9 @@
     --theme-hover: var(--color-accent-light-blue) !important; /* Hover color for "Next chapter" arrow */
     --theme-popup-bg: var(--color-primary) !important; /* Background for copy icon on code blocks */
     --icons: var(--color-secondary) !important; /* Set icon colors like the menu and print icons */
+
+    --fg: var(--color-text);
+    --bg: var(--color-background);
 }
 
 /* General Styling */

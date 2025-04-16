@@ -8,7 +8,7 @@ description = "The Linera Manual"
 [output.html]
 default-theme = "Light"
 default-dark-theme = "Light"
-additional-css = ["theme/theme.css"]
+additional-css = ["theme/theme.css", "./mdbook-admonish.css"]
 additional-js = ["custom.js", "mermaid.min.js", "mermaid-init.js"]
 git-repository-url = "https://github.com/linera-io/linera-documentation"
 git-repository-icon = "fa-github"
@@ -36,6 +36,10 @@ exclude = [ 'x\.com', 'crates\.io' ]
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
+
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "3.0.3" # do not edit: managed by `mdbook-admonish install`
 
 [build]
 build-dir = "book"
