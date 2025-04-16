@@ -44,7 +44,11 @@ jobs:
       - name: 'Build the Linera SDK'
         run: |
           cd linera-protocol
+          cargo clippy --locked -p linera-sdk --features test,wasmer
+          DUPLICATE_LIBS=(target/debug/deps/libserde-* target/debug/deps/liblinera_sdk-*)
           cargo build --locked -p linera-sdk --features test,wasmer
+          # mdbook test wants only one library but build dependencies can create duplicates.
+          rm "${DUPLICATE_LIBS[@]}"
 
       - name: Install mdbook preprocessors
         run: |

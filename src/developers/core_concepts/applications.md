@@ -78,7 +78,7 @@ to transfer funds to another user would look like this:
 # extern crate serde;
 # extern crate linera_sdk;
 # use serde::{Deserialize, Serialize};
-# use linera_sdk::base::*;
+# use linera_sdk::linera_base_types::*;
 #[derive(Debug, Deserialize, Serialize)]
 pub enum Operation {
     /// A transfer from a (locally owned) account to a (possibly remote) account.
@@ -107,7 +107,7 @@ like this:
 # extern crate serde;
 # extern crate linera_sdk;
 # use serde::{Deserialize, Serialize};
-# use linera_sdk::base::*;
+# use linera_sdk::linera_base_types::*;
 #[derive(Debug, Deserialize, Serialize)]
 pub enum Message {
     Credit { owner: AccountOwner, amount: Amount },

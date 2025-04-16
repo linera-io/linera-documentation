@@ -22,11 +22,13 @@ cross-application call with `Operation::EndSession` before the transaction ends.
 # extern crate serde;
 # extern crate linera_sdk;
 # use serde::{Deserialize, Serialize};
-# use linera_sdk::base::*;
+# use linera_sdk::linera_base_types::*;
 # use linera_sdk::*;
+# use linera_sdk::abi::*;
 # use std::collections::HashSet;
 # use linera_sdk::views::{linera_views, RegisterView, RootView, ViewStorageContext};
 # use crate::linera_sdk::views::View as _;
+# use linera_sdk::linera_base_types::ApplicationId;
 
 #[derive(RootView)]
 #[view(context = "ViewStorageContext")]
@@ -59,6 +61,7 @@ impl Contract for MyContract {
     type Message = ();
     type InstantiationArgument = ();
     type Parameters = ();
+    type EventValue = ();
 
     async fn load(runtime: ContractRuntime<Self>) -> Self {
         let state = MyState::load(runtime.root_view_storage_context())
