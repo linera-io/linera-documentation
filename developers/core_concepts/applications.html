@@ -29,7 +29,8 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-09d67cbd.css">
+        <link rel="stylesheet" href="../../theme/theme-864c5258.css">
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
@@ -38,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2bdbaa1c.js"></script>
+        <script src="../../toc-8b6b19ac.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -143,8 +144,9 @@
 <p>The programming model of Linera is designed so that developers can take
 advantage of microchains to scale their applications.</p>
 <p>Linera uses the <a href="https://webassembly.org">WebAssembly (Wasm)</a> Virtual Machine to
-execute user applications. Currently, the <a href="../sdk.html">Linera SDK</a> is focused on
-the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
+execute user applications. Currently, the <a href="../backend.html">Linera SDK</a> is focused
+on the <a href="https://www.rust-lang.org/">Rust</a> programming language for the backend
+and <a href="https://www.typescriptlang.org/">TypeScript</a> for the frontend.</p>
 <p>Linera applications are structured using the familiar notion of <strong>Rust crate</strong>:
 the external interfaces of an application (including instantiation parameters,
 operations and messages) generally go into the library part of its crate, while
@@ -177,7 +179,7 @@ and an application can be published with a single command:</p>
 <p>The <strong>contract</strong> is gas-metered, and is the part of the application which
 executes operations and messages, make cross-application calls and modifies the
 application's state. The details are covered in more depth in the
-<a href="../sdk.html">SDK docs</a>.</p>
+<a href="../backend.html">application backend guide</a>.</p>
 <p>The <strong>service</strong> is non-metered and read-only. It is used primarily to query the
 state of an application and populate the presentation layer (think front-end)
 with the data required for a user interface.</p>
@@ -321,7 +323,7 @@ the client in service mode), he can start using the application.</p>
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/sdk.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/backend.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -335,7 +337,7 @@ the client in service mode), he can start using the application.</p>
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/sdk.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/backend.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -352,7 +354,7 @@ the client in service mode), he can start using the application.</p>
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../../searcher-b074573a.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>

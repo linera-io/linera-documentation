@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Cross-Chain Messages</title>
+        <title>Writing the Service Binary</title>
 
 
         <!-- Custom HTML head -->
@@ -29,7 +29,8 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-09d67cbd.css">
+        <link rel="stylesheet" href="../../theme/theme-864c5258.css">
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
@@ -38,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2bdbaa1c.js"></script>
+        <script src="../../toc-8b6b19ac.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -110,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/sdk/messages.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/backend/service.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -139,120 +140,135 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="cross-chain-messages"><a class="header" href="#cross-chain-messages">Cross-Chain Messages</a></h1>
-<p>On Linera, applications are meant to be multi-chain: They are instantiated on
-every chain where they are used. An application has the same application ID and
-bytecode everywhere, but a separate state on every chain. To coordinate, the
-instances can send <em>cross-chain messages</em> to each other. A message sent by an
-application is always handled by the <em>same</em> application on the target chain: The
-handling code is guaranteed to be the same as the sending code, but the state
-may be different.</p>
-<p>For your application, you can specify any serializable type as the <code>Message</code>
-type in your <code>Contract</code> implementation. To send a message, use the
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html"><code>ContractRuntime</code></a>
-made available as an argument to the contract's
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/trait.Contract.html#tymethod.load"><code>Contract::load</code></a>
-constructor. The runtime is usually stored inside the contract object, as we did
-when <a href="./contract.html">writing the contract binary</a>. We can then call
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#prepare_message"><code>ContractRuntime::prepare_message</code></a>
-to start preparing a message, and then <code>send_to</code> to send it to a destination
-chain.</p>
-<pre><code class="language-rust ignore">    self.runtime
-        .prepare_message(message_contents)
-        .send_to(destination_chain_id);</code></pre>
-<p>It is also possible to send a message to a subscription channel, so that the
-message is forwarded to the subscribers of that channel. All that has to be done
-is specify a
-<a href="https://docs.rs/linera-base/latest/linera_base/identifiers/struct.ChannelName.html"><code>ChannelName</code></a>
-as the destination parameter to <code>send_to</code>.</p>
-<p>After block execution in the <em>sending</em> chain, sent messages are placed in the
-<em>target</em> chains' inboxes for processing. There is no guarantee that it will be
-handled: For this to happen, an owner of the target chain needs to include it in
-the <code>incoming_messages</code> in one of their blocks. When that happens, the
-contract's <code>execute_message</code> method gets called on their chain.</p>
-<p>While preparing the message to be sent, it is possible to enable authentication
-forwarding and/or tracking. Authentication forwarding means that the message is
-executed by the receiver with the same authenticated signer as the sender of the
-message, while tracking means that the message is sent back to the sender if the
-receiver rejects it. The example below enables both flags:</p>
-<pre><code class="language-rust ignore">    self.runtime
-        .prepare_message(message_contents)
-        .with_tracking()
-        .with_authentication()
-        .send_to(destination_chain_id);</code></pre>
-<h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: Fungible Token</a></h2>
-<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/5306496ef75d5f7c7385abbead1219483a9632bd/examples/fungible"><code>fungible</code> example
-application</a>, such a message
-can be the transfer of tokens from one chain to another. If the sender includes
-a <code>Transfer</code> operation on their chain, it decreases their account balance and
-sends a <code>Credit</code> message to the recipient's chain:</p>
-<pre><code class="language-rust ignore">async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response {
-        match operation {
-            Operation::Transfer {
-                owner,
-                amount,
-                target_account,
-            } =&gt; {
-                self.check_account_authentication(owner);
-                self.state.debit(owner, amount).await;
-                self.finish_transfer_to_account(amount, target_account, owner)
-                    .await;
-                FungibleResponse::Ok
-            }
-            // ...
-        }
+                        <h1 id="writing-the-service-binary"><a class="header" href="#writing-the-service-binary">Writing the Service Binary</a></h1>
+<p>The service binary is the second component of a Linera application. It is
+compiled into a separate Bytecode from the contract and is run independently. It
+is not metered (meaning that querying an application's service does not consume
+gas), and can be thought of as a read-only view into your application.</p>
+<p>Application states can be arbitrarily complex, and most of the time you don't
+want to expose this state in its entirety to those who would like to interact
+with your app. Instead, you might prefer to define a distinct set of queries
+that can be made against your application.</p>
+<p>The <code>Service</code> trait is how you define the interface into your application. The
+<code>Service</code> trait is defined as follows:</p>
+<pre><code class="language-rust ignore">pub trait Service: WithServiceAbi + ServiceAbi + Sized {
+    /// Immutable parameters specific to this application.
+    type Parameters: Serialize + DeserializeOwned + Send + Sync + Clone + Debug + 'static;
+
+    /// Creates a in-memory instance of the service handler.
+    async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self;
+
+    /// Executes a read-only query on the state of this application.
+    async fn handle_query(&amp;self, query: Self::Query) -&gt; Self::QueryResponse;
 }</code></pre>
-<pre><code class="language-rust ignore">    /// Executes the final step of a transfer where the tokens are sent to the destination.
-    async fn finish_transfer_to_account(
-        &amp;mut self,
-        amount: Amount,
-        target_account: Account,
-        source: AccountOwner,
-    ) {
-        if target_account.chain_id == self.runtime.chain_id() {
-            self.state.credit(target_account.owner, amount).await;
-        } else {
-            let message = Message::Credit {
-                target: target_account.owner,
-                amount,
-                source,
-            };
-            self.runtime
-                .prepare_message(message)
-                .with_authentication()
-                .with_tracking()
-                .send_to(target_account.chain_id);
-        }
+<p>Let's implement <code>Service</code> for our counter application.</p>
+<p>First, we create a new type for the service, similarly to the contract:</p>
+<pre><code class="language-rust ignore">linera_sdk::service!(CounterService);
+
+pub struct CounterService {
+    state: Counter,
+}</code></pre>
+<p>Just like with the <code>CounterContract</code> type, this type usually has two types: the
+application <code>state</code> and the <code>runtime</code>. We can omit the fields if we don't use
+them, so in this example we're omitting the <code>runtime</code> field, since its only used
+when constructing the <code>CounterService</code> type.</p>
+<p>As before, the macro <code>service!</code> generates the necessary boilerplate for
+implementing the service
+<a href="https://component-model.bytecodealliance.org/design/wit.html">WIT interface</a>,
+exporting the necessary resource types and functions so that the service can be
+executed.</p>
+<p>Next, we need to implement the <code>Service</code> trait for <code>CounterService</code> type. The
+first step is to define the <code>Service</code>'s associated type, which is the global
+parameters specified when the application is instantiated. In our case, the
+global parameters aren't used, so we can just specify the unit type:</p>
+<pre><code class="language-rust ignore">impl Service for CounterService {
+    type Parameters = ();
+
+    // ...
+}</code></pre>
+<p>Also like in contracts, we must implement a <code>load</code> constructor when implementing
+the <code>Service</code> trait. The constructor receives the runtime handle and should use
+it to load the application state:</p>
+<pre><code class="language-rust ignore">    async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self {
+        let state = Counter::load(runtime.root_view_storage_context())
+            .await
+            .expect("Failed to load state");
+        CounterService { state }
     }</code></pre>
-<p>On the recipient's chain, <code>execute_message</code> is called, which increases their
-account balance.</p>
-<pre><code class="language-rust ignore">    async fn execute_message(&amp;mut self, message: Message) {
-        match message {
-            Message::Credit {
-                amount,
-                target,
-                source,
-            } =&gt; {
-                let is_bouncing = self
-                    .runtime
-                    .message_is_bouncing()
-                    .expect("Delivery status is available when executing a message");
-                let receiver = if is_bouncing { source } else { target };
-                self.state.credit(receiver, amount).await;
-            }
-            // ...
-        }
+<p>Services don't have a <code>store</code> method because they are read-only and can't
+persist any changes back to the storage.</p>
+<p>The actual functionality of the service starts in the <code>handle_query</code> method. We
+will accept GraphQL queries and handle them using the
+<a href="https://github.com/async-graphql/async-graphql"><code>async-graphql</code> crate</a>. To
+forward the queries to custom GraphQL handlers we will implement in the next
+section, we use the following code:</p>
+<pre><code class="language-rust ignore">    async fn handle_query(&amp;self, request: Request) -&gt; Response {
+        let schema = Schema::build(
+            QueryRoot {
+                value: *self.state.value.get(),
+            },
+            MutationRoot {},
+            EmptySubscription,
+        )
+        .finish();
+        schema.execute(request).await
     }</code></pre>
+<p>Finally, as before, the following code is needed to incorporate the ABI
+definitions into your <code>Service</code> implementation:</p>
+<pre><code class="language-rust ignore">impl WithServiceAbi for CounterService {
+    type Abi = counter::CounterAbi;
+}</code></pre>
+<h2 id="adding-graphql-compatibility"><a class="header" href="#adding-graphql-compatibility">Adding GraphQL compatibility</a></h2>
+<p>Finally, we want our application to have GraphQL compatibility. To achieve this
+we need a <code>QueryRoot</code> to respond to queries and a <code>MutationRoot</code> for creating
+serialized <code>Operation</code> values that can be placed in blocks.</p>
+<p>In the <code>QueryRoot</code>, we only create a single <code>value</code> query that returns the
+counter's value:</p>
+<pre><code class="language-rust ignore">struct QueryRoot {
+    value: u64,
+}
+
+#[Object]
+impl QueryRoot {
+    async fn value(&amp;self) -&gt; &amp;u64 {
+        &amp;self.value
+    }
+}</code></pre>
+<p>In the <code>MutationRoot</code>, we only create one <code>increment</code> method that returns a
+serialized operation to increment the counter by the provided <code>value</code>:</p>
+<pre><code class="language-rust ignore">struct MutationRoot;
+
+#[Object]
+impl MutationRoot {
+    async fn increment(&amp;self, value: u64) -&gt; Vec&lt;u8&gt; {
+        bcs::to_bytes(&amp;value).unwrap()
+    }
+}</code></pre>
+<p>We haven't included the imports in the above code. If you want the full source
+code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter/src/service.rs">examples
+section</a> on
+GitHub.</p>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>
+<p>The full trait definition of <code>Service</code> can be found
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-sdk/src/lib.rs">here</a>.</p>
+</li>
+<li>
+<p>The full <code>Counter</code> example application can be found
+<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter">here</a>.</p>
+</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/sdk/deploy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/backend/contract.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/sdk/composition.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/backend/deploy.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -262,11 +278,11 @@ account balance.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/sdk/deploy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/backend/contract.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/sdk/composition.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/backend/deploy.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -283,7 +299,7 @@ account balance.</p>
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../../searcher-b074573a.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>

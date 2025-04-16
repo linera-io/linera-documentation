@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Defining the ABI</title>
+        <title>Setup</title>
 
 
         <!-- Custom HTML head -->
@@ -29,7 +29,8 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-09d67cbd.css">
+        <link rel="stylesheet" href="../../theme/theme-864c5258.css">
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
@@ -38,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2bdbaa1c.js"></script>
+        <script src="../../toc-8b6b19ac.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -110,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/sdk/abi.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/frontend/setup.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -139,91 +140,125 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="defining-the-abi"><a class="header" href="#defining-the-abi">Defining the ABI</a></h1>
-<p>The Application Binary Interface (ABI) of a Linera application defines how to
-interact with this application from other parts of the system. It includes the
-data structures, data types, and functions exposed by on-chain contracts and
-services.</p>
-<p>ABIs are usually defined in <code>src/lib.rs</code> and compiled across all architectures
-(Wasm and native).</p>
-<p>For a reference guide, check out the
-<a href="https://docs.rs/linera-base/latest/linera_base/abi/">documentation of the crate</a>.</p>
-<h2 id="defining-a-marker-struct"><a class="header" href="#defining-a-marker-struct">Defining a marker struct</a></h2>
-<p>The library part of your application (generally in <code>src/lib.rs</code>) must define a
-public empty struct that implements the <code>Abi</code> trait.</p>
-<pre><code class="language-rust">struct CounterAbi;</code></pre>
-<p>The <code>Abi</code> trait combines the <code>ContractAbi</code> and <code>ServiceAbi</code> traits to include
-the types that your application exports.</p>
-<pre><code class="language-rust ignore">/// A trait that includes all the types exported by a Linera application (both contract
-/// and service).
-pub trait Abi: ContractAbi + ServiceAbi {}</code></pre>
-<p>Next, we're going to implement each of the two traits.</p>
-<h2 id="contract-abi"><a class="header" href="#contract-abi">Contract ABI</a></h2>
-<p>The <code>ContractAbi</code> trait defines the data types that your application uses in a
-contract. Each type represents a specific part of the contract's behavior:</p>
-<pre><code class="language-rust ignore">/// A trait that includes all the types exported by a Linera application contract.
-pub trait ContractAbi {
-    /// The type of operation executed by the application.
-    ///
-    /// Operations are transactions directly added to a block by the creator (and signer)
-    /// of the block. Users typically use operations to start interacting with an
-    /// application on their own chain.
-    type Operation: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
-
-    /// The response type of an application call.
-    type Response: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
-}</code></pre>
-<p>All these types must implement the <code>Serialize</code>, <code>DeserializeOwned</code>, <code>Send</code>,
-<code>Sync</code>, <code>Debug</code> traits, and have a <code>'static</code> lifetime.</p>
-<p>In our example, we would like to change our <code>Operation</code> to <code>u64</code>, like so:</p>
-<pre><code class="language-rust ignore">pub struct CounterAbi;
-
-impl ContractAbi for CounterAbi {
-    type Operation = u64;
-    type Response = u64;
-}</code></pre>
-<h2 id="service-abi"><a class="header" href="#service-abi">Service ABI</a></h2>
-<p>The <code>ServiceAbi</code> is in principle very similar to the <code>ContractAbi</code>, just for the
-service component of your application.</p>
-<p>The <code>ServiceAbi</code> trait defines the types used by the service part of your
-application:</p>
-<pre><code class="language-rust ignore">/// A trait that includes all the types exported by a Linera application service.
-pub trait ServiceAbi {
-    /// The type of a query receivable by the application's service.
-    type Query: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
-
-    /// The response type of the application's service.
-    type QueryResponse: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
-}</code></pre>
-<p>For our <code>Counter</code> example, we'll be using GraphQL to query our application so
-our <code>ServiceAbi</code> should reflect that:</p>
-<pre><code class="language-rust ignore">use async_graphql::{Request, Response};
-
-impl ServiceAbi for CounterAbi {
-    type Query = Request;
-    type QueryResponse = Response;
-}</code></pre>
-<h2 id="references"><a class="header" href="#references">References</a></h2>
+                        <h1 id="setting-up-the-frontend-development-environment"><a class="header" href="#setting-up-the-frontend-development-environment">Setting up the frontend development environment</a></h1>
+<h2 id="supported-browsers"><a class="header" href="#supported-browsers">Supported browsers</a></h2>
+<p>The Linera client library is supported by most mainstream browsers at the time
+of writing (Baseline 2023). It does make use of some fairly modern features, so
+if your browser version is too old you may struggle to follow this tutorial.
+Specifically, your browser should support:</p>
 <ul>
-<li>
-<p>The full trait definition of <code>Abi</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-base/src/abi.rs">here</a>.</p>
-</li>
-<li>
-<p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter">here</a>.</p>
-</li>
+<li><a href="https://caniuse.com/import-maps">import maps</a></li>
+<li><a href="https://caniuse.com/sharedarraybuffer"><code>SharedArrayBuffer</code></a></li>
+<li><a href="https://caniuse.com/wasm-threads">WebAssembly threading primitives</a></li>
+<li><a href="https://caniuse.com/mdn-javascript_operators_await_top_level">top-level <code>await</code></a>
+— this will be used for brevity in the tutorial, but is easy to factor out if
+your browser doesn't support it</li>
 </ul>
+<h2 id="creating-a-basic-html-page"><a class="header" href="#creating-a-basic-html-page">Creating a basic HTML page</a></h2>
+<p>Let's start by creating a simple HTML UI. This page won't connect to Linera yet,
+but we can use it as scaffolding to get our development environment set up.
+We'll call this page <code>index.html</code>, and it will be the only file we need to edit
+to build our frontend.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;title&gt;Counter&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;Chain: &lt;span id="chain-id"&gt;requesting chain…&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;Clicks: &lt;span id="count"&gt;0&lt;/span&gt;&lt;/p&gt;
+    &lt;button id="increment"&gt;Click me!&lt;/button&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="serving-your-frontend"><a class="header" href="#serving-your-frontend">Serving your frontend</a></h2>
+<p>In order to use the JavaScript client API, we will need a Web server. Since we
+use a
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer"><code>SharedArrayBuffer</code></a>
+to share memory between WebAssembly threads, running your frontend from disk
+using a <code>file://</code> URI will not work, as <code>SharedArrayBuffer</code> requires
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated">cross-origin isolation</a>
+for security.</p>
+<p>In this tutorial we'll be using
+<a href="https://github.com/http-party/http-server"><code>http-server</code></a>, but any server will
+do so long as it can set the <code>Cross-Origin-Opener-Policy</code> and
+<code>Cross-Origin-Embedder-Policy</code> headers.</p>
+<p>To use <code>http-server</code>, first ensure you have Node.js installed. On Ubuntu, this
+can be accomplished with:</p>
+<pre><code class="language-shellsession">sudo apt install nodejs
+</code></pre>
+<p>Then, the command</p>
+<pre><code class="language-shellsession">npx http-party/http-server \
+  --header Cross-Origin-Embedder-Policy:require-corp \
+  --header Cross-Origin-Opener-Policy:same-origin
+</code></pre>
+<p>can be used to serve our HTML page on <code>localhost</code>.</p>
+<div id="admonition-info" class="admonition admonish-info" role="note" aria-labelledby="admonition-info-title">
+<div class="admonition-title">
+<div id="admonition-info-title">
+<p>Info</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-info"></a>
+</div>
+<div>
+<p>Note that we use <code>http-party/http-server</code> here to use <code>http-server</code>
+from GitHub.  Writing just <code>http-server</code> will pull the version from
+npm, which at the time of writing is very old and doesn't support
+custom headers.</p>
+</div>
+</div>
+<h2 id="getting-the-client-library"><a class="header" href="#getting-the-client-library">Getting the client library</a></h2>
+<p>The entire Linera client, WebAssembly and all, is published to the Node package
+repository as <a href="https://www.npmjs.com/package/@linera/client"><code>@linera/client</code></a>.
+We'll include it into our <code>node_modules</code> with:</p>
+<pre><code class="language-shellsession">npm install @linera/client@0.14.0
+</code></pre>
+<div id="admonition-a-note-on-bundlers" class="admonition admonish-warning" role="note" aria-labelledby="admonition-a-note-on-bundlers-title">
+<div class="admonition-title">
+<div id="admonition-a-note-on-bundlers-title">
+<p>A note on bundlers</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-a-note-on-bundlers"></a>
+</div>
+<div>
+<p>We're serving our <code>node_modules</code> here, so no bundling step is
+required.  However, if you do choose to bundle your frontend, it is
+important that both the Web worker entry point and the
+<code>@linera/client</code> library itself remain in separate files, with their
+signatures intact, in order for the Web worker to be able to refer to
+them.  For example, if using Vite, make sure to define an extra
+entrypoint for <code>@linera/client</code>, preserve its signature, and exclude
+it from dependency optimization:</p>
+<pre><code class="language-typescript">export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        index: 'index.html',
+        linera: '@linera/client',
+      },
+      preserveEntrySignatures: 'strict',
+    },
+  },
+  optimizeDeps: {
+    exclude: [
+      '@linera/client',
+    ],
+  },
+})
+</code></pre>
+</div>
+</div>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/sdk/state.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/frontend/overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/sdk/contract.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/frontend/interactivity.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -233,11 +268,11 @@ impl ServiceAbi for CounterAbi {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/sdk/state.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/frontend/overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/sdk/contract.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/frontend/interactivity.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -254,7 +289,7 @@ impl ServiceAbi for CounterAbi {
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../../searcher-b074573a.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>

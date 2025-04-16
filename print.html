@@ -30,7 +30,8 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/theme-09d67cbd.css">
+        <link rel="stylesheet" href="theme/theme-864c5258.css">
+        <link rel="stylesheet" href="./mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
@@ -39,7 +40,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-2bdbaa1c.js"></script>
+        <script src="toc-8b6b19ac.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -1003,8 +1004,9 @@ you to graphically explore the state of your application.</p>
 <p>The programming model of Linera is designed so that developers can take
 advantage of microchains to scale their applications.</p>
 <p>Linera uses the <a href="https://webassembly.org">WebAssembly (Wasm)</a> Virtual Machine to
-execute user applications. Currently, the <a href="developers/core_concepts/../sdk.html">Linera SDK</a> is focused on
-the <a href="https://www.rust-lang.org/">Rust</a> programming language.</p>
+execute user applications. Currently, the <a href="developers/core_concepts/../backend.html">Linera SDK</a> is focused
+on the <a href="https://www.rust-lang.org/">Rust</a> programming language for the backend
+and <a href="https://www.typescriptlang.org/">TypeScript</a> for the frontend.</p>
 <p>Linera applications are structured using the familiar notion of <strong>Rust crate</strong>:
 the external interfaces of an application (including instantiation parameters,
 operations and messages) generally go into the library part of its crate, while
@@ -1037,7 +1039,7 @@ and an application can be published with a single command:</p>
 <p>The <strong>contract</strong> is gas-metered, and is the part of the application which
 executes operations and messages, make cross-application calls and modifies the
 application's state. The details are covered in more depth in the
-<a href="developers/core_concepts/../sdk.html">SDK docs</a>.</p>
+<a href="developers/core_concepts/../backend.html">application backend guide</a>.</p>
 <p>The <strong>service</strong> is non-metered and read-only. It is used primarily to query the
 state of an application and populate the presentation layer (think front-end)
 with the data required for a user interface.</p>
@@ -1244,7 +1246,7 @@ pub struct Counter {
 <p>and the occurrences of <code>Application</code> in the rest of the project should be
 replaced by <code>Counter</code>.</p>
 <p>The derive macro <code>async_graphql::SimpleObject</code> is related to GraphQL queries
-discussed in the <a href="developers/sdk/service.html">next section</a>.</p>
+discussed in the <a href="developers/backend/service.html">next section</a>.</p>
 <p>A <code>RegisterView&lt;T&gt;</code> supports modifying a single value of type <code>T</code>. Other data
 structures available in the library
 <a href="https://docs.rs/linera-views/latest/linera_views/"><code>linera_views</code></a> include:</p>
@@ -1401,7 +1403,7 @@ implementation we will persist the state back to storage:</p>
         self.state.save().await.expect("Failed to save state");
     }</code></pre>
 <p>It's possible to do more than just saving the state, and the
-<a href="developers/sdk/../advanced_topics/contract_finalize.html">Contract finalization section</a>
+<a href="developers/backend/../advanced_topics/contract_finalize.html">Contract finalization section</a>
 provides more details on that.</p>
 <h2 id="instantiating-our-application"><a class="header" href="#instantiating-our-application">Instantiating our Application</a></h2>
 <p>The first thing that happens when an application is created from a bytecode is
@@ -1574,7 +1576,7 @@ determine where the application will be deployed: either to a local net or to
 the public deployment (i.e. a devnet or a testnet).</p>
 <h2 id="local-net"><a class="header" href="#local-net">Local Net</a></h2>
 <p>To configure the local network, follow the steps in the
-<a href="developers/sdk/../getting_started/hello_linera.html#using-the-initial-test-wallet">Getting Started section</a>.</p>
+<a href="developers/backend/../getting_started/hello_linera.html#using-the-initial-test-wallet">Getting Started section</a>.</p>
 <p>Afterwards, the <code>LINERA_WALLET</code> and the <code>LINERA_STORAGE</code> environment variables
 should be set and can be used in the <code>publish-and-create</code> command to deploy the
 application while also specifying:</p>
@@ -1606,7 +1608,7 @@ specifying:</p>
 </code></pre>
 <h2 id="interacting-with-the-application"><a class="header" href="#interacting-with-the-application">Interacting with the Application</a></h2>
 <p>To interact with the deployed application, a
-<a href="developers/sdk/../core_concepts/node_service.html">node service</a> must be used.</p>
+<a href="developers/backend/../core_concepts/node_service.html">node service</a> must be used.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cross-chain-messages"><a class="header" href="#cross-chain-messages">Cross-Chain Messages</a></h1>
 <p>On Linera, applications are meant to be multi-chain: They are instantiated on
 every chain where they are used. An application has the same application ID and
@@ -1621,7 +1623,7 @@ type in your <code>Contract</code> implementation. To send a message, use the
 made available as an argument to the contract's
 <a href="https://docs.rs/linera-sdk/latest/linera_sdk/trait.Contract.html#tymethod.load"><code>Contract::load</code></a>
 constructor. The runtime is usually stored inside the contract object, as we did
-when <a href="developers/sdk/./contract.html">writing the contract binary</a>. We can then call
+when <a href="developers/backend/./contract.html">writing the contract binary</a>. We can then call
 <a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#prepare_message"><code>ContractRuntime::prepare_message</code></a>
 to start preparing a message, and then <code>send_to</code> to send it to a destination
 chain.</p>
@@ -1912,6 +1914,280 @@ async fn single_chain_test() {
     let state_value = response["value"].as_u64().expect("Failed to get the u64");
     assert_eq!(state_value, final_value);
 }</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="writing-linera-application-frontends"><a class="header" href="#writing-linera-application-frontends">Writing Linera application frontends</a></h1>
+<p>Linera comes with a Web client library that supports calling applications using
+a JavaScript API directly inside Web pages.</p>
+<p>After you complete this section, you'll know how to build interactive frontends
+for Linera applications, taking advantage of Linera's push notifications to
+implement realtime reactivity.</p>
+<p>We're going to be building a frontend for the <code>counter</code> example we covered in
+<a href="developers/backend.html">Writing Application Backends</a>, so make sure to either complete that
+first or deploy the completed application from the <code>linera-protocol</code> <code>examples</code>
+directory and take a note of the resulting application ID.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="frontend-architectural-overview"><a class="header" href="#frontend-architectural-overview">Frontend architectural overview</a></h1>
+<p>The Linera client library is written in Rust. To make it available to Web
+applications, we first compile it to WebAssembly, then wrap it with some
+JavaScript convenience APIs using
+<a href="https://github.com/rustwasm/wasm-bindgen"><code>wasm-bindgen</code></a>. This wrapper will
+first download the client WebAssembly blob, and then forward calls to it, doing
+marshalling as necessary.</p>
+<p>In addition, on the Web some system APIs are provided in the browser as
+JavaScript APIs, so making system calls for these is replaced by FFI calls to
+the equivalent browser APIs. Notably:</p>
+<ul>
+<li>to get the current date/time, we use the JavaScript
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now"><code>Date::now</code></a>
+API</li>
+<li>as our source of cryptographic randomness, we use the
+<a href="https://www.w3.org/TR/WebCryptoAPI/#Crypto-method-getRandomValues">Web Crypto API</a></li>
+<li><a href="https://tokio.rs/">Tokio</a> is replaced by JavaScript promises on the browser
+event loop</li>
+<li>communication with validators over gRPC is replaced with
+<a href="https://grpc.io/docs/platforms/web/basics/">gRPC-Web</a> over the browser
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"><code>fetch</code> API</a></li>
+<li>filesystem access is replaced with
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">IndexedDB</a></li>
+<li>the client is run single-threaded, except for bytecode execution, which uses
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">Web Workers</a></li>
+</ul>
+<p>The architecture for a dApp frontend with the client library embedded can be
+summarized as follows:</p>
+<pre class="mermaid">graph TD
+
+classDef empty fill:none,stroke:none
+
+subgraph &quot;@linera/client (Rust)&quot;
+	linera-web-client[&quot;linera-web-client&quot;]
+	  --&gt; linera-protocol[&quot;linera-protocol&quot;]
+end
+
+subgraph &quot;Browser APIs&quot;
+	linera-protocol --&gt; web-workers-api[&quot;Web Worker API&quot;]
+  linera-protocol --&gt; wasm-api[&quot;WASM API&quot;]
+  linera-protocol --&gt; fetch-api[&quot;Fetch API&quot;]
+  linera-protocol --&gt; crypto-api[&quot;Crypto API&quot;]
+  browser-apis[&quot;. . .&quot;]:::empty
+end
+
+fetch-api &lt;--&gt; network[&quot;Linera network&quot;]@{shape: &quot;lean-r&quot;}
+
+subgraph &quot;Hosted dApp (JS)&quot;
+  hosted-frontend[&quot;Frontend&quot;] --&gt; linera-web-client
+end
+</pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="setting-up-the-frontend-development-environment"><a class="header" href="#setting-up-the-frontend-development-environment">Setting up the frontend development environment</a></h1>
+<h2 id="supported-browsers"><a class="header" href="#supported-browsers">Supported browsers</a></h2>
+<p>The Linera client library is supported by most mainstream browsers at the time
+of writing (Baseline 2023). It does make use of some fairly modern features, so
+if your browser version is too old you may struggle to follow this tutorial.
+Specifically, your browser should support:</p>
+<ul>
+<li><a href="https://caniuse.com/import-maps">import maps</a></li>
+<li><a href="https://caniuse.com/sharedarraybuffer"><code>SharedArrayBuffer</code></a></li>
+<li><a href="https://caniuse.com/wasm-threads">WebAssembly threading primitives</a></li>
+<li><a href="https://caniuse.com/mdn-javascript_operators_await_top_level">top-level <code>await</code></a>
+— this will be used for brevity in the tutorial, but is easy to factor out if
+your browser doesn't support it</li>
+</ul>
+<h2 id="creating-a-basic-html-page"><a class="header" href="#creating-a-basic-html-page">Creating a basic HTML page</a></h2>
+<p>Let's start by creating a simple HTML UI. This page won't connect to Linera yet,
+but we can use it as scaffolding to get our development environment set up.
+We'll call this page <code>index.html</code>, and it will be the only file we need to edit
+to build our frontend.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;title&gt;Counter&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;Chain: &lt;span id="chain-id"&gt;requesting chain…&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;Clicks: &lt;span id="count"&gt;0&lt;/span&gt;&lt;/p&gt;
+    &lt;button id="increment"&gt;Click me!&lt;/button&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="serving-your-frontend"><a class="header" href="#serving-your-frontend">Serving your frontend</a></h2>
+<p>In order to use the JavaScript client API, we will need a Web server. Since we
+use a
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer"><code>SharedArrayBuffer</code></a>
+to share memory between WebAssembly threads, running your frontend from disk
+using a <code>file://</code> URI will not work, as <code>SharedArrayBuffer</code> requires
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated">cross-origin isolation</a>
+for security.</p>
+<p>In this tutorial we'll be using
+<a href="https://github.com/http-party/http-server"><code>http-server</code></a>, but any server will
+do so long as it can set the <code>Cross-Origin-Opener-Policy</code> and
+<code>Cross-Origin-Embedder-Policy</code> headers.</p>
+<p>To use <code>http-server</code>, first ensure you have Node.js installed. On Ubuntu, this
+can be accomplished with:</p>
+<pre><code class="language-shellsession">sudo apt install nodejs
+</code></pre>
+<p>Then, the command</p>
+<pre><code class="language-shellsession">npx http-party/http-server \
+  --header Cross-Origin-Embedder-Policy:require-corp \
+  --header Cross-Origin-Opener-Policy:same-origin
+</code></pre>
+<p>can be used to serve our HTML page on <code>localhost</code>.</p>
+<div id="admonition-info" class="admonition admonish-info" role="note" aria-labelledby="admonition-info-title">
+<div class="admonition-title">
+<div id="admonition-info-title">
+<p>Info</p>
+</div>
+<a class="admonition-anchor-link" href="developers/frontend/setup.html#admonition-info"></a>
+</div>
+<div>
+<p>Note that we use <code>http-party/http-server</code> here to use <code>http-server</code>
+from GitHub.  Writing just <code>http-server</code> will pull the version from
+npm, which at the time of writing is very old and doesn't support
+custom headers.</p>
+</div>
+</div>
+<h2 id="getting-the-client-library"><a class="header" href="#getting-the-client-library">Getting the client library</a></h2>
+<p>The entire Linera client, WebAssembly and all, is published to the Node package
+repository as <a href="https://www.npmjs.com/package/@linera/client"><code>@linera/client</code></a>.
+We'll include it into our <code>node_modules</code> with:</p>
+<pre><code class="language-shellsession">npm install @linera/client@0.14.0
+</code></pre>
+<div id="admonition-a-note-on-bundlers" class="admonition admonish-warning" role="note" aria-labelledby="admonition-a-note-on-bundlers-title">
+<div class="admonition-title">
+<div id="admonition-a-note-on-bundlers-title">
+<p>A note on bundlers</p>
+</div>
+<a class="admonition-anchor-link" href="developers/frontend/setup.html#admonition-a-note-on-bundlers"></a>
+</div>
+<div>
+<p>We're serving our <code>node_modules</code> here, so no bundling step is
+required.  However, if you do choose to bundle your frontend, it is
+important that both the Web worker entry point and the
+<code>@linera/client</code> library itself remain in separate files, with their
+signatures intact, in order for the Web worker to be able to refer to
+them.  For example, if using Vite, make sure to define an extra
+entrypoint for <code>@linera/client</code>, preserve its signature, and exclude
+it from dependency optimization:</p>
+<pre><code class="language-typescript">export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        index: 'index.html',
+        linera: '@linera/client',
+      },
+      preserveEntrySignatures: 'strict',
+    },
+  },
+  optimizeDeps: {
+    exclude: [
+      '@linera/client',
+    ],
+  },
+})
+</code></pre>
+</div>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="interacting-with-linera"><a class="header" href="#interacting-with-linera">Interacting with Linera</a></h1>
+<p>Add a <code>&lt;script type="module"&gt;</code> to your page. The location of this module doesn't
+matter: module scripts are deferred until after page load. This is where we will
+write all the JavaScript necessary to interact with Linera.</p>
+<h2 id="importing-the-linera-client-library"><a class="header" href="#importing-the-linera-client-library">Importing the Linera client library</a></h2>
+<p>To add the Linera client library to your page, put the following import map into
+the <code>&lt;head&gt;</code> of your HTML:</p>
+<pre><code class="language-html">&lt;script type="importmap"&gt;
+  {
+    "imports": {
+      "@linera/client": "./node_modules/@linera/client/dist/linera_web.js"
+    }
+  }
+&lt;/script&gt;
+</code></pre>
+<p>Now the module <code>@linera/client</code> is available for import in your module:</p>
+<pre><code class="language-html">&lt;script type="module"&gt;
+  import * as linera from '@linera/client';
+&lt;/script&gt;
+</code></pre>
+<h2 id="referring-to-the-counter-app"><a class="header" href="#referring-to-the-counter-app">Referring to the counter app</a></h2>
+<p>We'll need the application ID of the counter app deployed on our network of
+choice. This tutorial uses Testnet Babbage, and the following application ID
+refers to a counter app published there:</p>
+<pre><code class="language-javascript">const COUNTER_APP_ID =
+  '2b1a0df8868206a4b7d6c2fdda911e4355d6c0115b896d4947ef8e535ee3c6b8';
+</code></pre>
+<p>If you wish to use a different network or deploy your own backend, you may need
+to change the application ID. So long as it points to an application satisfying
+the counter ABI, the rest of this tutorial will work without modification.</p>
+<h2 id="initialization"><a class="header" href="#initialization">Initialization</a></h2>
+<p>The first thing we need to do to interact with the Linera client library is
+initialize it. This will download the WebAssembly binary, create a new memory
+for it, and initialize the memory.</p>
+<pre><code class="language-javascript">await linera.default();
+</code></pre>
+<h2 id="getting-a-wallet"><a class="header" href="#getting-a-wallet">Getting a wallet</a></h2>
+<p>If you have a wallet file available, you can use the <code>linera.Wallet.fromJson</code>
+function to create a <code>linera.Wallet</code> from it. However, for the purposes of the
+tutorial, we will connect to the Testnet Babbage faucet and create a new wallet
+with a fresh chain owning some tokens. We will also update our <code>#chain-id</code>
+element to let the user know the ID of their new chain.</p>
+<pre><code class="language-javascript">const faucet = await new linera.Faucet(
+  'https://faucet.testnet-babbage.linera.net',
+);
+const wallet = await faucet.createWallet();
+const client = await new linera.Client(wallet);
+document.getElementById('chain-id').innerText = await faucet.claimChain(client);
+</code></pre>
+<h2 id="communicating-with-the-application"><a class="header" href="#communicating-with-the-application">Communicating with the application</a></h2>
+<p>Calling the method <code>client.application(applicationId)</code> will get you an object
+representing the application backend.</p>
+<pre><code class="language-javascript">const backend = await client.frontend().application(COUNTER_APP_ID);
+</code></pre>
+<p>You can query the backend application using the <code>query</code> method, which takes an
+arbitrary string that will be passed to the backend as a request, and returns a
+<code>Promise</code> of the response. We can use this to update our <code>#count</code> element with
+the current value of the counter.</p>
+<pre><code class="language-javascript">async function updateCount() {
+  const response = await backend.query('{ "query": "query { value }" }');
+  document.getElementById('count').innerText = JSON.parse(response).data.value;
+}
+
+updateCount();
+</code></pre>
+<p>The counter application uses GraphQL as its request language. By convention,
+Linera applications accept GraphQL as strings of JSON in the
+<a href="https://www.apollographql.com/docs/apollo-server/v2/requests">Apollo Server POST format</a>,
+but your application is free to accept whatever format it wants.</p>
+<p>GraphQL <code>query</code> operations can be used to inspect the state of the application,
+while <code>mutation</code> operations cause the client to propose new blocks with the
+result of the requested modification. Let's attach an event handler to our
+button that proposes an increment to the counter value.</p>
+<pre><code class="language-javascript">document.getElementById('increment').addEventListener('click', () =&gt; {
+  backend.query('{ "query": "mutation { increment(value: 1) }" }');
+});
+</code></pre>
+<h2 id="notifications-and-reactivity"><a class="header" href="#notifications-and-reactivity">Notifications and reactivity</a></h2>
+<p>If you click the button, the value of the counter will go up, but the UI element
+currently won't change to reflect it. Let's fix that.</p>
+<p>The <code>Client</code> object also supports adding a callback for notifications. This is
+key to Linera's reactivity: if something happens to one of a client's chains,
+this callback will immediately be called with a notification object containing
+information about the event.</p>
+<p>In this case the only updates we're interested in are new blocks, which imply
+that the counter value has changed, so whenever we see a new block let's update
+the counter.</p>
+<pre><code class="language-javascript">client.onNotification(notification =&gt; {
+  if (notification.reason.NewBlock) updateCount();
+});
+</code></pre>
+<p>We're the sole owner of this chain, so the value query is purely local: nobody
+could have updated the chain state but us. In the general case, though, other
+users on other clients could update the chain with new blocks or by sending it
+messages, and we'd get immediately notified in just the same way.</p>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>That's it! In a few lines of code we've implemented an application frontend that
+communicates with the Linera testnet and allows bidirectional communication with
+an application, including realtime updates when the chain state changes.</p>
+<p>A somewhat fleshed-out version of the code from this tutorial can be found in
+the <code>examples/hosted-counter</code> subdirectory of the
+<a href="https://github.com/linera-io/linera-web"><code>linera-web</code> repository</a>, next to some
+more complicated examples. Alternatively, you can
+<a href="https://demos.linera.net/hosted/counter">try it out online</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="advanced-topics"><a class="header" href="#advanced-topics">Advanced Topics</a></h1>
 <p>In this section, we present additional topics related to the Linera protocol.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contract-finalization"><a class="header" href="#contract-finalization">Contract Finalization</a></h1>
@@ -3019,7 +3295,7 @@ empowerment in the new web ecosystem from Consensus 2024.</p>
 
         <script src="elasticlunr-ef4e11c1.min.js"></script>
         <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-8b5bd394.js"></script>
+        <script src="searcher-b074573a.js"></script>
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>

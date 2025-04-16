@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Writing Tests</title>
+        <title>Interactivity</title>
 
 
         <!-- Custom HTML head -->
@@ -29,7 +29,8 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-09d67cbd.css">
+        <link rel="stylesheet" href="../../theme/theme-864c5258.css">
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
@@ -38,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2bdbaa1c.js"></script>
+        <script src="../../toc-8b6b19ac.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -110,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/sdk/testing.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/frontend/interactivity.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -139,95 +140,116 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="writing-tests"><a class="header" href="#writing-tests">Writing Tests</a></h1>
-<p>Linera applications can be tested using normal Rust unit tests or integration
-tests. Unit tests use a mock runtime for execution, so it's useful for testing
-the application as if it were running by itself on a single chain. Integration
-tests use a simulated validator for testing. This allows creating chains and
-adding blocks to them in order to test interactions between multiple microchains
-and multiple applications.</p>
-<p>Applications should consider having both types of tests. Unit tests should be
-used to focus on the application's internals and core functionality. Integration
-tests should be used to test how the application behaves on a more complex
-environment that's closer to the real network. Both types of test are running in
-native Rust.</p>
-<blockquote>
-<p>For Rust tests, the <code>cargo test</code> command can be used to run both the unit and
-integration tests.</p>
-</blockquote>
-<h2 id="unit-tests"><a class="header" href="#unit-tests">Unit tests</a></h2>
-<p>Unit tests are written beside the application's source code (i.e., inside the
-<code>src</code> directory of the project). The main purpose of a unit test is to test
-parts of the application in an isolated environment. Anything that's external is
-usually mocked. When the <code>linera-sdk</code> is compiled with the <code>test</code> feature
-enabled, the <code>ContractRuntime</code> and <code>SystemRuntime</code> types are actually mock
-runtimes, and can be configured to return specific values for different tests.</p>
-<h3 id="example"><a class="header" href="#example">Example</a></h3>
-<p>A simple unit test is shown below, which tests if the method <code>execute_operation</code>
-method changes the application state of the <code>Counter</code> application.</p>
-<pre><code class="language-rust ignore">    #[test]
-    fn operation() {
-        let runtime = ContractRuntime::new().with_application_parameters(());
-        let state = Counter::load(runtime.root_view_storage_context())
-            .blocking_wait()
-            .expect("Failed to read from mock key value store");
-        let mut counter = CounterContract { state, runtime };
+                        <h1 id="interacting-with-linera"><a class="header" href="#interacting-with-linera">Interacting with Linera</a></h1>
+<p>Add a <code>&lt;script type="module"&gt;</code> to your page. The location of this module doesn't
+matter: module scripts are deferred until after page load. This is where we will
+write all the JavaScript necessary to interact with Linera.</p>
+<h2 id="importing-the-linera-client-library"><a class="header" href="#importing-the-linera-client-library">Importing the Linera client library</a></h2>
+<p>To add the Linera client library to your page, put the following import map into
+the <code>&lt;head&gt;</code> of your HTML:</p>
+<pre><code class="language-html">&lt;script type="importmap"&gt;
+  {
+    "imports": {
+      "@linera/client": "./node_modules/@linera/client/dist/linera_web.js"
+    }
+  }
+&lt;/script&gt;
+</code></pre>
+<p>Now the module <code>@linera/client</code> is available for import in your module:</p>
+<pre><code class="language-html">&lt;script type="module"&gt;
+  import * as linera from '@linera/client';
+&lt;/script&gt;
+</code></pre>
+<h2 id="referring-to-the-counter-app"><a class="header" href="#referring-to-the-counter-app">Referring to the counter app</a></h2>
+<p>We'll need the application ID of the counter app deployed on our network of
+choice. This tutorial uses Testnet Babbage, and the following application ID
+refers to a counter app published there:</p>
+<pre><code class="language-javascript">const COUNTER_APP_ID =
+  '2b1a0df8868206a4b7d6c2fdda911e4355d6c0115b896d4947ef8e535ee3c6b8';
+</code></pre>
+<p>If you wish to use a different network or deploy your own backend, you may need
+to change the application ID. So long as it points to an application satisfying
+the counter ABI, the rest of this tutorial will work without modification.</p>
+<h2 id="initialization"><a class="header" href="#initialization">Initialization</a></h2>
+<p>The first thing we need to do to interact with the Linera client library is
+initialize it. This will download the WebAssembly binary, create a new memory
+for it, and initialize the memory.</p>
+<pre><code class="language-javascript">await linera.default();
+</code></pre>
+<h2 id="getting-a-wallet"><a class="header" href="#getting-a-wallet">Getting a wallet</a></h2>
+<p>If you have a wallet file available, you can use the <code>linera.Wallet.fromJson</code>
+function to create a <code>linera.Wallet</code> from it. However, for the purposes of the
+tutorial, we will connect to the Testnet Babbage faucet and create a new wallet
+with a fresh chain owning some tokens. We will also update our <code>#chain-id</code>
+element to let the user know the ID of their new chain.</p>
+<pre><code class="language-javascript">const faucet = await new linera.Faucet(
+  'https://faucet.testnet-babbage.linera.net',
+);
+const wallet = await faucet.createWallet();
+const client = await new linera.Client(wallet);
+document.getElementById('chain-id').innerText = await faucet.claimChain(client);
+</code></pre>
+<h2 id="communicating-with-the-application"><a class="header" href="#communicating-with-the-application">Communicating with the application</a></h2>
+<p>Calling the method <code>client.application(applicationId)</code> will get you an object
+representing the application backend.</p>
+<pre><code class="language-javascript">const backend = await client.frontend().application(COUNTER_APP_ID);
+</code></pre>
+<p>You can query the backend application using the <code>query</code> method, which takes an
+arbitrary string that will be passed to the backend as a request, and returns a
+<code>Promise</code> of the response. We can use this to update our <code>#count</code> element with
+the current value of the counter.</p>
+<pre><code class="language-javascript">async function updateCount() {
+  const response = await backend.query('{ "query": "query { value }" }');
+  document.getElementById('count').innerText = JSON.parse(response).data.value;
+}
 
-        let initial_value = 72_u64;
-        counter
-            .instantiate(initial_value)
-            .now_or_never()
-            .expect("Initialization of counter state should not await anything");
-
-        let increment = 42_308_u64;
-        let response = counter
-            .execute_operation(increment)
-            .now_or_never()
-            .expect("Execution of counter operation should not await anything");
-
-        let expected_value = initial_value + increment;
-
-        assert_eq!(response, expected_value);
-        assert_eq!(*counter.state.value.get(), initial_value + increment);
-    }</code></pre>
-<h2 id="integration-tests"><a class="header" href="#integration-tests">Integration Tests</a></h2>
-<p>Integration tests are usually written separately from the application's source
-code (i.e., inside a <code>tests</code> directory that's beside the <code>src</code> directory).</p>
-<p>Integration tests use the helper types from <code>linera_sdk::test</code> to set up a
-simulated Linera network, and publish blocks to microchains in order to execute
-the application.</p>
-<h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
-<p>A simple integration test that execution a block containing an operation for the
-<code>Counter</code> application is shown below.</p>
-<pre><code class="language-rust ignore">#[tokio::test(flavor = "multi_thread")]
-async fn single_chain_test() {
-    let (validator, bytecode_id) =
-        TestValidator::with_current_bytecode::&lt;counter::CounterAbi, (), u64&gt;().await;
-    let mut chain = validator.new_chain().await;
-
-    let initial_state = 42u64;
-    let application_id = chain
-        .create_application(bytecode_id, (), initial_state, vec![])
-        .await;
-
-    let increment = 15u64;
-    chain
-        .add_block(|block| {
-            block.with_operation(application_id, increment);
-        })
-        .await;
-
-    let final_value = initial_state + increment;
-    let response = chain.graphql_query(application_id, "query { value }").await;
-    let state_value = response["value"].as_u64().expect("Failed to get the u64");
-    assert_eq!(state_value, final_value);
-}</code></pre>
+updateCount();
+</code></pre>
+<p>The counter application uses GraphQL as its request language. By convention,
+Linera applications accept GraphQL as strings of JSON in the
+<a href="https://www.apollographql.com/docs/apollo-server/v2/requests">Apollo Server POST format</a>,
+but your application is free to accept whatever format it wants.</p>
+<p>GraphQL <code>query</code> operations can be used to inspect the state of the application,
+while <code>mutation</code> operations cause the client to propose new blocks with the
+result of the requested modification. Let's attach an event handler to our
+button that proposes an increment to the counter value.</p>
+<pre><code class="language-javascript">document.getElementById('increment').addEventListener('click', () =&gt; {
+  backend.query('{ "query": "mutation { increment(value: 1) }" }');
+});
+</code></pre>
+<h2 id="notifications-and-reactivity"><a class="header" href="#notifications-and-reactivity">Notifications and reactivity</a></h2>
+<p>If you click the button, the value of the counter will go up, but the UI element
+currently won't change to reflect it. Let's fix that.</p>
+<p>The <code>Client</code> object also supports adding a callback for notifications. This is
+key to Linera's reactivity: if something happens to one of a client's chains,
+this callback will immediately be called with a notification object containing
+information about the event.</p>
+<p>In this case the only updates we're interested in are new blocks, which imply
+that the counter value has changed, so whenever we see a new block let's update
+the counter.</p>
+<pre><code class="language-javascript">client.onNotification(notification =&gt; {
+  if (notification.reason.NewBlock) updateCount();
+});
+</code></pre>
+<p>We're the sole owner of this chain, so the value query is purely local: nobody
+could have updated the chain state but us. In the general case, though, other
+users on other clients could update the chain with new blocks or by sending it
+messages, and we'd get immediately notified in just the same way.</p>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>That's it! In a few lines of code we've implemented an application frontend that
+communicates with the Linera testnet and allows bidirectional communication with
+an application, including realtime updates when the chain state changes.</p>
+<p>A somewhat fleshed-out version of the code from this tutorial can be found in
+the <code>examples/hosted-counter</code> subdirectory of the
+<a href="https://github.com/linera-io/linera-web"><code>linera-web</code> repository</a>, next to some
+more complicated examples. Alternatively, you can
+<a href="https://demos.linera.net/hosted/counter">try it out online</a>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/sdk/logging.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/frontend/setup.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -241,7 +263,7 @@ async fn single_chain_test() {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/sdk/logging.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/frontend/setup.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
@@ -262,7 +284,7 @@ async fn single_chain_test() {
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../../searcher-b074573a.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>

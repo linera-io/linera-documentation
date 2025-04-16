@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Applications that Handle Assets</title>
+        <title>Writing Tests</title>
 
 
         <!-- Custom HTML head -->
@@ -111,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/advanced_topics/assets.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/backend/testing.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -140,56 +140,99 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="applications-that-handle-assets"><a class="header" href="#applications-that-handle-assets">Applications that Handle Assets</a></h1>
-<p>In general, if you send tokens to a chain owned by someone else, you rely on
-them for asset availability: if they don't handle your messages, you don't have
-access to your tokens.</p>
-<p>Fortunately, Linera provides a solution based on temporary chains: if the number
-of parties who want to participate is limited and known in advance, we can:</p>
-<ul>
-<li>make them all chain owners using the <code>linera change-ownership</code> command,</li>
-<li>allow only one application's operations on the chain,</li>
-<li>and allow only that operation to close the chain, using
-<code>linera change-application-permissions</code>.</li>
-</ul>
-<p>Such an application should have a designated operation or message that causes it
-to close the chain: when that operation is executed, it should send back all
-remaining assets, and call the runtime's <code>close_chain</code> method.</p>
-<p>Once the chain is closed, owners can still create blocks to reject messages.
-That way, even assets that are in flight can be returned.</p>
-<p>The
-<a href="https://github.com/linera-io/linera-protocol/tree/main/examples/matching-engine"><code>matching-engine</code> example application</a>
-does this:</p>
-<pre><code class="language-rust ignore">    async fn execute_operation(&amp;mut self, operation: Operation) -&gt; Self::Response {
-        match operation {
-            // ...
-            Operation::CloseChain =&gt; {
-                for order_id in self.state.orders.indices().await.unwrap() {
-                    match self.modify_order(order_id, ModifyAmount::All).await {
-                        Some(transfer) =&gt; self.send_to(transfer),
-                        // Orders with amount zero may have been cleared in an earlier iteration.
-                        None =&gt; continue,
-                    }
-                }
-                self.runtime
-                    .close_chain()
-                    .expect("The application does not have permissions to close the chain.");
-            }
-        }
+                        <h1 id="writing-tests"><a class="header" href="#writing-tests">Writing Tests</a></h1>
+<p>Linera applications can be tested using normal Rust unit tests or integration
+tests. Unit tests use a mock runtime for execution, so it's useful for testing
+the application as if it were running by itself on a single chain. Integration
+tests use a simulated validator for testing. This allows creating chains and
+adding blocks to them in order to test interactions between multiple microchains
+and multiple applications.</p>
+<p>Applications should consider having both types of tests. Unit tests should be
+used to focus on the application's internals and core functionality. Integration
+tests should be used to test how the application behaves on a more complex
+environment that's closer to the real network. Both types of test are running in
+native Rust.</p>
+<blockquote>
+<p>For Rust tests, the <code>cargo test</code> command can be used to run both the unit and
+integration tests.</p>
+</blockquote>
+<h2 id="unit-tests"><a class="header" href="#unit-tests">Unit tests</a></h2>
+<p>Unit tests are written beside the application's source code (i.e., inside the
+<code>src</code> directory of the project). The main purpose of a unit test is to test
+parts of the application in an isolated environment. Anything that's external is
+usually mocked. When the <code>linera-sdk</code> is compiled with the <code>test</code> feature
+enabled, the <code>ContractRuntime</code> and <code>SystemRuntime</code> types are actually mock
+runtimes, and can be configured to return specific values for different tests.</p>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
+<p>A simple unit test is shown below, which tests if the method <code>execute_operation</code>
+method changes the application state of the <code>Counter</code> application.</p>
+<pre><code class="language-rust ignore">    #[test]
+    fn operation() {
+        let runtime = ContractRuntime::new().with_application_parameters(());
+        let state = Counter::load(runtime.root_view_storage_context())
+            .blocking_wait()
+            .expect("Failed to read from mock key value store");
+        let mut counter = CounterContract { state, runtime };
+
+        let initial_value = 72_u64;
+        counter
+            .instantiate(initial_value)
+            .now_or_never()
+            .expect("Initialization of counter state should not await anything");
+
+        let increment = 42_308_u64;
+        let response = counter
+            .execute_operation(increment)
+            .now_or_never()
+            .expect("Execution of counter operation should not await anything");
+
+        let expected_value = initial_value + increment;
+
+        assert_eq!(response, expected_value);
+        assert_eq!(*counter.state.value.get(), initial_value + increment);
     }</code></pre>
-<p>This enables doing atomic swaps using the Matching Engine: if you make a bid,
-you are guaranteed that at any point in time you can get back either the tokens
-you are offering or the tokens you bought.</p>
+<h2 id="integration-tests"><a class="header" href="#integration-tests">Integration Tests</a></h2>
+<p>Integration tests are usually written separately from the application's source
+code (i.e., inside a <code>tests</code> directory that's beside the <code>src</code> directory).</p>
+<p>Integration tests use the helper types from <code>linera_sdk::test</code> to set up a
+simulated Linera network, and publish blocks to microchains in order to execute
+the application.</p>
+<h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
+<p>A simple integration test that execution a block containing an operation for the
+<code>Counter</code> application is shown below.</p>
+<pre><code class="language-rust ignore">#[tokio::test(flavor = "multi_thread")]
+async fn single_chain_test() {
+    let (validator, bytecode_id) =
+        TestValidator::with_current_bytecode::&lt;counter::CounterAbi, (), u64&gt;().await;
+    let mut chain = validator.new_chain().await;
+
+    let initial_state = 42u64;
+    let application_id = chain
+        .create_application(bytecode_id, (), initial_state, vec![])
+        .await;
+
+    let increment = 15u64;
+    chain
+        .add_block(|block| {
+            block.with_operation(application_id, increment);
+        })
+        .await;
+
+    let final_value = initial_state + increment;
+    let response = chain.graphql_query(application_id, "query { value }").await;
+    let state_value = response["value"].as_u64().expect("Failed to get the u64");
+    assert_eq!(state_value, final_value);
+}</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/advanced_topics/block_creation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/backend/logging.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/experimental.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/frontend.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -199,11 +242,11 @@ you are offering or the tokens you bought.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/advanced_topics/block_creation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/backend/logging.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/experimental.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/frontend.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

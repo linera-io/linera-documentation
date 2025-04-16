@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Using Data Blobs</title>
+        <title>Printing Logs from an Application</title>
 
 
         <!-- Custom HTML head -->
@@ -29,7 +29,8 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-09d67cbd.css">
+        <link rel="stylesheet" href="../../theme/theme-864c5258.css">
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
@@ -38,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2bdbaa1c.js"></script>
+        <script src="../../toc-8b6b19ac.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -110,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/sdk/blobs.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/backend/logging.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -139,40 +140,30 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="using-data-blobs"><a class="header" href="#using-data-blobs">Using Data Blobs</a></h1>
-<p>Some applications may want to use static assets, like images or other data: e.g.
-the <code>non-fungible</code> example application implements NFTs, and each NFT has an
-associated image.</p>
-<p>Data blobs are pieces of binary data that, once published on <em>any</em> chain, can be
-used on <em>all</em> chains. What format they are in and what they are used for is
-determined by the application(s) that read(s) them.</p>
-<p>You can use the <code>linera publish-data-blob</code> command to publish the contents of a
-file, as an operation in a block on one of your chains. This will print the ID
-of the new blob, including its hash. Alternatively, you can run <code>linera service</code>
-and use the <code>publishDataBlob</code> GraphQL mutation.</p>
-<p>Applications can now use <code>runtime.read_data_blob(blob_hash)</code> to read the blob.
-This works on any chain, not only the one that published it. The first time your
-client executes a block reading a blob, it will download the blob from the
-validators if it doesn't already have it locally.</p>
-<p>In the case of the NFT app, it is only the service, not the contract, that
-actually uses the blob data to display it as an image in the frontend. But we
-still want to make sure that the user has the image locally as soon as they
-receive an NFT, even if they don't view it yet. This can be achieved by calling
-<code>runtime.assert_data_blob_exists(blob_hash)</code> in the contract: It will make sure
-the data is available, without actually loading it.</p>
-<p>For the complete code please take a look at the <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/non-fungible/src/contract.rs"><code>non-fungible</code>
-contract</a>
-and <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/non-fungible/src/service.rs">service</a>.</p>
+                        <h1 id="printing-logs-from-an-application"><a class="header" href="#printing-logs-from-an-application">Printing Logs from an Application</a></h1>
+<p>Applications can use the <a href="https://crates.io/crates/log"><code>log</code> crate</a> to print
+log messages with different levels of importance. Log messages are useful during
+development, but they may also be useful for end users. By default the
+<code>linera service</code> command will log the messages from an application if they are
+of the "info" importance level or higher (briefly, <code>log::info!</code>, <code>log::warn!</code>
+and <code>log::error!</code>).</p>
+<p>During development it is often useful to log messages of lower importance (such
+as <code>log::debug!</code> and <code>log::trace!</code>). To enable them, the <code>RUST_LOG</code> environment
+variable must be set before running <code>linera service</code>. The example below enables
+trace level messages from applications and enables warning level messages from
+other parts of the <code>linera</code> binary:</p>
+<pre><code class="language-ignore">export RUST_LOG="warn,linera_execution::wasm=trace"
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/sdk/composition.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/backend/blobs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/sdk/logging.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/backend/testing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -182,11 +173,11 @@ and <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/sdk/composition.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/backend/blobs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/sdk/logging.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/backend/testing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -203,7 +194,7 @@ and <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../../searcher-b074573a.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>

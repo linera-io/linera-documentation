@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Calling other Applications</title>
+        <title>Cross-Chain Messages</title>
 
 
         <!-- Custom HTML head -->
@@ -29,7 +29,8 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-09d67cbd.css">
+        <link rel="stylesheet" href="../../theme/theme-864c5258.css">
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
@@ -38,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2bdbaa1c.js"></script>
+        <script src="../../toc-8b6b19ac.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -110,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/sdk/composition.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/backend/messages.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -139,96 +140,120 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="calling-other-applications"><a class="header" href="#calling-other-applications">Calling other Applications</a></h1>
-<p>We have seen that cross-chain messages sent by an application on one chain are
-always handled by the <em>same</em> application on the target chain.</p>
-<p>This section is about calling other applications using <em>cross-application
-calls</em>.</p>
-<p>Such calls happen on the same chain and are made with the helper method
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#call_application"><code>ContractRuntime::call_application</code></a>:</p>
-<pre><code class="language-rust ignore">    pub fn call_application&lt;A: ContractAbi + Send&gt;(
+                        <h1 id="cross-chain-messages"><a class="header" href="#cross-chain-messages">Cross-Chain Messages</a></h1>
+<p>On Linera, applications are meant to be multi-chain: They are instantiated on
+every chain where they are used. An application has the same application ID and
+bytecode everywhere, but a separate state on every chain. To coordinate, the
+instances can send <em>cross-chain messages</em> to each other. A message sent by an
+application is always handled by the <em>same</em> application on the target chain: The
+handling code is guaranteed to be the same as the sending code, but the state
+may be different.</p>
+<p>For your application, you can specify any serializable type as the <code>Message</code>
+type in your <code>Contract</code> implementation. To send a message, use the
+<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html"><code>ContractRuntime</code></a>
+made available as an argument to the contract's
+<a href="https://docs.rs/linera-sdk/latest/linera_sdk/trait.Contract.html#tymethod.load"><code>Contract::load</code></a>
+constructor. The runtime is usually stored inside the contract object, as we did
+when <a href="./contract.html">writing the contract binary</a>. We can then call
+<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#prepare_message"><code>ContractRuntime::prepare_message</code></a>
+to start preparing a message, and then <code>send_to</code> to send it to a destination
+chain.</p>
+<pre><code class="language-rust ignore">    self.runtime
+        .prepare_message(message_contents)
+        .send_to(destination_chain_id);</code></pre>
+<p>It is also possible to send a message to a subscription channel, so that the
+message is forwarded to the subscribers of that channel. All that has to be done
+is specify a
+<a href="https://docs.rs/linera-base/latest/linera_base/identifiers/struct.ChannelName.html"><code>ChannelName</code></a>
+as the destination parameter to <code>send_to</code>.</p>
+<p>After block execution in the <em>sending</em> chain, sent messages are placed in the
+<em>target</em> chains' inboxes for processing. There is no guarantee that it will be
+handled: For this to happen, an owner of the target chain needs to include it in
+the <code>incoming_messages</code> in one of their blocks. When that happens, the
+contract's <code>execute_message</code> method gets called on their chain.</p>
+<p>While preparing the message to be sent, it is possible to enable authentication
+forwarding and/or tracking. Authentication forwarding means that the message is
+executed by the receiver with the same authenticated signer as the sender of the
+message, while tracking means that the message is sent back to the sender if the
+receiver rejects it. The example below enables both flags:</p>
+<pre><code class="language-rust ignore">    self.runtime
+        .prepare_message(message_contents)
+        .with_tracking()
+        .with_authentication()
+        .send_to(destination_chain_id);</code></pre>
+<h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: Fungible Token</a></h2>
+<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/5306496ef75d5f7c7385abbead1219483a9632bd/examples/fungible"><code>fungible</code> example
+application</a>, such a message
+can be the transfer of tokens from one chain to another. If the sender includes
+a <code>Transfer</code> operation on their chain, it decreases their account balance and
+sends a <code>Credit</code> message to the recipient's chain:</p>
+<pre><code class="language-rust ignore">async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response {
+        match operation {
+            Operation::Transfer {
+                owner,
+                amount,
+                target_account,
+            } =&gt; {
+                self.check_account_authentication(owner);
+                self.state.debit(owner, amount).await;
+                self.finish_transfer_to_account(amount, target_account, owner)
+                    .await;
+                FungibleResponse::Ok
+            }
+            // ...
+        }
+}</code></pre>
+<pre><code class="language-rust ignore">    /// Executes the final step of a transfer where the tokens are sent to the destination.
+    async fn finish_transfer_to_account(
         &amp;mut self,
-        authenticated: bool,
-        application: ApplicationId&lt;A&gt;,
-        call: &amp;A::Operation,
-    ) -&gt; A::Response</code></pre>
-<p>The <code>authenticated</code> argument specifies whether the callee is allowed to perform
-actions that require authentication either</p>
-<ul>
-<li>on behalf of the signer of the original block that caused this call, or</li>
-<li>on behalf of the calling application.</li>
-</ul>
-<p>The <code>application</code> argument is the callee's application ID, and <code>A</code> is the
-callee's ABI.</p>
-<p>The <code>call</code> argument is the operation requested by the application call.</p>
-<h2 id="example-crowd-funding"><a class="header" href="#example-crowd-funding">Example: Crowd-Funding</a></h2>
-<p>The <code>crowd-funding</code> example application allows the application creator to launch
-a campaign with a funding target. That target can be an amount specified in any
-type of token based on the <code>fungible</code> application. Others can then pledge tokens
-of that type to the campaign, and if the target is not reached by the deadline,
-they are refunded.</p>
-<p>If Alice used the <code>fungible</code> example to create a Pugecoin application (with an
-impressionable pug as its mascot), then Bob can create a <code>crowd-funding</code>
-application, use Pugecoin's application ID as <code>CrowdFundingAbi::Parameters</code>, and
-specify in <code>CrowdFundingAbi::InstantiationArgument</code> that his campaign will run
-for one week and has a target of 1000 Pugecoins.</p>
-<p>Now let's say Carol wants to pledge 10 Pugecoin tokens to Bob's campaign.</p>
-<p>First she needs to make sure she has his crowd-funding application on her chain,
-e.g. using the <code>linera request-application</code> command. This will automatically
-also register Alice's Pugecoin application on her chain, because it is a
-dependency of Bob's.</p>
-<p>Now she can make her pledge by running the <code>linera service</code> and making a query
-to Bob's application:</p>
-<pre><code class="language-json">mutation { pledge(owner: "User:841…6c0", amount: "10") }
-</code></pre>
-<p>This will add a block to Carol's chain containing the pledge operation that gets
-handled by <code>CrowdFunding::execute_operation</code>, resulting in one cross-application
-call and two cross-chain messages:</p>
-<p>First <code>CrowdFunding::execute_operation</code> calls the <code>fungible</code> application on
-Carol's chain to transfer 10 tokens to Carol's account on Bob's chain:</p>
-<pre><code class="language-rust ignore">// ...
-let call = fungible::Operation::Transfer {
-    owner,
-    amount,
-    target_account,
-};
-// ...
-self.runtime
-    .call_application(/* authenticated by owner */ true, fungible_id, &amp;call);</code></pre>
-<p>This causes <code>Fungible::execute_operation</code> to be run, which will create a
-cross-chain message sending the amount 10 to the Pugecoin application instance
-on Bob's chain.</p>
-<p>After the cross-application call returns, <code>CrowdFunding::execute_operation</code>
-continues to create another cross-chain message
-<code>crowd_funding::Message::PledgeWithAccount</code>, which informs the crowd-funding
-application on Bob's chain that the 10 tokens are meant for the campaign.</p>
-<p>When Bob now adds a block to his chain that handles the two incoming messages,
-first <code>Fungible::execute_message</code> gets executed, and then
-<code>CrowdFunding::execute_message</code>. The latter makes another cross-application call
-to transfer the 10 tokens from Carol's account to the crowd-funding
-application's account (both on Bob's chain). That is successful because Carol
-does now have 10 tokens on this chain and she authenticated the transfer
-indirectly by signing her block. The crowd-funding application now makes a note
-in its application state on Bob's chain that Carol has pledged 10 Pugecoin
-tokens.</p>
-<h1 id="references"><a class="header" href="#references">References</a></h1>
-<p>For the complete code, please take a look at the
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a>
-and the
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/fungible/src/contract.rs"><code>fungible</code></a>
-application contracts in the <code>examples</code> folder in <code>linera-protocol</code>.</p>
-<p>The implementation of the Runtime made available to contracts is defined in
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-sdk/src/contract/runtime.rs">this file</a>.</p>
+        amount: Amount,
+        target_account: Account,
+        source: AccountOwner,
+    ) {
+        if target_account.chain_id == self.runtime.chain_id() {
+            self.state.credit(target_account.owner, amount).await;
+        } else {
+            let message = Message::Credit {
+                target: target_account.owner,
+                amount,
+                source,
+            };
+            self.runtime
+                .prepare_message(message)
+                .with_authentication()
+                .with_tracking()
+                .send_to(target_account.chain_id);
+        }
+    }</code></pre>
+<p>On the recipient's chain, <code>execute_message</code> is called, which increases their
+account balance.</p>
+<pre><code class="language-rust ignore">    async fn execute_message(&amp;mut self, message: Message) {
+        match message {
+            Message::Credit {
+                amount,
+                target,
+                source,
+            } =&gt; {
+                let is_bouncing = self
+                    .runtime
+                    .message_is_bouncing()
+                    .expect("Delivery status is available when executing a message");
+                let receiver = if is_bouncing { source } else { target };
+                self.state.credit(receiver, amount).await;
+            }
+            // ...
+        }
+    }</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/sdk/messages.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/backend/deploy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/sdk/blobs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/backend/composition.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -238,11 +263,11 @@ application contracts in the <code>examples</code> folder in <code>linera-protoc
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/sdk/messages.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/backend/deploy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/sdk/blobs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/backend/composition.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -259,7 +284,7 @@ application contracts in the <code>examples</code> folder in <code>linera-protoc
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../../searcher-b074573a.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>

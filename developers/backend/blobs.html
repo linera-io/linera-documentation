@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Creating a Project</title>
+        <title>Using Data Blobs</title>
 
 
         <!-- Custom HTML head -->
@@ -29,7 +29,8 @@
         <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/theme-09d67cbd.css">
+        <link rel="stylesheet" href="../../theme/theme-864c5258.css">
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
@@ -38,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2bdbaa1c.js"></script>
+        <script src="../../toc-8b6b19ac.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -110,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/sdk/creating_a_project.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/backend/blobs.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -139,39 +140,40 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="creating-a-linera-project"><a class="header" href="#creating-a-linera-project">Creating a Linera Project</a></h1>
-<p>To create your Linera project, use the <code>linera project new</code> command. The command
-should be executed outside the <code>linera-protocol</code> folder. It sets up the
-scaffolding and requisite files:</p>
-<pre><code class="language-bash">linera project new my-counter
-</code></pre>
-<p><code>linera project new</code> bootstraps your project by creating the following key
-files:</p>
-<ul>
-<li><code>Cargo.toml</code>: your project's manifest filled with the necessary dependencies
-to create an app;</li>
-<li><code>src/lib.rs</code>: the application's ABI definition;</li>
-<li><code>src/state.rs</code>: the application's state;</li>
-<li><code>src/contract.rs</code>: the application's contract, and the binary target for the
-contract bytecode;</li>
-<li><code>src/service.rs</code>: the application's service, and the binary target for the
-service bytecode.</li>
-</ul>
-<blockquote>
-<p>When writing Linera applications it is a convention to use your app's name as
-a prefix for names of <code>trait</code>, <code>struct</code>, etc. Hence, in the following manual,
-we will use <code>CounterContract</code>, <code>CounterService</code>, etc.</p>
-</blockquote>
+                        <h1 id="using-data-blobs"><a class="header" href="#using-data-blobs">Using Data Blobs</a></h1>
+<p>Some applications may want to use static assets, like images or other data: e.g.
+the <code>non-fungible</code> example application implements NFTs, and each NFT has an
+associated image.</p>
+<p>Data blobs are pieces of binary data that, once published on <em>any</em> chain, can be
+used on <em>all</em> chains. What format they are in and what they are used for is
+determined by the application(s) that read(s) them.</p>
+<p>You can use the <code>linera publish-data-blob</code> command to publish the contents of a
+file, as an operation in a block on one of your chains. This will print the ID
+of the new blob, including its hash. Alternatively, you can run <code>linera service</code>
+and use the <code>publishDataBlob</code> GraphQL mutation.</p>
+<p>Applications can now use <code>runtime.read_data_blob(blob_hash)</code> to read the blob.
+This works on any chain, not only the one that published it. The first time your
+client executes a block reading a blob, it will download the blob from the
+validators if it doesn't already have it locally.</p>
+<p>In the case of the NFT app, it is only the service, not the contract, that
+actually uses the blob data to display it as an image in the frontend. But we
+still want to make sure that the user has the image locally as soon as they
+receive an NFT, even if they don't view it yet. This can be achieved by calling
+<code>runtime.assert_data_blob_exists(blob_hash)</code> in the contract: It will make sure
+the data is available, without actually loading it.</p>
+<p>For the complete code please take a look at the <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/non-fungible/src/contract.rs"><code>non-fungible</code>
+contract</a>
+and <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/non-fungible/src/service.rs">service</a>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/sdk.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/backend/composition.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/sdk/state.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/backend/logging.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -181,11 +183,11 @@ we will use <code>CounterContract</code>, <code>CounterService</code>, etc.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/sdk.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/backend/composition.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/sdk/state.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/backend/logging.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -202,7 +204,7 @@ we will use <code>CounterContract</code>, <code>CounterService</code>, etc.</p>
 
         <script src="../../elasticlunr-ef4e11c1.min.js"></script>
         <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-8b5bd394.js"></script>
+        <script src="../../searcher-b074573a.js"></script>
 
         <script src="../../clipboard-1626706a.min.js"></script>
         <script src="../../highlight-abc7f01d.js"></script>
