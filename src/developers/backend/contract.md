@@ -16,7 +16,7 @@ a time.
 For this application, we'll be using the `load`, `execute_operation` and `store`
 methods.
 
-## The Contract Lifecycle
+## The contract lifecycle
 
 To implement the application contract, we first create a type for the contract:
 
@@ -75,7 +75,7 @@ using its instantiation parameters:
 {{#include ../../../linera-protocol/examples/counter/src/contract.rs:instantiate}}
 ```
 
-## Implementing the Increment Operation
+## Implementing the increment operation
 
 Now that we have our counter's state and a way to initialize it to any value we
 would like, we need a way to increment our counter's value. Execution requests

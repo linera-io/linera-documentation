@@ -34,7 +34,7 @@ method changes the application state of the `Counter` application.
 {{#include ../../../linera-protocol/examples/counter/src/contract.rs:counter_test}}
 ```
 
-## Integration Tests
+## Integration tests
 
 Integration tests are usually written separately from the application's source
 code (i.e., inside a `tests` directory that's beside the `src` directory).

@@ -20,7 +20,7 @@ important specificities:
   configuration of a chain. Specifically, microchains can be _single-owner_,
   _multi-owner_, or _public_, depending on who is authorized to propose blocks.
 
-## Cross-Chain Messaging
+## Cross-chain messaging
 
 In traditional networks with a single blockchain, every transaction can access
 the application's entire execution state. This is not the case in Linera where
@@ -69,7 +69,7 @@ when proposing the receiver's block. The current implementation of the Linera
 client always selects as many messages as possible from inboxes, and never
 discards messages unless they fail to execute.
 
-## Chain Ownership Semantics
+## Chain ownership semantics
 
 Active chains can have one or multiple owners. Chains with zero owners are
 permanently deactivated.

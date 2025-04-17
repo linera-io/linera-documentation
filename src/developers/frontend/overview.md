@@ -1,4 +1,4 @@
-# Frontend architectural overview
+# Frontend Architecture Overview
 
 The Linera client library is written in Rust. To make it available to Web
 applications, we first compile it to WebAssembly, then wrap it with some

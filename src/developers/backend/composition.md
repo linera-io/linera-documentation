@@ -24,7 +24,7 @@ callee's ABI.
 
 The `call` argument is the operation requested by the application call.
 
-## Example: Crowd-Funding
+## Example: crowd-funding
 
 The `crowd-funding` example application allows the application creator to launch
 a campaign with a funding target. That target can be an amount specified in any

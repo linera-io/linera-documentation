@@ -14,7 +14,7 @@ operations and messages) generally go into the library part of its crate, while
 the core of each application is compiled into binary files for the Wasm
 architecture.
 
-## The Application Deployment Lifecycle
+## The Application deployment lifecycle
 
 Linera Applications are designed to be powerful yet re-usable. For this reason
 there is a distinction between the bytecode and an application instance on the
@@ -41,7 +41,7 @@ linera publish-and-create <contract-path> <service-path> <init-args>
 
 This will publish the bytecode as well as instantiate the application for you.
 
-## Anatomy of an Application
+## Anatomy of an application
 
 An **application** is broken into two major components, the _contract_ and the
 _service_.
@@ -55,7 +55,7 @@ The **service** is non-metered and read-only. It is used primarily to query the
 state of an application and populate the presentation layer (think front-end)
 with the data required for a user interface.
 
-## Operations and Messages
+## Operations and messages
 
 > For this section we'll be using a simplified version of the example
 > application called "fungible" where users can send tokens to each other.
