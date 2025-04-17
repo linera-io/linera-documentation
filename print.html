@@ -2956,11 +2956,11 @@ Specifically the number of events allowed in asynchronous I/O contexts.</p>
 <p>Note: This section was only tested under Linux.</p>
 </blockquote>
 <p>After downloading the <code>linera-protocol</code> repository, and checking out the testnet
-branch <code>testnet_archimedes</code> you can run
+branch <code>testnet_babbage</code> you can run
 <code>scripts/deploy-validator.sh &lt;hostname&gt;</code> to deploy a Linera validator.</p>
 <p>For example:</p>
 <pre><code class="language-bash">$ git fetch origin
-$ git checkout -t origin/testnet_archimedes
+$ git checkout -t origin/testnet_babbage
 $ scripts/deploy-validator.sh linera.mydomain.com --remote-image
 </code></pre>
 <p>The deployment automatically listens for new image updates and will pull them
@@ -2987,7 +2987,7 @@ docker volumes (<code>docker_linera-scylla-data</code> and <code>docker_linera-s
 <h3 id="verifying-installation"><a class="header" href="#verifying-installation">Verifying installation</a></h3>
 <p>To verify the installation, you can use the <code>linera query-validator</code> command.
 For example:</p>
-<pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-archimedes.linera.net
+<pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-babbage.linera.net
 $ linera query-validator grpcs:my-domain.com:443
 
 RPC API hash: kd/Ru73B4ZZjXYkFqqSzoWzqpWi+NX+8IJLXOODjSko
@@ -3011,7 +3011,7 @@ the Docker docs.</p>
 <h3 id="installing-the-linera-toolchain-2"><a class="header" href="#installing-the-linera-toolchain-2">Installing the Linera Toolchain</a></h3>
 <blockquote>
 <p>When installing the Linera Toolchain, you <strong>must</strong> check out the
-<code>testnet_archimedes</code> branch.</p>
+<code>testnet_babbage</code> branch.</p>
 </blockquote>
 <p>To install the Linera Toolchain refer to the
 <a href="operators/testnets/../../developers/getting_started/installation.html#installing-from-github">installation section</a>.</p>
@@ -3048,7 +3048,7 @@ the point of network creation. It is required for validators to function.</p>
 <p>Initially, the genesis configuration for each Testnet will be found in a public
 bucket managed by the Linera Protocol core team.</p>
 <p>An example can be found here:</p>
-<pre><code class="language-bash">wget "https://storage.googleapis.com/linera-io-dev-public/testnet-archimedes/genesis.json"
+<pre><code class="language-bash">wget "https://storage.googleapis.com/linera-io-dev-public/testnet-babbage/genesis.json"
 </code></pre>
 <h3 id="creating-your-keys"><a class="header" href="#creating-your-keys">Creating Your Keys</a></h3>
 <p>Now that the
