@@ -20,7 +20,7 @@ outside the browser. Check candle's
 [examples](https://github.com/huggingface/candle/tree/main/candle-wasm-examples)
 for inspiration on the types of models which are supported.
 
-### Getting Started
+### Getting started
 
 To add ML capabilities to your existing Linera project, you'll need to add the
 `candle-core`, `getrandom`, `rand` and `tokenizers` dependencies to your Linera
@@ -40,7 +40,7 @@ candle-transformers = "0.4.1"
 tokenizers = { git = "https://github.com/christos-h/tokenizers", default-features = false, features = ["unstable_wasm"] }
 ```
 
-### Providing Randomness
+### Providing randomness
 
 ML frameworks use random numbers to perform inference. Linera services run in a
 Wasm VM which does not have access to the OS Rng. For this reason, we need to
@@ -71,7 +71,7 @@ This will enable `candle` and any other crates which rely on `getrandom` access
 to a deterministic RNG. If deterministic behaviour is not desired, the System
 API can be used to seed the RNG from a timestamp.
 
-### Loading the model into the Service
+### Loading the model into the service
 
 Models cannot currently be saved on-chain; for more information see the
 `Limitations` below.
@@ -127,14 +127,14 @@ perform inference in Wasm:
 
 ## Limitations
 
-### Hardware Acceleration
+### Hardware acceleration
 
 Although SIMD instructions _are_ supported by the service runtime, general
 purpose GPU hardware acceleration is
 [not currently supported](https://github.com/linera-io/linera-protocol/issues/1931).
 Therefore, performance in local model inference is degraded for larger models.
 
-### On-Chain Models
+### On-chain models
 
 Due to block-size constraints, models need to be stored off-chain until the
 introduction of the
@@ -142,7 +142,7 @@ introduction of the
 API will enable large binary blobs to be stored on-chain, the correctness and
 availability of which is guaranteed by the validators.
 
-### Maximum Model Size
+### Maximum model size
 
 The maximum size of a model which can be loaded into an application's service is
 currently constrained by:

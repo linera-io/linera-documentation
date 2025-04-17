@@ -1,4 +1,4 @@
-# Setting up the frontend development environment
+# Setting up the Frontend Development Environment
 
 ## Supported browsers
 

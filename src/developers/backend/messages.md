@@ -51,7 +51,7 @@ receiver rejects it. The example below enables both flags:
         .send_to(destination_chain_id);
 ```
 
-## Example: Fungible Token
+## Example: fungible token
 
 In the [`fungible` example
 application](https://github.com/linera-io/linera-protocol/tree/{{#include

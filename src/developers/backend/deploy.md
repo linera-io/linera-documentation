@@ -4,7 +4,7 @@ The first step to deploy your application is to configure a wallet. This will
 determine where the application will be deployed: either to a local net or to
 the public deployment (i.e. a devnet or a testnet).
 
-## Local Net
+## Local network
 
 To configure the local network, follow the steps in the
 [Getting Started section](../getting_started/hello_linera.html#using-the-initial-test-wallet).
@@ -46,7 +46,7 @@ linera publish-and-create \
   --json-argument "42"
 ```
 
-## Interacting with the Application
+## Interacting with the application
 
 To interact with the deployed application, a
 [node service](../core_concepts/node_service.html) must be used.

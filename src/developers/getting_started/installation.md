@@ -4,17 +4,16 @@ Let's start with the installation of the Linera development tools.
 
 ## Overview
 
-The Linera toolchain consists of two crates:
+The Linera toolchain consists of several crates:
 
-- `linera-sdk` is the main library to program Linera applications in Rust.
+- `linera-sdk` is the main library used to program Linera applications in Rust.
 
-- `linera-service` defines a number of binaries, including:
+- `linera-service` defines a number of binaries, notably `linera` the main
+  client tool used to operate developer wallets and start local testing
+  networks.
 
-  - `linera` -- the main client tool, used to operate development wallets,
-  - `linera-proxy` -- the proxy service, acting as a public entrypoint for each
-    validator,
-  - `linera-server` -- the service run by each worker of a validator, hidden
-    behind the proxy.
+- `linera-storage-service` provides a simple database used to run local
+  validator nodes for testing and development purposes.
 
 ## Requirements
 
@@ -59,7 +58,7 @@ You may install the Linera binaries with
 
 ```bash
 cargo install --locked linera-storage-service@{{#include ../../../RELEASE_VERSION}}
-cargo install --locked linera-service@{{#include ../../../RELEASE_VERSION}} --features storage-service
+cargo install --locked linera-service@{{#include ../../../RELEASE_VERSION}}
 ```
 
 and use `linera-sdk` as a library for Linera Wasm applications:
@@ -86,7 +85,7 @@ To install the Linera toolchain locally from source, you may run:
 
 ```bash
 cargo install --locked --path linera-storage-service
-cargo install --locked --path linera-service --features storage-service
+cargo install --locked --path linera-service
 ```
 
 Alternatively, for developing and debugging, you may instead use the binaries
@@ -98,11 +97,6 @@ This manual was tested against the following commit of the
 ```text
 {{#include ../../../.git/modules/linera-protocol/HEAD}}
 ```
-
-## Bash helper (optional)
-
-Consider adding the output of `linera net helper` to your `~/.bash_profile` to
-help with [automation](../core_concepts/wallets.md#automation-in-bash).
 
 ## Getting help
 

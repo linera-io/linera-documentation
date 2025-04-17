@@ -30,7 +30,7 @@ In this case, the struct in `src/state.rs` should be replaced by
 ```rust
 # extern crate linera_sdk;
 # extern crate async_graphql;
-# use linera_sdk::base::*;
+# use linera_sdk::linera_base_types::*;
 # use linera_sdk::*;
 # use std::collections::HashSet;
 # use linera_sdk::views::{linera_views, RegisterView, RootView, ViewStorageContext};
