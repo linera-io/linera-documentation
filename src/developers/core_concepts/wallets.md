@@ -21,7 +21,7 @@ extension.
 The simplest way to obtain a wallet with the `linera` CLI tool is to run the
 following command:
 
-```
+```bash
 linera wallet init --with-new-chain --faucet $FAUCET_URL
 ```
 
