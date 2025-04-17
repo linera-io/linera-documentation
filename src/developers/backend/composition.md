@@ -38,15 +38,9 @@ application, use Pugecoin's application ID as `CrowdFundingAbi::Parameters`, and
 specify in `CrowdFundingAbi::InstantiationArgument` that his campaign will run
 for one week and has a target of 1000 Pugecoins.
 
-Now let's say Carol wants to pledge 10 Pugecoin tokens to Bob's campaign.
-
-First she needs to make sure she has his crowd-funding application on her chain,
-e.g. using the `linera request-application` command. This will automatically
-also register Alice's Pugecoin application on her chain, because it is a
-dependency of Bob's.
-
-Now she can make her pledge by running the `linera service` and making a query
-to Bob's application:
+Now let's say Carol wants to pledge 10 Pugecoin tokens to Bob's campaign. She
+can make her pledge by running the `linera service` and making a query to Bob's
+application:
 
 ```json
 mutation { pledge(owner: "User:841…6c0", amount: "10") }

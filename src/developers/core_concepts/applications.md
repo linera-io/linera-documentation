@@ -189,26 +189,3 @@ With the `Claim` operation, users can store their tokens on another chain where
 they're able to produce blocks or where they trust the owner will produce blocks
 receiving their messages. Only they are able to move their tokens, even on
 chains where ownership is shared or where they are not able to produce blocks.
-
-## Registering an Application across Chains
-
-If Alice is using an application on her chain and starts interacting with Bob
-via the application, e.g. sends him some tokens using the `fungible` example,
-the application automatically gets registered on Bob's chain, too, as soon as he
-handles the incoming cross-chain messages. After that, he can execute the
-application's operations on his chain, too, and e.g. send tokens to someone.
-
-But there are also cases where Bob may want to start using an application he
-doesn't have yet. E.g. maybe Alice regularly makes posts using the `social`
-example, and Bob wants to subscribe to her.
-
-In that case, trying to execute an application-specific operation would fail,
-because the application is not registered on his chain. He needs to request it
-from Alice first:
-
-```bash
-linera request-application <application-id> --target-chain-id <alices-chain-id>
-```
-
-Once Alice processes his message (which happens automatically if she is running
-the client in service mode), he can start using the application.
