@@ -155,7 +155,7 @@ chains.</li>
 </code></pre>
 <p>This will run the node service on port 8080 by default (this can be overridden
 using the <code>--port</code> flag).</p>
-<h2 id="a-note-on-graphql"><a class="header" href="#a-note-on-graphql">A Note on GraphQL</a></h2>
+<h2 id="a-note-on-graphql"><a class="header" href="#a-note-on-graphql">A note on GraphQL</a></h2>
 <p>Linera uses GraphQL as the query language for interfacing with different parts
 of the system. GraphQL enables clients to craft queries such that they receive
 exactly what they want and nothing more.</p>
@@ -169,11 +169,11 @@ GraphiQL start the node service and navigate to <code>localhost:8080/</code>.</p
 <p>Using the schema explorer on the left of the GraphiQL IDE you can dynamically
 explore the state of the system and your applications.</p>
 <p><img src="graphiql.png" alt="graphiql.png" /></p>
-<h2 id="graphql-system-api"><a class="header" href="#graphql-system-api">GraphQL System API</a></h2>
+<h2 id="graphql-system-api"><a class="header" href="#graphql-system-api">GraphQL system API</a></h2>
 <p>The node service also exposes a GraphQL API which corresponds to the set of
 system operations. You can explore the full set of operations by clicking on
 <code>MutationRoot</code>.</p>
-<h2 id="graphql-application-api"><a class="header" href="#graphql-application-api">GraphQL Application API</a></h2>
+<h2 id="graphql-application-api"><a class="header" href="#graphql-application-api">GraphQL application API</a></h2>
 <p>To interact with an application, we run the Linera client in service mode. It
 exposes a GraphQL API for every application running on any owned chain at
 <code>localhost:8080/chains/&lt;chain-id&gt;/applications/&lt;application-id&gt;</code>.</p>

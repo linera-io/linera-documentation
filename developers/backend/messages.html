@@ -181,8 +181,8 @@ receiver rejects it. The example below enables both flags:</p>
         .with_tracking()
         .with_authentication()
         .send_to(destination_chain_id);</code></pre>
-<h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: Fungible Token</a></h2>
-<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/5306496ef75d5f7c7385abbead1219483a9632bd/examples/fungible"><code>fungible</code> example
+<h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: fungible token</a></h2>
+<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/3e867613343b937b4bcdb6994a0c7b459e9d497e/examples/fungible"><code>fungible</code> example
 application</a>, such a message
 can be the transfer of tokens from one chain to another. If the sender includes
 a <code>Transfer</code> operation on their chain, it decreases their account balance and
@@ -194,7 +194,9 @@ sends a <code>Credit</code> message to the recipient's chain:</p>
                 amount,
                 target_account,
             } =&gt; {
-                self.check_account_authentication(owner);
+                self.runtime
+                    .check_account_permission(owner)
+                    .expect("Permission for Transfer operation");
                 self.state.debit(owner, amount).await;
                 self.finish_transfer_to_account(amount, target_account, owner)
                     .await;

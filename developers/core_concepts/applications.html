@@ -152,7 +152,7 @@ the external interfaces of an application (including instantiation parameters,
 operations and messages) generally go into the library part of its crate, while
 the core of each application is compiled into binary files for the Wasm
 architecture.</p>
-<h2 id="the-application-deployment-lifecycle"><a class="header" href="#the-application-deployment-lifecycle">The Application Deployment Lifecycle</a></h2>
+<h2 id="the-application-deployment-lifecycle"><a class="header" href="#the-application-deployment-lifecycle">The Application deployment lifecycle</a></h2>
 <p>Linera Applications are designed to be powerful yet re-usable. For this reason
 there is a distinction between the bytecode and an application instance on the
 network.</p>
@@ -173,7 +173,7 @@ and an application can be published with a single command:</p>
 <pre><code class="language-bash">linera publish-and-create &lt;contract-path&gt; &lt;service-path&gt; &lt;init-args&gt;
 </code></pre>
 <p>This will publish the bytecode as well as instantiate the application for you.</p>
-<h2 id="anatomy-of-an-application"><a class="header" href="#anatomy-of-an-application">Anatomy of an Application</a></h2>
+<h2 id="anatomy-of-an-application"><a class="header" href="#anatomy-of-an-application">Anatomy of an application</a></h2>
 <p>An <strong>application</strong> is broken into two major components, the <em>contract</em> and the
 <em>service</em>.</p>
 <p>The <strong>contract</strong> is gas-metered, and is the part of the application which
@@ -183,7 +183,7 @@ application's state. The details are covered in more depth in the
 <p>The <strong>service</strong> is non-metered and read-only. It is used primarily to query the
 state of an application and populate the presentation layer (think front-end)
 with the data required for a user interface.</p>
-<h2 id="operations-and-messages"><a class="header" href="#operations-and-messages">Operations and Messages</a></h2>
+<h2 id="operations-and-messages"><a class="header" href="#operations-and-messages">Operations and messages</a></h2>
 <blockquote>
 <p>For this section we'll be using a simplified version of the example
 application called "fungible" where users can send tokens to each other.</p>
@@ -202,7 +202,7 @@ to transfer funds to another user would look like this:</p>
 <pre><code class="language-rust"><span class="boring">extern crate serde;
 </span><span class="boring">extern crate linera_sdk;
 </span><span class="boring">use serde::{Deserialize, Serialize};
-</span><span class="boring">use linera_sdk::base::*;
+</span><span class="boring">use linera_sdk::linera_base_types::*;
 </span>#[derive(Debug, Deserialize, Serialize)]
 pub enum Operation {
     /// A transfer from a (locally owned) account to a (possibly remote) account.
@@ -226,7 +226,7 @@ like this:</p>
 <pre><code class="language-rust"><span class="boring">extern crate serde;
 </span><span class="boring">extern crate linera_sdk;
 </span><span class="boring">use serde::{Deserialize, Serialize};
-</span><span class="boring">use linera_sdk::base::*;
+</span><span class="boring">use linera_sdk::linera_base_types::*;
 </span>#[derive(Debug, Deserialize, Serialize)]
 pub enum Message {
     Credit { owner: AccountOwner, amount: Amount },
@@ -298,22 +298,6 @@ anyone able to produce a block.</p>
 they're able to produce blocks or where they trust the owner will produce blocks
 receiving their messages. Only they are able to move their tokens, even on
 chains where ownership is shared or where they are not able to produce blocks.</p>
-<h2 id="registering-an-application-across-chains"><a class="header" href="#registering-an-application-across-chains">Registering an Application across Chains</a></h2>
-<p>If Alice is using an application on her chain and starts interacting with Bob
-via the application, e.g. sends him some tokens using the <code>fungible</code> example,
-the application automatically gets registered on Bob's chain, too, as soon as he
-handles the incoming cross-chain messages. After that, he can execute the
-application's operations on his chain, too, and e.g. send tokens to someone.</p>
-<p>But there are also cases where Bob may want to start using an application he
-doesn't have yet. E.g. maybe Alice regularly makes posts using the <code>social</code>
-example, and Bob wants to subscribe to her.</p>
-<p>In that case, trying to execute an application-specific operation would fail,
-because the application is not registered on his chain. He needs to request it
-from Alice first:</p>
-<pre><code class="language-bash">linera request-application &lt;application-id&gt; --target-chain-id &lt;alices-chain-id&gt;
-</code></pre>
-<p>Once Alice processes his message (which happens automatically if she is running
-the client in service mode), he can start using the application.</p>
 
                     </main>
 

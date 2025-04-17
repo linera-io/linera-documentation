@@ -159,11 +159,13 @@ cross-application call with <code>Operation::EndSession</code> before the transa
 <pre><code class="language-rust edition2021"><span class="boring">extern crate serde;
 </span><span class="boring">extern crate linera_sdk;
 </span><span class="boring">use serde::{Deserialize, Serialize};
-</span><span class="boring">use linera_sdk::base::*;
+</span><span class="boring">use linera_sdk::linera_base_types::*;
 </span><span class="boring">use linera_sdk::*;
+</span><span class="boring">use linera_sdk::abi::*;
 </span><span class="boring">use std::collections::HashSet;
 </span><span class="boring">use linera_sdk::views::{linera_views, RegisterView, RootView, ViewStorageContext};
 </span><span class="boring">use crate::linera_sdk::views::View as _;
+</span><span class="boring">use linera_sdk::linera_base_types::ApplicationId;
 </span>
 #[derive(RootView)]
 #[view(context = "ViewStorageContext")]
@@ -196,6 +198,7 @@ impl Contract for MyContract {
     type Message = ();
     type InstantiationArgument = ();
     type Parameters = ();
+    type EventValue = ();
 
     async fn load(runtime: ContractRuntime&lt;Self&gt;) -&gt; Self {
         let state = MyState::load(runtime.root_view_storage_context())

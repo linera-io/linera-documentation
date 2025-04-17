@@ -159,10 +159,10 @@ new microchain only takes one transaction on an existing chain.</p>
 <p>The task of proposing new blocks in a microchain can be assumed either by
 validators or by end users (or rather their wallets) depending on the
 configuration of a chain. Specifically, microchains can be <em>single-owner</em>,
-<em>multi-user</em>, or <em>public</em>, depending on who is authorized to propose blocks.</p>
+<em>multi-owner</em>, or <em>public</em>, depending on who is authorized to propose blocks.</p>
 </li>
 </ul>
-<h2 id="cross-chain-messaging"><a class="header" href="#cross-chain-messaging">Cross-Chain Messaging</a></h2>
+<h2 id="cross-chain-messaging"><a class="header" href="#cross-chain-messaging">Cross-chain messaging</a></h2>
 <p>In traditional networks with a single blockchain, every transaction can access
 the application's entire execution state. This is not the case in Linera where
 the state of an application is spread across multiple microchains, and the state
@@ -203,7 +203,7 @@ If a selected message fails to execute, the wallet will automatically reject it
 when proposing the receiver's block. The current implementation of the Linera
 client always selects as many messages as possible from inboxes, and never
 discards messages unless they fail to execute.</p>
-<h2 id="chain-ownership-semantics"><a class="header" href="#chain-ownership-semantics">Chain Ownership Semantics</a></h2>
+<h2 id="chain-ownership-semantics"><a class="header" href="#chain-ownership-semantics">Chain ownership semantics</a></h2>
 <p>Active chains can have one or multiple owners. Chains with zero owners are
 permanently deactivated.</p>
 <p>In Linera, the validators guarantee <em>safety</em>: On each chain, at each height,

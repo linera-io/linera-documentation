@@ -143,20 +143,19 @@
                         <h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
 <p>Let's start with the installation of the Linera development tools.</p>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
-<p>The Linera toolchain consists of two crates:</p>
+<p>The Linera toolchain consists of several crates:</p>
 <ul>
 <li>
-<p><code>linera-sdk</code> is the main library to program Linera applications in Rust.</p>
+<p><code>linera-sdk</code> is the main library used to program Linera applications in Rust.</p>
 </li>
 <li>
-<p><code>linera-service</code> defines a number of binaries, including:</p>
-<ul>
-<li><code>linera</code> -- the main client tool, used to operate development wallets,</li>
-<li><code>linera-proxy</code> -- the proxy service, acting as a public entrypoint for each
-validator,</li>
-<li><code>linera-server</code> -- the service run by each worker of a validator, hidden
-behind the proxy.</li>
-</ul>
+<p><code>linera-service</code> defines a number of binaries, notably <code>linera</code> the main
+client tool used to operate developer wallets and start local testing
+networks.</p>
+</li>
+<li>
+<p><code>linera-storage-service</code> provides a simple database used to run local
+validator nodes for testing and development purposes.</p>
 </li>
 </ul>
 <h2 id="requirements"><a class="header" href="#requirements">Requirements</a></h2>
@@ -195,41 +194,38 @@ protocol itself, see the installation section on
 <a href="https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md">GitHub</a>.</p>
 <p>This manual was tested with the following Rust toolchain:</p>
 <pre><code class="language-text">[toolchain]
-channel = "1.81.0"
+channel = "1.85.0"
 components = [ "clippy", "rustfmt", "rust-src" ]
 targets = [ "wasm32-unknown-unknown" ]
 profile = "minimal"
 </code></pre>
 <h2 id="installing-from-cratesio"><a class="header" href="#installing-from-cratesio">Installing from crates.io</a></h2>
 <p>You may install the Linera binaries with</p>
-<pre><code class="language-bash">cargo install --locked linera-storage-service@0.13.1
-cargo install --locked linera-service@0.13.1 --features storage-service
+<pre><code class="language-bash">cargo install --locked linera-storage-service@0.14.0
+cargo install --locked linera-service@0.14.0
 </code></pre>
 <p>and use <code>linera-sdk</code> as a library for Linera Wasm applications:</p>
-<pre><code class="language-bash">cargo add linera-sdk@0.13.1
+<pre><code class="language-bash">cargo add linera-sdk@0.14.0
 </code></pre>
-<p>The version number <code>0.13.1</code> corresponds to the
+<p>The version number <code>0.14.0</code> corresponds to the
 current Testnet of Linera. The minor version may change frequently but should
 not induce breaking changes.</p>
 <h2 id="installing-from-github"><a class="header" href="#installing-from-github">Installing from GitHub</a></h2>
 <p>Download the source from <a href="https://github.com/linera-io/linera-protocol">GitHub</a>:</p>
 <pre><code class="language-bash">git clone https://github.com/linera-io/linera-protocol.git
 cd linera-protocol
-git checkout -t origin/testnet_archimedes  # Current release branch
+git checkout -t origin/testnet_babbage  # Current release branch
 </code></pre>
 <p>To install the Linera toolchain locally from source, you may run:</p>
 <pre><code class="language-bash">cargo install --locked --path linera-storage-service
-cargo install --locked --path linera-service --features storage-service
+cargo install --locked --path linera-service
 </code></pre>
 <p>Alternatively, for developing and debugging, you may instead use the binaries
 compiled in debug mode, e.g. using <code>export PATH="$PWD/target/debug:$PATH"</code>.</p>
 <p>This manual was tested against the following commit of the
 <a href="https://github.com/linera-io/linera-protocol">repository</a>:</p>
-<pre><code class="language-text">5306496ef75d5f7c7385abbead1219483a9632bd
+<pre><code class="language-text">3e867613343b937b4bcdb6994a0c7b459e9d497e
 </code></pre>
-<h2 id="bash-helper-optional"><a class="header" href="#bash-helper-optional">Bash helper (optional)</a></h2>
-<p>Consider adding the output of <code>linera net helper</code> to your <code>~/.bash_profile</code> to
-help with <a href="../core_concepts/wallets.html#automation-in-bash">automation</a>.</p>
 <h2 id="getting-help"><a class="header" href="#getting-help">Getting help</a></h2>
 <p>If installation fails, reach out to the team (e.g. on
 <a href="https://discord.gg/linera">Discord</a>) to help troubleshoot your issue or

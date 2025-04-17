@@ -149,12 +149,20 @@ will see in the <a href="node_service.html">next section</a> how a Linera wallet
 GraphQL service to expose the state of its chains to web frontends.</p>
 <blockquote>
 <p>The command-line tool <code>linera</code> is the main way for developers to interact with
-a Linera network and manage the user wallets present locally on the system.</p>
+a Linera network and manage the developer wallets present locally on the
+system.</p>
 </blockquote>
 <p>Note that this command-line tool is intended mainly for development purposes.
 Our goal is that end users eventually manage their wallets in a browser
 extension.</p>
-<h2 id="selecting-a-wallet"><a class="header" href="#selecting-a-wallet">Selecting a Wallet</a></h2>
+<h2 id="creating-a-developer-wallet"><a class="header" href="#creating-a-developer-wallet">Creating a developer wallet</a></h2>
+<p>The simplest way to obtain a wallet with the <code>linera</code> CLI tool is to run the
+following command:</p>
+<pre><code class="language-bash">linera wallet init --with-new-chain --faucet $FAUCET_URL
+</code></pre>
+<p>where <code>$FAUCET_URL</code> represents the URL of the network's faucet (see
+<a href="../getting_started/hello_linera.html">previous section</a>)</p>
+<h2 id="selecting-a-wallet"><a class="header" href="#selecting-a-wallet">Selecting a wallet</a></h2>
 <p>The private state of a wallet is conventionally stored in a file <code>wallet.json</code>,
 while the state of its node is stored in a file <code>linera.db</code>.</p>
 <p>To switch between wallets, you may use the <code>--wallet</code> and <code>--storage</code> options of
@@ -166,8 +174,8 @@ the <code>linera</code> tool, e.g. as in
 <p>Finally, if <code>LINERA_STORAGE_$I</code> and <code>LINERA_WALLET_$I</code> are defined for some
 number <code>I</code>, you may call <code>linera --with-wallet $I</code> (or <code>linera -w $I</code> for
 short).</p>
-<h2 id="chain-management"><a class="header" href="#chain-management">Chain Management</a></h2>
-<h3 id="listing-chains"><a class="header" href="#listing-chains">Listing Chains</a></h3>
+<h2 id="chain-management"><a class="header" href="#chain-management">Chain management</a></h2>
+<h3 id="listing-chains"><a class="header" href="#listing-chains">Listing chains</a></h3>
 <p>To list the chains present in your wallet, you may use the command <code>show</code>:</p>
 <pre><code class="language-bash">linera wallet show
 ╭──────────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────╮
@@ -190,31 +198,31 @@ short).</p>
 <p>Each row represents a chain present in the wallet. On the left is the unique
 identifier on the chain, and on the right is metadata for that chain associated
 with the latest block.</p>
-<h3 id="default-chain"><a class="header" href="#default-chain">Default Chain</a></h3>
+<h3 id="default-chain"><a class="header" href="#default-chain">Default chain</a></h3>
 <p>Each wallet has a default chain that all commands apply to unless you specify
 another <code>--chain</code> on the command line.</p>
 <p>The default chain is set initially, when the first chain is added to the wallet.
 You can check the default chain for your wallet by running:</p>
 <pre><code class="language-bash">linera wallet show
 </code></pre>
-<p>The Chain ID which is in green text instead of white text is your default chain.</p>
+<p>The chain ID which is in green text instead of white text is your default chain.</p>
 <p>To change the default chain for your wallet, use the <code>set-default</code> command:</p>
 <pre><code class="language-bash">linera wallet set-default &lt;chain-id&gt;
 </code></pre>
-<h3 id="opening-a-chain"><a class="header" href="#opening-a-chain">Opening a Chain</a></h3>
-<p>The Linera protocol defines semantics for how new chains are created, we call
-this "opening a chain". A chain cannot be opened in a vacuum, it needs to be
-created by an existing chain on the network.</p>
-<h4 id="open-a-chain-for-your-own-wallet"><a class="header" href="#open-a-chain-for-your-own-wallet">Open a Chain for Your Own Wallet</a></h4>
-<p>To open a chain for your own wallet, you can use the <code>open-chain</code> command:</p>
+<h3 id="creating-chains"><a class="header" href="#creating-chains">Creating chains</a></h3>
+<p>In the Linera protocol, chains are generally created using a transaction from an
+existing chain.</p>
+<h4 id="create-a-chain-from-an-existing-one-for-your-own-wallet"><a class="header" href="#create-a-chain-from-an-existing-one-for-your-own-wallet">Create a chain from an existing one for your own wallet</a></h4>
+<p>To create a new chain from the default chain of your wallet, you can use the
+<code>open-chain</code> command:</p>
 <pre><code class="language-bash">linera open-chain
 </code></pre>
-<p>This will create a new chain (using the wallet's default chain) and add it to
-the wallet. Use the <code>wallet show</code> command to see your existing chains.</p>
-<h4 id="open-a-chain-for-another-wallet"><a class="header" href="#open-a-chain-for-another-wallet">Open a Chain for Another Wallet</a></h4>
-<p>Opening a chain for another <code>wallet</code> requires an extra two steps. Let's
+<p>This will create a new chain and add it to the wallet. Use the <code>wallet show</code>
+command to see your existing chains.</p>
+<h4 id="create-a-new-chain-from-an-existing-one-for-another-wallet"><a class="header" href="#create-a-new-chain-from-an-existing-one-for-another-wallet">Create a new chain from an existing one for another wallet</a></h4>
+<p>Creating a chain for another <code>wallet</code> requires an extra two steps. Let's
 initialize a second wallet:</p>
-<pre><code class="language-bash">linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --genesis target/debug/genesis.json
+<pre><code class="language-bash">linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --faucet $FAUCET_URL
 </code></pre>
 <p>First <code>wallet2</code> must create an unassigned keypair. The public part of that
 keypair is then sent to the <code>wallet</code> who is the chain creator.</p>
@@ -232,7 +240,11 @@ the new chain. The second line is the new chain's ID.</p>
 <code>assign</code> command:</p>
 <pre><code class="language-bash"> linera --wallet wallet2.json assign --key 6443634d872afbbfcc3059ac87992c4029fa88e8feb0fff0723ac6c914088888 --message-id e476187f6ddfeb9d588c7b45d3df334d5501d6499b3f9ad5595cae86cce16a65010000000000000000000000
 </code></pre>
-<h4 id="opening-a-chain-with-multiple-users"><a class="header" href="#opening-a-chain-with-multiple-users">Opening a Chain with Multiple Users</a></h4>
+<p>Note that in the case of a test network with a faucet, the new wallet and the
+new chain could also have been created from the faucet directly using:</p>
+<pre><code class="language-bash">linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --with-new-chain --faucet $FAUCET_URL
+</code></pre>
+<h4 id="opening-a-chain-with-multiple-users"><a class="header" href="#opening-a-chain-with-multiple-users">Opening a chain with multiple users</a></h4>
 <p>The <code>open-chain</code> command is a simplified version of <code>open-multi-owner-chain</code>,
 which gives you fine-grained control over the set and kinds of owners and rounds
 for the new chain, and the timeout settings for the rounds. E.g. this creates a
@@ -245,25 +257,6 @@ chain with two owners and two multi-leader rounds.</p>
 </code></pre>
 <p>The <code>change-ownership</code> command offers the same options to add or remove owners
 and change round settings for an existing chain.</p>
-<h2 id="setting-up-extra-wallets-automatically-with-linera-net-up"><a class="header" href="#setting-up-extra-wallets-automatically-with-linera-net-up">Setting up Extra Wallets Automatically with <code>linera net up</code></a></h2>
-<p>For testing, rather than using <code>linera open-chain</code> and <code>linera assign</code> as above,
-it is often more convenient to pass the option <code>--extra-wallets N</code> to
-<code>linera net up</code>.</p>
-<p>This option will create <code>N</code> additional user wallets and output Bash commands to
-define the environment variables <code>LINERA_{WALLET,STORAGE}_$I</code> where <code>I</code> ranges
-over <code>0..=N</code> (<code>I=0</code> being the wallet for the initial chains).</p>
-<p>Once all the environment variables are defined, you may switch between wallets
-using <code>linera --with-wallet I</code> or <code>linera -w I</code> for short.</p>
-<h2 id="automation-in-bash"><a class="header" href="#automation-in-bash">Automation in Bash</a></h2>
-<p>To automate the process of setting the variables <code>LINERA_WALLET*</code> and
-<code>LINERA_STORAGE*</code> after creating a local test network in a shell, we provide a
-Bash helper function <code>linera_spawn_and_read_wallet_variables</code>.</p>
-<p>To define the function <code>linera_spawn_and_read_wallet_variables</code> in your shell,
-run <code>source /dev/stdin &lt;&lt;&lt;"$(linera net helper 2&gt;/dev/null)"</code>. You may also add
-the output of <code>linera net helper</code> to your <code>~/.bash_profile</code> for future sessions.</p>
-<p>Once the function is defined, call
-<code>linera_spawn_and_read_wallet_variables linera net up</code> instead of
-<code>linera net up</code>.</p>
 
                     </main>
 

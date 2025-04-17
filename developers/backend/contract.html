@@ -156,7 +156,10 @@ trait for it, which is as follows:</p>
     /// (e.g. an initial amount of tokens minted).
     type InstantiationArgument: Serialize + DeserializeOwned + Debug;
 
-    /// Creates a in-memory instance of the contract handler.
+    /// Event values for streams created by this application.
+    type EventValue: Serialize + DeserializeOwned + Debug;
+
+    /// Creates an in-memory instance of the contract handler.
     async fn load(runtime: ContractRuntime&lt;Self&gt;) -&gt; Self;
 
     /// Instantiates the application on the chain that created it.
@@ -175,12 +178,12 @@ trait for it, which is as follows:</p>
 a time.</p>
 <p>For this application, we'll be using the <code>load</code>, <code>execute_operation</code> and <code>store</code>
 methods.</p>
-<h2 id="the-contract-lifecycle"><a class="header" href="#the-contract-lifecycle">The Contract Lifecycle</a></h2>
+<h2 id="the-contract-lifecycle"><a class="header" href="#the-contract-lifecycle">The contract lifecycle</a></h2>
 <p>To implement the application contract, we first create a type for the contract:</p>
 <pre><code class="language-rust ignore">linera_sdk::contract!(CounterContract);
 
 pub struct CounterContract {
-    state: Counter,
+    state: CounterState,
     runtime: ContractRuntime&lt;Self&gt;,
 }</code></pre>
 <p>This type usually contains at least two fields: the persistent <code>state</code> defined
@@ -195,7 +198,7 @@ contract can use, and should use it to load the application state. For our
 implementation, we will load the state and create the <code>CounterContract</code>
 instance:</p>
 <pre><code class="language-rust ignore">    async fn load(runtime: ContractRuntime&lt;Self&gt;) -&gt; Self {
-        let state = Counter::load(runtime.root_view_storage_context())
+        let state = CounterState::load(runtime.root_view_storage_context())
             .await
             .expect("Failed to load state");
         CounterContract { state, runtime }
@@ -228,7 +231,7 @@ using its instantiation parameters:</p>
 
         self.state.value.set(value);
     }</code></pre>
-<h2 id="implementing-the-increment-operation"><a class="header" href="#implementing-the-increment-operation">Implementing the Increment Operation</a></h2>
+<h2 id="implementing-the-increment-operation"><a class="header" href="#implementing-the-increment-operation">Implementing the increment operation</a></h2>
 <p>Now that we have our counter's state and a way to initialize it to any value we
 would like, we need a way to increment our counter's value. Execution requests
 from block proposers or other applications are broadly called 'operations'.</p>
@@ -250,11 +253,11 @@ application:</p>
 <ul>
 <li>
 <p>The full trait definition of <code>Contract</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-sdk/src/lib.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/linera-sdk/src/lib.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/examples/counter">here</a>.</p>
 </li>
 </ul>
 

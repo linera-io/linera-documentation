@@ -162,7 +162,7 @@ actions that require authentication either</p>
 <p>The <code>application</code> argument is the callee's application ID, and <code>A</code> is the
 callee's ABI.</p>
 <p>The <code>call</code> argument is the operation requested by the application call.</p>
-<h2 id="example-crowd-funding"><a class="header" href="#example-crowd-funding">Example: Crowd-Funding</a></h2>
+<h2 id="example-crowd-funding"><a class="header" href="#example-crowd-funding">Example: crowd-funding</a></h2>
 <p>The <code>crowd-funding</code> example application allows the application creator to launch
 a campaign with a funding target. That target can be an amount specified in any
 type of token based on the <code>fungible</code> application. Others can then pledge tokens
@@ -173,13 +173,9 @@ impressionable pug as its mascot), then Bob can create a <code>crowd-funding</co
 application, use Pugecoin's application ID as <code>CrowdFundingAbi::Parameters</code>, and
 specify in <code>CrowdFundingAbi::InstantiationArgument</code> that his campaign will run
 for one week and has a target of 1000 Pugecoins.</p>
-<p>Now let's say Carol wants to pledge 10 Pugecoin tokens to Bob's campaign.</p>
-<p>First she needs to make sure she has his crowd-funding application on her chain,
-e.g. using the <code>linera request-application</code> command. This will automatically
-also register Alice's Pugecoin application on her chain, because it is a
-dependency of Bob's.</p>
-<p>Now she can make her pledge by running the <code>linera service</code> and making a query
-to Bob's application:</p>
+<p>Now let's say Carol wants to pledge 10 Pugecoin tokens to Bob's campaign. She
+can make her pledge by running the <code>linera service</code> and making a query to Bob's
+application:</p>
 <pre><code class="language-json">mutation { pledge(owner: "User:841…6c0", amount: "10") }
 </code></pre>
 <p>This will add a block to Carol's chain containing the pledge operation that gets
@@ -214,12 +210,12 @@ in its application state on Bob's chain that Carol has pledged 10 Pugecoin
 tokens.</p>
 <h1 id="references"><a class="header" href="#references">References</a></h1>
 <p>For the complete code, please take a look at the
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a>
 and the
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/fungible/src/contract.rs"><code>fungible</code></a>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/examples/fungible/src/contract.rs"><code>fungible</code></a>
 application contracts in the <code>examples</code> folder in <code>linera-protocol</code>.</p>
 <p>The implementation of the Runtime made available to contracts is defined in
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-sdk/src/contract/runtime.rs">this file</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/linera-sdk/src/contract/runtime.rs">this file</a>.</p>
 
                     </main>
 

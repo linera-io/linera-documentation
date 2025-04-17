@@ -155,7 +155,7 @@ that can be made against your application.</p>
     /// Immutable parameters specific to this application.
     type Parameters: Serialize + DeserializeOwned + Send + Sync + Clone + Debug + 'static;
 
-    /// Creates a in-memory instance of the service handler.
+    /// Creates an in-memory instance of the service handler.
     async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self;
 
     /// Executes a read-only query on the state of this application.
@@ -166,7 +166,8 @@ that can be made against your application.</p>
 <pre><code class="language-rust ignore">linera_sdk::service!(CounterService);
 
 pub struct CounterService {
-    state: Counter,
+    state: CounterState,
+    runtime: Arc&lt;ServiceRuntime&lt;Self&gt;&gt;,
 }</code></pre>
 <p>Just like with the <code>CounterContract</code> type, this type usually has two types: the
 application <code>state</code> and the <code>runtime</code>. We can omit the fields if we don't use
@@ -190,10 +191,13 @@ global parameters aren't used, so we can just specify the unit type:</p>
 the <code>Service</code> trait. The constructor receives the runtime handle and should use
 it to load the application state:</p>
 <pre><code class="language-rust ignore">    async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self {
-        let state = Counter::load(runtime.root_view_storage_context())
+        let state = CounterState::load(runtime.root_view_storage_context())
             .await
             .expect("Failed to load state");
-        CounterService { state }
+        CounterService {
+            state,
+            runtime: Arc::new(runtime),
+        }
     }</code></pre>
 <p>Services don't have a <code>store</code> method because they are read-only and can't
 persist any changes back to the storage.</p>
@@ -207,7 +211,9 @@ section, we use the following code:</p>
             QueryRoot {
                 value: *self.state.value.get(),
             },
-            MutationRoot {},
+            MutationRoot {
+                runtime: self.runtime.clone(),
+            },
             EmptySubscription,
         )
         .finish();
@@ -236,27 +242,30 @@ impl QueryRoot {
 }</code></pre>
 <p>In the <code>MutationRoot</code>, we only create one <code>increment</code> method that returns a
 serialized operation to increment the counter by the provided <code>value</code>:</p>
-<pre><code class="language-rust ignore">struct MutationRoot;
+<pre><code class="language-rust ignore">struct MutationRoot {
+    runtime: Arc&lt;ServiceRuntime&lt;CounterService&gt;&gt;,
+}
 
 #[Object]
 impl MutationRoot {
-    async fn increment(&amp;self, value: u64) -&gt; Vec&lt;u8&gt; {
-        bcs::to_bytes(&amp;value).unwrap()
+    async fn increment(&amp;self, value: u64) -&gt; [u8; 0] {
+        self.runtime.schedule_operation(&amp;value);
+        []
     }
 }</code></pre>
 <p>We haven't included the imports in the above code. If you want the full source
-code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter/src/service.rs">examples
+code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/examples/counter/src/service.rs">examples
 section</a> on
 GitHub.</p>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li>
 <p>The full trait definition of <code>Service</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-sdk/src/lib.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/linera-sdk/src/lib.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/examples/counter">here</a>.</p>
 </li>
 </ul>
 

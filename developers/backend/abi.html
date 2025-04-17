@@ -173,6 +173,30 @@ pub trait ContractAbi {
 
     /// The response type of an application call.
     type Response: Serialize + DeserializeOwned + Send + Sync + Debug + 'static;
+
+    /// How the `Operation` is deserialized
+    fn deserialize_operation(operation: Vec&lt;u8&gt;) -&gt; Result&lt;Self::Operation, String&gt; {
+        bcs::from_bytes(&amp;operation)
+            .map_err(|e| format!("BCS deserialization error {e:?} for operation {operation:?}"))
+    }
+
+    /// How the `Operation` is serialized
+    fn serialize_operation(operation: &amp;Self::Operation) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+        bcs::to_bytes(operation)
+            .map_err(|e| format!("BCS serialization error {e:?} for operation {operation:?}"))
+    }
+
+    /// How the `Response` is deserialized
+    fn deserialize_response(response: Vec&lt;u8&gt;) -&gt; Result&lt;Self::Response, String&gt; {
+        bcs::from_bytes(&amp;response)
+            .map_err(|e| format!("BCS deserialization error {e:?} for response {response:?}"))
+    }
+
+    /// How the `Response` is serialized
+    fn serialize_response(response: Self::Response) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+        bcs::to_bytes(&amp;response)
+            .map_err(|e| format!("BCS serialization error {e:?} for response {response:?}"))
+    }
 }</code></pre>
 <p>All these types must implement the <code>Serialize</code>, <code>DeserializeOwned</code>, <code>Send</code>,
 <code>Sync</code>, <code>Debug</code> traits, and have a <code>'static</code> lifetime.</p>
@@ -208,11 +232,11 @@ impl ServiceAbi for CounterAbi {
 <ul>
 <li>
 <p>The full trait definition of <code>Abi</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/linera-base/src/abi.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/linera-base/src/abi.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/5306496ef75d5f7c7385abbead1219483a9632bd/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/3e867613343b937b4bcdb6994a0c7b459e9d497e/examples/counter">here</a>.</p>
 </li>
 </ul>
 

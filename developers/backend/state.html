@@ -162,7 +162,7 @@ a SQL row).</p>
 <p>In this case, the struct in <code>src/state.rs</code> should be replaced by</p>
 <pre><code class="language-rust"><span class="boring">extern crate linera_sdk;
 </span><span class="boring">extern crate async_graphql;
-</span><span class="boring">use linera_sdk::base::*;
+</span><span class="boring">use linera_sdk::linera_base_types::*;
 </span><span class="boring">use linera_sdk::*;
 </span><span class="boring">use std::collections::HashSet;
 </span><span class="boring">use linera_sdk::views::{linera_views, RegisterView, RootView, ViewStorageContext};
