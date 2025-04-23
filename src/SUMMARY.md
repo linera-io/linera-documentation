@@ -76,6 +76,7 @@
   - [One-Click Deploy](operators/testnets/one-click.md)
   - [Manual Installation](operators/testnets/manual-installation.md)
   - [Verifying your Installation](operators/testnets/verify-installation.md)
+  - [Monitoring and Logging](operators/testnets/monitoring-logging.md)
 
 ---
 
