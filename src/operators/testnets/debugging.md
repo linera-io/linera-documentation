@@ -10,7 +10,7 @@ to resolve them.
 
 ### `shard-init` process is stuck
 
-The `shard-init` process is responsible for initialising the database and
+The `shard-init` process is responsible for initializing the database and
 shards.
 
 The database inside a validator, ScyllaDB, can take some time to initialize as
