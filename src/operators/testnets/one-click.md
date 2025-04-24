@@ -1,7 +1,7 @@
 ## One-Click Deploy
 
-After downloading the `linera-protocol` repository, and checking out the testnet
-branch `{{#include ../../../TESTNET_BRANCH}}` you can run
+After downloading the `linera-protocol` repository and checking out the testnet
+branch `{{#include ../../../TESTNET_BRANCH}}`, you can run
 `scripts/deploy-validator.sh <hostname>` to deploy a Linera validator.
 
 For example:
@@ -18,18 +18,18 @@ automatically.
 > Note: Optionally you can build the image from source by not specifying
 > `--remote-image`.
 
-The public key will be printed after the command has finished executing, for
-example:
+The public key and account key will be printed after the command has finished
+executing, for example:
 
 ```bash
 $ scripts/deploy-validator.sh linera.mydomain.com --remote-image
 ...
-Public Key: 92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196
+Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 ```
 
-The public key, in this case beginning with `92f`, must be communicated to the
-Linera Protocol core team along with the chosen host name for onboarding in the
-next epoch.
+The public key and account key, in this case beginning with `02a` and `009`
+respecetively, must be communicated to the Linera Protocol core team along with
+the chosen host name for onboarding in the next epoch.
 
 For a more bespoke deployment, refer to the manual installation instructions
 below.

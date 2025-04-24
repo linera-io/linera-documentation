@@ -70,18 +70,13 @@ example:
 
 ```bash
 $ linera-server generate --validators /path/to/validator/configuration.toml
-2024-07-01T16:51:32.881255Z  INFO linera_version::version_info: Linera protocol: v0.12.0
-2024-07-01T16:51:32.881273Z  INFO linera_version::version_info: RPC API hash: p//G+L8e12ZRwUdWoGHWYvWA/03kO0n6gtgKS4D4Q0o
-2024-07-01T16:51:32.881274Z  INFO linera_version::version_info: GraphQL API hash: KcS5z1lEg+L9QjcP99l5vNSc7LfCwnwEsfDvMZGJ/PM
-2024-07-01T16:51:32.881277Z  INFO linera_version::version_info: WIT API hash: p//G+L8e12ZRwUdWoGHWYvWA/03kO0n6gtgKS4D4Q0o
-2024-07-01T16:51:32.881279Z  INFO linera_version::version_info: Source code: https://github.com/linera-io/linera-protocol/tree/44b3e1ab15 (dirty)
 2024-07-01T16:51:32.881519Z  INFO linera_server: Wrote server config server.json
-92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196 # <- Public Key
+02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 ```
 
-The public key, in this case beginning with `92f`, must be communicated to the
-Linera Protocol core team along with the chosen host name for onboarding in the
-next epoch.
+The public key and account key, in this case beginning with `02a` and `009`
+respectively, must be communicated to the Linera Protocol core team along with
+the chosen host name for onboarding in the next epoch.
 
 > Note: Before being included in the next epoch, validator nodes will receive no
 > traffic from existing users.

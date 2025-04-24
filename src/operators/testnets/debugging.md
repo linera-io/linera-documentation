@@ -5,16 +5,15 @@ resolve them.
 
 ## Common Issues
 
-In software engineering there are many ways things can go wrong. Below we
-outline a few of the common occurences with Linera validator and how to resolve
-them.
+Below we outline a few of the common occurrences with Linera validator and how
+to resolve them.
 
 ### `shard-init` process is stuck
 
 The `shard-init` process is responsible for initialising the database and
 shards.
 
-The database inside a validator, ScyllaDB, can take some time to initialise as
+The database inside a validator, ScyllaDB, can take some time to initialize as
 it performs performance checks and tunes itself against the underlying
 hardware - this should take about 10 minutes.
 
