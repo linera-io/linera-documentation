@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Joining a Testnet</title>
+        <title>Manual Installation</title>
 
 
         <!-- Custom HTML head -->
@@ -39,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-8b6b19ac.js"></script>
+        <script src="../../toc-68d988ca.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -111,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/operators/testnets/joining.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/operators/testnets/manual-installation.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -140,148 +140,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="joining-an-existing-testnet"><a class="header" href="#joining-an-existing-testnet">Joining an Existing Testnet</a></h1>
-<p>In this section, we use Docker Compose to run a validator and join an existing
-Testnet.</p>
-<h2 id="infrastructure-requirements"><a class="header" href="#infrastructure-requirements">Infrastructure Requirements</a></h2>
-<p>Validators run via Docker Compose do not come with a pre-packaged load balancer
-to perform TLS termination (unlike validators running on Kubernetes).</p>
-<p>The load balancer configuration <strong>must</strong> have the following properties:</p>
-<ol>
-<li>Support HTTP/2 connections.</li>
-<li>Support gRPC connections.</li>
-<li>Support long-lived HTTP/2 connections.</li>
-<li>Support a maximum body size of up to 20 MB.</li>
-<li>Provide TLS termination with a certificate signed by a known CA.</li>
-</ol>
-<p>Finally, the load balancer that performs TLS termination must redirect traffic
-from <code>443</code> to <code>19100</code> (the port exposed by the proxy).</p>
-<h3 id="using-nginx"><a class="header" href="#using-nginx">Using Nginx</a></h3>
-<p>Minimum supported version: 1.18.0.</p>
-<p>Below is an example Nginx configuration which upholds the infrastructure
-requirements found in <code>/etc/nginx/sites-available/default</code>:</p>
-<pre><code class="language-ignore">server {
-        listen 80 http2;
-
-        location / {
-                grpc_pass grpc://127.0.0.1:19100;
-        }
-}
-
-server {
-    listen 443 ssl http2;
-    server_name &lt;hostname&gt;; # e.g. my-subdomain.my-domain.net
-
-    # SSL certificates
-    ssl_certificate &lt;ssl-cert-path&gt;; # e.g. /etc/letsencrypt/live/my-subdomain.my-domain.net/fullchain.pem
-    ssl_certificate_key &lt;ssl-key-path&gt;; # e.g. /etc/letsencrypt/live/my-subdomain.my-domain.net/privkey.pem;
-
-    # Proxy traffic to the service running on port 19100.
-    location / {
-        grpc_pass grpc://127.0.0.1:19100;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    keepalive_timeout 10m 60s;
-    grpc_read_timeout 10m;
-    grpc_send_timeout 10m;
-
-    client_header_timeout 10m;
-    client_body_timeout 10m;
-}
-</code></pre>
-<h3 id="using-caddy"><a class="header" href="#using-caddy">Using Caddy</a></h3>
-<p>Minimum supported version: v2.4.3</p>
-<p>Below is an example Caddy configuration which upholds the infrastructure
-requirements found in <code>/etc/caddy/Caddyfile</code>:</p>
-<pre><code class="language-ignore">example.com {
-  reverse_proxy localhost:19100 {
-    transport http {
-      versions h2c
-      read_timeout 10m
-      write_timeout 10m
-    }
-  }
-}
-</code></pre>
-<h3 id="scylladb-configuration"><a class="header" href="#scylladb-configuration">ScyllaDB Configuration</a></h3>
-<p>ScyllaDB is an open-source distributed NoSQL database built for high-performance
-and low-latency. Linera validators use ScyllaDB as their persistent storage.</p>
-<p>ScyllaDB may require kernel parameters to be modified in order to work.
-Specifically the number of events allowed in asynchronous I/O contexts.</p>
-<p>To set this run:</p>
-<pre><code class="language-bash">echo 1048576 &gt; /proc/sys/fs/aio-max-nr
-</code></pre>
-<h2 id="one-click-deploy"><a class="header" href="#one-click-deploy">One-Click Deploy</a></h2>
-<blockquote>
-<p>Note: This section was only tested under Linux.</p>
-</blockquote>
-<p>After downloading the <code>linera-protocol</code> repository, and checking out the testnet
-branch <code>testnet_babbage</code> you can run
-<code>scripts/deploy-validator.sh &lt;hostname&gt;</code> to deploy a Linera validator.</p>
-<p>For example:</p>
-<pre><code class="language-bash">$ git fetch origin
-$ git checkout -t origin/testnet_babbage
-$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
-</code></pre>
-<p>The deployment automatically listens for new image updates and will pull them
-automatically.</p>
-<blockquote>
-<p>Note: Optionally you can build the image from source by not specifying
-<code>--remote-image</code>.</p>
-</blockquote>
-<p>The public key will be printed after the command has finished executing, for
-example:</p>
-<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
-...
-Public Key: 92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196
-</code></pre>
-<p>The public key, in this case beginning with <code>92f</code>, must be communicated to the
-Linera Protocol core team along with the chosen host name for onboarding in the
-next epoch.</p>
-<p>For a more bespoke deployment, refer to the manual installation instructions
-below.</p>
-<blockquote>
-<p>Note: If you have previously deployed a validator you may need to remove old
-docker volumes (<code>docker_linera-scylla-data</code> and <code>docker_linera-shared</code>).</p>
-</blockquote>
-<h3 id="verifying-installation"><a class="header" href="#verifying-installation">Verifying installation</a></h3>
-<p>To verify the installation, you can use the <code>linera query-validator</code> command.
-For example:</p>
-<pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-babbage.linera.net
-$ linera query-validator grpcs:my-domain.com:443
-
-RPC API hash: kd/Ru73B4ZZjXYkFqqSzoWzqpWi+NX+8IJLXOODjSko
-GraphQL API hash: eZqzuBlLT0bcoQUjOCPf2j22NfZUWG95id4pdlUmhgs
-WIT API hash: 4/gsw8G+47OUoEWK6hJRGt9R69RanU/OidmX7OKhqfk
-Source code: https://github.com/linera-io/linera-protocol/tree/
-
-0cd20d06af5262540535347d4cc6e5952a921d1a6a7f6dd0982159c9311cfb3e
-</code></pre>
-<p>The last line is the hash of the network's genesis configuration.</p>
-<h2 id="manual-installation"><a class="header" href="#manual-installation">Manual Installation</a></h2>
-<p>This section covers everything you need to install to run a Linera validator
-node with Docker Compose.</p>
-<blockquote>
-<p>Note: This section was only tested under Linux.</p>
-</blockquote>
-<h3 id="docker-compose-requirements"><a class="header" href="#docker-compose-requirements">Docker Compose Requirements</a></h3>
-<p>To install Docker Compose see the
-<a href="https://docs.docker.com/compose/install/">installing Docker Compose</a> section in
-the Docker docs.</p>
-<h3 id="installing-the-linera-toolchain"><a class="header" href="#installing-the-linera-toolchain">Installing the Linera Toolchain</a></h3>
-<blockquote>
-<p>When installing the Linera Toolchain, you <strong>must</strong> check out the
-<code>testnet_babbage</code> branch.</p>
-</blockquote>
-<p>To install the Linera Toolchain refer to the
-<a href="../../developers/getting_started/installation.html#installing-from-github">installation section</a>.</p>
-<p>You want to install the toolchain from GitHub, as you'll be using the repository
-to run the Docker Compose validator service.</p>
+                        <h1 id="manual-installation"><a class="header" href="#manual-installation">Manual Installation</a></h1>
+<p>If you don't want to use the provided deploy script, you can instead choose to
+manually roll out your validator deployment.</p>
 <h2 id="setting-up-a-linera-validator"><a class="header" href="#setting-up-a-linera-validator">Setting up a Linera Validator</a></h2>
 <p>For the next section, we'll be working out of the <code>docker</code> subdirectory in the
 <code>linera-protocol</code> repository.</p>
@@ -317,9 +178,10 @@ bucket managed by the Linera Protocol core team.</p>
 </code></pre>
 <h3 id="creating-your-keys"><a class="header" href="#creating-your-keys">Creating Your Keys</a></h3>
 <p>Now that the
-<a href="joining.html#creating-your-validator-configuration">validator configuration</a> has
-been created and the <a href="joining.html#genesis-configuration">genesis configuration</a>
-is available, the validator private keys can be generated.</p>
+<a href="manual-installation.html#creating-your-validator-configuration">validator configuration</a>
+has been created and the
+<a href="manual-installation.html#genesis-configuration">genesis configuration</a> is
+available, the validator private keys can be generated.</p>
 <p>To generate the private keys, the <code>linera-server</code> binary is used:</p>
 <pre><code class="language-bash">linera-server generate --validators /path/to/validator/configuration.toml
 </code></pre>
@@ -328,17 +190,12 @@ a validator to operate, including a cryptographic keypair.</p>
 <p>The public key will be printed after the command has finished executing, for
 example:</p>
 <pre><code class="language-bash">$ linera-server generate --validators /path/to/validator/configuration.toml
-2024-07-01T16:51:32.881255Z  INFO linera_version::version_info: Linera protocol: v0.12.0
-2024-07-01T16:51:32.881273Z  INFO linera_version::version_info: RPC API hash: p//G+L8e12ZRwUdWoGHWYvWA/03kO0n6gtgKS4D4Q0o
-2024-07-01T16:51:32.881274Z  INFO linera_version::version_info: GraphQL API hash: KcS5z1lEg+L9QjcP99l5vNSc7LfCwnwEsfDvMZGJ/PM
-2024-07-01T16:51:32.881277Z  INFO linera_version::version_info: WIT API hash: p//G+L8e12ZRwUdWoGHWYvWA/03kO0n6gtgKS4D4Q0o
-2024-07-01T16:51:32.881279Z  INFO linera_version::version_info: Source code: https://github.com/linera-io/linera-protocol/tree/44b3e1ab15 (dirty)
 2024-07-01T16:51:32.881519Z  INFO linera_server: Wrote server config server.json
-92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196 # &lt;- Public Key
+02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 </code></pre>
-<p>The public key, in this case beginning with <code>92f</code>, must be communicated to the
-Linera Protocol core team along with the chosen host name for onboarding in the
-next epoch.</p>
+<p>The public key and account key, in this case beginning with <code>02a</code> and <code>009</code>
+respectively, must be communicated to the Linera Protocol core team along with
+the chosen host name for onboarding in the next epoch.</p>
 <blockquote>
 <p>Note: Before being included in the next epoch, validator nodes will receive no
 traffic from existing users.</p>
@@ -362,11 +219,11 @@ few minutes for the ScyllaDB image to be downloaded and started.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../operators/testnets.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../operators/testnets/one-click.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../appendix/glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../operators/testnets/verify-installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -376,11 +233,11 @@ few minutes for the ScyllaDB image to be downloaded and started.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../operators/testnets.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../operators/testnets/one-click.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../appendix/glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../operators/testnets/verify-installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

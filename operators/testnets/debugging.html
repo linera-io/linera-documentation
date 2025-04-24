@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Testnets</title>
+        <title>Debugging</title>
 
 
         <!-- Custom HTML head -->
@@ -12,34 +12,34 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-d0866e17.css">
-        <link rel="stylesheet" href="../css/general-e9745eeb.css">
-        <link rel="stylesheet" href="../css/chrome-d7ced664.css">
-        <link rel="stylesheet" href="../css/print-ad67d350.css" media="print">
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-d0866e17.css">
+        <link rel="stylesheet" href="../../css/general-e9745eeb.css">
+        <link rel="stylesheet" href="../../css/chrome-d7ced664.css">
+        <link rel="stylesheet" href="../../css/print-ad67d350.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome-799aeb25.css">
-        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome-799aeb25.css">
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight-493f70e1.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight-56612340.css">
+        <link rel="stylesheet" id="highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight-56612340.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/theme-864c5258.css">
-        <link rel="stylesheet" href=".././mdbook-admonish.css">
+        <link rel="stylesheet" href="../../theme/theme-864c5258.css">
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
 
 
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "../";
+            var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-68d988ca.js"></script>
+        <script src="../../toc-68d988ca.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -81,7 +81,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
             </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -105,13 +105,13 @@
                     <h1 class="menu-title"></h1>
 
                     <div class="right-buttons">
-                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/operators/testnets.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/operators/testnets/debugging.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -140,26 +140,57 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="testnets"><a class="header" href="#testnets">Testnets</a></h1>
-<p>This section discusses how to deploy a validator node and join an existing
-Testnet.</p>
-<p>In a Testnet, the validator nodes are run by different operators. Testnets will
-gain in stability and decentralization over time in preparation of the mainnet
-launch. Testnets do not handle real assets.</p>
-<blockquote>
-<p>In the initial Testnets of Linera, the set of validator nodes will be managed
-by the Linera Core team.</p>
-</blockquote>
+                        <h1 id="debugging"><a class="header" href="#debugging">Debugging</a></h1>
+<p>This section covers potential issues with validator deployments and how to
+resolve them.</p>
+<h2 id="common-issues"><a class="header" href="#common-issues">Common Issues</a></h2>
+<p>Below we outline a few of the common occurrences with Linera validator
+deployments and how to resolve them.</p>
+<h3 id="shard-init-process-is-stuck"><a class="header" href="#shard-init-process-is-stuck"><code>shard-init</code> process is stuck</a></h3>
+<p>The <code>shard-init</code> process is responsible for initializing the database and
+shards.</p>
+<p>The database inside a validator, ScyllaDB, can take some time to initialize as
+it performs performance checks and tunes itself against the underlying
+hardware - this should take about 10 minutes.</p>
+<p>If the <code>shard-init</code> process is <em>still</em> stuck after that, the issue is usually:</p>
+<ol>
+<li>Not enough events allowed in async I/O contexts. A resolution is outlined
+<a href="requirements.html#scylladb-configuration">here</a>.</li>
+<li>Stale volumes from a previous deployment. Docker doesn't clean up volumes
+automatically when deleting an old deployment via <code>docker compose down</code> or
+even when running <code>docker system prune -a</code>. The old stale volumes need to be
+removed explicitly via <code>docker volume rm ...</code>.</li>
+</ol>
+<p>If neither of these fixes resolves the issue, a closer inspection of the logs is
+required.</p>
+<h3 id="pull-access-denied"><a class="header" href="#pull-access-denied"><code>pull access denied</code></a></h3>
+<p>When deploying a validator you can either build the Docker image yourself or use
+a pre-built remote image provided by the Linera team.</p>
+<p>The Docker Compose manifest looks for the <code>LINERA_IMAGE</code> environment variable
+which is usually set by the default script. If it is not found, it defaults to
+the value <code>linera</code>, which is assumed to exist as an image locally.</p>
+<p>To resolve this issue either explicitly specify the <code>LINERA_IMAGE</code> or ensure
+that the
+<a href="manual-installation.html#building-the-linera-docker-image">image is built locally</a>.</p>
+<h3 id="access-denied-to-genesisjson"><a class="header" href="#access-denied-to-genesisjson"><code>Access denied to genesis.json</code></a></h3>
+<p>This occurs when the genesis configuration URL is malformed via string
+formatting. The deploy script uses the name of the current branch to create the
+URL so make sure you have checked out <code>testnet_babbage</code>.</p>
+<h2 id="support"><a class="header" href="#support">Support</a></h2>
+<p>Support and communication with the core team is done via the <code>#validator</code>
+private channel in the <a href="https://discord.com/invite/linera">Linera Discord</a>.</p>
+<p>If there are any outstanding issues which could not be resolved by consulting
+this document, you can reach out there.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../operators/devnets/kind.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../operators/testnets/monitoring-logging.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../operators/testnets/requirements.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../appendix/glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -169,11 +200,11 @@ by the Linera Core team.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../operators/devnets/kind.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../operators/testnets/monitoring-logging.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../operators/testnets/requirements.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../appendix/glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -188,18 +219,18 @@ by the Linera Core team.</p>
         </script>
 
 
-        <script src="../elasticlunr-ef4e11c1.min.js"></script>
-        <script src="../mark-09e88c2c.min.js"></script>
-        <script src="../searcher-b074573a.js"></script>
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-b074573a.js"></script>
 
-        <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-ba43d0c1.js"></script>
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-ba43d0c1.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../custom-6e1704cf.js"></script>
-        <script src="../mermaid-eefea253.min.js"></script>
-        <script src="../mermaid-init-4a2716e5.js"></script>
+        <script src="../../custom-6e1704cf.js"></script>
+        <script src="../../mermaid-eefea253.min.js"></script>
+        <script src="../../mermaid-init-4a2716e5.js"></script>
 
 
     </div>

@@ -40,7 +40,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-8b6b19ac.js"></script>
+        <script src="toc-68d988ca.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -2875,9 +2875,31 @@ launch. Testnets do not handle real assets.</p>
 <p>In the initial Testnets of Linera, the set of validator nodes will be managed
 by the Linera Core team.</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="joining-an-existing-testnet"><a class="header" href="#joining-an-existing-testnet">Joining an Existing Testnet</a></h1>
-<p>In this section, we use Docker Compose to run a validator and join an existing
-Testnet.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="requirements-1"><a class="header" href="#requirements-1">Requirements</a></h1>
+<p>This section covers requirements for setting up a Linera Validator and joining a
+Testnet. The validator deployment has been comprehensively tested under
+<strong>Linux</strong>. There is no official support for MacOS or Windows yet.</p>
+<h2 id="installing-the-linera-toolchain-2"><a class="header" href="#installing-the-linera-toolchain-2">Installing the Linera Toolchain</a></h2>
+<blockquote>
+<p>When installing the Linera Toolchain, you <strong>must</strong> check out the
+<code>testnet_babbage</code> branch.</p>
+</blockquote>
+<p>To install the Linera Toolchain refer to the
+<a href="operators/testnets/../../developers/getting_started/installation.html#installing-from-github">installation section</a>.</p>
+<p>You want to install the toolchain from GitHub, as you'll be using the repository
+to run the Docker Compose validator service.</p>
+<h2 id="docker-compose-requirements-1"><a class="header" href="#docker-compose-requirements-1">Docker Compose Requirements</a></h2>
+<p>Linera validators run under Docker compose.</p>
+<p>To install Docker Compose see the
+<a href="https://docs.docker.com/compose/install/">installing Docker Compose</a> section in
+the Docker docs.</p>
+<h2 id="key-management"><a class="header" href="#key-management">Key Management</a></h2>
+<p>Currently keys in Linera are stored in a JSON file in your local filesystem. For
+convenience, they are currently plaintext. The key is usually called
+<code>server.json</code> and is found in the <code>docker/</code> directory in the core protocol
+repository.</p>
+<p>Make sure to back up your keys once they are generated because if they are lost,
+they are currently unrecoverable.</p>
 <h2 id="infrastructure-requirements"><a class="header" href="#infrastructure-requirements">Infrastructure Requirements</a></h2>
 <p>Validators run via Docker Compose do not come with a pre-packaged load balancer
 to perform TLS termination (unlike validators running on Kubernetes).</p>
@@ -2951,12 +2973,9 @@ Specifically the number of events allowed in asynchronous I/O contexts.</p>
 <p>To set this run:</p>
 <pre><code class="language-bash">echo 1048576 &gt; /proc/sys/fs/aio-max-nr
 </code></pre>
-<h2 id="one-click-deploy"><a class="header" href="#one-click-deploy">One-Click Deploy</a></h2>
-<blockquote>
-<p>Note: This section was only tested under Linux.</p>
-</blockquote>
-<p>After downloading the <code>linera-protocol</code> repository, and checking out the testnet
-branch <code>testnet_babbage</code> you can run
+<div style="break-before: page; page-break-before: always;"></div><h2 id="one-click-deploy"><a class="header" href="#one-click-deploy">One-Click Deploy</a></h2>
+<p>After downloading the <code>linera-protocol</code> repository and checking out the testnet
+branch <code>testnet_babbage</code>, you can run
 <code>scripts/deploy-validator.sh &lt;hostname&gt;</code> to deploy a Linera validator.</p>
 <p>For example:</p>
 <pre><code class="language-bash">$ git fetch origin
@@ -2969,54 +2988,24 @@ automatically.</p>
 <p>Note: Optionally you can build the image from source by not specifying
 <code>--remote-image</code>.</p>
 </blockquote>
-<p>The public key will be printed after the command has finished executing, for
-example:</p>
+<p>The public key and account key will be printed after the command has finished
+executing, for example:</p>
 <pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
 ...
-Public Key: 92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196
+Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 </code></pre>
-<p>The public key, in this case beginning with <code>92f</code>, must be communicated to the
-Linera Protocol core team along with the chosen host name for onboarding in the
-next epoch.</p>
+<p>The public key and account key, in this case beginning with <code>02a</code> and <code>009</code>
+respectively, must be communicated to the Linera Protocol core team along with
+the chosen host name for onboarding in the next epoch.</p>
 <p>For a more bespoke deployment, refer to the manual installation instructions
 below.</p>
 <blockquote>
 <p>Note: If you have previously deployed a validator you may need to remove old
 docker volumes (<code>docker_linera-scylla-data</code> and <code>docker_linera-shared</code>).</p>
 </blockquote>
-<h3 id="verifying-installation"><a class="header" href="#verifying-installation">Verifying installation</a></h3>
-<p>To verify the installation, you can use the <code>linera query-validator</code> command.
-For example:</p>
-<pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-babbage.linera.net
-$ linera query-validator grpcs:my-domain.com:443
-
-RPC API hash: kd/Ru73B4ZZjXYkFqqSzoWzqpWi+NX+8IJLXOODjSko
-GraphQL API hash: eZqzuBlLT0bcoQUjOCPf2j22NfZUWG95id4pdlUmhgs
-WIT API hash: 4/gsw8G+47OUoEWK6hJRGt9R69RanU/OidmX7OKhqfk
-Source code: https://github.com/linera-io/linera-protocol/tree/
-
-0cd20d06af5262540535347d4cc6e5952a921d1a6a7f6dd0982159c9311cfb3e
-</code></pre>
-<p>The last line is the hash of the network's genesis configuration.</p>
-<h2 id="manual-installation"><a class="header" href="#manual-installation">Manual Installation</a></h2>
-<p>This section covers everything you need to install to run a Linera validator
-node with Docker Compose.</p>
-<blockquote>
-<p>Note: This section was only tested under Linux.</p>
-</blockquote>
-<h3 id="docker-compose-requirements-1"><a class="header" href="#docker-compose-requirements-1">Docker Compose Requirements</a></h3>
-<p>To install Docker Compose see the
-<a href="https://docs.docker.com/compose/install/">installing Docker Compose</a> section in
-the Docker docs.</p>
-<h3 id="installing-the-linera-toolchain-2"><a class="header" href="#installing-the-linera-toolchain-2">Installing the Linera Toolchain</a></h3>
-<blockquote>
-<p>When installing the Linera Toolchain, you <strong>must</strong> check out the
-<code>testnet_babbage</code> branch.</p>
-</blockquote>
-<p>To install the Linera Toolchain refer to the
-<a href="operators/testnets/../../developers/getting_started/installation.html#installing-from-github">installation section</a>.</p>
-<p>You want to install the toolchain from GitHub, as you'll be using the repository
-to run the Docker Compose validator service.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="manual-installation"><a class="header" href="#manual-installation">Manual Installation</a></h1>
+<p>If you don't want to use the provided deploy script, you can instead choose to
+manually roll out your validator deployment.</p>
 <h2 id="setting-up-a-linera-validator"><a class="header" href="#setting-up-a-linera-validator">Setting up a Linera Validator</a></h2>
 <p>For the next section, we'll be working out of the <code>docker</code> subdirectory in the
 <code>linera-protocol</code> repository.</p>
@@ -3052,9 +3041,10 @@ bucket managed by the Linera Protocol core team.</p>
 </code></pre>
 <h3 id="creating-your-keys"><a class="header" href="#creating-your-keys">Creating Your Keys</a></h3>
 <p>Now that the
-<a href="operators/testnets/joining.html#creating-your-validator-configuration">validator configuration</a> has
-been created and the <a href="operators/testnets/joining.html#genesis-configuration">genesis configuration</a>
-is available, the validator private keys can be generated.</p>
+<a href="operators/testnets/manual-installation.html#creating-your-validator-configuration">validator configuration</a>
+has been created and the
+<a href="operators/testnets/manual-installation.html#genesis-configuration">genesis configuration</a> is
+available, the validator private keys can be generated.</p>
 <p>To generate the private keys, the <code>linera-server</code> binary is used:</p>
 <pre><code class="language-bash">linera-server generate --validators /path/to/validator/configuration.toml
 </code></pre>
@@ -3063,17 +3053,12 @@ a validator to operate, including a cryptographic keypair.</p>
 <p>The public key will be printed after the command has finished executing, for
 example:</p>
 <pre><code class="language-bash">$ linera-server generate --validators /path/to/validator/configuration.toml
-2024-07-01T16:51:32.881255Z  INFO linera_version::version_info: Linera protocol: v0.12.0
-2024-07-01T16:51:32.881273Z  INFO linera_version::version_info: RPC API hash: p//G+L8e12ZRwUdWoGHWYvWA/03kO0n6gtgKS4D4Q0o
-2024-07-01T16:51:32.881274Z  INFO linera_version::version_info: GraphQL API hash: KcS5z1lEg+L9QjcP99l5vNSc7LfCwnwEsfDvMZGJ/PM
-2024-07-01T16:51:32.881277Z  INFO linera_version::version_info: WIT API hash: p//G+L8e12ZRwUdWoGHWYvWA/03kO0n6gtgKS4D4Q0o
-2024-07-01T16:51:32.881279Z  INFO linera_version::version_info: Source code: https://github.com/linera-io/linera-protocol/tree/44b3e1ab15 (dirty)
 2024-07-01T16:51:32.881519Z  INFO linera_server: Wrote server config server.json
-92f934525762a9ed99fcc3e3d3e35a825235dae133f2682b78fe22a742bac196 # &lt;- Public Key
+02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 </code></pre>
-<p>The public key, in this case beginning with <code>92f</code>, must be communicated to the
-Linera Protocol core team along with the chosen host name for onboarding in the
-next epoch.</p>
+<p>The public key and account key, in this case beginning with <code>02a</code> and <code>009</code>
+respectively, must be communicated to the Linera Protocol core team along with
+the chosen host name for onboarding in the next epoch.</p>
 <blockquote>
 <p>Note: Before being included in the next epoch, validator nodes will receive no
 traffic from existing users.</p>
@@ -3092,6 +3077,81 @@ started by running from inside the <code>docker</code> directory:</p>
 </code></pre>
 <p>This will run the Docker Compose deployment in a detached mode. It can take a
 few minutes for the ScyllaDB image to be downloaded and started.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="verifying-installation"><a class="header" href="#verifying-installation">Verifying installation</a></h1>
+<p>To verify the installation, you can use the <code>linera query-validator</code> command.
+For example:</p>
+<pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-babbage.linera.net
+$ linera query-validator grpcs:my-domain.com:443
+
+RPC API hash: kd/Ru73B4ZZjXYkFqqSzoWzqpWi+NX+8IJLXOODjSko
+GraphQL API hash: eZqzuBlLT0bcoQUjOCPf2j22NfZUWG95id4pdlUmhgs
+WIT API hash: 4/gsw8G+47OUoEWK6hJRGt9R69RanU/OidmX7OKhqfk
+Source code: https://github.com/linera-io/linera-protocol/tree/
+
+0cd20d06af5262540535347d4cc6e5952a921d1a6a7f6dd0982159c9311cfb3e
+</code></pre>
+<p>The last line is the hash of the network's genesis configuration. If this
+command exits successfully your validator is now operational and ready to be
+on-boarded.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="monitoring-and-logging"><a class="header" href="#monitoring-and-logging">Monitoring and Logging</a></h1>
+<p>This section covers how to monitor the behaviour and performance of your
+validator once deployed.</p>
+<h2 id="monitoring"><a class="header" href="#monitoring">Monitoring</a></h2>
+<p>The validator ships with an instance of <a href="https://prometheus.io/">Prometheus</a> for
+metrics and <a href="https://grafana.com/">Grafana</a> for observability.</p>
+<p>Grafana ships with a default dashboard called the "General" dashboard which
+displays the most common metrics for validator operation, from latency to error
+rates.</p>
+<p><img src="operators/testnets/dashboard-example.png" alt="img.png" /></p>
+<p>The relevant ports can be found in the
+<a href="https://github.com/linera-io/linera-protocol/blob/main/docker/docker-compose.yml">Docker Compose manifest</a>.</p>
+<h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
+<p>Logging is currently handled implicitly by Docker as it absorbs the process
+stdout from the proxy and shard processes.</p>
+<p>To view the logs for a given container run:</p>
+<pre><code class="language-bash">docker compose logs &lt;service-name&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="debugging"><a class="header" href="#debugging">Debugging</a></h1>
+<p>This section covers potential issues with validator deployments and how to
+resolve them.</p>
+<h2 id="common-issues"><a class="header" href="#common-issues">Common Issues</a></h2>
+<p>Below we outline a few of the common occurrences with Linera validator
+deployments and how to resolve them.</p>
+<h3 id="shard-init-process-is-stuck"><a class="header" href="#shard-init-process-is-stuck"><code>shard-init</code> process is stuck</a></h3>
+<p>The <code>shard-init</code> process is responsible for initializing the database and
+shards.</p>
+<p>The database inside a validator, ScyllaDB, can take some time to initialize as
+it performs performance checks and tunes itself against the underlying
+hardware - this should take about 10 minutes.</p>
+<p>If the <code>shard-init</code> process is <em>still</em> stuck after that, the issue is usually:</p>
+<ol>
+<li>Not enough events allowed in async I/O contexts. A resolution is outlined
+<a href="operators/testnets/requirements.html#scylladb-configuration">here</a>.</li>
+<li>Stale volumes from a previous deployment. Docker doesn't clean up volumes
+automatically when deleting an old deployment via <code>docker compose down</code> or
+even when running <code>docker system prune -a</code>. The old stale volumes need to be
+removed explicitly via <code>docker volume rm ...</code>.</li>
+</ol>
+<p>If neither of these fixes resolves the issue, a closer inspection of the logs is
+required.</p>
+<h3 id="pull-access-denied"><a class="header" href="#pull-access-denied"><code>pull access denied</code></a></h3>
+<p>When deploying a validator you can either build the Docker image yourself or use
+a pre-built remote image provided by the Linera team.</p>
+<p>The Docker Compose manifest looks for the <code>LINERA_IMAGE</code> environment variable
+which is usually set by the default script. If it is not found, it defaults to
+the value <code>linera</code>, which is assumed to exist as an image locally.</p>
+<p>To resolve this issue either explicitly specify the <code>LINERA_IMAGE</code> or ensure
+that the
+<a href="operators/testnets/manual-installation.html#building-the-linera-docker-image">image is built locally</a>.</p>
+<h3 id="access-denied-to-genesisjson"><a class="header" href="#access-denied-to-genesisjson"><code>Access denied to genesis.json</code></a></h3>
+<p>This occurs when the genesis configuration URL is malformed via string
+formatting. The deploy script uses the name of the current branch to create the
+URL so make sure you have checked out <code>testnet_babbage</code>.</p>
+<h2 id="support"><a class="header" href="#support">Support</a></h2>
+<p>Support and communication with the core team is done via the <code>#validator</code>
+private channel in the <a href="https://discord.com/invite/linera">Linera Discord</a>.</p>
+<p>If there are any outstanding issues which could not be resolved by consulting
+this document, you can reach out there.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="glossary"><a class="header" href="#glossary">Glossary</a></h1>
 <ul>
 <li>

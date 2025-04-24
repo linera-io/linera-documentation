@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Printing Logs from an Application</title>
+        <title>Requirements</title>
 
 
         <!-- Custom HTML head -->
@@ -111,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/backend/logging.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/operators/testnets/requirements.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -140,30 +140,114 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="printing-logs-from-an-application"><a class="header" href="#printing-logs-from-an-application">Printing Logs from an Application</a></h1>
-<p>Applications can use the <a href="https://crates.io/crates/log"><code>log</code> crate</a> to print
-log messages with different levels of importance. Log messages are useful during
-development, but they may also be useful for end users. By default the
-<code>linera service</code> command will log the messages from an application if they are
-of the "info" importance level or higher (briefly, <code>log::info!</code>, <code>log::warn!</code>
-and <code>log::error!</code>).</p>
-<p>During development it is often useful to log messages of lower importance (such
-as <code>log::debug!</code> and <code>log::trace!</code>). To enable them, the <code>RUST_LOG</code> environment
-variable must be set before running <code>linera service</code>. The example below enables
-trace level messages from applications and enables warning level messages from
-other parts of the <code>linera</code> binary:</p>
-<pre><code class="language-ignore">export RUST_LOG="warn,linera_execution::wasm=trace"
+                        <h1 id="requirements"><a class="header" href="#requirements">Requirements</a></h1>
+<p>This section covers requirements for setting up a Linera Validator and joining a
+Testnet. The validator deployment has been comprehensively tested under
+<strong>Linux</strong>. There is no official support for MacOS or Windows yet.</p>
+<h2 id="installing-the-linera-toolchain"><a class="header" href="#installing-the-linera-toolchain">Installing the Linera Toolchain</a></h2>
+<blockquote>
+<p>When installing the Linera Toolchain, you <strong>must</strong> check out the
+<code>testnet_babbage</code> branch.</p>
+</blockquote>
+<p>To install the Linera Toolchain refer to the
+<a href="../../developers/getting_started/installation.html#installing-from-github">installation section</a>.</p>
+<p>You want to install the toolchain from GitHub, as you'll be using the repository
+to run the Docker Compose validator service.</p>
+<h2 id="docker-compose-requirements"><a class="header" href="#docker-compose-requirements">Docker Compose Requirements</a></h2>
+<p>Linera validators run under Docker compose.</p>
+<p>To install Docker Compose see the
+<a href="https://docs.docker.com/compose/install/">installing Docker Compose</a> section in
+the Docker docs.</p>
+<h2 id="key-management"><a class="header" href="#key-management">Key Management</a></h2>
+<p>Currently keys in Linera are stored in a JSON file in your local filesystem. For
+convenience, they are currently plaintext. The key is usually called
+<code>server.json</code> and is found in the <code>docker/</code> directory in the core protocol
+repository.</p>
+<p>Make sure to back up your keys once they are generated because if they are lost,
+they are currently unrecoverable.</p>
+<h2 id="infrastructure-requirements"><a class="header" href="#infrastructure-requirements">Infrastructure Requirements</a></h2>
+<p>Validators run via Docker Compose do not come with a pre-packaged load balancer
+to perform TLS termination (unlike validators running on Kubernetes).</p>
+<p>The load balancer configuration <strong>must</strong> have the following properties:</p>
+<ol>
+<li>Support HTTP/2 connections.</li>
+<li>Support gRPC connections.</li>
+<li>Support long-lived HTTP/2 connections.</li>
+<li>Support a maximum body size of up to 20 MB.</li>
+<li>Provide TLS termination with a certificate signed by a known CA.</li>
+</ol>
+<p>Finally, the load balancer that performs TLS termination must redirect traffic
+from <code>443</code> to <code>19100</code> (the port exposed by the proxy).</p>
+<h3 id="using-nginx"><a class="header" href="#using-nginx">Using Nginx</a></h3>
+<p>Minimum supported version: 1.18.0.</p>
+<p>Below is an example Nginx configuration which upholds the infrastructure
+requirements found in <code>/etc/nginx/sites-available/default</code>:</p>
+<pre><code class="language-ignore">server {
+        listen 80 http2;
+
+        location / {
+                grpc_pass grpc://127.0.0.1:19100;
+        }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name &lt;hostname&gt;; # e.g. my-subdomain.my-domain.net
+
+    # SSL certificates
+    ssl_certificate &lt;ssl-cert-path&gt;; # e.g. /etc/letsencrypt/live/my-subdomain.my-domain.net/fullchain.pem
+    ssl_certificate_key &lt;ssl-key-path&gt;; # e.g. /etc/letsencrypt/live/my-subdomain.my-domain.net/privkey.pem;
+
+    # Proxy traffic to the service running on port 19100.
+    location / {
+        grpc_pass grpc://127.0.0.1:19100;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    keepalive_timeout 10m 60s;
+    grpc_read_timeout 10m;
+    grpc_send_timeout 10m;
+
+    client_header_timeout 10m;
+    client_body_timeout 10m;
+}
+</code></pre>
+<h3 id="using-caddy"><a class="header" href="#using-caddy">Using Caddy</a></h3>
+<p>Minimum supported version: v2.4.3</p>
+<p>Below is an example Caddy configuration which upholds the infrastructure
+requirements found in <code>/etc/caddy/Caddyfile</code>:</p>
+<pre><code class="language-ignore">example.com {
+  reverse_proxy localhost:19100 {
+    transport http {
+      versions h2c
+      read_timeout 10m
+      write_timeout 10m
+    }
+  }
+}
+</code></pre>
+<h3 id="scylladb-configuration"><a class="header" href="#scylladb-configuration">ScyllaDB Configuration</a></h3>
+<p>ScyllaDB is an open-source distributed NoSQL database built for high-performance
+and low-latency. Linera validators use ScyllaDB as their persistent storage.</p>
+<p>ScyllaDB may require kernel parameters to be modified in order to work.
+Specifically the number of events allowed in asynchronous I/O contexts.</p>
+<p>To set this run:</p>
+<pre><code class="language-bash">echo 1048576 &gt; /proc/sys/fs/aio-max-nr
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/backend/blobs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../operators/testnets.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/backend/testing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../operators/testnets/one-click.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -173,11 +257,11 @@ other parts of the <code>linera</code> binary:</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/backend/blobs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../operators/testnets.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/backend/testing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../operators/testnets/one-click.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
