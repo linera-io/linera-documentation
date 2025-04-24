@@ -24,9 +24,9 @@ If the `shard-init` process is _still_ stuck after that, the issue is usually:
 2. Stale volumes from a previous deployment. Docker doesn't clean up volumes
    automatically when deleting an old deployment via `docker compose down` or
    even when running `docker system prune -a`. The old stale volumes need to be
-   removed epxlicitly via `docker volume rm ...`.
+   removed explicitly via `docker volume rm ...`.
 
-If neither of these fixes resolves the issue, a closer of inspection of the logs
+If neither of these fixes resolves the issue, a closer inspection of the logs
 is required.
 
 ### `pull access denied`
@@ -44,7 +44,7 @@ that the
 
 ### `Access denied to genesis.json`
 
-This occurs when the Genesis Configuration URL is malformed via string
+This occurs when the genesis configuration URL is malformed via string
 formatting. The deploy script uses the name of the current branch to create the
 URL so make sure you have checked out `{{#include ../../../RELEASE_BRANCH}}`.
 

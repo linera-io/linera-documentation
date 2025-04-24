@@ -28,7 +28,7 @@ Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,0
 ```
 
 The public key and account key, in this case beginning with `02a` and `009`
-respecetively, must be communicated to the Linera Protocol core team along with
+respectively, must be communicated to the Linera Protocol core team along with
 the chosen host name for onboarding in the next epoch.
 
 For a more bespoke deployment, refer to the manual installation instructions
