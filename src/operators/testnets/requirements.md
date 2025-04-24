@@ -26,7 +26,9 @@ the Docker docs.
 ## Key Management
 
 Currently keys in Linera are stored in a JSON file in your local filesystem. For
-convenience, they are currently plaintext.
+convenience, they are currently plaintext. The key is usually called
+`server.json` and is found in the `docker/` directory in the core protocol
+repository.
 
 Make sure to back up your keys once they are generated because if they are lost,
 they are currently unrecoverable.

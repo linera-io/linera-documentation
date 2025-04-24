@@ -5,8 +5,8 @@ resolve them.
 
 ## Common Issues
 
-Below we outline a few of the common occurrences with Linera validator and how
-to resolve them.
+Below we outline a few of the common occurrences with Linera validator
+deployments and how to resolve them.
 
 ### `shard-init` process is stuck
 
@@ -26,13 +26,13 @@ If the `shard-init` process is _still_ stuck after that, the issue is usually:
    even when running `docker system prune -a`. The old stale volumes need to be
    removed explicitly via `docker volume rm ...`.
 
-If neither of these fixes resolves the issue, a closer inspection of the logs
-is required.
+If neither of these fixes resolves the issue, a closer inspection of the logs is
+required.
 
 ### `pull access denied`
 
 When deploying a validator you can either build the Docker image yourself or use
-a pre-built remote image provided by Linera.
+a pre-built remote image provided by the Linera team.
 
 The Docker Compose manifest looks for the `LINERA_IMAGE` environment variable
 which is usually set by the default script. If it is not found, it defaults to
