@@ -26,10 +26,25 @@ Grpc = "ClearText" # Depending on your load balancer you may need "Tls" here.
 [internal_protocol]
 Grpc = "ClearText"
 
+# Adjust depending on the number of shards you have
 [[shards]]
-host = "shard"
+host = "docker-shard-1"
 port = 19100
-metrics_host = "shard"
+metrics_port = 21100
+
+[[shards]]
+host = "docker-shard-2"
+port = 19100
+metrics_port = 21100
+
+[[shards]]
+host = "docker-shard-3"
+port = 19100
+metrics_port = 21100
+
+[[shards]]
+host = "docker-shard-4"
+port = 19100
 metrics_port = 21100
 
 ```
