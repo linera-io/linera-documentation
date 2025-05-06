@@ -124,3 +124,11 @@ To set this run:
 ```bash
 echo 1048576 > /proc/sys/fs/aio-max-nr
 ```
+
+Once you're statisfied with the ScyllaDb configuration, consider make it
+persistent across OS reboots by editing `/etc/sysctl.conf`, setting
+`fs.aio-max-nr = 1048576`, then running:
+
+```bash
+sudo sysctl -p /etc/sysctl.conf
+```
