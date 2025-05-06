@@ -2973,6 +2973,11 @@ Specifically the number of events allowed in asynchronous I/O contexts.</p>
 <p>To set this run:</p>
 <pre><code class="language-bash">echo 1048576 &gt; /proc/sys/fs/aio-max-nr
 </code></pre>
+<p>Once you're statisfied with the ScyllaDb configuration, consider make it
+persistent across OS reboots by editing <code>/etc/sysctl.conf</code>, setting
+<code>fs.aio-max-nr = 1048576</code>, then running:</p>
+<pre><code class="language-bash">sudo sysctl -p /etc/sysctl.conf
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="one-click-deploy"><a class="header" href="#one-click-deploy">One-Click Deploy</a></h2>
 <p>After downloading the <code>linera-protocol</code> repository and checking out the testnet
 branch <code>testnet_babbage</code>, you can run
