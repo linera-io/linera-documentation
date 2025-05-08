@@ -129,7 +129,7 @@ we need to use the client running in
 APIs locally which we can use to interact with applications on the network.
 
 ```bash
-linera service
+linera service --port 8080
 ```
 
 <!-- TODO: add graphiql image here -->
