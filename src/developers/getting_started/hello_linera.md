@@ -44,7 +44,7 @@ Now, we're ready to create a developer wallet by running the following command
 in a separate shell:
 
 ```bash
-linera wallet init --with-new-chain --faucet localhost:8080
+linera wallet init --with-new-chain --faucet http://localhost:8080
 ```
 
 ```admonish warn
