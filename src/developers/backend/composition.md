@@ -7,7 +7,7 @@ This section is about calling other applications using _cross-application
 calls_.
 
 Such calls happen on the same chain and are made with the helper method
-[`ContractRuntime::call_application`](https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#call_application):
+[`ContractRuntime::call_application`](https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html#method_call_application):
 
 ```rust,ignore
 {{#include ../../../linera-protocol/linera-sdk/src/contract/runtime.rs:call_application}}

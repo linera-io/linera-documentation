@@ -10,12 +10,12 @@ may be different.
 
 For your application, you can specify any serializable type as the `Message`
 type in your `Contract` implementation. To send a message, use the
-[`ContractRuntime`](https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html)
+[`ContractRuntime`](https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html)
 made available as an argument to the contract's
 [`Contract::load`](https://docs.rs/linera-sdk/latest/linera_sdk/trait.Contract.html#tymethod.load)
 constructor. The runtime is usually stored inside the contract object, as we did
 when [writing the contract binary](./contract.md). We can then call
-[`ContractRuntime::prepare_message`](https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#prepare_message)
+[`ContractRuntime::prepare_message`](https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html#method_prepare_message)
 to start preparing a message, and then `send_to` to send it to a destination
 chain.
 
