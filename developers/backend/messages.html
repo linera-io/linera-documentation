@@ -150,12 +150,12 @@ handling code is guaranteed to be the same as the sending code, but the state
 may be different.</p>
 <p>For your application, you can specify any serializable type as the <code>Message</code>
 type in your <code>Contract</code> implementation. To send a message, use the
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html"><code>ContractRuntime</code></a>
+<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html"><code>ContractRuntime</code></a>
 made available as an argument to the contract's
 <a href="https://docs.rs/linera-sdk/latest/linera_sdk/trait.Contract.html#tymethod.load"><code>Contract::load</code></a>
 constructor. The runtime is usually stored inside the contract object, as we did
 when <a href="./contract.html">writing the contract binary</a>. We can then call
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#prepare_message"><code>ContractRuntime::prepare_message</code></a>
+<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html#method_prepare_message"><code>ContractRuntime::prepare_message</code></a>
 to start preparing a message, and then <code>send_to</code> to send it to a destination
 chain.</p>
 <pre><code class="language-rust ignore">    self.runtime

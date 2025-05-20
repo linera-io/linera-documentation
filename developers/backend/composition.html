@@ -146,7 +146,7 @@ always handled by the <em>same</em> application on the target chain.</p>
 <p>This section is about calling other applications using <em>cross-application
 calls</em>.</p>
 <p>Such calls happen on the same chain and are made with the helper method
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/type.ContractRuntime.html#call_application"><code>ContractRuntime::call_application</code></a>:</p>
+<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html#method_call_application"><code>ContractRuntime::call_application</code></a>:</p>
 <pre><code class="language-rust ignore">    pub fn call_application&lt;A: ContractAbi + Send&gt;(
         &amp;mut self,
         authenticated: bool,
