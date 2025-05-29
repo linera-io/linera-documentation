@@ -19,7 +19,7 @@ application while also specifying:
 
 ```bash
 linera publish-and-create \
-  target/wasm32-unknown-unknown/release/my-counter_{contract,service}.wasm \
+  target/wasm32-unknown-unknown/release/my_counter_{contract,service}.wasm \
   --json-argument "42"
 ```
 
@@ -42,7 +42,7 @@ specifying:
 
 ```bash
 linera publish-and-create \
-  target/wasm32-unknown-unknown/release/my-counter_{contract,service}.wasm \
+  target/wasm32-unknown-unknown/release/my_counter_{contract,service}.wasm \
   --json-argument "42"
 ```
 
