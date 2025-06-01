@@ -22,7 +22,7 @@
   selected at the next block height.
 
 - **Bytecode**: A collection of bytes corresponding to a program that can be run
-  by the Wasm virtual machine.
+  by the virtual machine. This is either a Wasm or EVM bytecode.
 
 - **Client**: The `linera` program, which is a local node and wallet operated by
   users to make requests to the network. In Linera, clients drive the network by
