@@ -46,6 +46,8 @@ The load balancer configuration **must** have the following properties:
 4. Support a maximum body size of up to 20 MB.
 5. Provide TLS termination with a certificate signed by a known CA.
 
+To support connections from the Web client, CORS headers must be provided.
+
 Finally, the load balancer that performs TLS termination must redirect traffic
 from `443` to `19100` (the port exposed by the proxy).
 
@@ -81,6 +83,7 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Access-Control-Allow-Origin *;
     }
 
     keepalive_timeout 10m 60s;
@@ -107,6 +110,8 @@ example.com {
       read_timeout 10m
       write_timeout 10m
     }
+
+    header Access-Control-Allow-Origin *
   }
 }
 ```
