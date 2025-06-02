@@ -199,7 +199,7 @@ the location of your wallet files, you may optionally set the variables
 <code>LINERA_WALLET</code> and <code>LINERA_STORAGE</code> as follows:</p>
 <pre><code class="language-bash">DIR=$HOME/my_directory
 mkdir -p $DIR
-export LINERA_WALLET=$DIR/wallet.json"
+export LINERA_WALLET="$DIR/wallet.json"
 export LINERA_STORAGE="rocksdb:$DIR/linera.db"
 </code></pre>
 <p>Choosing such a directory can be useful to work with several networks because a
