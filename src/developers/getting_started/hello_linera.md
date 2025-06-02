@@ -62,7 +62,7 @@ the location of your wallet files, you may optionally set the variables
 ```bash
 DIR=$HOME/my_directory
 mkdir -p $DIR
-export LINERA_WALLET=$DIR/wallet.json"
+export LINERA_WALLET="$DIR/wallet.json"
 export LINERA_STORAGE="rocksdb:$DIR/linera.db"
 ```
 
