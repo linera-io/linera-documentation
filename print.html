@@ -40,7 +40,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-68d988ca.js"></script>
+        <script src="toc-142e14bc.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -2609,8 +2609,13 @@ does this:</p>
 you are guaranteed that at any point in time you can get back either the tokens
 you are offering or the tokens you bought.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="experimental-topics"><a class="header" href="#experimental-topics">Experimental Topics</a></h1>
-<p>In this section, we present experimental topics related to the Linera protocol.</p>
-<p>These are still in the works and subject to frequent breaking changes.</p>
+<p>In this section, we present some experimental features of the Linera protocol.</p>
+<p>Experimental features are generally not available on the Linera testnet. You may
+have to compile Linera from sources from the <code>main</code> branch of
+<a href="https://github.com/linera-io/linera-protocol">the repository</a>, then run a
+<a href="developers/getting_started/hello_linera.html#using-a-local-test-network">local test network</a>.</p>
+<p>You may also need to select specific Cargo features during compilation using
+<code>--features</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="machine-learning-on-linera"><a class="header" href="#machine-learning-on-linera">Machine Learning on Linera</a></h1>
 <p>The Linera application contract / service split allows for securely and
 efficiently running machine learning models on the edge.</p>
@@ -2725,6 +2730,95 @@ currently constrained by:</p>
 </ol>
 <p>It is recommended that smaller models (50 MB - 100 MB) are used at current state
 of development.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="using-evm-based-smart-contracts-on-linera"><a class="header" href="#using-evm-based-smart-contracts-on-linera">Using EVM-Based Smart Contracts on Linera</a></h1>
+<p>It is possible to use Ethereum Virtual Machine (EVM)-based smart contracts on
+Linera. These contracts are typically written in Solidity.</p>
+<p>EVM smart contracts have access Linera-specific functionality of Linera through
+the <code>Linera.sol</code> library which exposes necessary interfaces for integration.</p>
+<p>This allows smart contracts originally deployed on Ethereum to be migrated to
+Linera and progressively adapted to Linera’s architecture and features.</p>
+<h2 id="publishing-evm-smart-contracts"><a class="header" href="#publishing-evm-smart-contracts">Publishing EVM Smart Contracts</a></h2>
+<p>The process for publishing EVM smart contracts is similar to that for Wasm smart
+contracts, with the key difference being the need to specify the virtual machine
+used (the default is Wasm).</p>
+<p>For EVM contracts, there is only one bytecode file (unlike Wasm, which requires
+separate <code>contract</code> and <code>service</code> binaries). Therefore, the same file must be
+passed twice:</p>
+<pre><code class="language-bash">linera publish-and-create \
+  counter.bytecode counter.bytecode \
+  --vm-runtime evm \
+  --json-parameters "42"
+</code></pre>
+<p>Here, <code>counter.bytecode</code> contains the compiled contract, and "42" is passed as a
+constructor argument via the <code>--json-parameters</code> flag.</p>
+<p>Constructor arguments for the EVM contract are passed through application
+parameters. Instantiation-specific arguments are provided separately.</p>
+<h2 id="calling-other-smart-contracts"><a class="header" href="#calling-other-smart-contracts">Calling other smart contracts.</a></h2>
+<p>EVM smart contracts on Linera can invoke other EVM contracts using standard
+Solidity syntax.</p>
+<h3 id="evm-contracts-calling-wasm-smart-contracts"><a class="header" href="#evm-contracts-calling-wasm-smart-contracts">EVM Contracts calling Wasm smart contracts.</a></h3>
+<p>To call a Wasm smart contract from an EVM contract, use the following Solidity
+command:</p>
+<pre><code class="language-solidity">	bytes memory return_value = Linera.try_call_application(address, input);
+</code></pre>
+<ul>
+<li><code>address</code>: the address of the Wasm smart contract, as a <code>bytes32</code>.</li>
+<li><code>input</code>: the bytes representing the BCS-serialized <code>ContractAbi::Operation</code>
+input.</li>
+</ul>
+<p>The serialization code can be generated using the <code>serde-reflection</code> crate.</p>
+<h3 id="wasm-smart-contracts-calling-evm-contracts"><a class="header" href="#wasm-smart-contracts-calling-evm-contracts">Wasm Smart Contracts calling EVM Contracts.</a></h3>
+<p>Wasm smart contracts can call EVM contracts using the <code>alloy-sol-types</code> crate.
+This crate enables construction of Solidity-compatible types and supports RLP
+serialization/deserialization.</p>
+<p>The Wasm contract call-evm-counter demonstrates this functionality.</p>
+<ul>
+<li>
+<p>For operations, the input type is <code>Vec&lt;u8&gt;</code>.</p>
+</li>
+<li>
+<p>For service calls, the input type is <code>EvmQuery</code>.</p>
+</li>
+</ul>
+<p>Note: Linera distinguishes between contract and service code execution contexts.</p>
+<h2 id="multichain-evm-applications"><a class="header" href="#multichain-evm-applications">Multichain EVM applications.</a></h2>
+<p>To operate across multiple chains, an EVM application must implement the
+following functions:</p>
+<pre><code class="language-solidity">    function instantiate(bytes memory input) external
+    function execute_message(bytes memory input) external
+</code></pre>
+<ul>
+<li>
+<p><code>instantiate</code> is called on the creator chain.</p>
+</li>
+<li>
+<p><code>execute_message</code> handles incoming cross-chain messages.</p>
+</li>
+</ul>
+<p>Additional SDK functions available include:</p>
+<pre><code class="language-solidity">    Linera.chain_ownership()
+    Linera.read_data_blob()
+    Linera.assert_data_blob_exists()
+    Linera.validation_round()
+    Linera.message_id()
+    Linera.message_is_bouncing()
+</code></pre>
+<h2 id="difference-between-evm-applications-in-ethereum-and-linera"><a class="header" href="#difference-between-evm-applications-in-ethereum-and-linera">Difference between EVM applications in Ethereum and Linera.</a></h2>
+<ul>
+<li>
+<p><code>Reentrancy</code>: Reentrancy is not supported on Linera. Contracts relying on it
+will fail with a clean error.</p>
+</li>
+<li>
+<p><code>Address Computation</code>: Contract addresses are computed differently from
+Ethereum.</p>
+</li>
+<li>
+<p><code>Gas Limits</code>: Following Infura's practice, Linera imposes a gas limit of
+20,000,000 for service calls in EVM contracts. Contract execution is similarly
+constrained.</p>
+</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="devnets"><a class="header" href="#devnets">Devnets</a></h1>
 <p>This section discusses how to deploy developer networks, aka "Devnets", for
 testing and development purposes.</p>

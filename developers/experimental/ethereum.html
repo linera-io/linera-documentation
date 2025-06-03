@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Requirements</title>
+        <title>Ethereum</title>
 
 
         <!-- Custom HTML head -->
@@ -111,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/operators/testnets/requirements.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/experimental/ethereum.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -140,123 +140,105 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="requirements"><a class="header" href="#requirements">Requirements</a></h1>
-<p>This section covers requirements for setting up a Linera Validator and joining a
-Testnet. The validator deployment has been comprehensively tested under
-<strong>Linux</strong>. There is no official support for MacOS or Windows yet.</p>
-<h2 id="installing-the-linera-toolchain"><a class="header" href="#installing-the-linera-toolchain">Installing the Linera Toolchain</a></h2>
-<blockquote>
-<p>When installing the Linera Toolchain, you <strong>must</strong> check out the
-<code>testnet_babbage</code> branch.</p>
-</blockquote>
-<p>To install the Linera Toolchain refer to the
-<a href="../../developers/getting_started/installation.html#installing-from-github">installation section</a>.</p>
-<p>You want to install the toolchain from GitHub, as you'll be using the repository
-to run the Docker Compose validator service.</p>
-<h2 id="docker-compose-requirements"><a class="header" href="#docker-compose-requirements">Docker Compose Requirements</a></h2>
-<p>Linera validators run under Docker compose.</p>
-<p>To install Docker Compose see the
-<a href="https://docs.docker.com/compose/install/">installing Docker Compose</a> section in
-the Docker docs.</p>
-<h2 id="key-management"><a class="header" href="#key-management">Key Management</a></h2>
-<p>Currently keys in Linera are stored in a JSON file in your local filesystem. For
-convenience, they are currently plaintext. The key is usually called
-<code>server.json</code> and is found in the <code>docker/</code> directory in the core protocol
-repository.</p>
-<p>Make sure to back up your keys once they are generated because if they are lost,
-they are currently unrecoverable.</p>
-<h2 id="infrastructure-requirements"><a class="header" href="#infrastructure-requirements">Infrastructure Requirements</a></h2>
-<p>Validators run via Docker Compose do not come with a pre-packaged load balancer
-to perform TLS termination (unlike validators running on Kubernetes).</p>
-<p>The load balancer configuration <strong>must</strong> have the following properties:</p>
-<ol>
-<li>Support HTTP/2 connections.</li>
-<li>Support gRPC connections.</li>
-<li>Support long-lived HTTP/2 connections.</li>
-<li>Support a maximum body size of up to 20 MB.</li>
-<li>Provide TLS termination with a certificate signed by a known CA.</li>
-</ol>
-<p>To support connections from the Web client, CORS headers must be provided.</p>
-<p>Finally, the load balancer that performs TLS termination must redirect traffic
-from <code>443</code> to <code>19100</code> (the port exposed by the proxy).</p>
-<h3 id="using-nginx"><a class="header" href="#using-nginx">Using Nginx</a></h3>
-<p>Minimum supported version: 1.18.0.</p>
-<p>Below is an example Nginx configuration which upholds the infrastructure
-requirements found in <code>/etc/nginx/sites-available/default</code>:</p>
-<pre><code class="language-ignore">server {
-        listen 80 http2;
-
-        location / {
-                grpc_pass grpc://127.0.0.1:19100;
-        }
-}
-
-server {
-    listen 443 ssl http2;
-    server_name &lt;hostname&gt;; # e.g. my-subdomain.my-domain.net
-
-    # SSL certificates
-    ssl_certificate &lt;ssl-cert-path&gt;; # e.g. /etc/letsencrypt/live/my-subdomain.my-domain.net/fullchain.pem
-    ssl_certificate_key &lt;ssl-key-path&gt;; # e.g. /etc/letsencrypt/live/my-subdomain.my-domain.net/privkey.pem;
-
-    # Proxy traffic to the service running on port 19100.
-    location / {
-        grpc_pass grpc://127.0.0.1:19100;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header Access-Control-Allow-Origin *;
-    }
-
-    keepalive_timeout 10m 60s;
-    grpc_read_timeout 10m;
-    grpc_send_timeout 10m;
-
-    client_header_timeout 10m;
-    client_body_timeout 10m;
-}
+                        <h1 id="using-evm-based-smart-contracts-on-linera"><a class="header" href="#using-evm-based-smart-contracts-on-linera">Using EVM-Based Smart Contracts on Linera</a></h1>
+<p>It is possible to use Ethereum Virtual Machine (EVM)-based smart contracts on
+Linera. These contracts are typically written in Solidity.</p>
+<p>EVM smart contracts have access Linera-specific functionality of Linera through
+the <code>Linera.sol</code> library which exposes necessary interfaces for integration.</p>
+<p>This allows smart contracts originally deployed on Ethereum to be migrated to
+Linera and progressively adapted to Linera’s architecture and features.</p>
+<h2 id="publishing-evm-smart-contracts"><a class="header" href="#publishing-evm-smart-contracts">Publishing EVM Smart Contracts</a></h2>
+<p>The process for publishing EVM smart contracts is similar to that for Wasm smart
+contracts, with the key difference being the need to specify the virtual machine
+used (the default is Wasm).</p>
+<p>For EVM contracts, there is only one bytecode file (unlike Wasm, which requires
+separate <code>contract</code> and <code>service</code> binaries). Therefore, the same file must be
+passed twice:</p>
+<pre><code class="language-bash">linera publish-and-create \
+  counter.bytecode counter.bytecode \
+  --vm-runtime evm \
+  --json-parameters "42"
 </code></pre>
-<h3 id="using-caddy"><a class="header" href="#using-caddy">Using Caddy</a></h3>
-<p>Minimum supported version: v2.4.3</p>
-<p>Below is an example Caddy configuration which upholds the infrastructure
-requirements found in <code>/etc/caddy/Caddyfile</code>:</p>
-<pre><code class="language-ignore">example.com {
-  reverse_proxy localhost:19100 {
-    transport http {
-      versions h2c
-      read_timeout 10m
-      write_timeout 10m
-    }
-
-    header Access-Control-Allow-Origin *
-  }
-}
+<p>Here, <code>counter.bytecode</code> contains the compiled contract, and "42" is passed as a
+constructor argument via the <code>--json-parameters</code> flag.</p>
+<p>Constructor arguments for the EVM contract are passed through application
+parameters. Instantiation-specific arguments are provided separately.</p>
+<h2 id="calling-other-smart-contracts"><a class="header" href="#calling-other-smart-contracts">Calling other smart contracts.</a></h2>
+<p>EVM smart contracts on Linera can invoke other EVM contracts using standard
+Solidity syntax.</p>
+<h3 id="evm-contracts-calling-wasm-smart-contracts"><a class="header" href="#evm-contracts-calling-wasm-smart-contracts">EVM Contracts calling Wasm smart contracts.</a></h3>
+<p>To call a Wasm smart contract from an EVM contract, use the following Solidity
+command:</p>
+<pre><code class="language-solidity">	bytes memory return_value = Linera.try_call_application(address, input);
 </code></pre>
-<h3 id="scylladb-configuration"><a class="header" href="#scylladb-configuration">ScyllaDB Configuration</a></h3>
-<p>ScyllaDB is an open-source distributed NoSQL database built for high-performance
-and low-latency. Linera validators use ScyllaDB as their persistent storage.</p>
-<p>ScyllaDB may require kernel parameters to be modified in order to work.
-Specifically the number of events allowed in asynchronous I/O contexts.</p>
-<p>To set this run:</p>
-<pre><code class="language-bash">echo 1048576 &gt; /proc/sys/fs/aio-max-nr
+<ul>
+<li><code>address</code>: the address of the Wasm smart contract, as a <code>bytes32</code>.</li>
+<li><code>input</code>: the bytes representing the BCS-serialized <code>ContractAbi::Operation</code>
+input.</li>
+</ul>
+<p>The serialization code can be generated using the <code>serde-reflection</code> crate.</p>
+<h3 id="wasm-smart-contracts-calling-evm-contracts"><a class="header" href="#wasm-smart-contracts-calling-evm-contracts">Wasm Smart Contracts calling EVM Contracts.</a></h3>
+<p>Wasm smart contracts can call EVM contracts using the <code>alloy-sol-types</code> crate.
+This crate enables construction of Solidity-compatible types and supports RLP
+serialization/deserialization.</p>
+<p>The Wasm contract call-evm-counter demonstrates this functionality.</p>
+<ul>
+<li>
+<p>For operations, the input type is <code>Vec&lt;u8&gt;</code>.</p>
+</li>
+<li>
+<p>For service calls, the input type is <code>EvmQuery</code>.</p>
+</li>
+</ul>
+<p>Note: Linera distinguishes between contract and service code execution contexts.</p>
+<h2 id="multichain-evm-applications"><a class="header" href="#multichain-evm-applications">Multichain EVM applications.</a></h2>
+<p>To operate across multiple chains, an EVM application must implement the
+following functions:</p>
+<pre><code class="language-solidity">    function instantiate(bytes memory input) external
+    function execute_message(bytes memory input) external
 </code></pre>
-<p>Once you're statisfied with the ScyllaDb configuration, consider make it
-persistent across OS reboots by editing <code>/etc/sysctl.conf</code>, setting
-<code>fs.aio-max-nr = 1048576</code>, then running:</p>
-<pre><code class="language-bash">sudo sysctl -p /etc/sysctl.conf
+<ul>
+<li>
+<p><code>instantiate</code> is called on the creator chain.</p>
+</li>
+<li>
+<p><code>execute_message</code> handles incoming cross-chain messages.</p>
+</li>
+</ul>
+<p>Additional SDK functions available include:</p>
+<pre><code class="language-solidity">    Linera.chain_ownership()
+    Linera.read_data_blob()
+    Linera.assert_data_blob_exists()
+    Linera.validation_round()
+    Linera.message_id()
+    Linera.message_is_bouncing()
 </code></pre>
+<h2 id="difference-between-evm-applications-in-ethereum-and-linera"><a class="header" href="#difference-between-evm-applications-in-ethereum-and-linera">Difference between EVM applications in Ethereum and Linera.</a></h2>
+<ul>
+<li>
+<p><code>Reentrancy</code>: Reentrancy is not supported on Linera. Contracts relying on it
+will fail with a clean error.</p>
+</li>
+<li>
+<p><code>Address Computation</code>: Contract addresses are computed differently from
+Ethereum.</p>
+</li>
+<li>
+<p><code>Gas Limits</code>: Following Infura's practice, Linera imposes a gas limit of
+20,000,000 for service calls in EVM contracts. Contract execution is similarly
+constrained.</p>
+</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../operators/testnets.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/experimental/ml.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../operators/testnets/one-click.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../operators/devnets.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -266,11 +248,11 @@ persistent across OS reboots by editing <code>/etc/sysctl.conf</code>, setting
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../operators/testnets.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/experimental/ml.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../operators/testnets/one-click.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../operators/devnets.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
