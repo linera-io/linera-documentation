@@ -61,6 +61,8 @@
 
   - [Machine Learning](developers/experimental/ml.md)
 
+  - [Ethereum](developers/experimental/ethereum.md)
+
 ---
 
 # Node Operators
