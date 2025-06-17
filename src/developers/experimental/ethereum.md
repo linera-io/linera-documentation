@@ -1,15 +1,36 @@
-# Using EVM-Based Smart Contracts on Linera
+# Using EVM Smart Contracts on Linera
 
-It is possible to use Ethereum Virtual Machine (EVM)-based smart contracts on
-Linera. These contracts are typically written in Solidity.
+Thanks to the experimental integration of
+[`Revm`](https://bluealloy.github.io/revm/) in Linera, it is now possible to run
+smart contracts compiled for the Ethereum Virtual Machine (EVM) within Linera
+microchains.
 
-EVM smart contracts have access Linera-specific functionality of Linera through
-the `Linera.sol` library which exposes necessary interfaces for integration.
+The main purpose of this integration is to allow opensource smart contracts
+originally written for Ethereum to be more easily migrated to the Linera
+protocol and composed with existing Linera applications.
 
-This allows smart contracts originally deployed on Ethereum to be migrated to
-Linera and progressively adapted to Linera’s architecture and features.
+## Overview and code examples
 
-## Publishing EVM Smart Contracts
+We generally assume that EVM smart contracts are written in
+[Solidity](https://soliditylang.org/) and compiled to EVM bytecode using the
+Solidity compiler.
+
+Transactions running on the EVM are still following the programming model of the
+Linera protocol, notably they can only access the local state of the microchain
+that executes them. Inside a microchain, contracts may call each other as usual,
+possibly across virtual machines.
+
+The main features of Linera, such as cross-chain messaging, are also supported
+in the EVM. These functionalities are exposed through a Solidity library
+[`Linera.sol`](https://github.com/linera-io/linera-protocol/tree/main/linera-execution/solidity/Linera.sol).
+
+Frontends may interact with EVM contracts using custom EVM-like RPCs or using a
+Rust/Wasm application as a proxy.
+
+Code examples for the features described below can be found under the directory
+[`linera-service/tests/fixtures`](https://github.com/linera-io/linera-protocol/tree/main/linera-service/tests/fixtures).
+
+## Publishing EVM smart contracts
 
 The process for publishing EVM smart contracts is similar to that for Wasm smart
 contracts, with the key difference being the need to specify the virtual machine
@@ -52,7 +73,7 @@ command:
 
 The serialization code can be generated using the `serde-reflection` crate.
 
-### Wasm Smart Contracts calling EVM Contracts.
+### Wasm smart contracts calling EVM Contracts.
 
 Wasm smart contracts can call EVM contracts using the `alloy-sol-types` crate.
 This crate enables construction of Solidity-compatible types and supports RLP
@@ -93,8 +114,9 @@ Additional SDK functions available include:
 
 ## Difference between EVM applications in Ethereum and Linera.
 
-- `Reentrancy`: Reentrancy is not supported on Linera. Contracts relying on it
-  will fail with a clean error.
+- `Reentrancy`: Reentrancy is currently not supported on Linera. Contracts
+  relying on it will fail with a clean error. In the future, reentrancy may be
+  allowed as an option.
 
 - `Address Computation`: Contract addresses are computed differently from
   Ethereum.
