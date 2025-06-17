@@ -140,14 +140,30 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="using-evm-based-smart-contracts-on-linera"><a class="header" href="#using-evm-based-smart-contracts-on-linera">Using EVM-Based Smart Contracts on Linera</a></h1>
-<p>It is possible to use Ethereum Virtual Machine (EVM)-based smart contracts on
-Linera. These contracts are typically written in Solidity.</p>
-<p>EVM smart contracts have access Linera-specific functionality of Linera through
-the <code>Linera.sol</code> library which exposes necessary interfaces for integration.</p>
-<p>This allows smart contracts originally deployed on Ethereum to be migrated to
-Linera and progressively adapted to Linera’s architecture and features.</p>
-<h2 id="publishing-evm-smart-contracts"><a class="header" href="#publishing-evm-smart-contracts">Publishing EVM Smart Contracts</a></h2>
+                        <h1 id="using-evm-smart-contracts-on-linera"><a class="header" href="#using-evm-smart-contracts-on-linera">Using EVM Smart Contracts on Linera</a></h1>
+<p>Thanks to the experimental integration of
+<a href="https://bluealloy.github.io/revm/"><code>Revm</code></a> in Linera, it is now possible to run
+smart contracts compiled for the Ethereum Virtual Machine (EVM) within Linera
+microchains.</p>
+<p>The main purpose of this integration is to allow opensource smart contracts
+originally written for Ethereum to be more easily migrated to the Linera
+protocol and composed with existing Linera applications.</p>
+<h2 id="overview-and-code-examples"><a class="header" href="#overview-and-code-examples">Overview and code examples</a></h2>
+<p>We generally assume that EVM smart contracts are written in
+<a href="https://soliditylang.org/">Solidity</a> and compiled to EVM bytecode using the
+Solidity compiler.</p>
+<p>Transactions running on the EVM are still following the programming model of the
+Linera protocol, notably they can only access the local state of the microchain
+that executes them. Inside a microchain, contracts may call each other as usual,
+possibly across virtual machines.</p>
+<p>The main features of Linera, such as cross-chain messaging, are also supported
+in the EVM. These functionalities are exposed through a Solidity library
+<a href="https://github.com/linera-io/linera-protocol/tree/main/linera-execution/solidity/Linera.sol"><code>Linera.sol</code></a>.</p>
+<p>Frontends may interact with EVM contracts using custom EVM-like RPCs or using a
+Rust/Wasm application as a proxy.</p>
+<p>Code examples for the features described below can be found under the directory
+<a href="https://github.com/linera-io/linera-protocol/tree/main/linera-service/tests/fixtures"><code>linera-service/tests/fixtures</code></a>.</p>
+<h2 id="publishing-evm-smart-contracts"><a class="header" href="#publishing-evm-smart-contracts">Publishing EVM smart contracts</a></h2>
 <p>The process for publishing EVM smart contracts is similar to that for Wasm smart
 contracts, with the key difference being the need to specify the virtual machine
 used (the default is Wasm).</p>
@@ -177,7 +193,7 @@ command:</p>
 input.</li>
 </ul>
 <p>The serialization code can be generated using the <code>serde-reflection</code> crate.</p>
-<h3 id="wasm-smart-contracts-calling-evm-contracts"><a class="header" href="#wasm-smart-contracts-calling-evm-contracts">Wasm Smart Contracts calling EVM Contracts.</a></h3>
+<h3 id="wasm-smart-contracts-calling-evm-contracts"><a class="header" href="#wasm-smart-contracts-calling-evm-contracts">Wasm smart contracts calling EVM Contracts.</a></h3>
 <p>Wasm smart contracts can call EVM contracts using the <code>alloy-sol-types</code> crate.
 This crate enables construction of Solidity-compatible types and supports RLP
 serialization/deserialization.</p>
@@ -216,8 +232,9 @@ following functions:</p>
 <h2 id="difference-between-evm-applications-in-ethereum-and-linera"><a class="header" href="#difference-between-evm-applications-in-ethereum-and-linera">Difference between EVM applications in Ethereum and Linera.</a></h2>
 <ul>
 <li>
-<p><code>Reentrancy</code>: Reentrancy is not supported on Linera. Contracts relying on it
-will fail with a clean error.</p>
+<p><code>Reentrancy</code>: Reentrancy is currently not supported on Linera. Contracts
+relying on it will fail with a clean error. In the future, reentrancy may be
+allowed as an option.</p>
 </li>
 <li>
 <p><code>Address Computation</code>: Contract addresses are computed differently from
