@@ -33,6 +33,7 @@ runnable = false
 optional = true
 follow-web-links = true
 exclude = [ 'x\.com', 'crates\.io' ]
+traverse-parent-directories = true
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
