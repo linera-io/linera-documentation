@@ -82,7 +82,7 @@ Codename: Babbage
 
 **SDK**
 
-- Browser extension and wallet connect
+- Wallet connect (signing demo with external wallet)
 
 - Event streams (deprecating pub/sub channels)
 
@@ -97,16 +97,13 @@ Codename: Babbage
 
 - Execution cache for faster server-side and client-side block execution
 
-- Protocol upgradability, including block format, virtual machines, and system
-  APIs
-
 - Simplify chain creation and support externally created microchains
 
 **Infrastructure**
 
 - High-TPS configuration
 
-- Block indexing and Walrus archives
+- Software service to support block indexing
 
 ## Testnet #4
 
@@ -119,6 +116,9 @@ Codename: Babbage
 - Application upgradability
 
 **Core protocol**
+
+- Protocol upgradability, including block format, virtual machines, and system
+  APIs
 
 - Governance chain
 
@@ -147,6 +147,10 @@ Codename: Babbage
 - Performance improvements
 
 **Infrastructure**
+
+- Block indexing and block explorer
+
+- Walrus archives
 
 - Support for dynamic shard assignment and elasticity
 
