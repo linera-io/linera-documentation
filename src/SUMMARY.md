@@ -63,6 +63,16 @@
 
   - [Ethereum](developers/experimental/ethereum.md)
 
+  - [JavaScript API](developers/experimental/javascript-api/README.md)
+    - [Wallet](developers/experimental/javascript-api/classes/Wallet.md)
+    - [Client](developers/experimental/javascript-api/classes/Client.md)
+    - [Frontend](developers/experimental/javascript-api/classes/Frontend.md)
+    - [Signer](developers/experimental/javascript-api/interfaces/Signer.md)
+    - [default](developers/experimental/javascript-api/functions/default.md)
+    - [initSync](developers/experimental/javascript-api/functions/initSync.md)
+    - [wasm_thread_entry_point](developers/experimental/javascript-api/functions/wasm_thread_entry_point.md)
+    - [ReadableStreamType](developers/experimental/javascript-api/type-aliases/ReadableStreamType.md)
+
 ---
 
 # Node Operators
