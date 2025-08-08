@@ -194,20 +194,20 @@ protocol itself, see the installation section on
 <a href="https://github.com/linera-io/linera-protocol/blob/main/INSTALL.md">GitHub</a>.</p>
 <p>This manual was tested with the following Rust toolchain:</p>
 <pre><code class="language-text">[toolchain]
-channel = "1.85.0"
+channel = "1.86.0"
 components = [ "clippy", "rustfmt", "rust-src" ]
 targets = [ "wasm32-unknown-unknown" ]
 profile = "minimal"
 </code></pre>
 <h2 id="installing-from-cratesio"><a class="header" href="#installing-from-cratesio">Installing from crates.io</a></h2>
 <p>You may install the Linera binaries with</p>
-<pre><code class="language-bash">cargo install --locked linera-storage-service@0.14.1
-cargo install --locked linera-service@0.14.1
+<pre><code class="language-bash">cargo install --locked linera-storage-service@0.14.2
+cargo install --locked linera-service@0.14.2
 </code></pre>
 <p>and use <code>linera-sdk</code> as a library for Linera Wasm applications:</p>
-<pre><code class="language-bash">cargo add linera-sdk@0.14.1
+<pre><code class="language-bash">cargo add linera-sdk@0.14.2
 </code></pre>
-<p>The version number <code>0.14.1</code> corresponds to the
+<p>The version number <code>0.14.2</code> corresponds to the
 current Testnet of Linera. The minor version may change frequently but should
 not induce breaking changes.</p>
 <h2 id="installing-from-github"><a class="header" href="#installing-from-github">Installing from GitHub</a></h2>
@@ -224,7 +224,7 @@ cargo install --locked --path linera-service
 compiled in debug mode, e.g. using <code>export PATH="$PWD/target/debug:$PATH"</code>.</p>
 <p>This manual was tested against the following commit of the
 <a href="https://github.com/linera-io/linera-protocol">repository</a>:</p>
-<pre><code class="language-text">300ba6d6a015d93a837296004e5958f843452248
+<pre><code class="language-text">ac85d8ae32d8e759e87f3407cd02438970d0b3ae
 </code></pre>
 <h2 id="getting-help"><a class="header" href="#getting-help">Getting help</a></h2>
 <p>If installation fails, reach out to the team (e.g. on
