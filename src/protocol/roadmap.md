@@ -50,7 +50,7 @@ Codename: Archimedes
 
 - Onboarding of 20+ external validators
 
-## Testnet #2 (planned Apr 2025)
+## Testnet #2 (released Apr 2025)
 
 Codename: Babbage
 
@@ -78,7 +78,9 @@ Codename: Babbage
 
 - Support for resizing workers offline
 
-## Testnet #3
+## Testnet #3 (planned Sep 2025)
+
+Codename: Conway
 
 **SDK**
 
