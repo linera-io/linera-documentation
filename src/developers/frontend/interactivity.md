@@ -30,7 +30,7 @@ Now the module `@linera/client` is available for import in your module:
 ## Referring to the counter app
 
 We'll need the application ID of the counter app deployed on our network of
-choice. This tutorial uses Testnet Babbage, and the following application ID
+choice. This tutorial uses Testnet Conway, and the following application ID
 refers to a counter app published there:
 
 ```javascript
@@ -56,13 +56,13 @@ await linera.default();
 
 If you have a wallet file available, you can use the `linera.Wallet.fromJson`
 function to create a `linera.Wallet` from it. However, for the purposes of the
-tutorial, we will connect to the Testnet Babbage faucet and create a new wallet
+tutorial, we will connect to the Testnet Conway faucet and create a new wallet
 with a fresh chain owning some tokens. We will also update our `#chain-id`
 element to let the user know the ID of their new chain.
 
 ```javascript
 const faucet = await new linera.Faucet(
-  'https://faucet.testnet-babbage.linera.net',
+  'https://faucet.testnet-conway.linera.net',
 );
 const wallet = await faucet.createWallet();
 const client = await new linera.Client(wallet);
