@@ -31,7 +31,7 @@ cross-application call with `Operation::EndSession` before the transaction ends.
 # use linera_sdk::linera_base_types::ApplicationId;
 
 #[derive(RootView)]
-#[view(context = "ViewStorageContext")]
+#[view(context = ViewStorageContext)]
 pub struct MyState {
     pub value: RegisterView<u64>,
     // ...

@@ -25,12 +25,6 @@ chain.
         .send_to(destination_chain_id);
 ```
 
-It is also possible to send a message to a subscription channel, so that the
-message is forwarded to the subscribers of that channel. All that has to be done
-is specify a
-[`ChannelName`](https://docs.rs/linera-base/latest/linera_base/identifiers/struct.ChannelName.html)
-as the destination parameter to `send_to`.
-
 After block execution in the _sending_ chain, sent messages are placed in the
 _target_ chains' inboxes for processing. There is no guarantee that it will be
 handled: For this to happen, an owner of the target chain needs to include it in
