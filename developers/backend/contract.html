@@ -145,47 +145,14 @@
 actually change the state of the application.</p>
 <p>To create a contract, we need to create a new type and implement the <code>Contract</code>
 trait for it, which is as follows:</p>
-<pre><code class="language-rust ignore">pub trait Contract: WithContractAbi + ContractAbi + Sized {
-    /// The type of message executed by the application.
-    type Message: Serialize + DeserializeOwned + Debug;
-
-    /// Immutable parameters specific to this application (e.g. the name of a token).
-    type Parameters: Serialize + DeserializeOwned + Clone + Debug;
-
-    /// Instantiation argument passed to a new application on the chain that created it
-    /// (e.g. an initial amount of tokens minted).
-    type InstantiationArgument: Serialize + DeserializeOwned + Debug;
-
-    /// Event values for streams created by this application.
-    type EventValue: Serialize + DeserializeOwned + Debug;
-
-    /// Creates an in-memory instance of the contract handler.
-    async fn load(runtime: ContractRuntime&lt;Self&gt;) -&gt; Self;
-
-    /// Instantiates the application on the chain that created it.
-    async fn instantiate(&amp;mut self, argument: Self::InstantiationArgument);
-
-    /// Applies an operation from the current block.
-    async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response;
-
-    /// Applies a message originating from a cross-chain message.
-    async fn execute_message(&amp;mut self, message: Self::Message);
-
-    /// Finishes the execution of the current transaction.
-    async fn store(self);
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>There's quite a bit going on here, so let's break it down and take one method at
 a time.</p>
 <p>For this application, we'll be using the <code>load</code>, <code>execute_operation</code> and <code>store</code>
 methods.</p>
 <h2 id="the-contract-lifecycle"><a class="header" href="#the-contract-lifecycle">The contract lifecycle</a></h2>
 <p>To implement the application contract, we first create a type for the contract:</p>
-<pre><code class="language-rust ignore">linera_sdk::contract!(CounterContract);
-
-pub struct CounterContract {
-    state: CounterState,
-    runtime: ContractRuntime&lt;Self&gt;,
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>This type usually contains at least two fields: the persistent <code>state</code> defined
 earlier and a handle to the runtime. The runtime provides access to information
 about the current execution and also allows sending messages, among other
@@ -197,20 +164,13 @@ afterwards.</p>
 contract can use, and should use it to load the application state. For our
 implementation, we will load the state and create the <code>CounterContract</code>
 instance:</p>
-<pre><code class="language-rust ignore">    async fn load(runtime: ContractRuntime&lt;Self&gt;) -&gt; Self {
-        let state = CounterState::load(runtime.root_view_storage_context())
-            .await
-            .expect("Failed to load state");
-        CounterContract { state, runtime }
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>When the transaction finishes executing successfully, there's a final step where
 all loaded application contracts are called in order to do any final checks and
 persist its state to storage. That final step is a call to the <code>Contract::store</code>
 method, which can be thought of as similar to executing a destructor. In our
 implementation we will persist the state back to storage:</p>
-<pre><code class="language-rust ignore">    async fn store(mut self) {
-        self.state.save().await.expect("Failed to save state");
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>It's possible to do more than just saving the state, and the
 <a href="../advanced_topics/contract_finalize.html">Contract finalization section</a>
 provides more details on that.</p>
@@ -225,12 +185,7 @@ the state if the state uses the view paradigm.</p>
 <p>For our example application, we'll want to initialize the state of the
 application to an arbitrary number that can be specified on application creation
 using its instantiation parameters:</p>
-<pre><code class="language-rust ignore">    async fn instantiate(&amp;mut self, value: u64) {
-        // Validate that the application parameters were configured correctly.
-        self.runtime.application_parameters();
-
-        self.state.value.set(value);
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="implementing-the-increment-operation"><a class="header" href="#implementing-the-increment-operation">Implementing the increment operation</a></h2>
 <p>Now that we have our counter's state and a way to initialize it to any value we
 would like, we need a way to increment our counter's value. Execution requests
@@ -238,26 +193,20 @@ from block proposers or other applications are broadly called 'operations'.</p>
 <p>To handle an operation, we need to implement the <code>Contract::execute_operation</code>
 method. In the counter's case, the operation it will be receiving is a <code>u64</code>
 which is used to increment the counter by that value:</p>
-<pre><code class="language-rust ignore">    async fn execute_operation(&amp;mut self, operation: u64) -&gt; u64 {
-        let new_value = self.state.value.get() + operation;
-        self.state.value.set(new_value);
-        new_value
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="declaring-the-abi"><a class="header" href="#declaring-the-abi">Declaring the ABI</a></h2>
 <p>Finally, we link our <code>Contract</code> trait implementation with the ABI of the
 application:</p>
-<pre><code class="language-rust ignore">impl WithContractAbi for CounterContract {
-    type Abi = CounterAbi;
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li>
 <p>The full trait definition of <code>Contract</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/linera-sdk/src/lib.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/linera-sdk/src/lib.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/counter">here</a>.</p>
 </li>
 </ul>
 

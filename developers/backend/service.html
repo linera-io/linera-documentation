@@ -151,24 +151,10 @@ with your app. Instead, you might prefer to define a distinct set of queries
 that can be made against your application.</p>
 <p>The <code>Service</code> trait is how you define the interface into your application. The
 <code>Service</code> trait is defined as follows:</p>
-<pre><code class="language-rust ignore">pub trait Service: WithServiceAbi + ServiceAbi + Sized {
-    /// Immutable parameters specific to this application.
-    type Parameters: Serialize + DeserializeOwned + Send + Sync + Clone + Debug + 'static;
-
-    /// Creates an in-memory instance of the service handler.
-    async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self;
-
-    /// Executes a read-only query on the state of this application.
-    async fn handle_query(&amp;self, query: Self::Query) -&gt; Self::QueryResponse;
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>Let's implement <code>Service</code> for our counter application.</p>
 <p>First, we create a new type for the service, similarly to the contract:</p>
-<pre><code class="language-rust ignore">linera_sdk::service!(CounterService);
-
-pub struct CounterService {
-    state: CounterState,
-    runtime: Arc&lt;ServiceRuntime&lt;Self&gt;&gt;,
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>Just like with the <code>CounterContract</code> type, this type usually has two types: the
 application <code>state</code> and the <code>runtime</code>. We can omit the fields if we don't use
 them, so in this example we're omitting the <code>runtime</code> field, since its only used
@@ -190,15 +176,7 @@ global parameters aren't used, so we can just specify the unit type:</p>
 <p>Also like in contracts, we must implement a <code>load</code> constructor when implementing
 the <code>Service</code> trait. The constructor receives the runtime handle and should use
 it to load the application state:</p>
-<pre><code class="language-rust ignore">    async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self {
-        let state = CounterState::load(runtime.root_view_storage_context())
-            .await
-            .expect("Failed to load state");
-        CounterService {
-            state,
-            runtime: Arc::new(runtime),
-        }
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>Services don't have a <code>store</code> method because they are read-only and can't
 persist any changes back to the storage.</p>
 <p>The actual functionality of the service starts in the <code>handle_query</code> method. We
@@ -206,66 +184,33 @@ will accept GraphQL queries and handle them using the
 <a href="https://github.com/async-graphql/async-graphql"><code>async-graphql</code> crate</a>. To
 forward the queries to custom GraphQL handlers we will implement in the next
 section, we use the following code:</p>
-<pre><code class="language-rust ignore">    async fn handle_query(&amp;self, request: Request) -&gt; Response {
-        let schema = Schema::build(
-            QueryRoot {
-                value: *self.state.value.get(),
-            },
-            MutationRoot {
-                runtime: self.runtime.clone(),
-            },
-            EmptySubscription,
-        )
-        .finish();
-        schema.execute(request).await
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>Finally, as before, the following code is needed to incorporate the ABI
 definitions into your <code>Service</code> implementation:</p>
-<pre><code class="language-rust ignore">impl WithServiceAbi for CounterService {
-    type Abi = counter::CounterAbi;
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="adding-graphql-compatibility"><a class="header" href="#adding-graphql-compatibility">Adding GraphQL compatibility</a></h2>
 <p>Finally, we want our application to have GraphQL compatibility. To achieve this
 we need a <code>QueryRoot</code> to respond to queries and a <code>MutationRoot</code> for creating
 serialized <code>Operation</code> values that can be placed in blocks.</p>
 <p>In the <code>QueryRoot</code>, we only create a single <code>value</code> query that returns the
 counter's value:</p>
-<pre><code class="language-rust ignore">struct QueryRoot {
-    value: u64,
-}
-
-#[Object]
-impl QueryRoot {
-    async fn value(&amp;self) -&gt; &amp;u64 {
-        &amp;self.value
-    }
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>In the <code>MutationRoot</code>, we only create one <code>increment</code> method that returns a
 serialized operation to increment the counter by the provided <code>value</code>:</p>
-<pre><code class="language-rust ignore">struct MutationRoot {
-    runtime: Arc&lt;ServiceRuntime&lt;CounterService&gt;&gt;,
-}
-
-#[Object]
-impl MutationRoot {
-    async fn increment(&amp;self, value: u64) -&gt; [u8; 0] {
-        self.runtime.schedule_operation(&amp;value);
-        []
-    }
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>We haven't included the imports in the above code. If you want the full source
-code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/counter/src/service.rs">examples
+code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/counter/src/service.rs">examples
 section</a> on
 GitHub.</p>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li>
 <p>The full trait definition of <code>Service</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/linera-sdk/src/lib.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/linera-sdk/src/lib.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/counter">here</a>.</p>
 </li>
 </ul>
 

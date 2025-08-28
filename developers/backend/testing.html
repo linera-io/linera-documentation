@@ -166,31 +166,7 @@ runtimes, and can be configured to return specific values for different tests.</
 <h3 id="example"><a class="header" href="#example">Example</a></h3>
 <p>A simple unit test is shown below, which tests if the method <code>execute_operation</code>
 method changes the application state of the <code>Counter</code> application.</p>
-<pre><code class="language-rust ignore">    #[test]
-    fn operation() {
-        let runtime = ContractRuntime::new().with_application_parameters(());
-        let state = CounterState::load(runtime.root_view_storage_context())
-            .blocking_wait()
-            .expect("Failed to read from mock key value store");
-        let mut counter = CounterContract { state, runtime };
-
-        let initial_value = 72_u64;
-        counter
-            .instantiate(initial_value)
-            .now_or_never()
-            .expect("Initialization of counter state should not await anything");
-
-        let increment = 42_308_u64;
-        let response = counter
-            .execute_operation(increment)
-            .now_or_never()
-            .expect("Execution of counter operation should not await anything");
-
-        let expected_value = initial_value + increment;
-
-        assert_eq!(response, expected_value);
-        assert_eq!(*counter.state.value.get(), initial_value + increment);
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="integration-tests"><a class="header" href="#integration-tests">Integration tests</a></h2>
 <p>Integration tests are usually written separately from the application's source
 code (i.e., inside a <code>tests</code> directory that's beside the <code>src</code> directory).</p>
@@ -200,30 +176,7 @@ the application.</p>
 <h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
 <p>A simple integration test that execution a block containing an operation for the
 <code>Counter</code> application is shown below.</p>
-<pre><code class="language-rust ignore">#[tokio::test(flavor = "multi_thread")]
-async fn single_chain_test() {
-    let (validator, module_id) =
-        TestValidator::with_current_module::&lt;counter::CounterAbi, (), u64&gt;().await;
-    let mut chain = validator.new_chain().await;
-
-    let initial_state = 42u64;
-    let application_id = chain
-        .create_application(module_id, (), initial_state, vec![])
-        .await;
-
-    let increment = 15u64;
-    chain
-        .add_block(|block| {
-            block.with_operation(application_id, increment);
-        })
-        .await;
-
-    let final_value = initial_state + increment;
-    let QueryOutcome { response, .. } =
-        chain.graphql_query(application_id, "query { value }").await;
-    let state_value = response["value"].as_u64().expect("Failed to get the u64");
-    assert_eq!(state_value, final_value);
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 
                     </main>
 

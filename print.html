@@ -381,7 +381,7 @@ timeline
 <p>Onboarding of 20+ external validators</p>
 </li>
 </ul>
-<h2 id="testnet-2-planned-apr-2025"><a class="header" href="#testnet-2-planned-apr-2025">Testnet #2 (planned Apr 2025)</a></h2>
+<h2 id="testnet-2-released-apr-2025"><a class="header" href="#testnet-2-released-apr-2025">Testnet #2 (released Apr 2025)</a></h2>
 <p>Codename: Babbage</p>
 <p><strong>SDK</strong></p>
 <ul>
@@ -419,7 +419,8 @@ timeline
 <p>Support for resizing workers offline</p>
 </li>
 </ul>
-<h2 id="testnet-3"><a class="header" href="#testnet-3">Testnet #3</a></h2>
+<h2 id="testnet-3-planned-sep-2025"><a class="header" href="#testnet-3-planned-sep-2025">Testnet #3 (planned Sep 2025)</a></h2>
+<p>Codename: Conway</p>
 <p><strong>SDK</strong></p>
 <ul>
 <li>
@@ -599,20 +600,20 @@ profile = "minimal"
 </code></pre>
 <h2 id="installing-from-cratesio"><a class="header" href="#installing-from-cratesio">Installing from crates.io</a></h2>
 <p>You may install the Linera binaries with</p>
-<pre><code class="language-bash">cargo install --locked linera-storage-service@0.14.2
-cargo install --locked linera-service@0.14.2
+<pre><code class="language-bash">cargo install --locked linera-storage-service@0.15.0
+cargo install --locked linera-service@0.15.0
 </code></pre>
 <p>and use <code>linera-sdk</code> as a library for Linera Wasm applications:</p>
-<pre><code class="language-bash">cargo add linera-sdk@0.14.2
+<pre><code class="language-bash">cargo add linera-sdk@0.15.0
 </code></pre>
-<p>The version number <code>0.14.2</code> corresponds to the
+<p>The version number <code>0.15.0</code> corresponds to the
 current Testnet of Linera. The minor version may change frequently but should
 not induce breaking changes.</p>
 <h2 id="installing-from-github"><a class="header" href="#installing-from-github">Installing from GitHub</a></h2>
 <p>Download the source from <a href="https://github.com/linera-io/linera-protocol">GitHub</a>:</p>
 <pre><code class="language-bash">git clone https://github.com/linera-io/linera-protocol.git
 cd linera-protocol
-git checkout -t origin/testnet_babbage  # Current release branch
+git checkout -t origin/testnet_conway  # Current release branch
 </code></pre>
 <p>To install the Linera toolchain locally from source, you may run:</p>
 <pre><code class="language-bash">cargo install --locked --path linera-storage-service
@@ -622,7 +623,7 @@ cargo install --locked --path linera-service
 compiled in debug mode, e.g. using <code>export PATH="$PWD/target/debug:$PATH"</code>.</p>
 <p>This manual was tested against the following commit of the
 <a href="https://github.com/linera-io/linera-protocol">repository</a>:</p>
-<pre><code class="language-text">ac85d8ae32d8e759e87f3407cd02438970d0b3ae
+<pre><code class="language-text">f9484f748c4508e74f0d86d5924a02eef1341055
 </code></pre>
 <h2 id="getting-help"><a class="header" href="#getting-help">Getting help</a></h2>
 <p>If installation fails, reach out to the team (e.g. on
@@ -640,7 +641,7 @@ local network, and a working application that can be queried using GraphQL.</p>
 <p>To interact with the latest Testnet, you will need a developer wallet, a new
 microchain, and some tokens. These can be all obtained at once by querying the
 Testnet's <strong>faucet</strong> service as follows:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-babbage.linera.net
+<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
 </code></pre>
 <p>If you obtain an error message instead, make sure to use a Linera toolchain
 <a href="developers/getting_started/installation.html#installing-from-cratesio">compatible with the current Testnet</a>.</p>
@@ -719,7 +720,7 @@ linera query-balance
 Each validator and client has a built-in Wasm virtual machine (VM) which can
 execute bytecode.</p>
 <p>Let's build the <code>counter</code> application from the <code>examples/</code> subdirectory of the
-<a href="https://github.com/linera-io/linera-protocol/tree/testnet_babbage">Linera testnet
+<a href="https://github.com/linera-io/linera-protocol/tree/testnet_conway">Linera testnet
 branch</a>:</p>
 <pre><code class="language-bash">cd examples/counter &amp;&amp; cargo build --release --target wasm32-unknown-unknown
 </code></pre>
@@ -1240,7 +1241,7 @@ a SQL row).</p>
 </span><span class="boring">use crate::linera_sdk::views::View as _;
 </span>/// The application state.
 #[derive(RootView, async_graphql::SimpleObject)]
-#[view(context = "ViewStorageContext")]
+#[view(context = ViewStorageContext)]
 pub struct Counter {
     pub value: RegisterView&lt;u64&gt;,
     // Additional fields here will get their own key in storage.
@@ -1322,12 +1323,7 @@ pub trait ContractAbi {
 <p>All these types must implement the <code>Serialize</code>, <code>DeserializeOwned</code>, <code>Send</code>,
 <code>Sync</code>, <code>Debug</code> traits, and have a <code>'static</code> lifetime.</p>
 <p>In our example, we would like to change our <code>Operation</code> to <code>u64</code>, like so:</p>
-<pre><code class="language-rust ignore">pub struct CounterAbi;
-
-impl ContractAbi for CounterAbi {
-    type Operation = u64;
-    type Response = u64;
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="service-abi"><a class="header" href="#service-abi">Service ABI</a></h2>
 <p>The <code>ServiceAbi</code> is in principle very similar to the <code>ContractAbi</code>, just for the
 service component of your application.</p>
@@ -1345,19 +1341,16 @@ pub trait ServiceAbi {
 our <code>ServiceAbi</code> should reflect that:</p>
 <pre><code class="language-rust ignore">use async_graphql::{Request, Response};
 
-impl ServiceAbi for CounterAbi {
-    type Query = Request;
-    type QueryResponse = Response;
-}</code></pre>
+</code></pre>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li>
 <p>The full trait definition of <code>Abi</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/linera-base/src/abi.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/linera-base/src/abi.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/counter">here</a>.</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="writing-the-contract-binary"><a class="header" href="#writing-the-contract-binary">Writing the Contract Binary</a></h1>
@@ -1365,47 +1358,14 @@ impl ServiceAbi for CounterAbi {
 actually change the state of the application.</p>
 <p>To create a contract, we need to create a new type and implement the <code>Contract</code>
 trait for it, which is as follows:</p>
-<pre><code class="language-rust ignore">pub trait Contract: WithContractAbi + ContractAbi + Sized {
-    /// The type of message executed by the application.
-    type Message: Serialize + DeserializeOwned + Debug;
-
-    /// Immutable parameters specific to this application (e.g. the name of a token).
-    type Parameters: Serialize + DeserializeOwned + Clone + Debug;
-
-    /// Instantiation argument passed to a new application on the chain that created it
-    /// (e.g. an initial amount of tokens minted).
-    type InstantiationArgument: Serialize + DeserializeOwned + Debug;
-
-    /// Event values for streams created by this application.
-    type EventValue: Serialize + DeserializeOwned + Debug;
-
-    /// Creates an in-memory instance of the contract handler.
-    async fn load(runtime: ContractRuntime&lt;Self&gt;) -&gt; Self;
-
-    /// Instantiates the application on the chain that created it.
-    async fn instantiate(&amp;mut self, argument: Self::InstantiationArgument);
-
-    /// Applies an operation from the current block.
-    async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response;
-
-    /// Applies a message originating from a cross-chain message.
-    async fn execute_message(&amp;mut self, message: Self::Message);
-
-    /// Finishes the execution of the current transaction.
-    async fn store(self);
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>There's quite a bit going on here, so let's break it down and take one method at
 a time.</p>
 <p>For this application, we'll be using the <code>load</code>, <code>execute_operation</code> and <code>store</code>
 methods.</p>
 <h2 id="the-contract-lifecycle"><a class="header" href="#the-contract-lifecycle">The contract lifecycle</a></h2>
 <p>To implement the application contract, we first create a type for the contract:</p>
-<pre><code class="language-rust ignore">linera_sdk::contract!(CounterContract);
-
-pub struct CounterContract {
-    state: CounterState,
-    runtime: ContractRuntime&lt;Self&gt;,
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>This type usually contains at least two fields: the persistent <code>state</code> defined
 earlier and a handle to the runtime. The runtime provides access to information
 about the current execution and also allows sending messages, among other
@@ -1417,20 +1377,13 @@ afterwards.</p>
 contract can use, and should use it to load the application state. For our
 implementation, we will load the state and create the <code>CounterContract</code>
 instance:</p>
-<pre><code class="language-rust ignore">    async fn load(runtime: ContractRuntime&lt;Self&gt;) -&gt; Self {
-        let state = CounterState::load(runtime.root_view_storage_context())
-            .await
-            .expect("Failed to load state");
-        CounterContract { state, runtime }
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>When the transaction finishes executing successfully, there's a final step where
 all loaded application contracts are called in order to do any final checks and
 persist its state to storage. That final step is a call to the <code>Contract::store</code>
 method, which can be thought of as similar to executing a destructor. In our
 implementation we will persist the state back to storage:</p>
-<pre><code class="language-rust ignore">    async fn store(mut self) {
-        self.state.save().await.expect("Failed to save state");
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>It's possible to do more than just saving the state, and the
 <a href="developers/backend/../advanced_topics/contract_finalize.html">Contract finalization section</a>
 provides more details on that.</p>
@@ -1445,12 +1398,7 @@ the state if the state uses the view paradigm.</p>
 <p>For our example application, we'll want to initialize the state of the
 application to an arbitrary number that can be specified on application creation
 using its instantiation parameters:</p>
-<pre><code class="language-rust ignore">    async fn instantiate(&amp;mut self, value: u64) {
-        // Validate that the application parameters were configured correctly.
-        self.runtime.application_parameters();
-
-        self.state.value.set(value);
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="implementing-the-increment-operation"><a class="header" href="#implementing-the-increment-operation">Implementing the increment operation</a></h2>
 <p>Now that we have our counter's state and a way to initialize it to any value we
 would like, we need a way to increment our counter's value. Execution requests
@@ -1458,26 +1406,20 @@ from block proposers or other applications are broadly called 'operations'.</p>
 <p>To handle an operation, we need to implement the <code>Contract::execute_operation</code>
 method. In the counter's case, the operation it will be receiving is a <code>u64</code>
 which is used to increment the counter by that value:</p>
-<pre><code class="language-rust ignore">    async fn execute_operation(&amp;mut self, operation: u64) -&gt; u64 {
-        let new_value = self.state.value.get() + operation;
-        self.state.value.set(new_value);
-        new_value
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="declaring-the-abi"><a class="header" href="#declaring-the-abi">Declaring the ABI</a></h2>
 <p>Finally, we link our <code>Contract</code> trait implementation with the ABI of the
 application:</p>
-<pre><code class="language-rust ignore">impl WithContractAbi for CounterContract {
-    type Abi = CounterAbi;
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="references-1"><a class="header" href="#references-1">References</a></h2>
 <ul>
 <li>
 <p>The full trait definition of <code>Contract</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/linera-sdk/src/lib.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/linera-sdk/src/lib.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/counter">here</a>.</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="writing-the-service-binary"><a class="header" href="#writing-the-service-binary">Writing the Service Binary</a></h1>
@@ -1491,24 +1433,10 @@ with your app. Instead, you might prefer to define a distinct set of queries
 that can be made against your application.</p>
 <p>The <code>Service</code> trait is how you define the interface into your application. The
 <code>Service</code> trait is defined as follows:</p>
-<pre><code class="language-rust ignore">pub trait Service: WithServiceAbi + ServiceAbi + Sized {
-    /// Immutable parameters specific to this application.
-    type Parameters: Serialize + DeserializeOwned + Send + Sync + Clone + Debug + 'static;
-
-    /// Creates an in-memory instance of the service handler.
-    async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self;
-
-    /// Executes a read-only query on the state of this application.
-    async fn handle_query(&amp;self, query: Self::Query) -&gt; Self::QueryResponse;
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>Let's implement <code>Service</code> for our counter application.</p>
 <p>First, we create a new type for the service, similarly to the contract:</p>
-<pre><code class="language-rust ignore">linera_sdk::service!(CounterService);
-
-pub struct CounterService {
-    state: CounterState,
-    runtime: Arc&lt;ServiceRuntime&lt;Self&gt;&gt;,
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>Just like with the <code>CounterContract</code> type, this type usually has two types: the
 application <code>state</code> and the <code>runtime</code>. We can omit the fields if we don't use
 them, so in this example we're omitting the <code>runtime</code> field, since its only used
@@ -1530,15 +1458,7 @@ global parameters aren't used, so we can just specify the unit type:</p>
 <p>Also like in contracts, we must implement a <code>load</code> constructor when implementing
 the <code>Service</code> trait. The constructor receives the runtime handle and should use
 it to load the application state:</p>
-<pre><code class="language-rust ignore">    async fn new(runtime: ServiceRuntime&lt;Self&gt;) -&gt; Self {
-        let state = CounterState::load(runtime.root_view_storage_context())
-            .await
-            .expect("Failed to load state");
-        CounterService {
-            state,
-            runtime: Arc::new(runtime),
-        }
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>Services don't have a <code>store</code> method because they are read-only and can't
 persist any changes back to the storage.</p>
 <p>The actual functionality of the service starts in the <code>handle_query</code> method. We
@@ -1546,66 +1466,33 @@ will accept GraphQL queries and handle them using the
 <a href="https://github.com/async-graphql/async-graphql"><code>async-graphql</code> crate</a>. To
 forward the queries to custom GraphQL handlers we will implement in the next
 section, we use the following code:</p>
-<pre><code class="language-rust ignore">    async fn handle_query(&amp;self, request: Request) -&gt; Response {
-        let schema = Schema::build(
-            QueryRoot {
-                value: *self.state.value.get(),
-            },
-            MutationRoot {
-                runtime: self.runtime.clone(),
-            },
-            EmptySubscription,
-        )
-        .finish();
-        schema.execute(request).await
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>Finally, as before, the following code is needed to incorporate the ABI
 definitions into your <code>Service</code> implementation:</p>
-<pre><code class="language-rust ignore">impl WithServiceAbi for CounterService {
-    type Abi = counter::CounterAbi;
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="adding-graphql-compatibility"><a class="header" href="#adding-graphql-compatibility">Adding GraphQL compatibility</a></h2>
 <p>Finally, we want our application to have GraphQL compatibility. To achieve this
 we need a <code>QueryRoot</code> to respond to queries and a <code>MutationRoot</code> for creating
 serialized <code>Operation</code> values that can be placed in blocks.</p>
 <p>In the <code>QueryRoot</code>, we only create a single <code>value</code> query that returns the
 counter's value:</p>
-<pre><code class="language-rust ignore">struct QueryRoot {
-    value: u64,
-}
-
-#[Object]
-impl QueryRoot {
-    async fn value(&amp;self) -&gt; &amp;u64 {
-        &amp;self.value
-    }
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>In the <code>MutationRoot</code>, we only create one <code>increment</code> method that returns a
 serialized operation to increment the counter by the provided <code>value</code>:</p>
-<pre><code class="language-rust ignore">struct MutationRoot {
-    runtime: Arc&lt;ServiceRuntime&lt;CounterService&gt;&gt;,
-}
-
-#[Object]
-impl MutationRoot {
-    async fn increment(&amp;self, value: u64) -&gt; [u8; 0] {
-        self.runtime.schedule_operation(&amp;value);
-        []
-    }
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>We haven't included the imports in the above code. If you want the full source
-code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/counter/src/service.rs">examples
+code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/counter/src/service.rs">examples
 section</a> on
 GitHub.</p>
 <h2 id="references-2"><a class="header" href="#references-2">References</a></h2>
 <ul>
 <li>
 <p>The full trait definition of <code>Service</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/linera-sdk/src/lib.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/linera-sdk/src/lib.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/counter">here</a>.</p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="deploying-the-application"><a class="header" href="#deploying-the-application">Deploying the Application</a></h1>
@@ -1630,7 +1517,7 @@ application while also specifying:</p>
 <h2 id="devnets-and-testnets"><a class="header" href="#devnets-and-testnets">Devnets and Testnets</a></h2>
 <p>To configure the wallet for the current testnet while creating a new microchain,
 the following command can be used:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-babbage.linera.net
+<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
 </code></pre>
 <p>The Faucet will provide the new chain with some tokens, which can then be used
 to deploy the application with the <code>publish-and-create</code> command. It requires
@@ -1668,11 +1555,6 @@ chain.</p>
 <pre><code class="language-rust ignore">    self.runtime
         .prepare_message(message_contents)
         .send_to(destination_chain_id);</code></pre>
-<p>It is also possible to send a message to a subscription channel, so that the
-message is forwarded to the subscribers of that channel. All that has to be done
-is specify a
-<a href="https://docs.rs/linera-base/latest/linera_base/identifiers/struct.ChannelName.html"><code>ChannelName</code></a>
-as the destination parameter to <code>send_to</code>.</p>
 <p>After block execution in the <em>sending</em> chain, sent messages are placed in the
 <em>target</em> chains' inboxes for processing. There is no guarantee that it will be
 handled: For this to happen, an owner of the target chain needs to include it in
@@ -1689,67 +1571,23 @@ receiver rejects it. The example below enables both flags:</p>
         .with_authentication()
         .send_to(destination_chain_id);</code></pre>
 <h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: fungible token</a></h2>
-<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/fungible"><code>fungible</code> example
+<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/f9484f748c4508e74f0d86d5924a02eef1341055/examples/fungible"><code>fungible</code> example
 application</a>, such a message
 can be the transfer of tokens from one chain to another. If the sender includes
 a <code>Transfer</code> operation on their chain, it decreases their account balance and
 sends a <code>Credit</code> message to the recipient's chain:</p>
 <pre><code class="language-rust ignore">async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response {
         match operation {
-            Operation::Transfer {
-                owner,
-                amount,
-                target_account,
-            } =&gt; {
-                self.runtime
-                    .check_account_permission(owner)
-                    .expect("Permission for Transfer operation");
-                self.state.debit(owner, amount).await;
-                self.finish_transfer_to_account(amount, target_account, owner)
-                    .await;
-                FungibleResponse::Ok
-            }
+
             // ...
         }
 }</code></pre>
-<pre><code class="language-rust ignore">    /// Executes the final step of a transfer where the tokens are sent to the destination.
-    async fn finish_transfer_to_account(
-        &amp;mut self,
-        amount: Amount,
-        target_account: Account,
-        source: AccountOwner,
-    ) {
-        if target_account.chain_id == self.runtime.chain_id() {
-            self.state.credit(target_account.owner, amount).await;
-        } else {
-            let message = Message::Credit {
-                target: target_account.owner,
-                amount,
-                source,
-            };
-            self.runtime
-                .prepare_message(message)
-                .with_authentication()
-                .with_tracking()
-                .send_to(target_account.chain_id);
-        }
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>On the recipient's chain, <code>execute_message</code> is called, which increases their
 account balance.</p>
 <pre><code class="language-rust ignore">    async fn execute_message(&amp;mut self, message: Message) {
         match message {
-            Message::Credit {
-                amount,
-                target,
-                source,
-            } =&gt; {
-                let is_bouncing = self
-                    .runtime
-                    .message_is_bouncing()
-                    .expect("Delivery status is available when executing a message");
-                let receiver = if is_bouncing { source } else { target };
-                self.state.credit(receiver, amount).await;
-            }
+
             // ...
         }
     }</code></pre>
@@ -1760,12 +1598,7 @@ always handled by the <em>same</em> application on the target chain.</p>
 calls</em>.</p>
 <p>Such calls happen on the same chain and are made with the helper method
 <a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html#method_call_application"><code>ContractRuntime::call_application</code></a>:</p>
-<pre><code class="language-rust ignore">    pub fn call_application&lt;A: ContractAbi + Send&gt;(
-        &amp;mut self,
-        authenticated: bool,
-        application: ApplicationId&lt;A&gt;,
-        call: &amp;A::Operation,
-    ) -&gt; A::Response</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>The <code>authenticated</code> argument specifies whether the callee is allowed to perform
 actions that require authentication either</p>
 <ul>
@@ -1823,12 +1656,12 @@ in its application state on Bob's chain that Carol has pledged 10 Pugecoin
 tokens.</p>
 <h1 id="references-3"><a class="header" href="#references-3">References</a></h1>
 <p>For the complete code, please take a look at the
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a>
 and the
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/fungible/src/contract.rs"><code>fungible</code></a>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/fungible/src/contract.rs"><code>fungible</code></a>
 application contracts in the <code>examples</code> folder in <code>linera-protocol</code>.</p>
 <p>The implementation of the Runtime made available to contracts is defined in
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/linera-sdk/src/contract/runtime.rs">this file</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/linera-sdk/src/contract/runtime.rs">this file</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="using-data-blobs"><a class="header" href="#using-data-blobs">Using Data Blobs</a></h1>
 <p>Some applications may want to use static assets, like images or other data: e.g.
 the <code>non-fungible</code> example application implements NFTs, and each NFT has an
@@ -1850,9 +1683,9 @@ still want to make sure that the user has the image locally as soon as they
 receive an NFT, even if they don't view it yet. This can be achieved by calling
 <code>runtime.assert_data_blob_exists(blob_hash)</code> in the contract: It will make sure
 the data is available, without actually loading it.</p>
-<p>For the complete code please take a look at the <a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/non-fungible/src/contract.rs"><code>non-fungible</code>
+<p>For the complete code please take a look at the <a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/non-fungible/src/contract.rs"><code>non-fungible</code>
 contract</a>
-and <a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/non-fungible/src/service.rs">service</a>.</p>
+and <a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/non-fungible/src/service.rs">service</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="printing-logs-from-an-application"><a class="header" href="#printing-logs-from-an-application">Printing Logs from an Application</a></h1>
 <p>Applications can use the <a href="https://crates.io/crates/log"><code>log</code> crate</a> to print
 log messages with different levels of importance. Log messages are useful during
@@ -1893,31 +1726,7 @@ runtimes, and can be configured to return specific values for different tests.</
 <h3 id="example"><a class="header" href="#example">Example</a></h3>
 <p>A simple unit test is shown below, which tests if the method <code>execute_operation</code>
 method changes the application state of the <code>Counter</code> application.</p>
-<pre><code class="language-rust ignore">    #[test]
-    fn operation() {
-        let runtime = ContractRuntime::new().with_application_parameters(());
-        let state = CounterState::load(runtime.root_view_storage_context())
-            .blocking_wait()
-            .expect("Failed to read from mock key value store");
-        let mut counter = CounterContract { state, runtime };
-
-        let initial_value = 72_u64;
-        counter
-            .instantiate(initial_value)
-            .now_or_never()
-            .expect("Initialization of counter state should not await anything");
-
-        let increment = 42_308_u64;
-        let response = counter
-            .execute_operation(increment)
-            .now_or_never()
-            .expect("Execution of counter operation should not await anything");
-
-        let expected_value = initial_value + increment;
-
-        assert_eq!(response, expected_value);
-        assert_eq!(*counter.state.value.get(), initial_value + increment);
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="integration-tests"><a class="header" href="#integration-tests">Integration tests</a></h2>
 <p>Integration tests are usually written separately from the application's source
 code (i.e., inside a <code>tests</code> directory that's beside the <code>src</code> directory).</p>
@@ -1927,30 +1736,7 @@ the application.</p>
 <h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
 <p>A simple integration test that execution a block containing an operation for the
 <code>Counter</code> application is shown below.</p>
-<pre><code class="language-rust ignore">#[tokio::test(flavor = "multi_thread")]
-async fn single_chain_test() {
-    let (validator, module_id) =
-        TestValidator::with_current_module::&lt;counter::CounterAbi, (), u64&gt;().await;
-    let mut chain = validator.new_chain().await;
-
-    let initial_state = 42u64;
-    let application_id = chain
-        .create_application(module_id, (), initial_state, vec![])
-        .await;
-
-    let increment = 15u64;
-    chain
-        .add_block(|block| {
-            block.with_operation(application_id, increment);
-        })
-        .await;
-
-    let final_value = initial_state + increment;
-    let QueryOutcome { response, .. } =
-        chain.graphql_query(application_id, "query { value }").await;
-    let state_value = response["value"].as_u64().expect("Failed to get the u64");
-    assert_eq!(state_value, final_value);
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="writing-linera-application-frontends"><a class="header" href="#writing-linera-application-frontends">Writing Linera application frontends</a></h1>
 <p>Linera comes with a Web client library that supports calling applications using
 a JavaScript API directly inside Web pages.</p>
@@ -2143,8 +1929,8 @@ the <code>&lt;head&gt;</code> of your HTML:</p>
 </code></pre>
 <h2 id="referring-to-the-counter-app"><a class="header" href="#referring-to-the-counter-app">Referring to the counter app</a></h2>
 <p>We'll need the application ID of the counter app deployed on our network of
-choice. This tutorial uses Testnet Babbage, and the following application ID
-refers to a counter app published there:</p>
+choice. This tutorial uses Testnet, and the following application ID refers to a
+counter app published there:</p>
 <pre><code class="language-javascript">const COUNTER_APP_ID =
   '2b1a0df8868206a4b7d6c2fdda911e4355d6c0115b896d4947ef8e535ee3c6b8';
 </code></pre>
@@ -2160,11 +1946,11 @@ for it, and initialize the memory.</p>
 <h2 id="getting-a-wallet"><a class="header" href="#getting-a-wallet">Getting a wallet</a></h2>
 <p>If you have a wallet file available, you can use the <code>linera.Wallet.fromJson</code>
 function to create a <code>linera.Wallet</code> from it. However, for the purposes of the
-tutorial, we will connect to the Testnet Babbage faucet and create a new wallet
-with a fresh chain owning some tokens. We will also update our <code>#chain-id</code>
-element to let the user know the ID of their new chain.</p>
+tutorial, we will connect to the Testnet faucet and create a new wallet with a
+fresh chain owning some tokens. We will also update our <code>#chain-id</code> element to
+let the user know the ID of their new chain.</p>
 <pre><code class="language-javascript">const faucet = await new linera.Faucet(
-  'https://faucet.testnet-babbage.linera.net',
+  'https://faucet.testnet-conway.linera.net',
 );
 const wallet = await faucet.createWallet();
 const client = await new linera.Client(wallet);
@@ -2255,7 +2041,7 @@ cross-application call with <code>Operation::EndSession</code> before the transa
 </span><span class="boring">use linera_sdk::linera_base_types::ApplicationId;
 </span>
 #[derive(RootView)]
-#[view(context = "ViewStorageContext")]
+#[view(context = ViewStorageContext)]
 pub struct MyState {
     pub value: RegisterView&lt;u64&gt;,
     // ...
@@ -2957,7 +2743,7 @@ profile = "minimal"
 <a href="https://github.com/linera-io/linera-protocol">GitHub</a>:</p>
 <pre><code class="language-bash">git clone https://github.com/linera-io/linera-protocol.git
 cd linera-protocol
-git checkout -t origin/testnet_babbage  # Current release branch
+git checkout -t origin/testnet_conway  # Current release branch
 </code></pre>
 <p>and to install the Linera toolchain:</p>
 <pre><code class="language-bash">cargo install --locked --path linera-service --features kubernetes
@@ -2999,7 +2785,7 @@ Testnet. The validator deployment has been comprehensively tested under
 <h2 id="installing-the-linera-toolchain-2"><a class="header" href="#installing-the-linera-toolchain-2">Installing the Linera Toolchain</a></h2>
 <blockquote>
 <p>When installing the Linera Toolchain, you <strong>must</strong> check out the
-<code>testnet_babbage</code> branch.</p>
+<code>testnet_conway</code> branch.</p>
 </blockquote>
 <p>To install the Linera Toolchain refer to the
 <a href="operators/testnets/../../developers/getting_started/installation.html#installing-from-github">installation section</a>.</p>
@@ -3101,11 +2887,11 @@ persistent across OS reboots by editing <code>/etc/sysctl.conf</code>, setting
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="one-click-deploy"><a class="header" href="#one-click-deploy">One-Click Deploy</a></h2>
 <p>After downloading the <code>linera-protocol</code> repository and checking out the testnet
-branch <code>testnet_babbage</code>, you can run
+branch <code>testnet_conway</code>, you can run
 <code>scripts/deploy-validator.sh &lt;hostname&gt;</code> to deploy a Linera validator.</p>
 <p>For example:</p>
 <pre><code class="language-bash">$ git fetch origin
-$ git checkout -t origin/testnet_babbage
+$ git checkout -t origin/testnet_conway
 $ scripts/deploy-validator.sh linera.mydomain.com --remote-image
 </code></pre>
 <p>The deployment automatically listens for new image updates and will pull them
@@ -3178,7 +2964,7 @@ the point of network creation. It is required for validators to function.</p>
 <p>Initially, the genesis configuration for each Testnet will be found in a public
 bucket managed by the Linera Protocol core team.</p>
 <p>An example can be found here:</p>
-<pre><code class="language-bash">wget "https://storage.googleapis.com/linera-io-dev-public/testnet-babbage/genesis.json"
+<pre><code class="language-bash">wget "https://storage.googleapis.com/linera-io-dev-public/testnet-conway/genesis.json"
 </code></pre>
 <h3 id="creating-your-keys"><a class="header" href="#creating-your-keys">Creating Your Keys</a></h3>
 <p>Now that the
@@ -3221,7 +3007,7 @@ few minutes for the ScyllaDB image to be downloaded and started.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="verifying-installation"><a class="header" href="#verifying-installation">Verifying installation</a></h1>
 <p>To verify the installation, you can use the <code>linera query-validator</code> command.
 For example:</p>
-<pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-babbage.linera.net
+<pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
 $ linera query-validator grpcs:my-domain.com:443
 
 RPC API hash: kd/Ru73B4ZZjXYkFqqSzoWzqpWi+NX+8IJLXOODjSko
@@ -3287,7 +3073,7 @@ that the
 <h3 id="access-denied-to-genesisjson"><a class="header" href="#access-denied-to-genesisjson"><code>Access denied to genesis.json</code></a></h3>
 <p>This occurs when the genesis configuration URL is malformed via string
 formatting. The deploy script uses the name of the current branch to create the
-URL so make sure you have checked out <code>testnet_babbage</code>.</p>
+URL so make sure you have checked out <code>testnet_conway</code>.</p>
 <h2 id="support"><a class="header" href="#support">Support</a></h2>
 <p>Support and communication with the core team is done via the <code>#validator</code>
 private channel in the <a href="https://discord.com/invite/linera">Linera Discord</a>.</p>

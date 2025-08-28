@@ -201,12 +201,7 @@ pub trait ContractAbi {
 <p>All these types must implement the <code>Serialize</code>, <code>DeserializeOwned</code>, <code>Send</code>,
 <code>Sync</code>, <code>Debug</code> traits, and have a <code>'static</code> lifetime.</p>
 <p>In our example, we would like to change our <code>Operation</code> to <code>u64</code>, like so:</p>
-<pre><code class="language-rust ignore">pub struct CounterAbi;
-
-impl ContractAbi for CounterAbi {
-    type Operation = u64;
-    type Response = u64;
-}</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <h2 id="service-abi"><a class="header" href="#service-abi">Service ABI</a></h2>
 <p>The <code>ServiceAbi</code> is in principle very similar to the <code>ContractAbi</code>, just for the
 service component of your application.</p>
@@ -224,19 +219,16 @@ pub trait ServiceAbi {
 our <code>ServiceAbi</code> should reflect that:</p>
 <pre><code class="language-rust ignore">use async_graphql::{Request, Response};
 
-impl ServiceAbi for CounterAbi {
-    type Query = Request;
-    type QueryResponse = Response;
-}</code></pre>
+</code></pre>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li>
 <p>The full trait definition of <code>Abi</code> can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/linera-base/src/abi.rs">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/linera-base/src/abi.rs">here</a>.</p>
 </li>
 <li>
 <p>The full <code>Counter</code> example application can be found
-<a href="https://github.com/linera-io/linera-protocol/blob/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/counter">here</a>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/f9484f748c4508e74f0d86d5924a02eef1341055/examples/counter">here</a>.</p>
 </li>
 </ul>
 

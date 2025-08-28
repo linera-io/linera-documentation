@@ -161,11 +161,6 @@ chain.</p>
 <pre><code class="language-rust ignore">    self.runtime
         .prepare_message(message_contents)
         .send_to(destination_chain_id);</code></pre>
-<p>It is also possible to send a message to a subscription channel, so that the
-message is forwarded to the subscribers of that channel. All that has to be done
-is specify a
-<a href="https://docs.rs/linera-base/latest/linera_base/identifiers/struct.ChannelName.html"><code>ChannelName</code></a>
-as the destination parameter to <code>send_to</code>.</p>
 <p>After block execution in the <em>sending</em> chain, sent messages are placed in the
 <em>target</em> chains' inboxes for processing. There is no guarantee that it will be
 handled: For this to happen, an owner of the target chain needs to include it in
@@ -182,67 +177,23 @@ receiver rejects it. The example below enables both flags:</p>
         .with_authentication()
         .send_to(destination_chain_id);</code></pre>
 <h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: fungible token</a></h2>
-<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/ac85d8ae32d8e759e87f3407cd02438970d0b3ae/examples/fungible"><code>fungible</code> example
+<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/f9484f748c4508e74f0d86d5924a02eef1341055/examples/fungible"><code>fungible</code> example
 application</a>, such a message
 can be the transfer of tokens from one chain to another. If the sender includes
 a <code>Transfer</code> operation on their chain, it decreases their account balance and
 sends a <code>Credit</code> message to the recipient's chain:</p>
 <pre><code class="language-rust ignore">async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response {
         match operation {
-            Operation::Transfer {
-                owner,
-                amount,
-                target_account,
-            } =&gt; {
-                self.runtime
-                    .check_account_permission(owner)
-                    .expect("Permission for Transfer operation");
-                self.state.debit(owner, amount).await;
-                self.finish_transfer_to_account(amount, target_account, owner)
-                    .await;
-                FungibleResponse::Ok
-            }
+
             // ...
         }
 }</code></pre>
-<pre><code class="language-rust ignore">    /// Executes the final step of a transfer where the tokens are sent to the destination.
-    async fn finish_transfer_to_account(
-        &amp;mut self,
-        amount: Amount,
-        target_account: Account,
-        source: AccountOwner,
-    ) {
-        if target_account.chain_id == self.runtime.chain_id() {
-            self.state.credit(target_account.owner, amount).await;
-        } else {
-            let message = Message::Credit {
-                target: target_account.owner,
-                amount,
-                source,
-            };
-            self.runtime
-                .prepare_message(message)
-                .with_authentication()
-                .with_tracking()
-                .send_to(target_account.chain_id);
-        }
-    }</code></pre>
+<pre><code class="language-rust ignore"></code></pre>
 <p>On the recipient's chain, <code>execute_message</code> is called, which increases their
 account balance.</p>
 <pre><code class="language-rust ignore">    async fn execute_message(&amp;mut self, message: Message) {
         match message {
-            Message::Credit {
-                amount,
-                target,
-                source,
-            } =&gt; {
-                let is_bouncing = self
-                    .runtime
-                    .message_is_bouncing()
-                    .expect("Delivery status is available when executing a message");
-                let receiver = if is_bouncing { source } else { target };
-                self.state.credit(receiver, amount).await;
-            }
+
             // ...
         }
     }</code></pre>

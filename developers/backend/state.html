@@ -169,7 +169,7 @@ a SQL row).</p>
 </span><span class="boring">use crate::linera_sdk::views::View as _;
 </span>/// The application state.
 #[derive(RootView, async_graphql::SimpleObject)]
-#[view(context = "ViewStorageContext")]
+#[view(context = ViewStorageContext)]
 pub struct Counter {
     pub value: RegisterView&lt;u64&gt;,
     // Additional fields here will get their own key in storage.

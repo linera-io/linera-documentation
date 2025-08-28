@@ -151,7 +151,7 @@ local network, and a working application that can be queried using GraphQL.</p>
 <p>To interact with the latest Testnet, you will need a developer wallet, a new
 microchain, and some tokens. These can be all obtained at once by querying the
 Testnet's <strong>faucet</strong> service as follows:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-babbage.linera.net
+<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
 </code></pre>
 <p>If you obtain an error message instead, make sure to use a Linera toolchain
 <a href="installation.html#installing-from-cratesio">compatible with the current Testnet</a>.</p>
@@ -230,7 +230,7 @@ linera query-balance
 Each validator and client has a built-in Wasm virtual machine (VM) which can
 execute bytecode.</p>
 <p>Let's build the <code>counter</code> application from the <code>examples/</code> subdirectory of the
-<a href="https://github.com/linera-io/linera-protocol/tree/testnet_babbage">Linera testnet
+<a href="https://github.com/linera-io/linera-protocol/tree/testnet_conway">Linera testnet
 branch</a>:</p>
 <pre><code class="language-bash">cd examples/counter &amp;&amp; cargo build --release --target wasm32-unknown-unknown
 </code></pre>

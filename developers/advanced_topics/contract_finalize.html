@@ -168,7 +168,7 @@ cross-application call with <code>Operation::EndSession</code> before the transa
 </span><span class="boring">use linera_sdk::linera_base_types::ApplicationId;
 </span>
 #[derive(RootView)]
-#[view(context = "ViewStorageContext")]
+#[view(context = ViewStorageContext)]
 pub struct MyState {
     pub value: RegisterView&lt;u64&gt;,
     // ...
