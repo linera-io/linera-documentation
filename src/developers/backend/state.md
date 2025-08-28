@@ -37,7 +37,7 @@ In this case, the struct in `src/state.rs` should be replaced by
 # use crate::linera_sdk::views::View as _;
 /// The application state.
 #[derive(RootView, async_graphql::SimpleObject)]
-#[view(context = "ViewStorageContext")]
+#[view(context = ViewStorageContext)]
 pub struct Counter {
     pub value: RegisterView<u64>,
     // Additional fields here will get their own key in storage.
