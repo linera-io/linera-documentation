@@ -162,7 +162,8 @@ application while also specifying:</p>
 <h2 id="devnets-and-testnets"><a class="header" href="#devnets-and-testnets">Devnets and Testnets</a></h2>
 <p>To configure the wallet for the current testnet while creating a new microchain,
 the following command can be used:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
+<pre><code class="language-bash">linera wallet init --faucet https://faucet.testnet-conway.linera.net
+linera wallet request-chain --faucet https://faucet.testnet-conway.linera.net
 </code></pre>
 <p>The Faucet will provide the new chain with some tokens, which can then be used
 to deploy the application with the <code>publish-and-create</code> command. It requires

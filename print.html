@@ -641,7 +641,8 @@ local network, and a working application that can be queried using GraphQL.</p>
 <p>To interact with the latest Testnet, you will need a developer wallet, a new
 microchain, and some tokens. These can be all obtained at once by querying the
 Testnet's <strong>faucet</strong> service as follows:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
+<pre><code class="language-bash">linera wallet init --faucet https://faucet.testnet-conway.linera.net
+linera wallet request-chain --faucet https://faucet.testnet-conway.linera.net
 </code></pre>
 <p>If you obtain an error message instead, make sure to use a Linera toolchain
 <a href="developers/getting_started/installation.html#installing-from-cratesio">compatible with the current Testnet</a>.</p>
@@ -668,7 +669,8 @@ following command:</p>
 faucet.</p>
 <p>Now, we're ready to create a developer wallet by running the following command
 in a separate shell:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet http://localhost:8080
+<pre><code class="language-bash">linera wallet init --faucet http://localhost:8080
+linera wallet request-chain --faucet http://localhost:8080
 </code></pre>
 <div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
 <div class="admonition-title">
@@ -881,7 +883,8 @@ extension.</p>
 <h2 id="creating-a-developer-wallet"><a class="header" href="#creating-a-developer-wallet">Creating a developer wallet</a></h2>
 <p>The simplest way to obtain a wallet with the <code>linera</code> CLI tool is to run the
 following command:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet $FAUCET_URL
+<pre><code class="language-bash">linera wallet init --faucet $FAUCET_URL
+linera wallet request-chain --faucet $FAUCET_URL
 </code></pre>
 <p>where <code>$FAUCET_URL</code> represents the URL of the network's faucet (see
 <a href="developers/core_concepts/../getting_started/hello_linera.html">previous section</a>)</p>
@@ -965,7 +968,8 @@ the new chain. The second line is the new chain's ID.</p>
 </code></pre>
 <p>Note that in the case of a test network with a faucet, the new wallet and the
 new chain could also have been created from the faucet directly using:</p>
-<pre><code class="language-bash">linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --with-new-chain --faucet $FAUCET_URL
+<pre><code class="language-bash">linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --faucet $FAUCET_URL
+linera --wallet wallet2.json --storage rocksdb:linera2.db wallet request-chain --faucet $FAUCET_URL
 </code></pre>
 <h4 id="opening-a-chain-with-multiple-users"><a class="header" href="#opening-a-chain-with-multiple-users">Opening a chain with multiple users</a></h4>
 <p>The <code>open-chain</code> command is a simplified version of <code>open-multi-owner-chain</code>,
@@ -1637,7 +1641,8 @@ application while also specifying:</p>
 <h2 id="devnets-and-testnets"><a class="header" href="#devnets-and-testnets">Devnets and Testnets</a></h2>
 <p>To configure the wallet for the current testnet while creating a new microchain,
 the following command can be used:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
+<pre><code class="language-bash">linera wallet init --faucet https://faucet.testnet-conway.linera.net
+linera wallet request-chain --faucet https://faucet.testnet-conway.linera.net
 </code></pre>
 <p>The Faucet will provide the new chain with some tokens, which can then be used
 to deploy the application with the <code>publish-and-create</code> command. It requires
@@ -3224,7 +3229,8 @@ few minutes for the ScyllaDB image to be downloaded and started.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="verifying-installation"><a class="header" href="#verifying-installation">Verifying installation</a></h1>
 <p>To verify the installation, you can use the <code>linera query-validator</code> command.
 For example:</p>
-<pre><code class="language-bash">$ linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
+<pre><code class="language-bash">$ linera wallet init --faucet https://faucet.testnet-conway.linera.net
+$ linera wallet request-chain --faucet https://faucet.testnet-conway.linera.net
 $ linera query-validator grpcs:my-domain.com:443
 
 RPC API hash: kd/Ru73B4ZZjXYkFqqSzoWzqpWi+NX+8IJLXOODjSko

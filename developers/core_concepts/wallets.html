@@ -158,7 +158,8 @@ extension.</p>
 <h2 id="creating-a-developer-wallet"><a class="header" href="#creating-a-developer-wallet">Creating a developer wallet</a></h2>
 <p>The simplest way to obtain a wallet with the <code>linera</code> CLI tool is to run the
 following command:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet $FAUCET_URL
+<pre><code class="language-bash">linera wallet init --faucet $FAUCET_URL
+linera wallet request-chain --faucet $FAUCET_URL
 </code></pre>
 <p>where <code>$FAUCET_URL</code> represents the URL of the network's faucet (see
 <a href="../getting_started/hello_linera.html">previous section</a>)</p>
@@ -242,7 +243,8 @@ the new chain. The second line is the new chain's ID.</p>
 </code></pre>
 <p>Note that in the case of a test network with a faucet, the new wallet and the
 new chain could also have been created from the faucet directly using:</p>
-<pre><code class="language-bash">linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --with-new-chain --faucet $FAUCET_URL
+<pre><code class="language-bash">linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --faucet $FAUCET_URL
+linera --wallet wallet2.json --storage rocksdb:linera2.db wallet request-chain --faucet $FAUCET_URL
 </code></pre>
 <h4 id="opening-a-chain-with-multiple-users"><a class="header" href="#opening-a-chain-with-multiple-users">Opening a chain with multiple users</a></h4>
 <p>The <code>open-chain</code> command is a simplified version of <code>open-multi-owner-chain</code>,

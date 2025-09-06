@@ -151,7 +151,8 @@ local network, and a working application that can be queried using GraphQL.</p>
 <p>To interact with the latest Testnet, you will need a developer wallet, a new
 microchain, and some tokens. These can be all obtained at once by querying the
 Testnet's <strong>faucet</strong> service as follows:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet https://faucet.testnet-conway.linera.net
+<pre><code class="language-bash">linera wallet init --faucet https://faucet.testnet-conway.linera.net
+linera wallet request-chain --faucet https://faucet.testnet-conway.linera.net
 </code></pre>
 <p>If you obtain an error message instead, make sure to use a Linera toolchain
 <a href="installation.html#installing-from-cratesio">compatible with the current Testnet</a>.</p>
@@ -178,7 +179,8 @@ following command:</p>
 faucet.</p>
 <p>Now, we're ready to create a developer wallet by running the following command
 in a separate shell:</p>
-<pre><code class="language-bash">linera wallet init --with-new-chain --faucet http://localhost:8080
+<pre><code class="language-bash">linera wallet init --faucet http://localhost:8080
+linera wallet request-chain --faucet http://localhost:8080
 </code></pre>
 <div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
 <div class="admonition-title">
