@@ -29,7 +29,8 @@ To configure the wallet for the current testnet while creating a new microchain,
 the following command can be used:
 
 ```bash
-linera wallet init --with-new-chain --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
+linera wallet init --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
+linera wallet request-chain --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
 ```
 
 The Faucet will provide the new chain with some tokens, which can then be used

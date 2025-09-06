@@ -4,7 +4,8 @@ To verify the installation, you can use the `linera query-validator` command.
 For example:
 
 ```bash
-$ linera wallet init --with-new-chain --faucet https://faucet.{{#include ../../../TESTNET_DOMAIN}}.linera.net
+$ linera wallet init --faucet https://faucet.{{#include ../../../TESTNET_DOMAIN}}.linera.net
+$ linera wallet request-chain --faucet https://faucet.{{#include ../../../TESTNET_DOMAIN}}.linera.net
 $ linera query-validator grpcs:my-domain.com:443
 
 RPC API hash: kd/Ru73B4ZZjXYkFqqSzoWzqpWi+NX+8IJLXOODjSko

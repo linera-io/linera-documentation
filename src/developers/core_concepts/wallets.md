@@ -22,7 +22,8 @@ The simplest way to obtain a wallet with the `linera` CLI tool is to run the
 following command:
 
 ```bash
-linera wallet init --with-new-chain --faucet $FAUCET_URL
+linera wallet init --faucet $FAUCET_URL
+linera wallet request-chain --faucet $FAUCET_URL
 ```
 
 where `$FAUCET_URL` represents the URL of the network's faucet (see
@@ -151,7 +152,8 @@ Note that in the case of a test network with a faucet, the new wallet and the
 new chain could also have been created from the faucet directly using:
 
 ```bash
-linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --with-new-chain --faucet $FAUCET_URL
+linera --wallet wallet2.json --storage rocksdb:linera2.db wallet init --faucet $FAUCET_URL
+linera --wallet wallet2.json --storage rocksdb:linera2.db wallet request-chain --faucet $FAUCET_URL
 ```
 
 #### Opening a chain with multiple users

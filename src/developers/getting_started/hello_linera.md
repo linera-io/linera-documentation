@@ -15,7 +15,8 @@ microchain, and some tokens. These can be all obtained at once by querying the
 Testnet's **faucet** service as follows:
 
 ```bash
-linera wallet init --with-new-chain --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
+linera wallet init --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
+linera wallet request-chain --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
 ```
 
 If you obtain an error message instead, make sure to use a Linera toolchain
@@ -44,7 +45,8 @@ Now, we're ready to create a developer wallet by running the following command
 in a separate shell:
 
 ```bash
-linera wallet init --with-new-chain --faucet http://localhost:8080
+linera wallet init --faucet http://localhost:8080
+linera wallet request-chain --faucet http://localhost:8080
 ```
 
 ```admonish warn
