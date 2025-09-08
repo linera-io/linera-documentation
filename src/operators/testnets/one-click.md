@@ -2,27 +2,64 @@
 
 After downloading the `linera-protocol` repository and checking out the testnet
 branch `{{#include ../../../TESTNET_BRANCH}}`, you can run
-`scripts/deploy-validator.sh <hostname>` to deploy a Linera validator.
+`scripts/deploy-validator.sh <hostname> <email>` to deploy a Linera validator.
 
 For example:
 
 ```bash
 $ git fetch origin
 $ git checkout -t origin/{{#include ../../../TESTNET_BRANCH}}
-$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
+$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
 ```
+
+The email address is required for ACME/Let's Encrypt SSL certificate generation.
 
 The deployment automatically listens for new image updates and will pull them
 automatically.
 
-> Note: Optionally you can build the image from source by not specifying
-> `--remote-image`.
+### Deploy Script Options
+
+The deploy script accepts the following arguments:
+- `<hostname>` (required): The domain name for your validator
+- `<email>` (required): Email address for ACME/Let's Encrypt certificates
+
+And the following optional flags:
+- `--remote-image`: Use the pre-built Docker image from the official registry (recommended)
+- `--skip-genesis`: Skip downloading the genesis configuration (use existing)
+- `--force-genesis`: Force re-download of genesis configuration even if it exists
+- `--custom-tag TAG`: Use a custom Docker image tag for testing
+- `--dry-run`: Preview what would be done without executing
+- `--verbose` or `-v`: Enable verbose output
+- `--help` or `-h`: Show help message
+
+> Note: If you don't specify `--remote-image`, the script will build the Docker image locally from source.
+
+### Environment Variables
+
+You can customize the deployment further using environment variables:
+
+- `ACME_EMAIL`: Override the email for Let's Encrypt certificates
+- `LINERA_IMAGE`: Use a custom Docker image (overrides all image settings)
+- `DOCKER_REGISTRY`: Override the Docker registry (default: us-docker.pkg.dev/linera-io-dev/linera-public-registry)
+- `IMAGE_NAME`: Override the image name (default: linera)
+- `IMAGE_TAG`: Override the image tag (default: `<branch>_release`)
+- `GENESIS_URL`: Override the genesis configuration URL
+- `GENESIS_BUCKET`: GCP bucket for genesis files
+- `GENESIS_PATH_PREFIX`: Path prefix in bucket (default: uses branch name)
+- `NUM_SHARDS`: Number of validator shards (default: 4)
+- `PORT`: Internal validator port (default: 19100)
+- `METRICS_PORT`: Metrics collection port (default: 21100)
+
+For example:
+```bash
+NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image
+```
 
 The public key and account key will be printed after the command has finished
 executing, for example:
 
 ```bash
-$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
+$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
 ...
 Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 ```

@@ -16,15 +16,19 @@ to set up your own validator configuration:
 ```toml
 server_config_path = "server.json"
 host = "<your-host>" # e.g. my-subdomain.my-domain.net
-port = 19100
-metrics_host = "proxy"
-metrics_port = 21100
-internal_host = "proxy"
-internal_port = 20100
+port = 443
+
 [external_protocol]
-Grpc = "ClearText" # Depending on your load balancer you may need "Tls" here.
+Grpc = "Tls"
+
 [internal_protocol]
 Grpc = "ClearText"
+
+[[proxies]]
+host = "proxy"
+public_port = 443
+private_port = 20100
+metrics_port = 21100
 
 # Adjust depending on the number of shards you have
 [[shards]]

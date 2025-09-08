@@ -15,7 +15,7 @@ timeline
       Testnet 2 (Babbage): Web client
                : POW public chains
                : Block headers
-      Testnet 3: Browser extension & wallet connect
+      Testnet 3 (Conway): Browser extension & wallet connect
                : EVM support
                : Block explorer
       Testnet 4: Governance
@@ -78,7 +78,7 @@ Codename: Babbage
 
 - Support for resizing workers offline
 
-## Testnet #3 (planned Sep 2025)
+## Testnet #3 (released Sep 2025)
 
 Codename: Conway
 
