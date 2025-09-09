@@ -111,6 +111,22 @@ docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Do
 
 This can take several minutes.
 
+### Configuring Caddy for SSL/TLS
+
+The validator deployment includes Caddy for automatic SSL certificate management. Before starting the validator, ensure you have:
+
+1. **Set environment variables**:
+```bash
+export DOMAIN="your-validator.example.com"
+export ACME_EMAIL="admin@example.com"
+```
+
+2. **Opened required ports**:
+   - Port 80 (HTTP - for ACME challenge)
+   - Port 443 (HTTPS - main validator endpoint)
+
+The `docker/Caddyfile` is pre-configured to automatically obtain Let's Encrypt certificates and handle gRPC traffic.
+
 ### Running a Validator Node
 
 Now that the genesis configuration is available at `docker/genesis.json` and the
@@ -121,5 +137,12 @@ started by running from inside the `docker` directory:
 cd docker && docker compose up -d
 ```
 
-This will run the Docker Compose deployment in a detached mode. It can take a
-few minutes for the ScyllaDB image to be downloaded and started.
+This will run the Docker Compose deployment in a detached mode, which includes:
+- **Caddy**: Web server with automatic SSL (ports 80/443)
+- **ScyllaDB**: High-performance database
+- **Proxy**: Main validator proxy service
+- **Shards**: 4 validator shard replicas
+- **Prometheus & Grafana**: Monitoring stack
+- **Watchtower**: Automatic container updates
+
+It can take a few minutes for all services to initialize, especially ScyllaDB.

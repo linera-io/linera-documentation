@@ -14,6 +14,18 @@ $ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-im
 
 The email address is required for ACME/Let's Encrypt SSL certificate generation.
 
+### What the Deploy Script Does
+
+The one-click deploy script automatically:
+
+1. **Configures Caddy** for automatic SSL/TLS certificates via Let's Encrypt
+2. **Opens only ports 80 and 443** - no manual load balancer needed!
+3. **Sets up ScyllaDB** with automatic configuration and developer mode
+4. **Configures monitoring** with Prometheus and Grafana
+5. **Enables automatic updates** via Watchtower (checks every 30 seconds)
+6. **Generates validator keys** and configuration files
+7. **Downloads genesis configuration** from the testnet bucket
+
 The deployment automatically listens for new image updates and will pull them
 automatically.
 
@@ -71,5 +83,21 @@ the chosen host name for onboarding in the next epoch.
 For a more bespoke deployment, refer to the manual installation instructions
 below.
 
-> Note: If you have previously deployed a validator you may need to remove old
+> **Note**: If you have previously deployed a validator you may need to remove old
 > docker volumes (`docker_linera-scylla-data` and `docker_linera-shared`).
+
+### System Requirements
+
+Before running the deploy script, ensure your system meets these requirements:
+
+1. **Ports**: Ensure ports 80 and 443 are open and not in use
+2. **Domain**: Your domain must point to this server's IP address
+3. **Kernel tuning** (optional but recommended): For optimal ScyllaDB performance, run:
+   ```bash
+   echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
+   ```
+   This increases the async I/O limit. To make it permanent:
+   ```bash
+   echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
+   sudo sysctl -p
+   ```

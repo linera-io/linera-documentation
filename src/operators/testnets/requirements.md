@@ -35,21 +35,33 @@ they are currently unrecoverable.
 
 ## Infrastructure Requirements
 
-Validators run via Docker Compose do not come with a pre-packaged load balancer
-to perform TLS termination (unlike validators running on Kubernetes).
+### Automatic SSL with Caddy (Recommended)
 
-The load balancer configuration **must** have the following properties:
+Starting with the Conway testnet, validators now include **Caddy** as a built-in web server that automatically handles:
 
-1. Support HTTP/2 connections.
-2. Support gRPC connections.
-3. Support long-lived HTTP/2 connections.
-4. Support a maximum body size of up to 20 MB.
-5. Provide TLS termination with a certificate signed by a known CA.
+1. **SSL/TLS certificates** via Let's Encrypt (ACME protocol)
+2. **HTTP/2 and gRPC support** out of the box
+3. **Automatic HTTPS redirection** from port 80 to 443
+4. **CORS headers** for Web client support
+5. **Security headers** (HSTS, X-Frame-Options, etc.)
 
-To support connections from the Web client, CORS headers must be provided.
+**Required ports:**
+- **Port 80**: HTTP (for ACME challenge and redirect to HTTPS)
+- **Port 443**: HTTPS (main validator endpoint)
 
-Finally, the load balancer that performs TLS termination must redirect traffic
-from `443` to `19100` (the port exposed by the proxy).
+The deploy script automatically configures Caddy when you provide your email address for Let's Encrypt certificates.
+
+### Manual Load Balancer Configuration (Optional)
+
+If you prefer to use your own load balancer instead of the built-in Caddy server, ensure it has:
+
+1. Support HTTP/2 connections
+2. Support gRPC connections
+3. Support long-lived HTTP/2 connections
+4. Support a maximum body size of up to 20 MB
+5. Provide TLS termination with a certificate signed by a known CA
+6. CORS headers for Web client support
+7. Redirect traffic from port 443 to port 19100 (the internal proxy port)
 
 ### Using Nginx
 
@@ -95,24 +107,45 @@ server {
 }
 ```
 
-### Using Caddy
+### Using External Caddy
 
-Minimum supported version: v2.4.3
+If you're running Caddy separately (not using the built-in Docker Compose service), minimum supported version is v2.4.3.
 
-Below is an example Caddy configuration which upholds the infrastructure
-requirements found in `/etc/caddy/Caddyfile`:
+The built-in Caddy configuration automatically handles SSL certificates and proxying. If you need to customize it, you can modify `docker/Caddyfile`:
 
-```ignore
-example.com {
-  reverse_proxy localhost:19100 {
-    transport http {
-      versions h2c
-      read_timeout 10m
-      write_timeout 10m
+```caddy
+{
+    email {$EMAIL}
+}
+
+{$DOMAIN:localhost} {
+    # Automatic HTTPS with Let's Encrypt
+
+    # Reverse proxy to the Linera proxy container (gRPC over HTTPS)
+    reverse_proxy https://proxy:443 {
+        transport http {
+            versions h2c 2
+            dial_timeout 60s
+            response_header_timeout 60s
+            tls_insecure_skip_verify
+        }
+
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
     }
 
-    header Access-Control-Allow-Origin *
-  }
+    # Security headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        -Server
+    }
+
+    encode gzip
 }
 ```
 
@@ -121,19 +154,31 @@ example.com {
 ScyllaDB is an open-source distributed NoSQL database built for high-performance
 and low-latency. Linera validators use ScyllaDB as their persistent storage.
 
-ScyllaDB may require kernel parameters to be modified in order to work.
-Specifically the number of events allowed in asynchronous I/O contexts.
+#### Automatic Configuration
 
-To set this run:
+The Docker Compose setup includes ScyllaDB with automatic configuration:
+- **Developer mode** enabled for simplified setup
+- **Overprovisioned mode** for resource-constrained environments
+- **Auto-configuration** via `SCYLLA_AUTO_CONF=1` environment variable
 
+#### Manual Kernel Tuning (If Required)
+
+ScyllaDB performs best with certain kernel parameters tuned. The most important is the number of events allowed in asynchronous I/O contexts.
+
+To check current value:
 ```bash
-echo 1048576 > /proc/sys/fs/aio-max-nr
+cat /proc/sys/fs/aio-max-nr
 ```
 
-Once you're statisfied with the ScyllaDb configuration, consider make it
-persistent across OS reboots by editing `/etc/sysctl.conf`, setting
-`fs.aio-max-nr = 1048576`, then running:
-
+If the value is less than 1048576, increase it:
 ```bash
+echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
+```
+
+To make this change persistent across reboots:
+```bash
+echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p /etc/sysctl.conf
 ```
+
+> **Note**: The Kubernetes deployment automatically sets this via `sysctls` in the pod spec, but Docker Compose deployments may require manual configuration on the host.

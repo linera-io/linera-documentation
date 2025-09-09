@@ -48,6 +48,43 @@ This occurs when the genesis configuration URL is malformed via string
 formatting. The deploy script uses the name of the current branch to create the
 URL so make sure you have checked out `{{#include ../../../RELEASE_BRANCH}}`.
 
+### SSL Certificate Issues with Caddy
+
+If Caddy fails to obtain SSL certificates:
+
+1. **Check domain DNS**: Ensure your domain points to the server's public IP
+2. **Check ports**: Verify ports 80 and 443 are open and reachable:
+   ```bash
+   sudo netstat -tlnp | grep -E ':80|:443'
+   ```
+3. **Check Caddy logs**:
+   ```bash
+   docker compose logs web
+   ```
+4. **Rate limiting**: Let's Encrypt has rate limits. If hit, wait or use staging:
+   ```bash
+   # Edit docker/Caddyfile and add to the global section:
+   acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+   ```
+
+### Port Conflicts
+
+The validator now uses these ports:
+- **80**: HTTP (Caddy for ACME challenge)
+- **443**: HTTPS (Caddy reverse proxy)
+- **3000**: Grafana dashboard
+- **9090**: Prometheus metrics
+- **19100**: Internal proxy port (not exposed externally anymore)
+
+If you see port binding errors:
+```bash
+# Check what's using the ports
+sudo lsof -i :80
+sudo lsof -i :443
+
+# Stop conflicting services or change ports in docker-compose.yml
+```
+
 ## Support
 
 Support and communication with the core team is done via the `#validator`
