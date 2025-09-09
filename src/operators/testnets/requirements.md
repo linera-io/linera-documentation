@@ -7,7 +7,7 @@ Testnet. The validator deployment has been comprehensively tested under
 ## Installing the Linera Toolchain
 
 > When installing the Linera Toolchain, you **must** check out the
-> `{{#include ../../../TESTNET_BRANCH}}` branch.
+> `{{#include ../../../RELEASE_BRANCH}}` branch.
 
 To install the Linera Toolchain refer to the
 [installation section](../../developers/getting_started/installation.md#installing-from-github).

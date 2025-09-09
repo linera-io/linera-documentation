@@ -1,14 +1,14 @@
 ## One-Click Deploy
 
 After downloading the `linera-protocol` repository and checking out the testnet
-branch `{{#include ../../../TESTNET_BRANCH}}`, you can run
+branch `{{#include ../../../RELEASE_BRANCH}}`, you can run
 `scripts/deploy-validator.sh <hostname> <email>` to deploy a Linera validator.
 
 For example:
 
 ```bash
 $ git fetch origin
-$ git checkout -t origin/{{#include ../../../TESTNET_BRANCH}}
+$ git checkout -t origin/{{#include ../../../RELEASE_BRANCH}}
 $ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
 ```
 
