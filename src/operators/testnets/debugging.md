@@ -61,7 +61,8 @@ If Caddy fails to obtain SSL certificates:
    ```bash
    docker compose logs web
    ```
-4. **Rate limiting**: Let's Encrypt has rate limits. If hit, wait or use staging:
+4. **Rate limiting**: Let's Encrypt has rate limits. If hit, wait or use
+   staging:
    ```bash
    # Edit docker/Caddyfile and add to the global section:
    acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
@@ -70,6 +71,7 @@ If Caddy fails to obtain SSL certificates:
 ### Port Conflicts
 
 The validator now uses these ports:
+
 - **80**: HTTP (Caddy for ACME challenge)
 - **443**: HTTPS (Caddy reverse proxy)
 - **3000**: Grafana dashboard
@@ -77,6 +79,7 @@ The validator now uses these ports:
 - **19100**: Internal proxy port (not exposed externally anymore)
 
 If you see port binding errors:
+
 ```bash
 # Check what's using the ports
 sudo lsof -i :80

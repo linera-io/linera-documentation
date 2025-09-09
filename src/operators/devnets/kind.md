@@ -26,10 +26,12 @@ The main prerequisites to install the Linera toolchain are Rust, Wasm, and
 Protoc. They can be installed as follows on Linux:
 
 - Rust and Wasm
+
   - `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
   - `rustup target add wasm32-unknown-unknown`
 
 - Protoc
+
   - `curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v21.11/protoc-21.11-linux-x86_64.zip`
   - `unzip protoc-21.11-linux-x86_64.zip -d $HOME/.local`
   - If `~/.local` is not in your path, add it:

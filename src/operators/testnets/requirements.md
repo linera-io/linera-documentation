@@ -37,7 +37,8 @@ they are currently unrecoverable.
 
 ### Automatic SSL with Caddy (Recommended)
 
-Starting with the Conway testnet, validators now include **Caddy** as a built-in web server that automatically handles:
+Starting with the Conway testnet, validators now include **Caddy** as a built-in
+web server that automatically handles:
 
 1. **SSL/TLS certificates** via Let's Encrypt (ACME protocol)
 2. **HTTP/2 and gRPC support** out of the box
@@ -46,14 +47,17 @@ Starting with the Conway testnet, validators now include **Caddy** as a built-in
 5. **Security headers** (HSTS, X-Frame-Options, etc.)
 
 **Required ports:**
+
 - **Port 80**: HTTP (for ACME challenge and redirect to HTTPS)
 - **Port 443**: HTTPS (main validator endpoint)
 
-The deploy script automatically configures Caddy when you provide your email address for Let's Encrypt certificates.
+The deploy script automatically configures Caddy when you provide your email
+address for Let's Encrypt certificates.
 
 ### Manual Load Balancer Configuration (Optional)
 
-If you prefer to use your own load balancer instead of the built-in Caddy server, ensure it has:
+If you prefer to use your own load balancer instead of the built-in Caddy
+server, ensure it has:
 
 1. Support HTTP/2 connections
 2. Support gRPC connections
@@ -109,9 +113,11 @@ server {
 
 ### Using External Caddy
 
-If you're running Caddy separately (not using the built-in Docker Compose service), minimum supported version is v2.4.3.
+If you're running Caddy separately (not using the built-in Docker Compose
+service), minimum supported version is v2.4.3.
 
-The built-in Caddy configuration automatically handles SSL certificates and proxying. If you need to customize it, you can modify `docker/Caddyfile`:
+The built-in Caddy configuration automatically handles SSL certificates and
+proxying. If you need to customize it, you can modify `docker/Caddyfile`:
 
 ```caddy
 {
@@ -157,28 +163,35 @@ and low-latency. Linera validators use ScyllaDB as their persistent storage.
 #### Automatic Configuration
 
 The Docker Compose setup includes ScyllaDB with automatic configuration:
+
 - **Developer mode** enabled for simplified setup
 - **Overprovisioned mode** for resource-constrained environments
 - **Auto-configuration** via `SCYLLA_AUTO_CONF=1` environment variable
 
 #### Manual Kernel Tuning (If Required)
 
-ScyllaDB performs best with certain kernel parameters tuned. The most important is the number of events allowed in asynchronous I/O contexts.
+ScyllaDB performs best with certain kernel parameters tuned. The most important
+is the number of events allowed in asynchronous I/O contexts.
 
 To check current value:
+
 ```bash
 cat /proc/sys/fs/aio-max-nr
 ```
 
 If the value is less than 1048576, increase it:
+
 ```bash
 echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
 ```
 
 To make this change persistent across reboots:
+
 ```bash
 echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p /etc/sysctl.conf
 ```
 
-> **Note**: The Kubernetes deployment automatically sets this via `sysctls` in the pod spec, but Docker Compose deployments may require manual configuration on the host.
+> **Note**: The Kubernetes deployment automatically sets this via `sysctls` in
+> the pod spec, but Docker Compose deployments may require manual configuration
+> on the host.

@@ -32,19 +32,24 @@ automatically.
 ### Deploy Script Options
 
 The deploy script accepts the following arguments:
+
 - `<hostname>` (required): The domain name for your validator
 - `<email>` (required): Email address for ACME/Let's Encrypt certificates
 
 And the following optional flags:
-- `--remote-image`: Use the pre-built Docker image from the official registry (recommended)
+
+- `--remote-image`: Use the pre-built Docker image from the official registry
+  (recommended)
 - `--skip-genesis`: Skip downloading the genesis configuration (use existing)
-- `--force-genesis`: Force re-download of genesis configuration even if it exists
+- `--force-genesis`: Force re-download of genesis configuration even if it
+  exists
 - `--custom-tag TAG`: Use a custom Docker image tag for testing
 - `--dry-run`: Preview what would be done without executing
 - `--verbose` or `-v`: Enable verbose output
 - `--help` or `-h`: Show help message
 
-> Note: If you don't specify `--remote-image`, the script will build the Docker image locally from source.
+> Note: If you don't specify `--remote-image`, the script will build the Docker
+> image locally from source.
 
 ### Environment Variables
 
@@ -52,7 +57,8 @@ You can customize the deployment further using environment variables:
 
 - `ACME_EMAIL`: Override the email for Let's Encrypt certificates
 - `LINERA_IMAGE`: Use a custom Docker image (overrides all image settings)
-- `DOCKER_REGISTRY`: Override the Docker registry (default: us-docker.pkg.dev/linera-io-dev/linera-public-registry)
+- `DOCKER_REGISTRY`: Override the Docker registry (default:
+  us-docker.pkg.dev/linera-io-dev/linera-public-registry)
 - `IMAGE_NAME`: Override the image name (default: linera)
 - `IMAGE_TAG`: Override the image tag (default: `<branch>_release`)
 - `GENESIS_URL`: Override the genesis configuration URL
@@ -63,6 +69,7 @@ You can customize the deployment further using environment variables:
 - `METRICS_PORT`: Metrics collection port (default: 21100)
 
 For example:
+
 ```bash
 NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image
 ```
@@ -83,8 +90,8 @@ the chosen host name for onboarding in the next epoch.
 For a more bespoke deployment, refer to the manual installation instructions
 below.
 
-> **Note**: If you have previously deployed a validator you may need to remove old
-> docker volumes (`docker_linera-scylla-data` and `docker_linera-shared`).
+> **Note**: If you have previously deployed a validator you may need to remove
+> old docker volumes (`docker_linera-scylla-data` and `docker_linera-shared`).
 
 ### System Requirements
 
@@ -92,7 +99,8 @@ Before running the deploy script, ensure your system meets these requirements:
 
 1. **Ports**: Ensure ports 80 and 443 are open and not in use
 2. **Domain**: Your domain must point to this server's IP address
-3. **Kernel tuning** (optional but recommended): For optimal ScyllaDB performance, run:
+3. **Kernel tuning** (optional but recommended): For optimal ScyllaDB
+   performance, run:
    ```bash
    echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
    ```

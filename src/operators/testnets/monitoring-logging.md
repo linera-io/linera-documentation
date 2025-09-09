@@ -20,6 +20,7 @@ The validator deployment includes a complete monitoring stack:
 3. Navigate to the "General" dashboard for validator metrics
 
 The dashboard displays:
+
 - Request latency percentiles
 - Error rates
 - Throughput metrics
@@ -29,13 +30,13 @@ The dashboard displays:
 
 ### Available Services and Ports
 
-| Service | Port | Purpose |
-|---------|------|---------|
-| Caddy (web) | 80, 443 | SSL/TLS termination and reverse proxy |
-| Grafana | 3000 | Monitoring dashboards |
-| Prometheus | 9090 | Metrics collection |
-| Proxy | 19100 | Internal validator proxy (not exposed externally) |
-| ScyllaDB | 9042 | Database (internal only) |
+| Service     | Port    | Purpose                                           |
+| ----------- | ------- | ------------------------------------------------- |
+| Caddy (web) | 80, 443 | SSL/TLS termination and reverse proxy             |
+| Grafana     | 3000    | Monitoring dashboards                             |
+| Prometheus  | 9090    | Metrics collection                                |
+| Proxy       | 19100   | Internal validator proxy (not exposed externally) |
+| ScyllaDB    | 9042    | Database (internal only)                          |
 
 ## Logging
 
@@ -84,14 +85,15 @@ docker compose logs shard | grep -i "health"
 
 ### Log Rotation
 
-Docker automatically rotates logs. To configure log rotation, add to your `docker-compose.yml`:
+Docker automatically rotates logs. To configure log rotation, add to your
+`docker-compose.yml`:
 
 ```yaml
 services:
   proxy:
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
-        max-size: "100m"
-        max-file: "10"
+        max-size: '100m'
+        max-file: '10'
 ```
