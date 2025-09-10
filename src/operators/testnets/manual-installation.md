@@ -157,6 +157,7 @@ For production deployments with high I/O requirements, you can optimize ScyllaDB
 performance by using a dedicated XFS partition:
 
 1. **Create an XFS partition** (if not already available):
+
    ```bash
    sudo mkfs.xfs /dev/nvme1n1  # Replace with your device
    sudo mkdir -p /mnt/xfs-scylla
@@ -164,6 +165,7 @@ performance by using a dedicated XFS partition:
    ```
 
 2. **Create a docker-compose.override.yml** file in the `docker` directory:
+
    ```yaml
    services:
      scylla:
@@ -171,8 +173,8 @@ performance by using a dedicated XFS partition:
          - /mnt/xfs-scylla/scylla-data:/var/lib/scylla
        environment:
          SCYLLA_AUTO_CONF: 1
-         SCYLLA_DIRECT_IO_MODE: "true"
-         SCYLLA_CACHE_SIZE: "8G"  # Adjust based on available RAM
+         SCYLLA_DIRECT_IO_MODE: 'true'
+         SCYLLA_CACHE_SIZE: '8G' # Adjust based on available RAM
    ```
 
 3. **Set proper permissions**:

@@ -43,9 +43,12 @@ And the following optional flags:
 - `--skip-genesis`: Skip downloading the genesis configuration (use existing)
 - `--force-genesis`: Force re-download of genesis configuration even if it
   exists
-- `--custom-tag TAG`: Use a custom Docker image tag for testing (no _release suffix)
-- `--xfs-path PATH`: Optional XFS partition path for optimal ScyllaDB performance
-- `--cache-size SIZE`: Optional ScyllaDB cache size (default: 4G, e.g. 2G, 8G, 16G)
+- `--custom-tag TAG`: Use a custom Docker image tag for testing (no \_release
+  suffix)
+- `--xfs-path PATH`: Optional XFS partition path for optimal ScyllaDB
+  performance
+- `--cache-size SIZE`: Optional ScyllaDB cache size (default: 4G, e.g. 2G, 8G,
+  16G)
 - `--dry-run`: Preview what would be done without executing
 - `--verbose` or `-v`: Enable verbose output
 - `--help` or `-h`: Show help message
@@ -112,9 +115,9 @@ Before running the deploy script, ensure your system meets these requirements:
 
 1. **Ports**: Ensure ports 80 and 443 are open and not in use
 2. **Domain**: Your domain must point to this server's IP address
-3. **Kernel tuning**: The deploy script will automatically configure AIO settings
-   via the scylla-setup container. If automatic configuration fails, you may
-   need to manually run:
+3. **Kernel tuning**: The deploy script will automatically configure AIO
+   settings via the scylla-setup container. If automatic configuration fails,
+   you may need to manually run:
    ```bash
    echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
    echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
