@@ -150,3 +150,36 @@ This will run the Docker Compose deployment in a detached mode, which includes:
 - **Watchtower**: Automatic container updates
 
 It can take a few minutes for all services to initialize, especially ScyllaDB.
+
+#### ScyllaDB Performance Optimization (Optional)
+
+For production deployments with high I/O requirements, you can optimize ScyllaDB
+performance by using a dedicated XFS partition:
+
+1. **Create an XFS partition** (if not already available):
+   ```bash
+   sudo mkfs.xfs /dev/nvme1n1  # Replace with your device
+   sudo mkdir -p /mnt/xfs-scylla
+   sudo mount /dev/nvme1n1 /mnt/xfs-scylla
+   ```
+
+2. **Create a docker-compose.override.yml** file in the `docker` directory:
+   ```yaml
+   services:
+     scylla:
+       volumes:
+         - /mnt/xfs-scylla/scylla-data:/var/lib/scylla
+       environment:
+         SCYLLA_AUTO_CONF: 1
+         SCYLLA_DIRECT_IO_MODE: "true"
+         SCYLLA_CACHE_SIZE: "8G"  # Adjust based on available RAM
+   ```
+
+3. **Set proper permissions**:
+   ```bash
+   sudo mkdir -p /mnt/xfs-scylla/scylla-data
+   sudo chown -R 999:999 /mnt/xfs-scylla/scylla-data
+   ```
+
+Note: Standard Docker volumes work fine for most deployments. XFS optimization
+is only needed for very high throughput scenarios.

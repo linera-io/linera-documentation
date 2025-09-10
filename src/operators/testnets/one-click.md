@@ -43,7 +43,9 @@ And the following optional flags:
 - `--skip-genesis`: Skip downloading the genesis configuration (use existing)
 - `--force-genesis`: Force re-download of genesis configuration even if it
   exists
-- `--custom-tag TAG`: Use a custom Docker image tag for testing
+- `--custom-tag TAG`: Use a custom Docker image tag for testing (no _release suffix)
+- `--xfs-path PATH`: Optional XFS partition path for optimal ScyllaDB performance
+- `--cache-size SIZE`: Optional ScyllaDB cache size (default: 4G, e.g. 2G, 8G, 16G)
 - `--dry-run`: Preview what would be done without executing
 - `--verbose` or `-v`: Enable verbose output
 - `--help` or `-h`: Show help message
@@ -67,11 +69,22 @@ You can customize the deployment further using environment variables:
 - `NUM_SHARDS`: Number of validator shards (default: 4)
 - `PORT`: Internal validator port (default: 19100)
 - `METRICS_PORT`: Metrics collection port (default: 21100)
+- `SCYLLA_XFS_PATH`: Optional XFS partition mount path for ScyllaDB data
+- `SCYLLA_CACHE_SIZE`: ScyllaDB cache size (default: 4G)
 
 For example:
 
 ```bash
+# Deploy with more shards
 NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image
+
+# Deploy with XFS partition for optimal ScyllaDB performance
+scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+  --xfs-path /mnt/xfs-scylla --cache-size 8G
+
+# Deploy with custom image tag (for testing)
+scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+  --custom-tag devnet_2025_08_21
 ```
 
 The public key and account key will be printed after the command has finished
@@ -99,13 +112,22 @@ Before running the deploy script, ensure your system meets these requirements:
 
 1. **Ports**: Ensure ports 80 and 443 are open and not in use
 2. **Domain**: Your domain must point to this server's IP address
-3. **Kernel tuning** (optional but recommended): For optimal ScyllaDB
-   performance, run:
+3. **Kernel tuning**: The deploy script will automatically configure AIO settings
+   via the scylla-setup container. If automatic configuration fails, you may
+   need to manually run:
    ```bash
    echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
-   ```
-   This increases the async I/O limit. To make it permanent:
-   ```bash
    echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
    sudo sysctl -p
    ```
+4. **XFS partition** (optional, for maximum performance): For production
+   deployments with high I/O requirements, consider using a dedicated XFS
+   partition for ScyllaDB:
+   ```bash
+   # Example: Create and mount XFS partition
+   sudo mkfs.xfs /dev/nvme1n1  # Replace with your device
+   sudo mkdir -p /mnt/xfs-scylla
+   sudo mount /dev/nvme1n1 /mnt/xfs-scylla
+   # Then use: --xfs-path /mnt/xfs-scylla
+   ```
+   Note: Standard Docker volumes work fine for most deployments
