@@ -144,19 +144,87 @@
 <p>This section covers how to monitor the behaviour and performance of your
 validator once deployed.</p>
 <h2 id="monitoring"><a class="header" href="#monitoring">Monitoring</a></h2>
-<p>The validator ships with an instance of <a href="https://prometheus.io/">Prometheus</a> for
-metrics and <a href="https://grafana.com/">Grafana</a> for observability.</p>
-<p>Grafana ships with a default dashboard called the "General" dashboard which
-displays the most common metrics for validator operation, from latency to error
-rates.</p>
+<p>The validator deployment includes a complete monitoring stack:</p>
+<ul>
+<li><strong><a href="https://prometheus.io/">Prometheus</a></strong>: Metrics collection (port 9090)</li>
+<li><strong><a href="https://grafana.com/">Grafana</a></strong>: Visualization dashboards (port 3000)</li>
+<li><strong>Watchtower</strong>: Automatic container updates (checks every 30 seconds)</li>
+</ul>
+<h3 id="accessing-grafana"><a class="header" href="#accessing-grafana">Accessing Grafana</a></h3>
+<ol>
+<li>Open your browser to <code>http://your-server-ip:3000</code></li>
+<li>Default credentials:
+<ul>
+<li>Username: <code>admin</code></li>
+<li>Password: <code>admin</code> (you'll be prompted to change it)</li>
+</ul>
+</li>
+<li>Navigate to the "General" dashboard for validator metrics</li>
+</ol>
+<p>The dashboard displays:</p>
+<ul>
+<li>Request latency percentiles</li>
+<li>Error rates</li>
+<li>Throughput metrics</li>
+<li>Resource utilization</li>
+</ul>
 <p><img src="dashboard-example.png" alt="img.png" /></p>
-<p>The relevant ports can be found in the
-<a href="https://github.com/linera-io/linera-protocol/blob/main/docker/docker-compose.yml">Docker Compose manifest</a>.</p>
+<h3 id="available-services-and-ports"><a class="header" href="#available-services-and-ports">Available Services and Ports</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Service</th><th>Port</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Caddy (web)</td><td>80, 443</td><td>SSL/TLS termination and reverse proxy</td></tr>
+<tr><td>Grafana</td><td>3000</td><td>Monitoring dashboards</td></tr>
+<tr><td>Prometheus</td><td>9090</td><td>Metrics collection</td></tr>
+<tr><td>Proxy</td><td>19100</td><td>Internal validator proxy (not exposed externally)</td></tr>
+<tr><td>ScyllaDB</td><td>9042</td><td>Database (internal only)</td></tr>
+</tbody></table>
+</div>
 <h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
-<p>Logging is currently handled implicitly by Docker as it absorbs the process
-stdout from the proxy and shard processes.</p>
-<p>To view the logs for a given container run:</p>
-<pre><code class="language-bash">docker compose logs &lt;service-name&gt;
+<p>Logging is handled by Docker Compose, capturing stdout/stderr from all services.</p>
+<h3 id="viewing-logs"><a class="header" href="#viewing-logs">Viewing Logs</a></h3>
+<pre><code class="language-bash"># View all logs
+docker compose logs
+
+# View logs for specific service
+docker compose logs web          # Caddy web server
+docker compose logs proxy        # Validator proxy
+docker compose logs scylla       # ScyllaDB
+docker compose logs shard        # Validator shards (all replicas)
+
+# Follow logs in real-time
+docker compose logs -f
+
+# View last 100 lines
+docker compose logs --tail=100
+
+# View logs for multiple services
+docker compose logs web proxy
+
+# View logs with timestamps
+docker compose logs -t
+</code></pre>
+<h3 id="common-log-checks"><a class="header" href="#common-log-checks">Common Log Checks</a></h3>
+<pre><code class="language-bash"># Check SSL certificate status
+docker compose logs web | grep -i "certificate"
+
+# Check for errors
+docker compose logs | grep -i error
+
+# Check ScyllaDB initialization
+docker compose logs scylla | grep -i "started"
+
+# Monitor shard health
+docker compose logs shard | grep -i "health"
+</code></pre>
+<h3 id="log-rotation"><a class="header" href="#log-rotation">Log Rotation</a></h3>
+<p>Docker automatically rotates logs. To configure log rotation, add to your
+<code>docker-compose.yml</code>:</p>
+<pre><code class="language-yaml">services:
+  proxy:
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '10'
 </code></pre>
 
                     </main>

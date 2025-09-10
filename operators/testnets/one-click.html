@@ -143,21 +143,86 @@
                         <h2 id="one-click-deploy"><a class="header" href="#one-click-deploy">One-Click Deploy</a></h2>
 <p>After downloading the <code>linera-protocol</code> repository and checking out the testnet
 branch <code>testnet_conway</code>, you can run
-<code>scripts/deploy-validator.sh &lt;hostname&gt;</code> to deploy a Linera validator.</p>
+<code>scripts/deploy-validator.sh &lt;hostname&gt; &lt;email&gt;</code> to deploy a Linera validator.</p>
 <p>For example:</p>
 <pre><code class="language-bash">$ git fetch origin
 $ git checkout -t origin/testnet_conway
-$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
+$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
 </code></pre>
+<p>The email address is required for ACME/Let's Encrypt SSL certificate generation.</p>
+<h3 id="what-the-deploy-script-does"><a class="header" href="#what-the-deploy-script-does">What the Deploy Script Does</a></h3>
+<p>The one-click deploy script automatically:</p>
+<ol>
+<li><strong>Configures Caddy</strong> for automatic SSL/TLS certificates via Let's Encrypt</li>
+<li><strong>Opens only ports 80 and 443</strong> - no manual load balancer needed!</li>
+<li><strong>Sets up ScyllaDB</strong> with automatic configuration and developer mode</li>
+<li><strong>Configures monitoring</strong> with Prometheus and Grafana</li>
+<li><strong>Enables automatic updates</strong> via Watchtower (checks every 30 seconds)</li>
+<li><strong>Generates validator keys</strong> and configuration files</li>
+<li><strong>Downloads genesis configuration</strong> from the testnet bucket</li>
+</ol>
 <p>The deployment automatically listens for new image updates and will pull them
 automatically.</p>
+<h3 id="deploy-script-options"><a class="header" href="#deploy-script-options">Deploy Script Options</a></h3>
+<p>The deploy script accepts the following arguments:</p>
+<ul>
+<li><code>&lt;hostname&gt;</code> (required): The domain name for your validator</li>
+<li><code>&lt;email&gt;</code> (required): Email address for ACME/Let's Encrypt certificates</li>
+</ul>
+<p>And the following optional flags:</p>
+<ul>
+<li><code>--remote-image</code>: Use the pre-built Docker image from the official registry
+(recommended)</li>
+<li><code>--skip-genesis</code>: Skip downloading the genesis configuration (use existing)</li>
+<li><code>--force-genesis</code>: Force re-download of genesis configuration even if it
+exists</li>
+<li><code>--custom-tag TAG</code>: Use a custom Docker image tag for testing (no _release
+suffix)</li>
+<li><code>--xfs-path PATH</code>: Optional XFS partition path for optimal ScyllaDB
+performance</li>
+<li><code>--cache-size SIZE</code>: Optional ScyllaDB cache size (default: 4G, e.g. 2G, 8G,
+16G)</li>
+<li><code>--dry-run</code>: Preview what would be done without executing</li>
+<li><code>--verbose</code> or <code>-v</code>: Enable verbose output</li>
+<li><code>--help</code> or <code>-h</code>: Show help message</li>
+</ul>
 <blockquote>
-<p>Note: Optionally you can build the image from source by not specifying
-<code>--remote-image</code>.</p>
+<p>Note: If you don't specify <code>--remote-image</code>, the script will build the Docker
+image locally from source.</p>
 </blockquote>
+<h3 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h3>
+<p>You can customize the deployment further using environment variables:</p>
+<ul>
+<li><code>ACME_EMAIL</code>: Override the email for Let's Encrypt certificates</li>
+<li><code>LINERA_IMAGE</code>: Use a custom Docker image (overrides all image settings)</li>
+<li><code>DOCKER_REGISTRY</code>: Override the Docker registry (default:
+us-docker.pkg.dev/linera-io-dev/linera-public-registry)</li>
+<li><code>IMAGE_NAME</code>: Override the image name (default: linera)</li>
+<li><code>IMAGE_TAG</code>: Override the image tag (default: <code>&lt;branch&gt;_release</code>)</li>
+<li><code>GENESIS_URL</code>: Override the genesis configuration URL</li>
+<li><code>GENESIS_BUCKET</code>: GCP bucket for genesis files</li>
+<li><code>GENESIS_PATH_PREFIX</code>: Path prefix in bucket (default: uses branch name)</li>
+<li><code>NUM_SHARDS</code>: Number of validator shards (default: 4)</li>
+<li><code>PORT</code>: Internal validator port (default: 19100)</li>
+<li><code>METRICS_PORT</code>: Metrics collection port (default: 21100)</li>
+<li><code>SCYLLA_XFS_PATH</code>: Optional XFS partition mount path for ScyllaDB data</li>
+<li><code>SCYLLA_CACHE_SIZE</code>: ScyllaDB cache size (default: 4G)</li>
+</ul>
+<p>For example:</p>
+<pre><code class="language-bash"># Deploy with more shards
+NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image
+
+# Deploy with XFS partition for optimal ScyllaDB performance
+scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+  --xfs-path /mnt/xfs-scylla --cache-size 8G
+
+# Deploy with custom image tag (for testing)
+scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+  --custom-tag devnet_2025_08_21
+</code></pre>
 <p>The public key and account key will be printed after the command has finished
 executing, for example:</p>
-<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
+<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
 ...
 Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 </code></pre>
@@ -167,9 +232,33 @@ the chosen host name for onboarding in the next epoch.</p>
 <p>For a more bespoke deployment, refer to the manual installation instructions
 below.</p>
 <blockquote>
-<p>Note: If you have previously deployed a validator you may need to remove old
-docker volumes (<code>docker_linera-scylla-data</code> and <code>docker_linera-shared</code>).</p>
+<p><strong>Note</strong>: If you have previously deployed a validator you may need to remove
+old docker volumes (<code>docker_linera-scylla-data</code> and <code>docker_linera-shared</code>).</p>
 </blockquote>
+<h3 id="system-requirements"><a class="header" href="#system-requirements">System Requirements</a></h3>
+<p>Before running the deploy script, ensure your system meets these requirements:</p>
+<ol>
+<li><strong>Ports</strong>: Ensure ports 80 and 443 are open and not in use</li>
+<li><strong>Domain</strong>: Your domain must point to this server's IP address</li>
+<li><strong>Kernel tuning</strong>: The deploy script will automatically configure AIO
+settings via the scylla-setup container. If automatic configuration fails,
+you may need to manually run:
+<pre><code class="language-bash">echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
+echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+</code></pre>
+</li>
+<li><strong>XFS partition</strong> (optional, for maximum performance): For production
+deployments with high I/O requirements, consider using a dedicated XFS
+partition for ScyllaDB:
+<pre><code class="language-bash"># Example: Create and mount XFS partition
+sudo mkfs.xfs /dev/nvme1n1  # Replace with your device
+sudo mkdir -p /mnt/xfs-scylla
+sudo mount /dev/nvme1n1 /mnt/xfs-scylla
+# Then use: --xfs-path /mnt/xfs-scylla
+</code></pre>
+Note: Standard Docker volumes work fine for most deployments</li>
+</ol>
 
                     </main>
 

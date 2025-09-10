@@ -166,19 +166,35 @@ repository.</p>
 <p>Make sure to back up your keys once they are generated because if they are lost,
 they are currently unrecoverable.</p>
 <h2 id="infrastructure-requirements"><a class="header" href="#infrastructure-requirements">Infrastructure Requirements</a></h2>
-<p>Validators run via Docker Compose do not come with a pre-packaged load balancer
-to perform TLS termination (unlike validators running on Kubernetes).</p>
-<p>The load balancer configuration <strong>must</strong> have the following properties:</p>
+<h3 id="automatic-ssl-with-caddy-recommended"><a class="header" href="#automatic-ssl-with-caddy-recommended">Automatic SSL with Caddy (Recommended)</a></h3>
+<p>Starting with the Conway testnet, validators now include <strong>Caddy</strong> as a built-in
+web server that automatically handles:</p>
 <ol>
-<li>Support HTTP/2 connections.</li>
-<li>Support gRPC connections.</li>
-<li>Support long-lived HTTP/2 connections.</li>
-<li>Support a maximum body size of up to 20 MB.</li>
-<li>Provide TLS termination with a certificate signed by a known CA.</li>
+<li><strong>SSL/TLS certificates</strong> via Let's Encrypt (ACME protocol)</li>
+<li><strong>HTTP/2 and gRPC support</strong> out of the box</li>
+<li><strong>Automatic HTTPS redirection</strong> from port 80 to 443</li>
+<li><strong>CORS headers</strong> for Web client support</li>
+<li><strong>Security headers</strong> (HSTS, X-Frame-Options, etc.)</li>
 </ol>
-<p>To support connections from the Web client, CORS headers must be provided.</p>
-<p>Finally, the load balancer that performs TLS termination must redirect traffic
-from <code>443</code> to <code>19100</code> (the port exposed by the proxy).</p>
+<p><strong>Required ports:</strong></p>
+<ul>
+<li><strong>Port 80</strong>: HTTP (for ACME challenge and redirect to HTTPS)</li>
+<li><strong>Port 443</strong>: HTTPS (main validator endpoint)</li>
+</ul>
+<p>The deploy script automatically configures Caddy when you provide your email
+address for Let's Encrypt certificates.</p>
+<h3 id="manual-load-balancer-configuration-optional"><a class="header" href="#manual-load-balancer-configuration-optional">Manual Load Balancer Configuration (Optional)</a></h3>
+<p>If you prefer to use your own load balancer instead of the built-in Caddy
+server, ensure it has:</p>
+<ol>
+<li>Support HTTP/2 connections</li>
+<li>Support gRPC connections</li>
+<li>Support long-lived HTTP/2 connections</li>
+<li>Support a maximum body size of up to 20 MB</li>
+<li>Provide TLS termination with a certificate signed by a known CA</li>
+<li>CORS headers for Web client support</li>
+<li>Redirect traffic from port 443 to port 19100 (the internal proxy port)</li>
+</ol>
 <h3 id="using-nginx"><a class="header" href="#using-nginx">Using Nginx</a></h3>
 <p>Minimum supported version: 1.18.0.</p>
 <p>Below is an example Nginx configuration which upholds the infrastructure
@@ -218,35 +234,73 @@ server {
     client_body_timeout 10m;
 }
 </code></pre>
-<h3 id="using-caddy"><a class="header" href="#using-caddy">Using Caddy</a></h3>
-<p>Minimum supported version: v2.4.3</p>
-<p>Below is an example Caddy configuration which upholds the infrastructure
-requirements found in <code>/etc/caddy/Caddyfile</code>:</p>
-<pre><code class="language-ignore">example.com {
-  reverse_proxy localhost:19100 {
-    transport http {
-      versions h2c
-      read_timeout 10m
-      write_timeout 10m
+<h3 id="using-external-caddy"><a class="header" href="#using-external-caddy">Using External Caddy</a></h3>
+<p>If you're running Caddy separately (not using the built-in Docker Compose
+service), minimum supported version is v2.4.3.</p>
+<p>The built-in Caddy configuration automatically handles SSL certificates and
+proxying. If you need to customize it, you can modify <code>docker/Caddyfile</code>:</p>
+<pre><code class="language-caddy">{
+    email {$EMAIL}
+}
+
+{$DOMAIN:localhost} {
+    # Automatic HTTPS with Let's Encrypt
+
+    # Reverse proxy to the Linera proxy container (gRPC over HTTPS)
+    reverse_proxy https://proxy:443 {
+        transport http {
+            versions h2c 2
+            dial_timeout 60s
+            response_header_timeout 60s
+            tls_insecure_skip_verify
+        }
+
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
     }
 
-    header Access-Control-Allow-Origin *
-  }
+    # Security headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        -Server
+    }
+
+    encode gzip
 }
 </code></pre>
 <h3 id="scylladb-configuration"><a class="header" href="#scylladb-configuration">ScyllaDB Configuration</a></h3>
 <p>ScyllaDB is an open-source distributed NoSQL database built for high-performance
 and low-latency. Linera validators use ScyllaDB as their persistent storage.</p>
-<p>ScyllaDB may require kernel parameters to be modified in order to work.
-Specifically the number of events allowed in asynchronous I/O contexts.</p>
-<p>To set this run:</p>
-<pre><code class="language-bash">echo 1048576 &gt; /proc/sys/fs/aio-max-nr
+<h4 id="automatic-configuration"><a class="header" href="#automatic-configuration">Automatic Configuration</a></h4>
+<p>The Docker Compose setup includes ScyllaDB with automatic configuration:</p>
+<ul>
+<li><strong>Developer mode</strong> enabled for simplified setup</li>
+<li><strong>Overprovisioned mode</strong> for resource-constrained environments</li>
+<li><strong>Auto-configuration</strong> via <code>SCYLLA_AUTO_CONF=1</code> environment variable</li>
+</ul>
+<h4 id="manual-kernel-tuning-if-required"><a class="header" href="#manual-kernel-tuning-if-required">Manual Kernel Tuning (If Required)</a></h4>
+<p>ScyllaDB performs best with certain kernel parameters tuned. The most important
+is the number of events allowed in asynchronous I/O contexts.</p>
+<p>To check current value:</p>
+<pre><code class="language-bash">cat /proc/sys/fs/aio-max-nr
 </code></pre>
-<p>Once you're statisfied with the ScyllaDb configuration, consider make it
-persistent across OS reboots by editing <code>/etc/sysctl.conf</code>, setting
-<code>fs.aio-max-nr = 1048576</code>, then running:</p>
-<pre><code class="language-bash">sudo sysctl -p /etc/sysctl.conf
+<p>If the value is less than 1048576, increase it:</p>
+<pre><code class="language-bash">echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
 </code></pre>
+<p>To make this change persistent across reboots:</p>
+<pre><code class="language-bash">echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p /etc/sysctl.conf
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: The Kubernetes deployment automatically sets this via <code>sysctls</code> in
+the pod spec, but Docker Compose deployments may require manual configuration
+on the host.</p>
+</blockquote>
 
                     </main>
 

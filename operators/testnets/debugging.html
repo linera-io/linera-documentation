@@ -176,6 +176,41 @@ that the
 <p>This occurs when the genesis configuration URL is malformed via string
 formatting. The deploy script uses the name of the current branch to create the
 URL so make sure you have checked out <code>testnet_conway</code>.</p>
+<h3 id="ssl-certificate-issues-with-caddy"><a class="header" href="#ssl-certificate-issues-with-caddy">SSL Certificate Issues with Caddy</a></h3>
+<p>If Caddy fails to obtain SSL certificates:</p>
+<ol>
+<li><strong>Check domain DNS</strong>: Ensure your domain points to the server's public IP</li>
+<li><strong>Check ports</strong>: Verify ports 80 and 443 are open and reachable:
+<pre><code class="language-bash">sudo netstat -tlnp | grep -E ':80|:443'
+</code></pre>
+</li>
+<li><strong>Check Caddy logs</strong>:
+<pre><code class="language-bash">docker compose logs web
+</code></pre>
+</li>
+<li><strong>Rate limiting</strong>: Let's Encrypt has rate limits. If hit, wait or use
+staging:
+<pre><code class="language-bash"># Edit docker/Caddyfile and add to the global section:
+acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+</code></pre>
+</li>
+</ol>
+<h3 id="port-conflicts"><a class="header" href="#port-conflicts">Port Conflicts</a></h3>
+<p>The validator now uses these ports:</p>
+<ul>
+<li><strong>80</strong>: HTTP (Caddy for ACME challenge)</li>
+<li><strong>443</strong>: HTTPS (Caddy reverse proxy)</li>
+<li><strong>3000</strong>: Grafana dashboard</li>
+<li><strong>9090</strong>: Prometheus metrics</li>
+<li><strong>19100</strong>: Internal proxy port (not exposed externally anymore)</li>
+</ul>
+<p>If you see port binding errors:</p>
+<pre><code class="language-bash"># Check what's using the ports
+sudo lsof -i :80
+sudo lsof -i :443
+
+# Stop conflicting services or change ports in docker-compose.yml
+</code></pre>
 <h2 id="support"><a class="header" href="#support">Support</a></h2>
 <p>Support and communication with the core team is done via the <code>#validator</code>
 private channel in the <a href="https://discord.com/invite/linera">Linera Discord</a>.</p>

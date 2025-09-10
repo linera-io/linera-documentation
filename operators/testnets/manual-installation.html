@@ -151,15 +151,19 @@ manually roll out your validator deployment.</p>
 to set up your own validator configuration:</p>
 <pre><code class="language-toml">server_config_path = "server.json"
 host = "&lt;your-host&gt;" # e.g. my-subdomain.my-domain.net
-port = 19100
-metrics_host = "proxy"
-metrics_port = 21100
-internal_host = "proxy"
-internal_port = 20100
+port = 443
+
 [external_protocol]
-Grpc = "ClearText" # Depending on your load balancer you may need "Tls" here.
+Grpc = "Tls"
+
 [internal_protocol]
 Grpc = "ClearText"
+
+[[proxies]]
+host = "proxy"
+public_port = 443
+private_port = 20100
+metrics_port = 21100
 
 # Adjust depending on the number of shards you have
 [[shards]]
@@ -221,14 +225,73 @@ traffic from existing users.</p>
 <pre><code class="language-bash">docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
 </code></pre>
 <p>This can take several minutes.</p>
+<h3 id="configuring-caddy-for-ssltls"><a class="header" href="#configuring-caddy-for-ssltls">Configuring Caddy for SSL/TLS</a></h3>
+<p>The validator deployment includes Caddy for automatic SSL certificate
+management. Before starting the validator, ensure you have:</p>
+<ol>
+<li><strong>Set environment variables</strong>:</li>
+</ol>
+<pre><code class="language-bash">export DOMAIN="your-validator.example.com"
+export ACME_EMAIL="admin@example.com"
+</code></pre>
+<ol start="2">
+<li><strong>Opened required ports</strong>:
+<ul>
+<li>Port 80 (HTTP - for ACME challenge)</li>
+<li>Port 443 (HTTPS - main validator endpoint)</li>
+</ul>
+</li>
+</ol>
+<p>The <code>docker/Caddyfile</code> is pre-configured to automatically obtain Let's Encrypt
+certificates and handle gRPC traffic.</p>
 <h3 id="running-a-validator-node"><a class="header" href="#running-a-validator-node">Running a Validator Node</a></h3>
 <p>Now that the genesis configuration is available at <code>docker/genesis.json</code> and the
 server configuration is available at <code>docker/server.json</code>, the validator can be
 started by running from inside the <code>docker</code> directory:</p>
 <pre><code class="language-bash">cd docker &amp;&amp; docker compose up -d
 </code></pre>
-<p>This will run the Docker Compose deployment in a detached mode. It can take a
-few minutes for the ScyllaDB image to be downloaded and started.</p>
+<p>This will run the Docker Compose deployment in a detached mode, which includes:</p>
+<ul>
+<li><strong>Caddy</strong>: Web server with automatic SSL (ports 80/443)</li>
+<li><strong>ScyllaDB</strong>: High-performance database</li>
+<li><strong>Proxy</strong>: Main validator proxy service</li>
+<li><strong>Shards</strong>: 4 validator shard replicas</li>
+<li><strong>Prometheus &amp; Grafana</strong>: Monitoring stack</li>
+<li><strong>Watchtower</strong>: Automatic container updates</li>
+</ul>
+<p>It can take a few minutes for all services to initialize, especially ScyllaDB.</p>
+<h4 id="scylladb-performance-optimization-optional"><a class="header" href="#scylladb-performance-optimization-optional">ScyllaDB Performance Optimization (Optional)</a></h4>
+<p>For production deployments with high I/O requirements, you can optimize ScyllaDB
+performance by using a dedicated XFS partition:</p>
+<ol>
+<li>
+<p><strong>Create an XFS partition</strong> (if not already available):</p>
+<pre><code class="language-bash">sudo mkfs.xfs /dev/nvme1n1  # Replace with your device
+sudo mkdir -p /mnt/xfs-scylla
+sudo mount /dev/nvme1n1 /mnt/xfs-scylla
+</code></pre>
+</li>
+<li>
+<p><strong>Create a docker-compose.override.yml</strong> file in the <code>docker</code> directory:</p>
+<pre><code class="language-yaml">services:
+  scylla:
+    volumes:
+      - /mnt/xfs-scylla/scylla-data:/var/lib/scylla
+    environment:
+      SCYLLA_AUTO_CONF: 1
+      SCYLLA_DIRECT_IO_MODE: 'true'
+      SCYLLA_CACHE_SIZE: '8G' # Adjust based on available RAM
+</code></pre>
+</li>
+<li>
+<p><strong>Set proper permissions</strong>:</p>
+<pre><code class="language-bash">sudo mkdir -p /mnt/xfs-scylla/scylla-data
+sudo chown -R 999:999 /mnt/xfs-scylla/scylla-data
+</code></pre>
+</li>
+</ol>
+<p>Note: Standard Docker volumes work fine for most deployments. XFS optimization
+is only needed for very high throughput scenarios.</p>
 
                     </main>
 

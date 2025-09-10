@@ -338,7 +338,7 @@ timeline
       Testnet 2 (Babbage): Web client
                : POW public chains
                : Block headers
-      Testnet 3: Browser extension &amp; wallet connect
+      Testnet 3 (Conway): Browser extension &amp; wallet connect
                : EVM support
                : Block explorer
       Testnet 4: Governance
@@ -419,7 +419,7 @@ timeline
 <p>Support for resizing workers offline</p>
 </li>
 </ul>
-<h2 id="testnet-3-planned-sep-2025"><a class="header" href="#testnet-3-planned-sep-2025">Testnet #3 (planned Sep 2025)</a></h2>
+<h2 id="testnet-3-released-sep-2025"><a class="header" href="#testnet-3-released-sep-2025">Testnet #3 (released Sep 2025)</a></h2>
 <p>Codename: Conway</p>
 <p><strong>SDK</strong></p>
 <ul>
@@ -3026,19 +3026,35 @@ repository.</p>
 <p>Make sure to back up your keys once they are generated because if they are lost,
 they are currently unrecoverable.</p>
 <h2 id="infrastructure-requirements"><a class="header" href="#infrastructure-requirements">Infrastructure Requirements</a></h2>
-<p>Validators run via Docker Compose do not come with a pre-packaged load balancer
-to perform TLS termination (unlike validators running on Kubernetes).</p>
-<p>The load balancer configuration <strong>must</strong> have the following properties:</p>
+<h3 id="automatic-ssl-with-caddy-recommended"><a class="header" href="#automatic-ssl-with-caddy-recommended">Automatic SSL with Caddy (Recommended)</a></h3>
+<p>Starting with the Conway testnet, validators now include <strong>Caddy</strong> as a built-in
+web server that automatically handles:</p>
 <ol>
-<li>Support HTTP/2 connections.</li>
-<li>Support gRPC connections.</li>
-<li>Support long-lived HTTP/2 connections.</li>
-<li>Support a maximum body size of up to 20 MB.</li>
-<li>Provide TLS termination with a certificate signed by a known CA.</li>
+<li><strong>SSL/TLS certificates</strong> via Let's Encrypt (ACME protocol)</li>
+<li><strong>HTTP/2 and gRPC support</strong> out of the box</li>
+<li><strong>Automatic HTTPS redirection</strong> from port 80 to 443</li>
+<li><strong>CORS headers</strong> for Web client support</li>
+<li><strong>Security headers</strong> (HSTS, X-Frame-Options, etc.)</li>
 </ol>
-<p>To support connections from the Web client, CORS headers must be provided.</p>
-<p>Finally, the load balancer that performs TLS termination must redirect traffic
-from <code>443</code> to <code>19100</code> (the port exposed by the proxy).</p>
+<p><strong>Required ports:</strong></p>
+<ul>
+<li><strong>Port 80</strong>: HTTP (for ACME challenge and redirect to HTTPS)</li>
+<li><strong>Port 443</strong>: HTTPS (main validator endpoint)</li>
+</ul>
+<p>The deploy script automatically configures Caddy when you provide your email
+address for Let's Encrypt certificates.</p>
+<h3 id="manual-load-balancer-configuration-optional"><a class="header" href="#manual-load-balancer-configuration-optional">Manual Load Balancer Configuration (Optional)</a></h3>
+<p>If you prefer to use your own load balancer instead of the built-in Caddy
+server, ensure it has:</p>
+<ol>
+<li>Support HTTP/2 connections</li>
+<li>Support gRPC connections</li>
+<li>Support long-lived HTTP/2 connections</li>
+<li>Support a maximum body size of up to 20 MB</li>
+<li>Provide TLS termination with a certificate signed by a known CA</li>
+<li>CORS headers for Web client support</li>
+<li>Redirect traffic from port 443 to port 19100 (the internal proxy port)</li>
+</ol>
 <h3 id="using-nginx"><a class="header" href="#using-nginx">Using Nginx</a></h3>
 <p>Minimum supported version: 1.18.0.</p>
 <p>Below is an example Nginx configuration which upholds the infrastructure
@@ -3078,53 +3094,156 @@ server {
     client_body_timeout 10m;
 }
 </code></pre>
-<h3 id="using-caddy"><a class="header" href="#using-caddy">Using Caddy</a></h3>
-<p>Minimum supported version: v2.4.3</p>
-<p>Below is an example Caddy configuration which upholds the infrastructure
-requirements found in <code>/etc/caddy/Caddyfile</code>:</p>
-<pre><code class="language-ignore">example.com {
-  reverse_proxy localhost:19100 {
-    transport http {
-      versions h2c
-      read_timeout 10m
-      write_timeout 10m
+<h3 id="using-external-caddy"><a class="header" href="#using-external-caddy">Using External Caddy</a></h3>
+<p>If you're running Caddy separately (not using the built-in Docker Compose
+service), minimum supported version is v2.4.3.</p>
+<p>The built-in Caddy configuration automatically handles SSL certificates and
+proxying. If you need to customize it, you can modify <code>docker/Caddyfile</code>:</p>
+<pre><code class="language-caddy">{
+    email {$EMAIL}
+}
+
+{$DOMAIN:localhost} {
+    # Automatic HTTPS with Let's Encrypt
+
+    # Reverse proxy to the Linera proxy container (gRPC over HTTPS)
+    reverse_proxy https://proxy:443 {
+        transport http {
+            versions h2c 2
+            dial_timeout 60s
+            response_header_timeout 60s
+            tls_insecure_skip_verify
+        }
+
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
     }
 
-    header Access-Control-Allow-Origin *
-  }
+    # Security headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        -Server
+    }
+
+    encode gzip
 }
 </code></pre>
 <h3 id="scylladb-configuration"><a class="header" href="#scylladb-configuration">ScyllaDB Configuration</a></h3>
 <p>ScyllaDB is an open-source distributed NoSQL database built for high-performance
 and low-latency. Linera validators use ScyllaDB as their persistent storage.</p>
-<p>ScyllaDB may require kernel parameters to be modified in order to work.
-Specifically the number of events allowed in asynchronous I/O contexts.</p>
-<p>To set this run:</p>
-<pre><code class="language-bash">echo 1048576 &gt; /proc/sys/fs/aio-max-nr
+<h4 id="automatic-configuration"><a class="header" href="#automatic-configuration">Automatic Configuration</a></h4>
+<p>The Docker Compose setup includes ScyllaDB with automatic configuration:</p>
+<ul>
+<li><strong>Developer mode</strong> enabled for simplified setup</li>
+<li><strong>Overprovisioned mode</strong> for resource-constrained environments</li>
+<li><strong>Auto-configuration</strong> via <code>SCYLLA_AUTO_CONF=1</code> environment variable</li>
+</ul>
+<h4 id="manual-kernel-tuning-if-required"><a class="header" href="#manual-kernel-tuning-if-required">Manual Kernel Tuning (If Required)</a></h4>
+<p>ScyllaDB performs best with certain kernel parameters tuned. The most important
+is the number of events allowed in asynchronous I/O contexts.</p>
+<p>To check current value:</p>
+<pre><code class="language-bash">cat /proc/sys/fs/aio-max-nr
 </code></pre>
-<p>Once you're statisfied with the ScyllaDb configuration, consider make it
-persistent across OS reboots by editing <code>/etc/sysctl.conf</code>, setting
-<code>fs.aio-max-nr = 1048576</code>, then running:</p>
-<pre><code class="language-bash">sudo sysctl -p /etc/sysctl.conf
+<p>If the value is less than 1048576, increase it:</p>
+<pre><code class="language-bash">echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
 </code></pre>
+<p>To make this change persistent across reboots:</p>
+<pre><code class="language-bash">echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p /etc/sysctl.conf
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: The Kubernetes deployment automatically sets this via <code>sysctls</code> in
+the pod spec, but Docker Compose deployments may require manual configuration
+on the host.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="one-click-deploy"><a class="header" href="#one-click-deploy">One-Click Deploy</a></h2>
 <p>After downloading the <code>linera-protocol</code> repository and checking out the testnet
 branch <code>testnet_conway</code>, you can run
-<code>scripts/deploy-validator.sh &lt;hostname&gt;</code> to deploy a Linera validator.</p>
+<code>scripts/deploy-validator.sh &lt;hostname&gt; &lt;email&gt;</code> to deploy a Linera validator.</p>
 <p>For example:</p>
 <pre><code class="language-bash">$ git fetch origin
 $ git checkout -t origin/testnet_conway
-$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
+$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
 </code></pre>
+<p>The email address is required for ACME/Let's Encrypt SSL certificate generation.</p>
+<h3 id="what-the-deploy-script-does"><a class="header" href="#what-the-deploy-script-does">What the Deploy Script Does</a></h3>
+<p>The one-click deploy script automatically:</p>
+<ol>
+<li><strong>Configures Caddy</strong> for automatic SSL/TLS certificates via Let's Encrypt</li>
+<li><strong>Opens only ports 80 and 443</strong> - no manual load balancer needed!</li>
+<li><strong>Sets up ScyllaDB</strong> with automatic configuration and developer mode</li>
+<li><strong>Configures monitoring</strong> with Prometheus and Grafana</li>
+<li><strong>Enables automatic updates</strong> via Watchtower (checks every 30 seconds)</li>
+<li><strong>Generates validator keys</strong> and configuration files</li>
+<li><strong>Downloads genesis configuration</strong> from the testnet bucket</li>
+</ol>
 <p>The deployment automatically listens for new image updates and will pull them
 automatically.</p>
+<h3 id="deploy-script-options"><a class="header" href="#deploy-script-options">Deploy Script Options</a></h3>
+<p>The deploy script accepts the following arguments:</p>
+<ul>
+<li><code>&lt;hostname&gt;</code> (required): The domain name for your validator</li>
+<li><code>&lt;email&gt;</code> (required): Email address for ACME/Let's Encrypt certificates</li>
+</ul>
+<p>And the following optional flags:</p>
+<ul>
+<li><code>--remote-image</code>: Use the pre-built Docker image from the official registry
+(recommended)</li>
+<li><code>--skip-genesis</code>: Skip downloading the genesis configuration (use existing)</li>
+<li><code>--force-genesis</code>: Force re-download of genesis configuration even if it
+exists</li>
+<li><code>--custom-tag TAG</code>: Use a custom Docker image tag for testing (no _release
+suffix)</li>
+<li><code>--xfs-path PATH</code>: Optional XFS partition path for optimal ScyllaDB
+performance</li>
+<li><code>--cache-size SIZE</code>: Optional ScyllaDB cache size (default: 4G, e.g. 2G, 8G,
+16G)</li>
+<li><code>--dry-run</code>: Preview what would be done without executing</li>
+<li><code>--verbose</code> or <code>-v</code>: Enable verbose output</li>
+<li><code>--help</code> or <code>-h</code>: Show help message</li>
+</ul>
 <blockquote>
-<p>Note: Optionally you can build the image from source by not specifying
-<code>--remote-image</code>.</p>
+<p>Note: If you don't specify <code>--remote-image</code>, the script will build the Docker
+image locally from source.</p>
 </blockquote>
+<h3 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h3>
+<p>You can customize the deployment further using environment variables:</p>
+<ul>
+<li><code>ACME_EMAIL</code>: Override the email for Let's Encrypt certificates</li>
+<li><code>LINERA_IMAGE</code>: Use a custom Docker image (overrides all image settings)</li>
+<li><code>DOCKER_REGISTRY</code>: Override the Docker registry (default:
+us-docker.pkg.dev/linera-io-dev/linera-public-registry)</li>
+<li><code>IMAGE_NAME</code>: Override the image name (default: linera)</li>
+<li><code>IMAGE_TAG</code>: Override the image tag (default: <code>&lt;branch&gt;_release</code>)</li>
+<li><code>GENESIS_URL</code>: Override the genesis configuration URL</li>
+<li><code>GENESIS_BUCKET</code>: GCP bucket for genesis files</li>
+<li><code>GENESIS_PATH_PREFIX</code>: Path prefix in bucket (default: uses branch name)</li>
+<li><code>NUM_SHARDS</code>: Number of validator shards (default: 4)</li>
+<li><code>PORT</code>: Internal validator port (default: 19100)</li>
+<li><code>METRICS_PORT</code>: Metrics collection port (default: 21100)</li>
+<li><code>SCYLLA_XFS_PATH</code>: Optional XFS partition mount path for ScyllaDB data</li>
+<li><code>SCYLLA_CACHE_SIZE</code>: ScyllaDB cache size (default: 4G)</li>
+</ul>
+<p>For example:</p>
+<pre><code class="language-bash"># Deploy with more shards
+NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image
+
+# Deploy with XFS partition for optimal ScyllaDB performance
+scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+  --xfs-path /mnt/xfs-scylla --cache-size 8G
+
+# Deploy with custom image tag (for testing)
+scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+  --custom-tag devnet_2025_08_21
+</code></pre>
 <p>The public key and account key will be printed after the command has finished
 executing, for example:</p>
-<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com --remote-image
+<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
 ...
 Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 </code></pre>
@@ -3134,9 +3253,33 @@ the chosen host name for onboarding in the next epoch.</p>
 <p>For a more bespoke deployment, refer to the manual installation instructions
 below.</p>
 <blockquote>
-<p>Note: If you have previously deployed a validator you may need to remove old
-docker volumes (<code>docker_linera-scylla-data</code> and <code>docker_linera-shared</code>).</p>
+<p><strong>Note</strong>: If you have previously deployed a validator you may need to remove
+old docker volumes (<code>docker_linera-scylla-data</code> and <code>docker_linera-shared</code>).</p>
 </blockquote>
+<h3 id="system-requirements"><a class="header" href="#system-requirements">System Requirements</a></h3>
+<p>Before running the deploy script, ensure your system meets these requirements:</p>
+<ol>
+<li><strong>Ports</strong>: Ensure ports 80 and 443 are open and not in use</li>
+<li><strong>Domain</strong>: Your domain must point to this server's IP address</li>
+<li><strong>Kernel tuning</strong>: The deploy script will automatically configure AIO
+settings via the scylla-setup container. If automatic configuration fails,
+you may need to manually run:
+<pre><code class="language-bash">echo 1048576 | sudo tee /proc/sys/fs/aio-max-nr
+echo "fs.aio-max-nr = 1048576" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+</code></pre>
+</li>
+<li><strong>XFS partition</strong> (optional, for maximum performance): For production
+deployments with high I/O requirements, consider using a dedicated XFS
+partition for ScyllaDB:
+<pre><code class="language-bash"># Example: Create and mount XFS partition
+sudo mkfs.xfs /dev/nvme1n1  # Replace with your device
+sudo mkdir -p /mnt/xfs-scylla
+sudo mount /dev/nvme1n1 /mnt/xfs-scylla
+# Then use: --xfs-path /mnt/xfs-scylla
+</code></pre>
+Note: Standard Docker volumes work fine for most deployments</li>
+</ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="manual-installation"><a class="header" href="#manual-installation">Manual Installation</a></h1>
 <p>If you don't want to use the provided deploy script, you can instead choose to
 manually roll out your validator deployment.</p>
@@ -3148,15 +3291,19 @@ manually roll out your validator deployment.</p>
 to set up your own validator configuration:</p>
 <pre><code class="language-toml">server_config_path = "server.json"
 host = "&lt;your-host&gt;" # e.g. my-subdomain.my-domain.net
-port = 19100
-metrics_host = "proxy"
-metrics_port = 21100
-internal_host = "proxy"
-internal_port = 20100
+port = 443
+
 [external_protocol]
-Grpc = "ClearText" # Depending on your load balancer you may need "Tls" here.
+Grpc = "Tls"
+
 [internal_protocol]
 Grpc = "ClearText"
+
+[[proxies]]
+host = "proxy"
+public_port = 443
+private_port = 20100
+metrics_port = 21100
 
 # Adjust depending on the number of shards you have
 [[shards]]
@@ -3218,14 +3365,73 @@ traffic from existing users.</p>
 <pre><code class="language-bash">docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
 </code></pre>
 <p>This can take several minutes.</p>
+<h3 id="configuring-caddy-for-ssltls"><a class="header" href="#configuring-caddy-for-ssltls">Configuring Caddy for SSL/TLS</a></h3>
+<p>The validator deployment includes Caddy for automatic SSL certificate
+management. Before starting the validator, ensure you have:</p>
+<ol>
+<li><strong>Set environment variables</strong>:</li>
+</ol>
+<pre><code class="language-bash">export DOMAIN="your-validator.example.com"
+export ACME_EMAIL="admin@example.com"
+</code></pre>
+<ol start="2">
+<li><strong>Opened required ports</strong>:
+<ul>
+<li>Port 80 (HTTP - for ACME challenge)</li>
+<li>Port 443 (HTTPS - main validator endpoint)</li>
+</ul>
+</li>
+</ol>
+<p>The <code>docker/Caddyfile</code> is pre-configured to automatically obtain Let's Encrypt
+certificates and handle gRPC traffic.</p>
 <h3 id="running-a-validator-node"><a class="header" href="#running-a-validator-node">Running a Validator Node</a></h3>
 <p>Now that the genesis configuration is available at <code>docker/genesis.json</code> and the
 server configuration is available at <code>docker/server.json</code>, the validator can be
 started by running from inside the <code>docker</code> directory:</p>
 <pre><code class="language-bash">cd docker &amp;&amp; docker compose up -d
 </code></pre>
-<p>This will run the Docker Compose deployment in a detached mode. It can take a
-few minutes for the ScyllaDB image to be downloaded and started.</p>
+<p>This will run the Docker Compose deployment in a detached mode, which includes:</p>
+<ul>
+<li><strong>Caddy</strong>: Web server with automatic SSL (ports 80/443)</li>
+<li><strong>ScyllaDB</strong>: High-performance database</li>
+<li><strong>Proxy</strong>: Main validator proxy service</li>
+<li><strong>Shards</strong>: 4 validator shard replicas</li>
+<li><strong>Prometheus &amp; Grafana</strong>: Monitoring stack</li>
+<li><strong>Watchtower</strong>: Automatic container updates</li>
+</ul>
+<p>It can take a few minutes for all services to initialize, especially ScyllaDB.</p>
+<h4 id="scylladb-performance-optimization-optional"><a class="header" href="#scylladb-performance-optimization-optional">ScyllaDB Performance Optimization (Optional)</a></h4>
+<p>For production deployments with high I/O requirements, you can optimize ScyllaDB
+performance by using a dedicated XFS partition:</p>
+<ol>
+<li>
+<p><strong>Create an XFS partition</strong> (if not already available):</p>
+<pre><code class="language-bash">sudo mkfs.xfs /dev/nvme1n1  # Replace with your device
+sudo mkdir -p /mnt/xfs-scylla
+sudo mount /dev/nvme1n1 /mnt/xfs-scylla
+</code></pre>
+</li>
+<li>
+<p><strong>Create a docker-compose.override.yml</strong> file in the <code>docker</code> directory:</p>
+<pre><code class="language-yaml">services:
+  scylla:
+    volumes:
+      - /mnt/xfs-scylla/scylla-data:/var/lib/scylla
+    environment:
+      SCYLLA_AUTO_CONF: 1
+      SCYLLA_DIRECT_IO_MODE: 'true'
+      SCYLLA_CACHE_SIZE: '8G' # Adjust based on available RAM
+</code></pre>
+</li>
+<li>
+<p><strong>Set proper permissions</strong>:</p>
+<pre><code class="language-bash">sudo mkdir -p /mnt/xfs-scylla/scylla-data
+sudo chown -R 999:999 /mnt/xfs-scylla/scylla-data
+</code></pre>
+</li>
+</ol>
+<p>Note: Standard Docker volumes work fine for most deployments. XFS optimization
+is only needed for very high throughput scenarios.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="verifying-installation"><a class="header" href="#verifying-installation">Verifying installation</a></h1>
 <p>To verify the installation, you can use the <code>linera query-validator</code> command.
 For example:</p>
@@ -3247,19 +3453,87 @@ on-boarded.</p>
 <p>This section covers how to monitor the behaviour and performance of your
 validator once deployed.</p>
 <h2 id="monitoring"><a class="header" href="#monitoring">Monitoring</a></h2>
-<p>The validator ships with an instance of <a href="https://prometheus.io/">Prometheus</a> for
-metrics and <a href="https://grafana.com/">Grafana</a> for observability.</p>
-<p>Grafana ships with a default dashboard called the "General" dashboard which
-displays the most common metrics for validator operation, from latency to error
-rates.</p>
+<p>The validator deployment includes a complete monitoring stack:</p>
+<ul>
+<li><strong><a href="https://prometheus.io/">Prometheus</a></strong>: Metrics collection (port 9090)</li>
+<li><strong><a href="https://grafana.com/">Grafana</a></strong>: Visualization dashboards (port 3000)</li>
+<li><strong>Watchtower</strong>: Automatic container updates (checks every 30 seconds)</li>
+</ul>
+<h3 id="accessing-grafana"><a class="header" href="#accessing-grafana">Accessing Grafana</a></h3>
+<ol>
+<li>Open your browser to <code>http://your-server-ip:3000</code></li>
+<li>Default credentials:
+<ul>
+<li>Username: <code>admin</code></li>
+<li>Password: <code>admin</code> (you'll be prompted to change it)</li>
+</ul>
+</li>
+<li>Navigate to the "General" dashboard for validator metrics</li>
+</ol>
+<p>The dashboard displays:</p>
+<ul>
+<li>Request latency percentiles</li>
+<li>Error rates</li>
+<li>Throughput metrics</li>
+<li>Resource utilization</li>
+</ul>
 <p><img src="operators/testnets/dashboard-example.png" alt="img.png" /></p>
-<p>The relevant ports can be found in the
-<a href="https://github.com/linera-io/linera-protocol/blob/main/docker/docker-compose.yml">Docker Compose manifest</a>.</p>
+<h3 id="available-services-and-ports"><a class="header" href="#available-services-and-ports">Available Services and Ports</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Service</th><th>Port</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Caddy (web)</td><td>80, 443</td><td>SSL/TLS termination and reverse proxy</td></tr>
+<tr><td>Grafana</td><td>3000</td><td>Monitoring dashboards</td></tr>
+<tr><td>Prometheus</td><td>9090</td><td>Metrics collection</td></tr>
+<tr><td>Proxy</td><td>19100</td><td>Internal validator proxy (not exposed externally)</td></tr>
+<tr><td>ScyllaDB</td><td>9042</td><td>Database (internal only)</td></tr>
+</tbody></table>
+</div>
 <h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
-<p>Logging is currently handled implicitly by Docker as it absorbs the process
-stdout from the proxy and shard processes.</p>
-<p>To view the logs for a given container run:</p>
-<pre><code class="language-bash">docker compose logs &lt;service-name&gt;
+<p>Logging is handled by Docker Compose, capturing stdout/stderr from all services.</p>
+<h3 id="viewing-logs"><a class="header" href="#viewing-logs">Viewing Logs</a></h3>
+<pre><code class="language-bash"># View all logs
+docker compose logs
+
+# View logs for specific service
+docker compose logs web          # Caddy web server
+docker compose logs proxy        # Validator proxy
+docker compose logs scylla       # ScyllaDB
+docker compose logs shard        # Validator shards (all replicas)
+
+# Follow logs in real-time
+docker compose logs -f
+
+# View last 100 lines
+docker compose logs --tail=100
+
+# View logs for multiple services
+docker compose logs web proxy
+
+# View logs with timestamps
+docker compose logs -t
+</code></pre>
+<h3 id="common-log-checks"><a class="header" href="#common-log-checks">Common Log Checks</a></h3>
+<pre><code class="language-bash"># Check SSL certificate status
+docker compose logs web | grep -i "certificate"
+
+# Check for errors
+docker compose logs | grep -i error
+
+# Check ScyllaDB initialization
+docker compose logs scylla | grep -i "started"
+
+# Monitor shard health
+docker compose logs shard | grep -i "health"
+</code></pre>
+<h3 id="log-rotation"><a class="header" href="#log-rotation">Log Rotation</a></h3>
+<p>Docker automatically rotates logs. To configure log rotation, add to your
+<code>docker-compose.yml</code>:</p>
+<pre><code class="language-yaml">services:
+  proxy:
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '10'
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="debugging"><a class="header" href="#debugging">Debugging</a></h1>
 <p>This section covers potential issues with validator deployments and how to
@@ -3297,6 +3571,41 @@ that the
 <p>This occurs when the genesis configuration URL is malformed via string
 formatting. The deploy script uses the name of the current branch to create the
 URL so make sure you have checked out <code>testnet_conway</code>.</p>
+<h3 id="ssl-certificate-issues-with-caddy"><a class="header" href="#ssl-certificate-issues-with-caddy">SSL Certificate Issues with Caddy</a></h3>
+<p>If Caddy fails to obtain SSL certificates:</p>
+<ol>
+<li><strong>Check domain DNS</strong>: Ensure your domain points to the server's public IP</li>
+<li><strong>Check ports</strong>: Verify ports 80 and 443 are open and reachable:
+<pre><code class="language-bash">sudo netstat -tlnp | grep -E ':80|:443'
+</code></pre>
+</li>
+<li><strong>Check Caddy logs</strong>:
+<pre><code class="language-bash">docker compose logs web
+</code></pre>
+</li>
+<li><strong>Rate limiting</strong>: Let's Encrypt has rate limits. If hit, wait or use
+staging:
+<pre><code class="language-bash"># Edit docker/Caddyfile and add to the global section:
+acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+</code></pre>
+</li>
+</ol>
+<h3 id="port-conflicts"><a class="header" href="#port-conflicts">Port Conflicts</a></h3>
+<p>The validator now uses these ports:</p>
+<ul>
+<li><strong>80</strong>: HTTP (Caddy for ACME challenge)</li>
+<li><strong>443</strong>: HTTPS (Caddy reverse proxy)</li>
+<li><strong>3000</strong>: Grafana dashboard</li>
+<li><strong>9090</strong>: Prometheus metrics</li>
+<li><strong>19100</strong>: Internal proxy port (not exposed externally anymore)</li>
+</ul>
+<p>If you see port binding errors:</p>
+<pre><code class="language-bash"># Check what's using the ports
+sudo lsof -i :80
+sudo lsof -i :443
+
+# Stop conflicting services or change ports in docker-compose.yml
+</code></pre>
 <h2 id="support"><a class="header" href="#support">Support</a></h2>
 <p>Support and communication with the core team is done via the <code>#validator</code>
 private channel in the <a href="https://discord.com/invite/linera">Linera Discord</a>.</p>
