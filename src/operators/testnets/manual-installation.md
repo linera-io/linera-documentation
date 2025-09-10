@@ -16,15 +16,19 @@ to set up your own validator configuration:
 ```toml
 server_config_path = "server.json"
 host = "<your-host>" # e.g. my-subdomain.my-domain.net
-port = 19100
-metrics_host = "proxy"
-metrics_port = 21100
-internal_host = "proxy"
-internal_port = 20100
+port = 443
+
 [external_protocol]
-Grpc = "ClearText" # Depending on your load balancer you may need "Tls" here.
+Grpc = "Tls"
+
 [internal_protocol]
 Grpc = "ClearText"
+
+[[proxies]]
+host = "proxy"
+public_port = 443
+private_port = 20100
+metrics_port = 21100
 
 # Adjust depending on the number of shards you have
 [[shards]]
@@ -107,6 +111,25 @@ docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Do
 
 This can take several minutes.
 
+### Configuring Caddy for SSL/TLS
+
+The validator deployment includes Caddy for automatic SSL certificate
+management. Before starting the validator, ensure you have:
+
+1. **Set environment variables**:
+
+```bash
+export DOMAIN="your-validator.example.com"
+export ACME_EMAIL="admin@example.com"
+```
+
+2. **Opened required ports**:
+   - Port 80 (HTTP - for ACME challenge)
+   - Port 443 (HTTPS - main validator endpoint)
+
+The `docker/Caddyfile` is pre-configured to automatically obtain Let's Encrypt
+certificates and handle gRPC traffic.
+
 ### Running a Validator Node
 
 Now that the genesis configuration is available at `docker/genesis.json` and the
@@ -117,5 +140,48 @@ started by running from inside the `docker` directory:
 cd docker && docker compose up -d
 ```
 
-This will run the Docker Compose deployment in a detached mode. It can take a
-few minutes for the ScyllaDB image to be downloaded and started.
+This will run the Docker Compose deployment in a detached mode, which includes:
+
+- **Caddy**: Web server with automatic SSL (ports 80/443)
+- **ScyllaDB**: High-performance database
+- **Proxy**: Main validator proxy service
+- **Shards**: 4 validator shard replicas
+- **Prometheus & Grafana**: Monitoring stack
+- **Watchtower**: Automatic container updates
+
+It can take a few minutes for all services to initialize, especially ScyllaDB.
+
+#### ScyllaDB Performance Optimization (Optional)
+
+For production deployments with high I/O requirements, you can optimize ScyllaDB
+performance by using a dedicated XFS partition:
+
+1. **Create an XFS partition** (if not already available):
+
+   ```bash
+   sudo mkfs.xfs /dev/nvme1n1  # Replace with your device
+   sudo mkdir -p /mnt/xfs-scylla
+   sudo mount /dev/nvme1n1 /mnt/xfs-scylla
+   ```
+
+2. **Create a docker-compose.override.yml** file in the `docker` directory:
+
+   ```yaml
+   services:
+     scylla:
+       volumes:
+         - /mnt/xfs-scylla/scylla-data:/var/lib/scylla
+       environment:
+         SCYLLA_AUTO_CONF: 1
+         SCYLLA_DIRECT_IO_MODE: 'true'
+         SCYLLA_CACHE_SIZE: '8G' # Adjust based on available RAM
+   ```
+
+3. **Set proper permissions**:
+   ```bash
+   sudo mkdir -p /mnt/xfs-scylla/scylla-data
+   sudo chown -R 999:999 /mnt/xfs-scylla/scylla-data
+   ```
+
+Note: Standard Docker volumes work fine for most deployments. XFS optimization
+is only needed for very high throughput scenarios.
