@@ -37,11 +37,12 @@ file `wallet.db`.
 
 To switch between wallets, you may use the `--wallet`, `--keystore`, and
 `--storage` options of the `linera` tool, e.g. as in
-`linera --wallet wallet2.json --keystore keystore2.json --storage rocksdb:wallet2.db`.
+`linera --wallet wallet2.json --keystore keystore2.json --storage rocksdb:wallet2.db:runtime:default`.
 
 You may also define the environment variables `LINERA_STORAGE`,
 `LINERA_KEYSTORE`, and `LINERA_WALLET` to the same effect. E.g.
-`LINERA_STORAGE=$PWD/wallet2.json` and `LINERA_WALLET=$PWD/wallet2.json`.
+`LINERA_STORAGE=rocksdb:$PWD/wallet2.db:runtime:default` and
+`LINERA_WALLET=$PWD/wallet2.json`.
 
 Finally, if `LINERA_STORAGE_$I`, `LINERA_KEYSTORE_$I`, and `LINERA_WALLET_$I`
 are defined for some number `I`, you may call `linera --with-wallet $I` (or
