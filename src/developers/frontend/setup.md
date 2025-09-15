@@ -82,7 +82,7 @@ repository as [`@linera/client`](https://www.npmjs.com/package/@linera/client).
 We'll include it into our `node_modules` with:
 
 ```shellsession
-npm install @linera/client@0.14.0
+npm install @linera/client@{{#include ../../../RELEASE_VERSION}}
 ```
 
 ````admonish warning title="A note on bundlers"
