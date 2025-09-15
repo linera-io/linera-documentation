@@ -32,19 +32,20 @@ where `$FAUCET_URL` represents the URL of the network's faucet (see
 ## Selecting a wallet
 
 The private state of a wallet is conventionally stored in a file `wallet.json`,
-while the state of its node is stored in a file `linera.db`.
+keys are stored in `keystore.db`, while the state of its node is stored in a
+file `wallet.db`.
 
-To switch between wallets, you may use the `--wallet` and `--storage` options of
-the `linera` tool, e.g. as in
-`linera --wallet wallet2.json --storage rocksdb:linera2.db`.
+To switch between wallets, you may use the `--wallet`, `--keystore`, and
+`--storage` options of the `linera` tool, e.g. as in
+`linera --wallet wallet2.json --keystore keystore2.json --storage rocksdb:wallet2.db`.
 
-You may also define the environment variables `LINERA_STORAGE` and
-`LINERA_WALLET` to the same effect. E.g. `LINERA_STORAGE=$PWD/wallet2.json` and
-`LINERA_WALLET=$PWD/wallet2.json`.
+You may also define the environment variables `LINERA_STORAGE`,
+`LINERA_KEYSTORE`, and `LINERA_WALLET` to the same effect. E.g.
+`LINERA_STORAGE=$PWD/wallet2.json` and `LINERA_WALLET=$PWD/wallet2.json`.
 
-Finally, if `LINERA_STORAGE_$I` and `LINERA_WALLET_$I` are defined for some
-number `I`, you may call `linera --with-wallet $I` (or `linera -w $I` for
-short).
+Finally, if `LINERA_STORAGE_$I`, `LINERA_KEYSTORE_$I`, and `LINERA_WALLET_$I`
+are defined for some number `I`, you may call `linera --with-wallet $I` (or
+`linera -w $I` for short).
 
 ## Chain management
 

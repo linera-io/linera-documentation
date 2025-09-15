@@ -9,9 +9,9 @@ the public deployment (i.e. a devnet or a testnet).
 To configure the local network, follow the steps in the
 [Getting Started section](../getting_started/hello_linera.html#using-the-initial-test-wallet).
 
-Afterwards, the `LINERA_WALLET` and the `LINERA_STORAGE` environment variables
-should be set and can be used in the `publish-and-create` command to deploy the
-application while also specifying:
+Afterwards, the `LINERA_WALLET`, `LINERA_STORAGE`, `LINERA_KEYSTORE` environment
+variables should be set and can be used in the `publish-and-create` command to
+deploy the application while also specifying:
 
 1. The location of the contract bytecode
 2. The location of the service bytecode

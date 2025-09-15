@@ -90,6 +90,7 @@ exports required to configure your wallet for the devnet - something like:
 
 ```bash
 export LINERA_WALLET="/tmp/.tmpIOelqk/wallet_0.json"
+export LINERA_KEYSTORE="/tmp/.tmpIOelqk/keystore_0.json"
 export LINERA_STORAGE="rocksdb:/tmp/.tmpIOelqk/client_0.db"
 ```
 

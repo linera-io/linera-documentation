@@ -59,13 +59,14 @@ network is restarted, the wallet needs to be removed and created again.
 By default, the `linera` command looks for wallet files located in a
 configuration path determined by your operating system. If you prefer to choose
 the location of your wallet files, you may optionally set the variables
-`LINERA_WALLET` and `LINERA_STORAGE` as follows:
+`LINERA_WALLET`, `LINERA_KEYSTORE` and `LINERA_STORAGE` as follows:
 
 ```bash
 DIR=$HOME/my_directory
 mkdir -p $DIR
 export LINERA_WALLET="$DIR/wallet.json"
-export LINERA_STORAGE="rocksdb:$DIR/linera.db"
+export LINERA_KEYSTORE="$DIR/keystore.json"
+export LINERA_STORAGE="rocksdb:$DIR/wallet.db"
 ```
 
 Choosing such a directory can be useful to work with several networks because a
