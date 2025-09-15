@@ -169,10 +169,11 @@ keys are stored in <code>keystore.db</code>, while the state of its node is stor
 file <code>wallet.db</code>.</p>
 <p>To switch between wallets, you may use the <code>--wallet</code>, <code>--keystore</code>, and
 <code>--storage</code> options of the <code>linera</code> tool, e.g. as in
-<code>linera --wallet wallet2.json --keystore keystore2.json --storage rocksdb:wallet2.db</code>.</p>
+<code>linera --wallet wallet2.json --keystore keystore2.json --storage rocksdb:wallet2.db:runtime:default</code>.</p>
 <p>You may also define the environment variables <code>LINERA_STORAGE</code>,
 <code>LINERA_KEYSTORE</code>, and <code>LINERA_WALLET</code> to the same effect. E.g.
-<code>LINERA_STORAGE=$PWD/wallet2.json</code> and <code>LINERA_WALLET=$PWD/wallet2.json</code>.</p>
+<code>LINERA_STORAGE=rocksdb:$PWD/wallet2.db:runtime:default</code> and
+<code>LINERA_WALLET=$PWD/wallet2.json</code>.</p>
 <p>Finally, if <code>LINERA_STORAGE_$I</code>, <code>LINERA_KEYSTORE_$I</code>, and <code>LINERA_WALLET_$I</code>
 are defined for some number <code>I</code>, you may call <code>linera --with-wallet $I</code> (or
 <code>linera -w $I</code> for short).</p>
