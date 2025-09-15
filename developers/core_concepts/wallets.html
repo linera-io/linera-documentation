@@ -165,16 +165,17 @@ linera wallet request-chain --faucet $FAUCET_URL
 <a href="../getting_started/hello_linera.html">previous section</a>)</p>
 <h2 id="selecting-a-wallet"><a class="header" href="#selecting-a-wallet">Selecting a wallet</a></h2>
 <p>The private state of a wallet is conventionally stored in a file <code>wallet.json</code>,
-while the state of its node is stored in a file <code>linera.db</code>.</p>
-<p>To switch between wallets, you may use the <code>--wallet</code> and <code>--storage</code> options of
-the <code>linera</code> tool, e.g. as in
-<code>linera --wallet wallet2.json --storage rocksdb:linera2.db</code>.</p>
-<p>You may also define the environment variables <code>LINERA_STORAGE</code> and
-<code>LINERA_WALLET</code> to the same effect. E.g. <code>LINERA_STORAGE=$PWD/wallet2.json</code> and
-<code>LINERA_WALLET=$PWD/wallet2.json</code>.</p>
-<p>Finally, if <code>LINERA_STORAGE_$I</code> and <code>LINERA_WALLET_$I</code> are defined for some
-number <code>I</code>, you may call <code>linera --with-wallet $I</code> (or <code>linera -w $I</code> for
-short).</p>
+keys are stored in <code>keystore.db</code>, while the state of its node is stored in a
+file <code>wallet.db</code>.</p>
+<p>To switch between wallets, you may use the <code>--wallet</code>, <code>--keystore</code>, and
+<code>--storage</code> options of the <code>linera</code> tool, e.g. as in
+<code>linera --wallet wallet2.json --keystore keystore2.json --storage rocksdb:wallet2.db</code>.</p>
+<p>You may also define the environment variables <code>LINERA_STORAGE</code>,
+<code>LINERA_KEYSTORE</code>, and <code>LINERA_WALLET</code> to the same effect. E.g.
+<code>LINERA_STORAGE=$PWD/wallet2.json</code> and <code>LINERA_WALLET=$PWD/wallet2.json</code>.</p>
+<p>Finally, if <code>LINERA_STORAGE_$I</code>, <code>LINERA_KEYSTORE_$I</code>, and <code>LINERA_WALLET_$I</code>
+are defined for some number <code>I</code>, you may call <code>linera --with-wallet $I</code> (or
+<code>linera -w $I</code> for short).</p>
 <h2 id="chain-management"><a class="header" href="#chain-management">Chain management</a></h2>
 <h3 id="listing-chains"><a class="header" href="#listing-chains">Listing chains</a></h3>
 <p>To list the chains present in your wallet, you may use the command <code>show</code>:</p>

@@ -688,11 +688,12 @@ network is restarted, the wallet needs to be removed and created again.</p>
 <p>By default, the <code>linera</code> command looks for wallet files located in a
 configuration path determined by your operating system. If you prefer to choose
 the location of your wallet files, you may optionally set the variables
-<code>LINERA_WALLET</code> and <code>LINERA_STORAGE</code> as follows:</p>
+<code>LINERA_WALLET</code>, <code>LINERA_KEYSTORE</code> and <code>LINERA_STORAGE</code> as follows:</p>
 <pre><code class="language-bash">DIR=$HOME/my_directory
 mkdir -p $DIR
 export LINERA_WALLET="$DIR/wallet.json"
-export LINERA_STORAGE="rocksdb:$DIR/linera.db"
+export LINERA_KEYSTORE="$DIR/keystore.json"
+export LINERA_STORAGE="rocksdb:$DIR/wallet.db"
 </code></pre>
 <p>Choosing such a directory can be useful to work with several networks because a
 wallet is always specific to the network where it was created.</p>
@@ -890,16 +891,17 @@ linera wallet request-chain --faucet $FAUCET_URL
 <a href="developers/core_concepts/../getting_started/hello_linera.html">previous section</a>)</p>
 <h2 id="selecting-a-wallet"><a class="header" href="#selecting-a-wallet">Selecting a wallet</a></h2>
 <p>The private state of a wallet is conventionally stored in a file <code>wallet.json</code>,
-while the state of its node is stored in a file <code>linera.db</code>.</p>
-<p>To switch between wallets, you may use the <code>--wallet</code> and <code>--storage</code> options of
-the <code>linera</code> tool, e.g. as in
-<code>linera --wallet wallet2.json --storage rocksdb:linera2.db</code>.</p>
-<p>You may also define the environment variables <code>LINERA_STORAGE</code> and
-<code>LINERA_WALLET</code> to the same effect. E.g. <code>LINERA_STORAGE=$PWD/wallet2.json</code> and
-<code>LINERA_WALLET=$PWD/wallet2.json</code>.</p>
-<p>Finally, if <code>LINERA_STORAGE_$I</code> and <code>LINERA_WALLET_$I</code> are defined for some
-number <code>I</code>, you may call <code>linera --with-wallet $I</code> (or <code>linera -w $I</code> for
-short).</p>
+keys are stored in <code>keystore.db</code>, while the state of its node is stored in a
+file <code>wallet.db</code>.</p>
+<p>To switch between wallets, you may use the <code>--wallet</code>, <code>--keystore</code>, and
+<code>--storage</code> options of the <code>linera</code> tool, e.g. as in
+<code>linera --wallet wallet2.json --keystore keystore2.json --storage rocksdb:wallet2.db</code>.</p>
+<p>You may also define the environment variables <code>LINERA_STORAGE</code>,
+<code>LINERA_KEYSTORE</code>, and <code>LINERA_WALLET</code> to the same effect. E.g.
+<code>LINERA_STORAGE=$PWD/wallet2.json</code> and <code>LINERA_WALLET=$PWD/wallet2.json</code>.</p>
+<p>Finally, if <code>LINERA_STORAGE_$I</code>, <code>LINERA_KEYSTORE_$I</code>, and <code>LINERA_WALLET_$I</code>
+are defined for some number <code>I</code>, you may call <code>linera --with-wallet $I</code> (or
+<code>linera -w $I</code> for short).</p>
 <h2 id="chain-management"><a class="header" href="#chain-management">Chain management</a></h2>
 <h3 id="listing-chains"><a class="header" href="#listing-chains">Listing chains</a></h3>
 <p>To list the chains present in your wallet, you may use the command <code>show</code>:</p>
@@ -1626,9 +1628,9 @@ the public deployment (i.e. a devnet or a testnet).</p>
 <h2 id="local-network"><a class="header" href="#local-network">Local network</a></h2>
 <p>To configure the local network, follow the steps in the
 <a href="developers/backend/../getting_started/hello_linera.html#using-the-initial-test-wallet">Getting Started section</a>.</p>
-<p>Afterwards, the <code>LINERA_WALLET</code> and the <code>LINERA_STORAGE</code> environment variables
-should be set and can be used in the <code>publish-and-create</code> command to deploy the
-application while also specifying:</p>
+<p>Afterwards, the <code>LINERA_WALLET</code>, <code>LINERA_STORAGE</code>, <code>LINERA_KEYSTORE</code> environment
+variables should be set and can be used in the <code>publish-and-create</code> command to
+deploy the application while also specifying:</p>
 <ol>
 <li>The location of the contract bytecode</li>
 <li>The location of the service bytecode</li>
@@ -2979,6 +2981,7 @@ repository and run:</p>
 the cluster is ready, some text is written to the process output containing the
 exports required to configure your wallet for the devnet - something like:</p>
 <pre><code class="language-bash">export LINERA_WALLET="/tmp/.tmpIOelqk/wallet_0.json"
+export LINERA_KEYSTORE="/tmp/.tmpIOelqk/keystore_0.json"
 export LINERA_STORAGE="rocksdb:/tmp/.tmpIOelqk/client_0.db"
 </code></pre>
 <p>Exporting these variables in a new terminal will enable you to interact with the
