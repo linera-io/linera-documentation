@@ -147,7 +147,7 @@ branch <code>testnet_conway</code>, you can run
 <p>For example:</p>
 <pre><code class="language-bash">$ git fetch origin
 $ git checkout -t origin/testnet_conway
-$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
+$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com
 </code></pre>
 <p>The email address is required for ACME/Let's Encrypt SSL certificate generation.</p>
 <h3 id="what-the-deploy-script-does"><a class="header" href="#what-the-deploy-script-does">What the Deploy Script Does</a></h3>
@@ -171,8 +171,9 @@ automatically.</p>
 </ul>
 <p>And the following optional flags:</p>
 <ul>
-<li><code>--remote-image</code>: Use the pre-built Docker image from the official registry
-(recommended)</li>
+<li><code>--local-build</code>: Build Docker image locally instead of using registry image</li>
+<li><code>--remote-image</code>: Explicitly use remote Docker image from registry
+(deprecated, now default)</li>
 <li><code>--skip-genesis</code>: Skip downloading the genesis configuration (use existing)</li>
 <li><code>--force-genesis</code>: Force re-download of genesis configuration even if it
 exists</li>
@@ -187,8 +188,8 @@ performance</li>
 <li><code>--help</code> or <code>-h</code>: Show help message</li>
 </ul>
 <blockquote>
-<p>Note: If you don't specify <code>--remote-image</code>, the script will build the Docker
-image locally from source.</p>
+<p>Note: By default, the script uses the pre-built Docker image from the official
+registry. Use <code>--local-build</code> if you want to build from source.</p>
 </blockquote>
 <h3 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h3>
 <p>You can customize the deployment further using environment variables:</p>
@@ -210,19 +211,22 @@ us-docker.pkg.dev/linera-io-dev/linera-public-registry)</li>
 </ul>
 <p>For example:</p>
 <pre><code class="language-bash"># Deploy with more shards
-NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image
+NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com
 
 # Deploy with XFS partition for optimal ScyllaDB performance
-scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+scripts/deploy-validator.sh validator.example.com admin@example.com \
   --xfs-path /mnt/xfs-scylla --cache-size 8G
 
 # Deploy with custom image tag (for testing)
-scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+scripts/deploy-validator.sh validator.example.com admin@example.com \
   --custom-tag devnet_2025_08_21
+
+# Build Docker image locally instead of using registry
+scripts/deploy-validator.sh validator.example.com admin@example.com --local-build
 </code></pre>
 <p>The public key and account key will be printed after the command has finished
 executing, for example:</p>
-<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
+<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com
 ...
 Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 </code></pre>

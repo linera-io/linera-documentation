@@ -164,14 +164,35 @@ removed explicitly via <code>docker volume rm ...</code>.</li>
 <p>If neither of these fixes resolves the issue, a closer inspection of the logs is
 required.</p>
 <h3 id="pull-access-denied"><a class="header" href="#pull-access-denied"><code>pull access denied</code></a></h3>
-<p>When deploying a validator you can either build the Docker image yourself or use
-a pre-built remote image provided by the Linera team.</p>
-<p>The Docker Compose manifest looks for the <code>LINERA_IMAGE</code> environment variable
-which is usually set by the default script. If it is not found, it defaults to
-the value <code>linera</code>, which is assumed to exist as an image locally.</p>
-<p>To resolve this issue either explicitly specify the <code>LINERA_IMAGE</code> or ensure
-that the
-<a href="manual-installation.html#building-the-linera-docker-image">image is built locally</a>.</p>
+<p>When deploying a validator, the system uses pre-built Docker images from the
+official registry by default. You can also build the Docker image yourself using
+the <code>--local-build</code> flag.</p>
+<p>The Docker Compose manifest looks for the <code>LINERA_IMAGE</code> environment variable.
+If not set, it defaults to:</p>
+<pre><code class="language-text">us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+</code></pre>
+<p>If you encounter pull access issues:</p>
+<ol>
+<li>
+<p><strong>Check network connectivity</strong> to the registry:</p>
+<pre><code class="language-bash">docker pull us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+</code></pre>
+</li>
+<li>
+<p><strong>Build locally instead</strong> if registry access fails:</p>
+<pre><code class="language-bash">scripts/deploy-validator.sh &lt;host&gt; &lt;email&gt; --local-build
+</code></pre>
+<p>Or manually:</p>
+<pre><code class="language-bash">docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
+export LINERA_IMAGE=linera
+</code></pre>
+</li>
+<li>
+<p><strong>Use a custom image</strong> by setting <code>LINERA_IMAGE</code>:</p>
+<pre><code class="language-bash">export LINERA_IMAGE=my-registry/my-image:my-tag
+</code></pre>
+</li>
+</ol>
 <h3 id="access-denied-to-genesisjson"><a class="header" href="#access-denied-to-genesisjson"><code>Access denied to genesis.json</code></a></h3>
 <p>This occurs when the genesis configuration URL is malformed via string
 formatting. The deploy script uses the name of the current branch to create the

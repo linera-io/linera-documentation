@@ -3172,7 +3172,7 @@ branch <code>testnet_conway</code>, you can run
 <p>For example:</p>
 <pre><code class="language-bash">$ git fetch origin
 $ git checkout -t origin/testnet_conway
-$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
+$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com
 </code></pre>
 <p>The email address is required for ACME/Let's Encrypt SSL certificate generation.</p>
 <h3 id="what-the-deploy-script-does"><a class="header" href="#what-the-deploy-script-does">What the Deploy Script Does</a></h3>
@@ -3196,8 +3196,9 @@ automatically.</p>
 </ul>
 <p>And the following optional flags:</p>
 <ul>
-<li><code>--remote-image</code>: Use the pre-built Docker image from the official registry
-(recommended)</li>
+<li><code>--local-build</code>: Build Docker image locally instead of using registry image</li>
+<li><code>--remote-image</code>: Explicitly use remote Docker image from registry
+(deprecated, now default)</li>
 <li><code>--skip-genesis</code>: Skip downloading the genesis configuration (use existing)</li>
 <li><code>--force-genesis</code>: Force re-download of genesis configuration even if it
 exists</li>
@@ -3212,8 +3213,8 @@ performance</li>
 <li><code>--help</code> or <code>-h</code>: Show help message</li>
 </ul>
 <blockquote>
-<p>Note: If you don't specify <code>--remote-image</code>, the script will build the Docker
-image locally from source.</p>
+<p>Note: By default, the script uses the pre-built Docker image from the official
+registry. Use <code>--local-build</code> if you want to build from source.</p>
 </blockquote>
 <h3 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h3>
 <p>You can customize the deployment further using environment variables:</p>
@@ -3235,19 +3236,22 @@ us-docker.pkg.dev/linera-io-dev/linera-public-registry)</li>
 </ul>
 <p>For example:</p>
 <pre><code class="language-bash"># Deploy with more shards
-NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image
+NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com
 
 # Deploy with XFS partition for optimal ScyllaDB performance
-scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+scripts/deploy-validator.sh validator.example.com admin@example.com \
   --xfs-path /mnt/xfs-scylla --cache-size 8G
 
 # Deploy with custom image tag (for testing)
-scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+scripts/deploy-validator.sh validator.example.com admin@example.com \
   --custom-tag devnet_2025_08_21
+
+# Build Docker image locally instead of using registry
+scripts/deploy-validator.sh validator.example.com admin@example.com --local-build
 </code></pre>
 <p>The public key and account key will be printed after the command has finished
 executing, for example:</p>
-<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
+<pre><code class="language-bash">$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com
 ...
 Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 </code></pre>
@@ -3363,12 +3367,30 @@ the chosen host name for onboarding in the next epoch.</p>
 <p>Note: Before being included in the next epoch, validator nodes will receive no
 traffic from existing users.</p>
 </blockquote>
-<h3 id="building-the-linera-docker-image"><a class="header" href="#building-the-linera-docker-image">Building the Linera Docker image</a></h3>
-<p>To build the Linera Docker image, run the following command from the root of the
-<code>linera-protocol</code> repository:</p>
+<h3 id="using-the-linera-docker-image"><a class="header" href="#using-the-linera-docker-image">Using the Linera Docker image</a></h3>
+<h4 id="option-1-use-pre-built-image-recommended"><a class="header" href="#option-1-use-pre-built-image-recommended">Option 1: Use Pre-built Image (Recommended)</a></h4>
+<p>By default, the Linera Docker images are available from the official registry.
+The images are tagged based on the branch:</p>
+<ul>
+<li><code>latest</code> for the main branch</li>
+<li><code>{branch}_release</code> for release branches</li>
+</ul>
+<p>The default image path is:</p>
+<pre><code class="language-text">us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:{tag}
+</code></pre>
+<p>You can pull the image directly:</p>
+<pre><code class="language-bash">docker pull us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+</code></pre>
+<h4 id="option-2-build-locally"><a class="header" href="#option-2-build-locally">Option 2: Build Locally</a></h4>
+<p>If you prefer to build the Linera Docker image locally, run the following
+command from the root of the <code>linera-protocol</code> repository:</p>
 <pre><code class="language-bash">docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
 </code></pre>
 <p>This can take several minutes.</p>
+<p>When using docker-compose, set the <code>LINERA_IMAGE</code> environment variable to use
+your locally built image:</p>
+<pre><code class="language-bash">export LINERA_IMAGE=linera
+</code></pre>
 <h3 id="configuring-caddy-for-ssltls"><a class="header" href="#configuring-caddy-for-ssltls">Configuring Caddy for SSL/TLS</a></h3>
 <p>The validator deployment includes Caddy for automatic SSL certificate
 management. Before starting the validator, ensure you have:</p>
@@ -3392,7 +3414,11 @@ certificates and handle gRPC traffic.</p>
 <p>Now that the genesis configuration is available at <code>docker/genesis.json</code> and the
 server configuration is available at <code>docker/server.json</code>, the validator can be
 started by running from inside the <code>docker</code> directory:</p>
-<pre><code class="language-bash">cd docker &amp;&amp; docker compose up -d
+<pre><code class="language-bash"># Using the default pre-built image
+cd docker &amp;&amp; docker compose up -d
+
+# Or, if you built the image locally
+cd docker &amp;&amp; LINERA_IMAGE=linera docker compose up -d
 </code></pre>
 <p>This will run the Docker Compose deployment in a detached mode, which includes:</p>
 <ul>
@@ -3563,14 +3589,35 @@ removed explicitly via <code>docker volume rm ...</code>.</li>
 <p>If neither of these fixes resolves the issue, a closer inspection of the logs is
 required.</p>
 <h3 id="pull-access-denied"><a class="header" href="#pull-access-denied"><code>pull access denied</code></a></h3>
-<p>When deploying a validator you can either build the Docker image yourself or use
-a pre-built remote image provided by the Linera team.</p>
-<p>The Docker Compose manifest looks for the <code>LINERA_IMAGE</code> environment variable
-which is usually set by the default script. If it is not found, it defaults to
-the value <code>linera</code>, which is assumed to exist as an image locally.</p>
-<p>To resolve this issue either explicitly specify the <code>LINERA_IMAGE</code> or ensure
-that the
-<a href="operators/testnets/manual-installation.html#building-the-linera-docker-image">image is built locally</a>.</p>
+<p>When deploying a validator, the system uses pre-built Docker images from the
+official registry by default. You can also build the Docker image yourself using
+the <code>--local-build</code> flag.</p>
+<p>The Docker Compose manifest looks for the <code>LINERA_IMAGE</code> environment variable.
+If not set, it defaults to:</p>
+<pre><code class="language-text">us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+</code></pre>
+<p>If you encounter pull access issues:</p>
+<ol>
+<li>
+<p><strong>Check network connectivity</strong> to the registry:</p>
+<pre><code class="language-bash">docker pull us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+</code></pre>
+</li>
+<li>
+<p><strong>Build locally instead</strong> if registry access fails:</p>
+<pre><code class="language-bash">scripts/deploy-validator.sh &lt;host&gt; &lt;email&gt; --local-build
+</code></pre>
+<p>Or manually:</p>
+<pre><code class="language-bash">docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
+export LINERA_IMAGE=linera
+</code></pre>
+</li>
+<li>
+<p><strong>Use a custom image</strong> by setting <code>LINERA_IMAGE</code>:</p>
+<pre><code class="language-bash">export LINERA_IMAGE=my-registry/my-image:my-tag
+</code></pre>
+</li>
+</ol>
 <h3 id="access-denied-to-genesisjson"><a class="header" href="#access-denied-to-genesisjson"><code>Access denied to genesis.json</code></a></h3>
 <p>This occurs when the genesis configuration URL is malformed via string
 formatting. The deploy script uses the name of the current branch to create the

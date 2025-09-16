@@ -219,12 +219,30 @@ the chosen host name for onboarding in the next epoch.</p>
 <p>Note: Before being included in the next epoch, validator nodes will receive no
 traffic from existing users.</p>
 </blockquote>
-<h3 id="building-the-linera-docker-image"><a class="header" href="#building-the-linera-docker-image">Building the Linera Docker image</a></h3>
-<p>To build the Linera Docker image, run the following command from the root of the
-<code>linera-protocol</code> repository:</p>
+<h3 id="using-the-linera-docker-image"><a class="header" href="#using-the-linera-docker-image">Using the Linera Docker image</a></h3>
+<h4 id="option-1-use-pre-built-image-recommended"><a class="header" href="#option-1-use-pre-built-image-recommended">Option 1: Use Pre-built Image (Recommended)</a></h4>
+<p>By default, the Linera Docker images are available from the official registry.
+The images are tagged based on the branch:</p>
+<ul>
+<li><code>latest</code> for the main branch</li>
+<li><code>{branch}_release</code> for release branches</li>
+</ul>
+<p>The default image path is:</p>
+<pre><code class="language-text">us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:{tag}
+</code></pre>
+<p>You can pull the image directly:</p>
+<pre><code class="language-bash">docker pull us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+</code></pre>
+<h4 id="option-2-build-locally"><a class="header" href="#option-2-build-locally">Option 2: Build Locally</a></h4>
+<p>If you prefer to build the Linera Docker image locally, run the following
+command from the root of the <code>linera-protocol</code> repository:</p>
 <pre><code class="language-bash">docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
 </code></pre>
 <p>This can take several minutes.</p>
+<p>When using docker-compose, set the <code>LINERA_IMAGE</code> environment variable to use
+your locally built image:</p>
+<pre><code class="language-bash">export LINERA_IMAGE=linera
+</code></pre>
 <h3 id="configuring-caddy-for-ssltls"><a class="header" href="#configuring-caddy-for-ssltls">Configuring Caddy for SSL/TLS</a></h3>
 <p>The validator deployment includes Caddy for automatic SSL certificate
 management. Before starting the validator, ensure you have:</p>
@@ -248,7 +266,11 @@ certificates and handle gRPC traffic.</p>
 <p>Now that the genesis configuration is available at <code>docker/genesis.json</code> and the
 server configuration is available at <code>docker/server.json</code>, the validator can be
 started by running from inside the <code>docker</code> directory:</p>
-<pre><code class="language-bash">cd docker &amp;&amp; docker compose up -d
+<pre><code class="language-bash"># Using the default pre-built image
+cd docker &amp;&amp; docker compose up -d
+
+# Or, if you built the image locally
+cd docker &amp;&amp; LINERA_IMAGE=linera docker compose up -d
 </code></pre>
 <p>This will run the Docker Compose deployment in a detached mode, which includes:</p>
 <ul>
