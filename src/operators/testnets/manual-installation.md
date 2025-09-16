@@ -100,16 +100,41 @@ the chosen host name for onboarding in the next epoch.
 > Note: Before being included in the next epoch, validator nodes will receive no
 > traffic from existing users.
 
-### Building the Linera Docker image
+### Using the Linera Docker image
 
-To build the Linera Docker image, run the following command from the root of the
-`linera-protocol` repository:
+#### Option 1: Use Pre-built Image (Recommended)
+
+By default, the Linera Docker images are available from the official registry.
+The images are tagged based on the branch:
+- `latest` for the main branch
+- `{branch}_release` for release branches
+
+The default image path is:
+```
+us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:{tag}
+```
+
+You can pull the image directly:
+```bash
+docker pull us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+```
+
+#### Option 2: Build Locally
+
+If you prefer to build the Linera Docker image locally, run the following command
+from the root of the `linera-protocol` repository:
 
 ```bash
 docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
 ```
 
 This can take several minutes.
+
+When using docker-compose, set the `LINERA_IMAGE` environment variable to use
+your locally built image:
+```bash
+export LINERA_IMAGE=linera
+```
 
 ### Configuring Caddy for SSL/TLS
 
@@ -137,7 +162,11 @@ server configuration is available at `docker/server.json`, the validator can be
 started by running from inside the `docker` directory:
 
 ```bash
+# Using the default pre-built image
 cd docker && docker compose up -d
+
+# Or, if you built the image locally
+cd docker && LINERA_IMAGE=linera docker compose up -d
 ```
 
 This will run the Docker Compose deployment in a detached mode, which includes:

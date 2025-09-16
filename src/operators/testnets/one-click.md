@@ -9,7 +9,7 @@ For example:
 ```bash
 $ git fetch origin
 $ git checkout -t origin/{{#include ../../../RELEASE_BRANCH}}
-$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
+$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com
 ```
 
 The email address is required for ACME/Let's Encrypt SSL certificate generation.
@@ -38,8 +38,8 @@ The deploy script accepts the following arguments:
 
 And the following optional flags:
 
-- `--remote-image`: Use the pre-built Docker image from the official registry
-  (recommended)
+- `--local-build`: Build Docker image locally instead of using registry image
+- `--remote-image`: Explicitly use remote Docker image from registry (deprecated, now default)
 - `--skip-genesis`: Skip downloading the genesis configuration (use existing)
 - `--force-genesis`: Force re-download of genesis configuration even if it
   exists
@@ -53,8 +53,8 @@ And the following optional flags:
 - `--verbose` or `-v`: Enable verbose output
 - `--help` or `-h`: Show help message
 
-> Note: If you don't specify `--remote-image`, the script will build the Docker
-> image locally from source.
+> Note: By default, the script uses the pre-built Docker image from the official
+> registry. Use `--local-build` if you want to build from source.
 
 ### Environment Variables
 
@@ -79,22 +79,25 @@ For example:
 
 ```bash
 # Deploy with more shards
-NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image
+NUM_SHARDS=8 scripts/deploy-validator.sh validator.example.com admin@example.com
 
 # Deploy with XFS partition for optimal ScyllaDB performance
-scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+scripts/deploy-validator.sh validator.example.com admin@example.com \
   --xfs-path /mnt/xfs-scylla --cache-size 8G
 
 # Deploy with custom image tag (for testing)
-scripts/deploy-validator.sh validator.example.com admin@example.com --remote-image \
+scripts/deploy-validator.sh validator.example.com admin@example.com \
   --custom-tag devnet_2025_08_21
+
+# Build Docker image locally instead of using registry
+scripts/deploy-validator.sh validator.example.com admin@example.com --local-build
 ```
 
 The public key and account key will be printed after the command has finished
 executing, for example:
 
 ```bash
-$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com --remote-image
+$ scripts/deploy-validator.sh linera.mydomain.com admin@mydomain.com
 ...
 Public Key: 02a580bbda90f0ab10f015422d450b3e873166703af05abd77d8880852a3504e4d,009b2ecc5d39645e81ff01cfe4ceeca5ec207d822762f43b35ef77b2367666a7f8
 ```
