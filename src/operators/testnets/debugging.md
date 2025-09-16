@@ -38,8 +38,8 @@ the `--local-build` flag.
 The Docker Compose manifest looks for the `LINERA_IMAGE` environment variable.
 If not set, it defaults to:
 
-```
-us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera::latest
+```text
+us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
 ```
 
 If you encounter pull access issues:

@@ -112,8 +112,8 @@ The images are tagged based on the branch:
 
 The default image path is:
 
-```
-us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera::\{tag\}
+```text
+us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:{tag}
 ```
 
 You can pull the image directly:
