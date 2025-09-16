@@ -31,16 +31,42 @@ required.
 
 ### `pull access denied`
 
-When deploying a validator you can either build the Docker image yourself or use
-a pre-built remote image provided by the Linera team.
+When deploying a validator, the system uses pre-built Docker images from the
+official registry by default. You can also build the Docker image yourself using
+the `--local-build` flag.
 
-The Docker Compose manifest looks for the `LINERA_IMAGE` environment variable
-which is usually set by the default script. If it is not found, it defaults to
-the value `linera`, which is assumed to exist as an image locally.
+The Docker Compose manifest looks for the `LINERA_IMAGE` environment variable.
+If not set, it defaults to:
 
-To resolve this issue either explicitly specify the `LINERA_IMAGE` or ensure
-that the
-[image is built locally](manual-installation.md#building-the-linera-docker-image).
+```text
+us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+```
+
+If you encounter pull access issues:
+
+1. **Check network connectivity** to the registry:
+
+   ```bash
+   docker pull us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
+   ```
+
+2. **Build locally instead** if registry access fails:
+
+   ```bash
+   scripts/deploy-validator.sh <host> <email> --local-build
+   ```
+
+   Or manually:
+
+   ```bash
+   docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
+   export LINERA_IMAGE=linera
+   ```
+
+3. **Use a custom image** by setting `LINERA_IMAGE`:
+   ```bash
+   export LINERA_IMAGE=my-registry/my-image:my-tag
+   ```
 
 ### `Access denied to genesis.json`
 
