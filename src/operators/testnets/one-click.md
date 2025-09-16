@@ -39,7 +39,8 @@ The deploy script accepts the following arguments:
 And the following optional flags:
 
 - `--local-build`: Build Docker image locally instead of using registry image
-- `--remote-image`: Explicitly use remote Docker image from registry (deprecated, now default)
+- `--remote-image`: Explicitly use remote Docker image from registry
+  (deprecated, now default)
 - `--skip-genesis`: Skip downloading the genesis configuration (use existing)
 - `--force-genesis`: Force re-download of genesis configuration even if it
   exists

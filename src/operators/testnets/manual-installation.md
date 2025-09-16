@@ -106,23 +106,26 @@ the chosen host name for onboarding in the next epoch.
 
 By default, the Linera Docker images are available from the official registry.
 The images are tagged based on the branch:
+
 - `latest` for the main branch
 - `{branch}_release` for release branches
 
 The default image path is:
+
 ```
 us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:{tag}
 ```
 
 You can pull the image directly:
+
 ```bash
 docker pull us-docker.pkg.dev/linera-io-dev/linera-public-registry/linera:latest
 ```
 
 #### Option 2: Build Locally
 
-If you prefer to build the Linera Docker image locally, run the following command
-from the root of the `linera-protocol` repository:
+If you prefer to build the Linera Docker image locally, run the following
+command from the root of the `linera-protocol` repository:
 
 ```bash
 docker build --build-arg git_commit="$(git rev-parse --short HEAD)" -f docker/Dockerfile . -t linera
@@ -132,6 +135,7 @@ This can take several minutes.
 
 When using docker-compose, set the `LINERA_IMAGE` environment variable to use
 your locally built image:
+
 ```bash
 export LINERA_IMAGE=linera
 ```
