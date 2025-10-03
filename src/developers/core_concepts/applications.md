@@ -115,6 +115,63 @@ pub enum Message {
 }
 ```
 
+Messages can be marked as **tracked** by their sender. When a tracked message is
+rejected, the message is marked as **bouncing** and sent back to the sender
+chain. This is useful to avoid dropping assets in case the receiver is not able
+or wanting to accept them.
+
+### Composing applications
+
+Within a chain, Linera applications call each other synchronously. The
+transactions of a block initiates the first call to an application. The
+atomicity of **message bundles** ensures that the messages created by a
+transaction are either all received or all rejected by the receiver chain.
+
+The following example shows a common design pattern where a high-level
+application (here, a crowd-funding app) calls into another application (here an
+ERC-20-like application managing a fungible token), resulting in a bundle of two
+messages.
+
+```mermaid
+ flowchart LR
+    subgraph user_chain["User chain"]
+      block("operation in block") -- calls (with signer) (1) --> app11
+      subgraph exec_user["Execution state"]
+        app11["crowdfunding app"] -- calls (with signer) (2) --> app21["fungible token app"]
+      end
+    end
+
+    subgraph app_chain["Crowdfunding app chain"]
+      subgraph exec_app["Execution state"]
+        app12["crowdfunding app"] -- calls (7) --> app22["fungible token app"]
+      end
+      bundle("Incoming message bundle<br>[assets, pledge]")
+    end
+
+    app11 -- send pledge (4) --> bundle
+    app21 -- send assets (3) --> bundle
+    bundle -- receive pledge (6) --> app12
+    bundle -- receive assets (5) --> app22
+
+    %% Styling
+    style user_chain fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style app_chain fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style exec_user fill:#0e2630,stroke:#A0E3E2,stroke-width:1px,stroke-dasharray:2 2,rx:8,ry:8
+    style exec_app fill:#0e2630,stroke:#A0E3E2,stroke-width:1px,stroke-dasharray:2 2,rx:8,ry:8
+
+    style app11 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+    style app12 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+    style app21 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style app22 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style bundle fill:#5A8269,stroke:#D2E8C8,stroke-width:2px
+
+```
+
+When a user proposes a block in their user chain, operations inherit the
+authentication of the user (aka **signer** or **origin**) that signed the block.
+Calls may optionally forward this authentication, for instance to allow the
+transfer of assets.
+
 ### Authentication
 
 Operations in a block are always authenticated and messages may be

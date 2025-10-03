@@ -10,7 +10,7 @@
 
 - [Overview](protocol/overview.md)
 
-- [Use cases](protocol/use_cases.md)
+- [Features](protocol/features.md)
 
 - [Roadmap](protocol/roadmap.md)
 
@@ -27,6 +27,7 @@
   - [Wallets](developers/core_concepts/wallets.md)
   - [Node Service](developers/core_concepts/node_service.md)
   - [Applications](developers/core_concepts/applications.md)
+  - [Design Patterns](developers/core_concepts/design_patterns.md)
 
 - [Writing Backends](developers/backend.md)
   - [Creating a Project](developers/backend/creating_a_project.md)
