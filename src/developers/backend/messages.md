@@ -47,7 +47,8 @@ receiver rejects it. The example below enables both flags:
 
 ## Example: fungible token
 
-In the [`fungible` example
+In the [`fungible`
+example
 application](https://github.com/linera-io/linera-protocol/tree/{{#include
 ../../../.git/modules/linera-protocol/HEAD}}/examples/fungible), such a message
 can be the transfer of tokens from one chain to another. If the sender includes

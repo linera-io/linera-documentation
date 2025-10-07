@@ -99,8 +99,8 @@ Each validator and client has a built-in Wasm virtual machine (VM) which can
 execute bytecode.
 
 Let's build the `counter` application from the `examples/` subdirectory of the
-[Linera testnet
-branch](https://github.com/linera-io/linera-protocol/tree/{{#include
+[Linera
+testnet branch](https://github.com/linera-io/linera-protocol/tree/{{#include
 ../../../RELEASE_BRANCH}}):
 
 ```bash

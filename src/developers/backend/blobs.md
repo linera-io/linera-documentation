@@ -26,7 +26,5 @@ receive an NFT, even if they don't view it yet. This can be achieved by calling
 the data is available, without actually loading it.
 
 For the complete code please take a look at the [`non-fungible`
-contract](https://github.com/linera-io/linera-protocol/blob/{{#include
-../../../.git/modules/linera-protocol/HEAD}}/examples/non-fungible/src/contract.rs)
-and [service](https://github.com/linera-io/linera-protocol/blob/{{#include
-../../../.git/modules/linera-protocol/HEAD}}/examples/non-fungible/src/service.rs).
+contract](https://github.com/linera-io/linera-protocol/blob/{{#include ../../../.git/modules/linera-protocol/HEAD}}/examples/non-fungible/src/contract.rs)
+and [service](https://github.com/linera-io/linera-protocol/blob/{{#include ../../../.git/modules/linera-protocol/HEAD}}/examples/non-fungible/src/service.rs).
