@@ -95,4 +95,5 @@ and the
 application contracts in the `examples` folder in `linera-protocol`.
 
 The implementation of the Runtime made available to contracts is defined in
-[this file](https://github.com/linera-io/linera-protocol/blob/{{#include ../../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/contract/runtime.rs).
+[this file](https://github.com/linera-io/linera-protocol/blob/{{#include
+../../../.git/modules/linera-protocol/HEAD}}/linera-sdk/src/contract/runtime.rs).
