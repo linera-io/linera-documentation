@@ -33,4 +33,9 @@ ecosystem, check out our
 [Telegram](https://t.me/linera_official), and
 [Discord](https://discord.gg/linera).
 
+You can also find high-level introductory and extended concepts
+discussed and explained in video format in our [Developer Workshops
+series on
+YouTube](https://www.youtube.com/watch?v=0pym5NkVLWs&list=PLdGxlJxLrfgIk7KsD88FnhILcnnzjyoYK).
+
 _Let's get started!_
