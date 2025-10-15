@@ -22,7 +22,7 @@ We'll call this page `index.html`, and it will be the only file we need to edit
 to build our frontend.
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
