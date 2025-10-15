@@ -45,6 +45,7 @@
   - [Overview](developers/frontend/overview.md)
   - [Setup](developers/frontend/setup.md)
   - [Interactivity](developers/frontend/interactivity.md)
+  - [External Wallets](developers/frontend/wallets.md)
 
 - [Advanced Topics](developers/advanced_topics.md)
   - [Contract Finalization](developers/advanced_topics/contract_finalize.md)
