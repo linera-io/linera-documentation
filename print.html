@@ -40,7 +40,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-621aa9ed.js"></script>
+        <script src="toc-5a0e1d68.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -2239,6 +2239,36 @@ the <code>examples/hosted-counter</code> subdirectory of the
 <a href="https://github.com/linera-io/linera-web"><code>linera-web</code> repository</a>, next to some
 more complicated examples. Alternatively, you can
 <a href="https://demos.linera.net/hosted/counter">try it out online</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="connecting-with-external-wallet-providers"><a class="header" href="#connecting-with-external-wallet-providers">Connecting with external wallet providers</a></h2>
+<p>The Linera client library allows you to sign transactions with anything that
+satisfies
+<a href="https://github.com/linera-io/linera-protocol/blob/testnet_conway/linera-web/docs/interfaces/Signer.md">the <code>Signer</code> interface</a>.
+This means you can integrate with external software wallets, hardware wallets,
+Internet-connected wallet services… the only limit is your imagination!</p>
+<p>To get started building your own signer implementation, have a look at
+<a href="https://github.com/linera-io/linera-protocol/blob/testnet_conway/linera-web/signer/src/private-key.ts">our sample in-memory implementation</a>.
+Alternatively, you can use a pre-built wallet integration provided by Linera or
+our partners.</p>
+<h3 id="metamask"><a class="header" href="#metamask">MetaMask</a></h3>
+<p>MetaMask is the most popular crypto wallet on the Web today. Though oriented
+primarily at Ethereum, it's flexible enough to allow signing other types of data
+too.</p>
+<p>We provide an implementation using MetaMask's blind-signing capabilities to sign
+Linera transactions in the
+<a href="https://www.npmjs.com/package/@linera/signer"><code>@linera/signer</code></a> package on npm.
+Our counter demo also sports a
+<a href="https://github.com/linera-io/linera-protocol/tree/testnet_conway/examples/counter/metamask">MetaMask-based frontend</a>
+that exemplifies signing application transactions with MetaMask.</p>
+<h3 id="dynamic"><a class="header" href="#dynamic">Dynamic</a></h3>
+<p><a href="https://dynamic.xyz">Dynamic</a> provide a production-quality embedded wallet that
+is fully compatible with Linera, and can be used to sign in securely using a
+wide range of Web2 and Web3 identity providers.</p>
+<p>Dynamic have made available both a
+<a href="https://www.dynamic.xyz/docs/guides/chains/linera">recipe for Linera integration</a>
+and a
+<a href="https://github.com/dynamic-labs/examples/tree/main/examples/vite-linera-counter">fully-featured frontend</a>,
+based on the counter demo developed in this manual, that uses Dynamic to sign
+transactions.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="advanced-topics"><a class="header" href="#advanced-topics">Advanced Topics</a></h1>
 <p>In this section, we present additional topics related to the Linera protocol.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contract-finalization"><a class="header" href="#contract-finalization">Contract Finalization</a></h1>

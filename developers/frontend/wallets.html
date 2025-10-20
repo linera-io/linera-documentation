@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Cross-Chain Messages</title>
+        <title>External Wallets</title>
 
 
         <!-- Custom HTML head -->
@@ -111,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/backend/messages.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/frontend/wallets.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -140,117 +140,46 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="cross-chain-messages"><a class="header" href="#cross-chain-messages">Cross-Chain Messages</a></h1>
-<p>On Linera, applications are meant to be multi-chain: They are instantiated on
-every chain where they are used. An application has the same application ID and
-bytecode everywhere, but a separate state on every chain. To coordinate, the
-instances can send <em>cross-chain messages</em> to each other. A message sent by an
-application is always handled by the <em>same</em> application on the target chain: The
-handling code is guaranteed to be the same as the sending code, but the state
-may be different.</p>
-<p>For your application, you can specify any serializable type as the <code>Message</code>
-type in your <code>Contract</code> implementation. To send a message, use the
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html"><code>ContractRuntime</code></a>
-made available as an argument to the contract's
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/trait.Contract.html#tymethod.load"><code>Contract::load</code></a>
-constructor. The runtime is usually stored inside the contract object, as we did
-when <a href="./contract.html">writing the contract binary</a>. We can then call
-<a href="https://docs.rs/linera-sdk/latest/linera_sdk/contract/struct.ContractRuntime.html#method_prepare_message"><code>ContractRuntime::prepare_message</code></a>
-to start preparing a message, and then <code>send_to</code> to send it to a destination
-chain.</p>
-<pre><code class="language-rust ignore">    self.runtime
-        .prepare_message(message_contents)
-        .send_to(destination_chain_id);</code></pre>
-<p>After block execution in the <em>sending</em> chain, sent messages are placed in the
-<em>target</em> chains' inboxes for processing. There is no guarantee that it will be
-handled: For this to happen, an owner of the target chain needs to include it in
-the <code>incoming_messages</code> in one of their blocks. When that happens, the
-contract's <code>execute_message</code> method gets called on their chain.</p>
-<p>While preparing the message to be sent, it is possible to enable authentication
-forwarding and/or tracking. Authentication forwarding means that the message is
-executed by the receiver with the same authenticated signer as the sender of the
-message, while tracking means that the message is sent back to the sender if the
-receiver rejects it. The example below enables both flags:</p>
-<pre><code class="language-rust ignore">    self.runtime
-        .prepare_message(message_contents)
-        .with_tracking()
-        .with_authentication()
-        .send_to(destination_chain_id);</code></pre>
-<h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: fungible token</a></h2>
-<p>In the <a href="https://github.com/linera-io/linera-protocol/tree/fd6b3cc05da4729f1c44cdd87e225a339890517e/examples/fungible"><code>fungible</code> example
-application</a>, such a message
-can be the transfer of tokens from one chain to another. If the sender includes
-a <code>Transfer</code> operation on their chain, it decreases their account balance and
-sends a <code>Credit</code> message to the recipient's chain:</p>
-<pre><code class="language-rust ignore">async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response {
-        match operation {
-            FungibleOperation::Transfer {
-                owner,
-                amount,
-                target_account,
-            } =&gt; {
-                self.runtime
-                    .check_account_permission(owner)
-                    .expect("Permission for Transfer operation");
-                self.state.debit(owner, amount).await;
-                self.finish_transfer_to_account(amount, target_account, owner)
-                    .await;
-                FungibleResponse::Ok
-            }
-            // ...
-        }
-}</code></pre>
-<pre><code class="language-rust ignore">    /// Executes the final step of a transfer where the tokens are sent to the destination.
-    async fn finish_transfer_to_account(
-        &amp;mut self,
-        amount: Amount,
-        target_account: Account,
-        source: AccountOwner,
-    ) {
-        if target_account.chain_id == self.runtime.chain_id() {
-            self.state.credit(target_account.owner, amount).await;
-        } else {
-            let message = Message::Credit {
-                target: target_account.owner,
-                amount,
-                source,
-            };
-            self.runtime
-                .prepare_message(message)
-                .with_authentication()
-                .with_tracking()
-                .send_to(target_account.chain_id);
-        }
-    }</code></pre>
-<p>On the recipient's chain, <code>execute_message</code> is called, which increases their
-account balance.</p>
-<pre><code class="language-rust ignore">    async fn execute_message(&amp;mut self, message: Message) {
-        match message {
-            Message::Credit {
-                amount,
-                target,
-                source,
-            } =&gt; {
-                let is_bouncing = self
-                    .runtime
-                    .message_is_bouncing()
-                    .expect("Delivery status is available when executing a message");
-                let receiver = if is_bouncing { source } else { target };
-                self.state.credit(receiver, amount).await;
-            }
-            // ...
-        }
-    }</code></pre>
+                        <h2 id="connecting-with-external-wallet-providers"><a class="header" href="#connecting-with-external-wallet-providers">Connecting with external wallet providers</a></h2>
+<p>The Linera client library allows you to sign transactions with anything that
+satisfies
+<a href="https://github.com/linera-io/linera-protocol/blob/testnet_conway/linera-web/docs/interfaces/Signer.md">the <code>Signer</code> interface</a>.
+This means you can integrate with external software wallets, hardware wallets,
+Internet-connected wallet services… the only limit is your imagination!</p>
+<p>To get started building your own signer implementation, have a look at
+<a href="https://github.com/linera-io/linera-protocol/blob/testnet_conway/linera-web/signer/src/private-key.ts">our sample in-memory implementation</a>.
+Alternatively, you can use a pre-built wallet integration provided by Linera or
+our partners.</p>
+<h3 id="metamask"><a class="header" href="#metamask">MetaMask</a></h3>
+<p>MetaMask is the most popular crypto wallet on the Web today. Though oriented
+primarily at Ethereum, it's flexible enough to allow signing other types of data
+too.</p>
+<p>We provide an implementation using MetaMask's blind-signing capabilities to sign
+Linera transactions in the
+<a href="https://www.npmjs.com/package/@linera/signer"><code>@linera/signer</code></a> package on npm.
+Our counter demo also sports a
+<a href="https://github.com/linera-io/linera-protocol/tree/testnet_conway/examples/counter/metamask">MetaMask-based frontend</a>
+that exemplifies signing application transactions with MetaMask.</p>
+<h3 id="dynamic"><a class="header" href="#dynamic">Dynamic</a></h3>
+<p><a href="https://dynamic.xyz">Dynamic</a> provide a production-quality embedded wallet that
+is fully compatible with Linera, and can be used to sign in securely using a
+wide range of Web2 and Web3 identity providers.</p>
+<p>Dynamic have made available both a
+<a href="https://www.dynamic.xyz/docs/guides/chains/linera">recipe for Linera integration</a>
+and a
+<a href="https://github.com/dynamic-labs/examples/tree/main/examples/vite-linera-counter">fully-featured frontend</a>,
+based on the counter demo developed in this manual, that uses Dynamic to sign
+transactions.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developers/backend/deploy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developers/frontend/interactivity.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/backend/composition.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/advanced_topics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -260,11 +189,11 @@ account balance.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developers/backend/deploy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developers/frontend/interactivity.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/backend/composition.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/advanced_topics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
