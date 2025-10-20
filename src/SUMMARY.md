@@ -77,6 +77,4 @@
 
 - [Glossary](appendix/glossary.md)
 
-- [Videos](appendix/videos.md)
-
 ---
