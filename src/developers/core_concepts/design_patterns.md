@@ -1,4 +1,4 @@
-# Common design patterns
+# Common Design Patterns
 
 We now explore some common design patterns to take advantage of microchains.
 
