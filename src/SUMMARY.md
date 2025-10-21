@@ -10,8 +10,6 @@
 
 - [Overview](protocol/overview.md)
 
-- [Features](protocol/features.md)
-
 - [Roadmap](protocol/roadmap.md)
 
 ---
