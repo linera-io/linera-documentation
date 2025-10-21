@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Use cases</title>
+        <title>Features</title>
 
 
         <!-- Custom HTML head -->
@@ -39,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-5a0e1d68.js"></script>
+        <script src="../toc-da947aa0.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -111,7 +111,7 @@
                         <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/protocol/use_cases.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/protocol/features.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -140,54 +140,56 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="why-build-on-top-of-linera"><a class="header" href="#why-build-on-top-of-linera">Why build on top of Linera?</a></h1>
-<h2 id="real-time-interactions-at-scale"><a class="header" href="#real-time-interactions-at-scale">Real-time interactions at scale</a></h2>
-<p>At Linera, we believe that Web3 applications should be able to serve as many
-<strong>active users</strong> as needed without degrading user experience and security.</p>
-<p>Examples of applications that require processing time-sensitive transactions
-created by many simultaneous users (or devices) include:</p>
+                        <h1 id="main-features"><a class="header" href="#main-features">Main features</a></h1>
+<p><strong>Infrastructure</strong></p>
 <ul>
 <li>
-<p>Real-time payments and micro-rewards,</p>
+<p>Finality time under 0.5 seconds for most blocks, including a certificate of
+execution.</p>
 </li>
 <li>
-<p>Real-time auction systems,</p>
+<p>New microchains created in one transaction from an existing chain.</p>
 </li>
 <li>
-<p>On-chain games,</p>
+<p>No theoretical limit in the number of microchains, hence the number of
+transactions per second (TPS).</p>
 </li>
 <li>
-<p>Decentralized physical infrastructure (DePIN),</p>
-</li>
-<li>
-<p>Social data feeds,</p>
-</li>
-<li>
-<p>Version control systems for software, data pipelines, or AI training
-pipelines.</p>
+<p>Bridge-friendly block headers compatible with EVM signatures</p>
 </li>
 </ul>
-<h2 id="real-time-connectivity-and-easy-off-chain-integrations"><a class="header" href="#real-time-connectivity-and-easy-off-chain-integrations">Real-time connectivity and easy off-chain integrations</a></h2>
-<p>Linera's unique concept of <strong>user chains</strong> facilitate communications with
-external systems in several ways:</p>
+<p><strong>On-chain applications</strong></p>
 <ul>
 <li>
-<p>Linera blocks instantly generate proofs of execution suitable for low-latency
-bridges.</p>
+<p>Rich programming model allowing applications to distribute computation across
+chains using asynchronous messages, shared immutable data, and event streams.</p>
 </li>
 <li>
-<p>Transactions can query external Web services, including AI inference systems
-or RPC providers from other blockchains.</p>
+<p>Full synchronous composability inside each microchain.</p>
 </li>
 <li>
-<p>Transactions can last several seconds, making it easy for applications to
-download data from external storage or apply expensive validation functions
-(e.g. ZK verification) on-chain.</p>
+<p>Support for heavy (multi-second) transactions and direct oracle queries to
+external web services and data storage layers.</p>
 </li>
 </ul>
-<h2 id="learn-more"><a class="header" href="#learn-more">Learn more</a></h2>
-<p>Visit the <a href="https://linera.io">Linera website</a> for the latest updates on Linera
-partnerships and use cases.</p>
+<p><strong>Web client and wallet infrastructure</strong></p>
+<ul>
+<li>
+<p>Real-time push-notifications from validators to web clients.</p>
+</li>
+<li>
+<p>Block synchronization and VM execution for selected microchains, allowing
+instant pre-confirmation of user transactions.</p>
+</li>
+<li>
+<p>Trustless reactive programming using familiar Web2 frameworks.</p>
+</li>
+<li>
+<p>On-chain applications programmed in Rust to run on Wasm, or Solidity on
+EVM(*).</p>
+</li>
+</ul>
+<p><em>Features marked with (*) are under active development on the main branch.</em></p>
 
                     </main>
 

@@ -40,7 +40,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-5a0e1d68.js"></script>
+        <script src="toc-da947aa0.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -178,78 +178,149 @@ explained in video format in our
 <a href="https://www.youtube.com/watch?v=0pym5NkVLWs&amp;list=PLdGxlJxLrfgIk7KsD88FnhILcnnzjyoYK">Developer Workshops series on YouTube</a>.</p>
 <p><em>Let's get started!</em></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
-<p>Linera is a decentralized protocol optimized for Web3 applications that require
-guaranteed performance for an unlimited number of active users.</p>
+<p>Linera is a decentralized protocol optimized for real-time, agentic Web3
+applications that require guaranteed performance for an unlimited number of
+active users.</p>
 <p>The core idea of the <a href="https://linera.io/whitepaper">Linera protocol</a> is to run
-many parallel chains, called <strong>microchains</strong>, in a single set of validators,
-allowing chains to easily share applications, data, and liquidity.</p>
-<h2 id="how-does-it-work"><a class="header" href="#how-does-it-work">How does it work?</a></h2>
-<p>In Linera, each user wallet is given a dedicated chain, in which they can
-propose blocks any time. Such chains with a single user are called <strong>user
-chains</strong>. They are meant to be used as a personal blockspace to hold assets,
-receive assets, and initiate interactions with Linera applications.</p>
-<p>Linera users propose blocks directly to their chains. Importantly, Linera
-validators ensure that all blocks are validated and finalized in the same way
-across all the chains.</p>
+many chains of blocks, called <strong>microchains</strong>, in parallel in one set of
+validators.</p>
+<h2 id="how-do-microchains-work"><a class="header" href="#how-do-microchains-work">How do microchains work?</a></h2>
+<p>Linera users propose blocks directly to the chains that they <strong>own</strong>. Chains may
+also be shared with other users. Linera validators ensure that all blocks are
+validated and finalized in the same way across all the chains.</p>
+<pre class="mermaid">    flowchart LR
+        user([&quot;User wallet&quot;])
+        provider([&quot;Provider&quot;])
+        validators([&quot;Validators&quot;])
+        subgraph &quot;Validators&quot;
+          chain1[&quot;Personal chain&quot;]
+          chain2[&quot;Temporary chain&quot;]
+          chain3[&quot;Public chain&quot;]
+          chain4[&quot;App chain&quot;]
+        end
+        user -- owns --&gt; chain1
+        user -- shares --&gt; chain2
+        validators -- own --&gt; chain3
+        provider -- owns/shares --&gt; chain4
+
+    %% Styling
+    style Validators fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style user fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style provider fill:#A0736B,stroke:#D2E8C8,stroke-width:2px
+    style chain1 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain2 fill:#5A8269,stroke:#D2E8C8,stroke-width:2px
+    style chain3 fill:#4A5A60,stroke:#F3EEE2,stroke-width:2px
+    style chain4 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+
+</pre>
+<p>While validation rules and security assumptions are the same for all chains,
+block production in each chain can be configured in a number of ways. In
+practice, most chains fall into the following categories:</p>
+<ul>
+<li><strong>Personal chains</strong> (aka. <strong>user chains</strong>”) are those with a single <strong>owner</strong>,
+i.e. a single user proposing blocks.</li>
+<li><strong>Temporary chains</strong> are shared between a few users.</li>
+<li><strong>Public chains</strong>, usually dedicated to a particular task in the Linera
+infrastructure, are fully managed by Linera validators.</li>
+<li>Chains dedicated to a particular application, called <strong>app chains</strong>, may use
+either their own infrastructure for block production, a permissionless
+solution using proof-of-work, or a rotating set of trusted providers.</li>
+</ul>
 <blockquote>
-<p>Besides user chains, the Linera protocol supports two other types of
-microchains, called <strong>multi-user</strong> and <strong>public</strong> chains. Public chains are
-operated by validators, and generally used by a specific application.
-Multi-user chains are shared between several users and are generally used for
-temporary interactions, such as atomic swaps, auctions, or on-chain games.</p>
+<p>In order to validate all the chains reliably and at minimal cost, Linera
+validators are designed to be <strong>elastic</strong>, meaning that they can independently
+add or remove computational power (e.g. cloud workers) on demand whenever
+needed. In turn, this allows Linera applications to scale horizontally by
+distributing work to the microchains of their users.</p>
 </blockquote>
-<h2 id="main-features"><a class="header" href="#main-features">Main features</a></h2>
-<p><strong>Infrastructure</strong></p>
-<ul>
-<li>
-<p>Finality time under 0.5 seconds for most blocks, including a certificate of
-execution.</p>
-</li>
-<li>
-<p>New microchains created in one transaction from an existing chain.</p>
-</li>
-<li>
-<p>No theoretical limit in the number of microchains, hence the number of
-transactions per second (TPS).</p>
-</li>
-<li>
-<p>Bridge-friendly block headers compatible with EVM signatures</p>
-</li>
-</ul>
-<p><strong>On-chain applications</strong></p>
-<ul>
-<li>
-<p>Rich programming model allowing applications to distribute computation across
-chains using asynchronous messages, shared immutable data, and event
-streams(*).</p>
-</li>
-<li>
-<p>Full synchronous composability inside each microchain.</p>
-</li>
-<li>
-<p>Support for heavy (multi-second) transactions and direct oracle queries to
-external web services and data storage layers.</p>
-</li>
-</ul>
-<p><strong>Web client and wallet infrastructure</strong></p>
-<ul>
-<li>
-<p>Real-time push-notifications from validators to web clients.</p>
-</li>
-<li>
-<p>Block synchronization and VM execution for selected microchains, allowing
-instant pre-confirmation of user transactions.</p>
-</li>
-<li>
-<p>Trustless reactive programming using familiar Web2 frameworks.</p>
-</li>
-<li>
-<p>On-chain applications programmed in Rust to run on Wasm, or Solidity on
-EVM(*).</p>
-</li>
-</ul>
-<p><em>Features marked with (*) are planned for Q2'25.</em></p>
-<h2 id="how-does-linera-compare-to-traditional-multi-chain-protocols"><a class="header" href="#how-does-linera-compare-to-traditional-multi-chain-protocols">How does Linera compare to traditional multi-chain protocols?</a></h2>
+<h2 id="what-makes-linera-real-time-and-agent-friendly"><a class="header" href="#what-makes-linera-real-time-and-agent-friendly">What makes Linera real-time and agent-friendly?</a></h2>
+<h3 id="connected-clients"><a class="header" href="#connected-clients">Connected clients</a></h3>
+<p>To propose blocks and provide APIs to frontends, Linera users rely on a <strong>Linera
+client</strong>. Clients synchronize on-chain data in real-time, without trusting third
+parties, thanks to local VMs and Linera’s native support for notifications.
+Clients are <strong>sparse</strong> in the sense that they track only the chains relevant to
+a particular user.</p>
+<pre class="mermaid">flowchart LR
+    subgraph user_device[&quot;User device&quot;]
+        ui[&quot;Web UI or AI agent&quot;]
+        ui &lt;-- GraphQL --&gt; user_local
+
+        subgraph linera_client[&quot;Linera client&quot;]
+            user_local[&quot;user chain&quot;]
+            admin_local[&quot;admin chain&quot;]
+        end
+    end
+
+    user_local &lt;-- sync blocks --&gt; user_remote
+    user_remote -- notify incoming messages --&gt; user_local
+    admin_local &lt;-- sync blocks --&gt; admin_remote
+
+    subgraph validators_clients[&quot;Validators&quot;]
+        user_remote[&quot;user chain&quot;]
+        admin_remote[&quot;admin chain&quot;]
+    end
+
+    %% Styling
+    style user_device fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style linera_client fill:#0e2630,stroke:#A0E3E2,stroke-width:1px,stroke-dasharray:2 2,rx:8,ry:8
+    style validators_clients fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+
+    style ui fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style user_local fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style admin_local fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style user_remote fill:#4A5A60,stroke:#F3EEE2,stroke-width:2px
+    style admin_remote fill:#4A5A60,stroke:#F3EEE2,stroke-width:2px
+
+</pre>
+<p>User interfaces interact with Linera applications by querying and sending
+high-level commands to local GraphQL services running securely inside the Linera
+client.</p>
+<p>Similarly, discussions between AI agents and Linera applications stay local,
+hence private and free of charge. Agents cannot be compromised through external
+RPC services.</p>
+<blockquote>
+<p>Linera is the first Layer-1 to allow <strong>trustless real-time synchronization</strong>
+of user data on their devices, democratizing low-latency data access and
+bringing professional-grade security to frontends, customized oracle networks,
+and AI-trading agents.</p>
+</blockquote>
+<h3 id="geographic-sharding"><a class="header" href="#geographic-sharding">Geographic sharding</a></h3>
+<p>In the future, Linera validators will be incentivized to operate machines and
+maintain a presence in a number of key regions. Most microchains will be pinned
+explicitly to a specific region, giving users of this region the lowest latency
+possible in their on-chain interactions. Linera validators will be incentivized
+to connect their regional data-centers using a low-latency network.</p>
+<pre class="mermaid">flowchart LR
+    subgraph region_1[&quot;Region 1&quot;]
+        user1([&quot;User 1&quot;])
+        chain1[&quot;chain 1&quot;]
+        chain2[&quot;chain 2&quot;]
+    end
+    subgraph region_2[&quot;Region 2&quot;]
+        chain3[&quot;chain 3&quot;]
+        chain4[&quot;chain 4&quot;]
+    end
+    user1 --&gt; chain1
+	  chain1 &lt;--&gt; chain2
+	  chain2 &lt;---&gt; chain3
+	  chain2 &lt;---&gt; chain3
+	  chain3 &lt;--&gt; chain4
+
+    %% Styling
+    style region_1 fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style region_2 fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style user1 fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style chain1 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain2 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain3 fill:#4A5A60,stroke:#F3EEE2,stroke-width:2px
+    style chain4 fill:#4A5A60,stroke:#F3EEE2,stroke-width:2px
+
+</pre>
+<p>Importantly, geographic affinity in Linera is not conditioned to the time of the
+day allowing applications to deliver similar performance at night and during
+working hours. Yet, Linera validators have the flexibility to downsize and
+upsize their pool of machines at will to save costs.</p>
+<h2 id="how-do-linera-microchains-compare-to-traditional-multi-chain-protocols"><a class="header" href="#how-do-linera-microchains-compare-to-traditional-multi-chain-protocols">How do Linera microchains compare to traditional multi-chain protocols?</a></h2>
 <p>Linera is the first blockchain designed to run a virtually unlimited number of
 chains in parallel, including one dedicated <strong>user chain</strong> per user wallet.</p>
 <p>In traditional multi-chain protocols, each chain usually runs a full blockchain
@@ -279,54 +350,56 @@ their capacity elastically by adding or removing internal workers.</p>
 users.</p>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="why-build-on-top-of-linera"><a class="header" href="#why-build-on-top-of-linera">Why build on top of Linera?</a></h1>
-<h2 id="real-time-interactions-at-scale"><a class="header" href="#real-time-interactions-at-scale">Real-time interactions at scale</a></h2>
-<p>At Linera, we believe that Web3 applications should be able to serve as many
-<strong>active users</strong> as needed without degrading user experience and security.</p>
-<p>Examples of applications that require processing time-sensitive transactions
-created by many simultaneous users (or devices) include:</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="main-features"><a class="header" href="#main-features">Main features</a></h1>
+<p><strong>Infrastructure</strong></p>
 <ul>
 <li>
-<p>Real-time payments and micro-rewards,</p>
+<p>Finality time under 0.5 seconds for most blocks, including a certificate of
+execution.</p>
 </li>
 <li>
-<p>Real-time auction systems,</p>
+<p>New microchains created in one transaction from an existing chain.</p>
 </li>
 <li>
-<p>On-chain games,</p>
+<p>No theoretical limit in the number of microchains, hence the number of
+transactions per second (TPS).</p>
 </li>
 <li>
-<p>Decentralized physical infrastructure (DePIN),</p>
-</li>
-<li>
-<p>Social data feeds,</p>
-</li>
-<li>
-<p>Version control systems for software, data pipelines, or AI training
-pipelines.</p>
+<p>Bridge-friendly block headers compatible with EVM signatures</p>
 </li>
 </ul>
-<h2 id="real-time-connectivity-and-easy-off-chain-integrations"><a class="header" href="#real-time-connectivity-and-easy-off-chain-integrations">Real-time connectivity and easy off-chain integrations</a></h2>
-<p>Linera's unique concept of <strong>user chains</strong> facilitate communications with
-external systems in several ways:</p>
+<p><strong>On-chain applications</strong></p>
 <ul>
 <li>
-<p>Linera blocks instantly generate proofs of execution suitable for low-latency
-bridges.</p>
+<p>Rich programming model allowing applications to distribute computation across
+chains using asynchronous messages, shared immutable data, and event streams.</p>
 </li>
 <li>
-<p>Transactions can query external Web services, including AI inference systems
-or RPC providers from other blockchains.</p>
+<p>Full synchronous composability inside each microchain.</p>
 </li>
 <li>
-<p>Transactions can last several seconds, making it easy for applications to
-download data from external storage or apply expensive validation functions
-(e.g. ZK verification) on-chain.</p>
+<p>Support for heavy (multi-second) transactions and direct oracle queries to
+external web services and data storage layers.</p>
 </li>
 </ul>
-<h2 id="learn-more"><a class="header" href="#learn-more">Learn more</a></h2>
-<p>Visit the <a href="https://linera.io">Linera website</a> for the latest updates on Linera
-partnerships and use cases.</p>
+<p><strong>Web client and wallet infrastructure</strong></p>
+<ul>
+<li>
+<p>Real-time push-notifications from validators to web clients.</p>
+</li>
+<li>
+<p>Block synchronization and VM execution for selected microchains, allowing
+instant pre-confirmation of user transactions.</p>
+</li>
+<li>
+<p>Trustless reactive programming using familiar Web2 frameworks.</p>
+</li>
+<li>
+<p>On-chain applications programmed in Rust to run on Wasm, or Solidity on
+EVM(*).</p>
+</li>
+</ul>
+<p><em>Features marked with (*) are under active development on the main branch.</em></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
 <p>This section outlines our current technical roadmap. Please note that this
 roadmap is provided for informational purposes only and is subject to change at
@@ -1121,6 +1194,56 @@ pub enum Message {
     Credit { owner: AccountOwner, amount: Amount },
     // Meant to be extended here
 }</code></pre>
+<p>Messages can be marked as <strong>tracked</strong> by their sender. When a tracked message is
+rejected, the message is marked as <strong>bouncing</strong> and sent back to the sender
+chain. This is useful to avoid dropping assets in case the receiver is not able
+or wanting to accept them.</p>
+<h3 id="composing-applications"><a class="header" href="#composing-applications">Composing applications</a></h3>
+<p>Within a chain, Linera applications call each other synchronously. The
+transactions of a block initiates the first call to an application. The
+atomicity of <strong>message bundles</strong> ensures that the messages created by a
+transaction are either all received or all rejected by the receiver chain.</p>
+<p>The following example shows a common design pattern where a high-level
+application (here, a crowd-funding app) calls into another application (here an
+ERC-20-like application managing a fungible token), resulting in a bundle of two
+messages.</p>
+<pre class="mermaid"> flowchart LR
+    subgraph user_chain[&quot;User chain&quot;]
+      block(&quot;operation in block&quot;) -- calls (with signer) (1) --&gt; app11
+      subgraph exec_user[&quot;Execution state&quot;]
+        app11[&quot;crowdfunding app&quot;] -- calls (with signer) (2) --&gt; app21[&quot;fungible token app&quot;]
+      end
+    end
+
+    subgraph app_chain[&quot;Crowdfunding app chain&quot;]
+      subgraph exec_app[&quot;Execution state&quot;]
+        app12[&quot;crowdfunding app&quot;] -- calls (7) --&gt; app22[&quot;fungible token app&quot;]
+      end
+      bundle(&quot;Incoming message bundle&lt;br&gt;[assets, pledge]&quot;)
+    end
+
+    app11 -- send pledge (4) --&gt; bundle
+    app21 -- send assets (3) --&gt; bundle
+    bundle -- receive pledge (6) --&gt; app12
+    bundle -- receive assets (5) --&gt; app22
+
+    %% Styling
+    style user_chain fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style app_chain fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style exec_user fill:#0e2630,stroke:#A0E3E2,stroke-width:1px,stroke-dasharray:2 2,rx:8,ry:8
+    style exec_app fill:#0e2630,stroke:#A0E3E2,stroke-width:1px,stroke-dasharray:2 2,rx:8,ry:8
+
+    style app11 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+    style app12 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+    style app21 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style app22 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style bundle fill:#5A8269,stroke:#D2E8C8,stroke-width:2px
+
+</pre>
+<p>When a user proposes a block in their user chain, operations inherit the
+authentication of the user (aka <strong>signer</strong> or <strong>origin</strong>) that signed the block.
+Calls may optionally forward this authentication, for instance to allow the
+transfer of assets.</p>
 <h3 id="authentication"><a class="header" href="#authentication">Authentication</a></h3>
 <p>Operations in a block are always authenticated and messages may be
 authenticated. The signer of a block becomes the authenticator of all the
@@ -1187,6 +1310,150 @@ anyone able to produce a block.</p>
 they're able to produce blocks or where they trust the owner will produce blocks
 receiving their messages. Only they are able to move their tokens, even on
 chains where ownership is shared or where they are not able to produce blocks.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="common-design-patterns"><a class="header" href="#common-design-patterns">Common design patterns</a></h1>
+<p>We now explore some common design patterns to take advantage of microchains.</p>
+<h2 id="applications-with-only-user-chains"><a class="header" href="#applications-with-only-user-chains">Applications with only user chains</a></h2>
+<p>Some applications such as payments only require user chains, hence are fully
+horizontally scalable:</p>
+<pre class="mermaid">flowchart LR
+    user1([&quot;user 1&quot;]) -- initiates transfer --&gt; chain1
+
+    subgraph validators_only_users[&quot;Validators&quot;]
+      chain1[&quot;user chain 1&quot;] -- &quot;sends assets&quot; --&gt; chain2[&quot;user chain 2&quot;]
+    end
+
+    chain2 -- notifies --&gt; user2([&quot;user 2&quot;])
+
+    %% Styling
+    style validators_only_users fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style user1 fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style user2 fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style chain1 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain2 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+
+</pre>
+<h2 id="clientserver-applications"><a class="header" href="#clientserver-applications">Client/server applications</a></h2>
+<p>Pre-existing applications (e.g. written in Solidity) generally run on a single
+chain of blocks for all users. Those can be embedded in an app chain to act as a
+service.</p>
+<pre class="mermaid">flowchart LR
+    user1([&quot;user 1&quot;]) -- initiates request --&gt; chain1
+    user1 ~~~ chain1
+    provider([&quot;block producer&quot;]) -- initiate response(s) --&gt; chain3
+    chain1 -- notifies --&gt; user1
+    chain3 -- notifies --&gt; provider
+
+    subgraph validators_cs[&quot;Validators&quot;]
+      chain1[&quot;user chain 1&quot;] -- &quot;sends request&quot; --&gt; chain3
+      chain1 ~~~ chain3
+      chain2[&quot;user chain 2&quot;] --&gt; chain3
+      chain3[&quot;app chain&quot;] -- &quot;sends response&quot; --&gt; chain1
+    end
+
+    %% Styling
+    style validators_cs fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style user1 fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style provider fill:#A0736B,stroke:#D2E8C8,stroke-width:2px
+    style chain1 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain2 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain3 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+
+</pre>
+<blockquote>
+<p>Depending on the nature of the application, the blocks produced in the app
+chain may be restricted to only contain messages (no operations). This is to
+ensure that block producers have no influence on a chain, other than selecting
+incoming messages.</p>
+</blockquote>
+<h2 id="using-personal-chains-to-scale-applications"><a class="header" href="#using-personal-chains-to-scale-applications">Using personal chains to scale applications</a></h2>
+<p>User chains are useful to store the assets of their users and initiate requests
+to app chains. Yet, oftentimes, they can also help applications scale
+horizontally by taking work out of the app chains.</p>
+<pre class="mermaid">flowchart LR
+    user1([&quot;user 1&quot;]) -- submits ZK proof --&gt; chain1
+
+    subgraph microchains_scale[&quot;Microchains&quot;]
+      chain1[&quot;user chain 1&quot;]
+      chain0[&quot;airdrop chain&quot;]
+      chain1 -- &quot;sends trusted message《ZK proof is valid》&quot; --&gt; chain0
+      chain1 ~~~ chain0
+      chain0 -- &quot;sends tokens&quot; --&gt; chain1
+      chain2[&quot;user chain 2&quot;] --&gt; chain0
+    end
+
+    %% Styling
+    style microchains_scale fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style user1 fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style chain1 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain2 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain0 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+
+</pre>
+<p>One of the benefits of personal chains is to enable transactions that would be
+too slow or not deterministic enough for traditional blockchains, including:</p>
+<ul>
+<li>Validating ZK proofs,</li>
+<li>Sending web queries to external oracle services (e.g. AI inference) and other
+API providers,</li>
+<li>Downloading data blobs from external data availability (”DA”) layers and
+computing app-specific invariants.</li>
+</ul>
+<h2 id="using-temporary-chains-to-scale-applications"><a class="header" href="#using-temporary-chains-to-scale-applications">Using temporary chains to scale applications</a></h2>
+<p>Temporary chains can be created on demand and configured to accept blocks from
+specific users.</p>
+<p>The following diagram allows a virtually unlimited number of games (e.g. chess
+game) to be spawned for a given tournament.</p>
+<pre class="mermaid">flowchart LR
+    subgraph microchains_scale[&quot;Microchains&quot;]
+      chain1[&quot;user chain 1&quot;] &lt;--&gt; chain3
+      chain2[&quot;user chain 2&quot;] &lt;--&gt; chain3
+      chain3[&quot;tournament app chain&quot;] -- creates --&gt; chain0[&quot;temporary game chain&quot;]
+      chain0 -- reports result --&gt; chain3
+    end
+
+    user1([&quot;user 1&quot;]) -- request game --&gt; chain1
+    user2([&quot;user 2&quot;]) -- request game --&gt; chain2
+    user1 -- plays --&gt; chain0
+    user2 -- plays --&gt; chain0
+
+    %% Styling
+    style microchains_scale fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style user1 fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style user2 fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style chain1 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain2 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain3 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+
+</pre>
+<h2 id="just-in-time-oracles"><a class="header" href="#just-in-time-oracles">Just-in-time oracles</a></h2>
+<p>We have seen that Linera clients are connected and don’t rely on external RPC
+providers to read on-chain data from the chain. This ability to receive secure,
+censorship-resistant notifications and read data from the network is a game
+changer allowing on-chain applications to query certain clients in real time.</p>
+<p>For instance, clients may be running an AI oracle off-chain in a trusted
+execution environment (TEE), allowing on-chain application to extract important
+information form the Internet.</p>
+<pre class="mermaid">flowchart LR
+    subgraph validators_only_users[&quot;Validators&quot;]
+      chain2 -- oracle response --&gt; chain1
+      chain1[&quot;app chain&quot;] -- &quot;oracle query&quot; --&gt; chain2[&quot;oracle chain&quot;]
+    end
+    subgraph tee[&quot;Oracle TEE&quot;]
+      user2([&quot;oracle client&quot;]) &lt;--&gt; ai[&quot;AI oracle&quot;]
+    end
+    chain2 -- notifies --&gt; user2
+    user2 -- submit response --&gt; chain2
+    ai &lt;--&gt; web((Web))
+
+    %% Styling
+    style validators_only_users fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style tee fill:#1A4456,stroke:#A0E3E2,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style user2 fill:#8B7355,stroke:#EDE4D2,stroke-width:2px
+    style ai fill:#A0736B,stroke:#D2E8C8,stroke-width:2px
+    style chain1 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style chain2 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+
+</pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="writing-linera-applications"><a class="header" href="#writing-linera-applications">Writing Linera Applications</a></h1>
 <p>In this section, we'll be exploring how to create Web3 applications using the
 Linera SDK.</p>

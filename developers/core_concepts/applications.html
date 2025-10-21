@@ -39,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-5a0e1d68.js"></script>
+        <script src="../../toc-da947aa0.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -232,6 +232,56 @@ pub enum Message {
     Credit { owner: AccountOwner, amount: Amount },
     // Meant to be extended here
 }</code></pre>
+<p>Messages can be marked as <strong>tracked</strong> by their sender. When a tracked message is
+rejected, the message is marked as <strong>bouncing</strong> and sent back to the sender
+chain. This is useful to avoid dropping assets in case the receiver is not able
+or wanting to accept them.</p>
+<h3 id="composing-applications"><a class="header" href="#composing-applications">Composing applications</a></h3>
+<p>Within a chain, Linera applications call each other synchronously. The
+transactions of a block initiates the first call to an application. The
+atomicity of <strong>message bundles</strong> ensures that the messages created by a
+transaction are either all received or all rejected by the receiver chain.</p>
+<p>The following example shows a common design pattern where a high-level
+application (here, a crowd-funding app) calls into another application (here an
+ERC-20-like application managing a fungible token), resulting in a bundle of two
+messages.</p>
+<pre class="mermaid"> flowchart LR
+    subgraph user_chain[&quot;User chain&quot;]
+      block(&quot;operation in block&quot;) -- calls (with signer) (1) --&gt; app11
+      subgraph exec_user[&quot;Execution state&quot;]
+        app11[&quot;crowdfunding app&quot;] -- calls (with signer) (2) --&gt; app21[&quot;fungible token app&quot;]
+      end
+    end
+
+    subgraph app_chain[&quot;Crowdfunding app chain&quot;]
+      subgraph exec_app[&quot;Execution state&quot;]
+        app12[&quot;crowdfunding app&quot;] -- calls (7) --&gt; app22[&quot;fungible token app&quot;]
+      end
+      bundle(&quot;Incoming message bundle&lt;br&gt;[assets, pledge]&quot;)
+    end
+
+    app11 -- send pledge (4) --&gt; bundle
+    app21 -- send assets (3) --&gt; bundle
+    bundle -- receive pledge (6) --&gt; app12
+    bundle -- receive assets (5) --&gt; app22
+
+    %% Styling
+    style user_chain fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style app_chain fill:#1A4456,stroke:#70D4D3,stroke-width:2px,stroke-dasharray:3 3,rx:10,ry:10
+    style exec_user fill:#0e2630,stroke:#A0E3E2,stroke-width:1px,stroke-dasharray:2 2,rx:8,ry:8
+    style exec_app fill:#0e2630,stroke:#A0E3E2,stroke-width:1px,stroke-dasharray:2 2,rx:8,ry:8
+
+    style app11 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+    style app12 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
+    style app21 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style app22 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
+    style bundle fill:#5A8269,stroke:#D2E8C8,stroke-width:2px
+
+</pre>
+<p>When a user proposes a block in their user chain, operations inherit the
+authentication of the user (aka <strong>signer</strong> or <strong>origin</strong>) that signed the block.
+Calls may optionally forward this authentication, for instance to allow the
+transfer of assets.</p>
 <h3 id="authentication"><a class="header" href="#authentication">Authentication</a></h3>
 <p>Operations in a block are always authenticated and messages may be
 authenticated. The signer of a block becomes the authenticator of all the
@@ -307,7 +357,7 @@ chains where ownership is shared or where they are not able to produce blocks.</
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developers/backend.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../developers/core_concepts/design_patterns.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -321,7 +371,7 @@ chains where ownership is shared or where they are not able to produce blocks.</
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developers/backend.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../developers/core_concepts/design_patterns.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
