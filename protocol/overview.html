@@ -39,7 +39,7 @@
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-da947aa0.js"></script>
+        <script src="../toc-2a6c6635.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -313,6 +313,56 @@ their capacity elastically by adding or removing internal workers.</p>
 users.</p>
 </li>
 </ul>
+<h2 id="main-protocol-features"><a class="header" href="#main-protocol-features">Main protocol features</a></h2>
+<p><strong>Infrastructure</strong></p>
+<ul>
+<li>
+<p>Finality time under 0.5 seconds for most blocks, including a certificate of
+execution.</p>
+</li>
+<li>
+<p>New microchains created in one transaction from an existing chain.</p>
+</li>
+<li>
+<p>No theoretical limit in the number of microchains, hence the number of
+transactions per second (TPS).</p>
+</li>
+<li>
+<p>Bridge-friendly block headers compatible with EVM signatures</p>
+</li>
+</ul>
+<p><strong>On-chain applications</strong></p>
+<ul>
+<li>
+<p>Rich programming model allowing applications to distribute computation across
+chains using asynchronous messages, shared immutable data, and event streams.</p>
+</li>
+<li>
+<p>Full synchronous composability inside each microchain.</p>
+</li>
+<li>
+<p>Support for heavy (multi-second) transactions and direct oracle queries to
+external web services and data storage layers.</p>
+</li>
+</ul>
+<p><strong>Web client and wallet infrastructure</strong></p>
+<ul>
+<li>
+<p>Real-time push-notifications from validators to web clients.</p>
+</li>
+<li>
+<p>Block synchronization and VM execution for selected microchains, allowing
+instant pre-confirmation of user transactions.</p>
+</li>
+<li>
+<p>Trustless reactive programming using familiar Web2 frameworks.</p>
+</li>
+<li>
+<p>On-chain applications programmed in Rust to run on Wasm, or Solidity on
+EVM(*).</p>
+</li>
+</ul>
+<p><em>Features marked with (*) are under active development on the main branch.</em></p>
 
                     </main>
 
@@ -322,7 +372,7 @@ users.</p>
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../protocol/features.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../protocol/roadmap.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -336,7 +386,7 @@ users.</p>
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../protocol/features.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../protocol/roadmap.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
