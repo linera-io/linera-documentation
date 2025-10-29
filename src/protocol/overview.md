@@ -108,9 +108,10 @@ User interfaces interact with Linera applications by querying and sending
 high-level commands to local GraphQL services running securely inside the Linera
 client.
 
-Similarly, discussions between AI agents and Linera applications stay local,
-hence private and free of charge. Agents cannot be compromised through external
-RPC services.
+Similarly,
+[discussions](../developers/core_concepts/node_service.html#connecting-ai-agents-to-linera-applications-in-mcp)
+between AI agents and Linera applications stay local, hence private and free of
+charge. This also protects agents against compromised external RPC services.
 
 > Linera is the first Layer-1 to allow **trustless real-time synchronization**
 > of user data on their devices, democratizing low-latency data access and

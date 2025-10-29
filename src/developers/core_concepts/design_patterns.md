@@ -26,6 +26,10 @@ flowchart LR
 
 ```
 
+**Example:** the
+[fungible demo application](https://github.com/linera-io/linera-protocol/tree/main/examples/fungible)
+of the Linera codebase.
+
 ## Client/server applications
 
 Pre-existing applications (e.g. written in Solidity) generally run on a single
@@ -61,6 +65,10 @@ flowchart LR
 > chain may be restricted to only contain messages (no operations). This is to
 > ensure that block producers have no influence on a chain, other than selecting
 > incoming messages.
+
+**Example:** the
+[crowd-funding demo application](https://github.com/linera-io/linera-protocol/tree/main/examples/crowd-funding)
+of the Linera codebase.
 
 ## Using personal chains to scale applications
 
@@ -99,6 +107,10 @@ too slow or not deterministic enough for traditional blockchains, including:
 - Downloading data blobs from external data availability (”DA”) layers and
   computing app-specific invariants.
 
+**Example (unfinished):** the
+[airdrop demo application](https://github.com/linera-io/airdrop-demo) of the
+Linera project.
+
 ## Using temporary chains to scale applications
 
 Temporary chains can be created on demand and configured to accept blocks from
@@ -130,6 +142,10 @@ flowchart LR
     style chain3 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
 
 ```
+
+**Example:** the
+[hex-game demo application](https://github.com/linera-io/linera-protocol/tree/main/examples/hex-game)
+of the Linera codebase.
 
 ## Just-in-time oracles
 

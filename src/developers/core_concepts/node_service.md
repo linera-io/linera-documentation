@@ -54,3 +54,14 @@ exposes a GraphQL API for every application running on any owned chain at
 
 Navigating there with your browser will open a GraphiQL interface which enables
 you to graphically explore the state of your application.
+
+## Connecting AI agents to Linera applications in MCP
+
+Most AI agents understand the
+[Model Context Protocol](https://modelcontextprotocol.io) (MCP for short).
+
+GraphQL service can be turned an MCP server using
+[Apollo MCP Server](https://www.apollographql.com/docs/apollo-mcp-server).
+
+More information can be found in the
+[`mcp-demo`](https://github.com/linera-io/mcp-demo) repository.
