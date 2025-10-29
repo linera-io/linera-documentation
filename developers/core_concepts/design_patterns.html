@@ -162,6 +162,9 @@ horizontally scalable:</p>
     style chain2 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
 
 </pre>
+<p><strong>Example:</strong> the
+<a href="https://github.com/linera-io/linera-protocol/tree/main/examples/fungible">fungible demo application</a>
+of the Linera codebase.</p>
 <h2 id="clientserver-applications"><a class="header" href="#clientserver-applications">Client/server applications</a></h2>
 <p>Pre-existing applications (e.g. written in Solidity) generally run on a single
 chain of blocks for all users. Those can be embedded in an app chain to act as a
@@ -195,6 +198,9 @@ chain may be restricted to only contain messages (no operations). This is to
 ensure that block producers have no influence on a chain, other than selecting
 incoming messages.</p>
 </blockquote>
+<p><strong>Example:</strong> the
+<a href="https://github.com/linera-io/linera-protocol/tree/main/examples/crowd-funding">crowd-funding demo application</a>
+of the Linera codebase.</p>
 <h2 id="using-personal-chains-to-scale-applications"><a class="header" href="#using-personal-chains-to-scale-applications">Using personal chains to scale applications</a></h2>
 <p>User chains are useful to store the assets of their users and initiate requests
 to app chains. Yet, oftentimes, they can also help applications scale
@@ -228,6 +234,9 @@ API providers,</li>
 <li>Downloading data blobs from external data availability (”DA”) layers and
 computing app-specific invariants.</li>
 </ul>
+<p><strong>Example (unfinished):</strong> the
+<a href="https://github.com/linera-io/airdrop-demo">airdrop demo application</a> of the
+Linera project.</p>
 <h2 id="using-temporary-chains-to-scale-applications"><a class="header" href="#using-temporary-chains-to-scale-applications">Using temporary chains to scale applications</a></h2>
 <p>Temporary chains can be created on demand and configured to accept blocks from
 specific users.</p>
@@ -255,6 +264,9 @@ game) to be spawned for a given tournament.</p>
     style chain3 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
 
 </pre>
+<p><strong>Example:</strong> the
+<a href="https://github.com/linera-io/linera-protocol/tree/main/examples/hex-game">hex-game demo application</a>
+of the Linera codebase.</p>
 <h2 id="just-in-time-oracles"><a class="header" href="#just-in-time-oracles">Just-in-time oracles</a></h2>
 <p>We have seen that Linera clients are connected and don’t rely on external RPC
 providers to read on-chain data from the chain. This ability to receive secure,

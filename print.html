@@ -275,9 +275,10 @@ a particular user.</p>
 <p>User interfaces interact with Linera applications by querying and sending
 high-level commands to local GraphQL services running securely inside the Linera
 client.</p>
-<p>Similarly, discussions between AI agents and Linera applications stay local,
-hence private and free of charge. Agents cannot be compromised through external
-RPC services.</p>
+<p>Similarly,
+<a href="protocol/../developers/core_concepts/node_service.html#connecting-ai-agents-to-linera-applications-in-mcp">discussions</a>
+between AI agents and Linera applications stay local, hence private and free of
+charge. This also protects agents against compromised external RPC services.</p>
 <blockquote>
 <p>Linera is the first Layer-1 to allow <strong>trustless real-time synchronization</strong>
 of user data on their devices, democratizing low-latency data access and
@@ -1102,6 +1103,13 @@ exposes a GraphQL API for every application running on any owned chain at
 <code>localhost:8080/chains/&lt;chain-id&gt;/applications/&lt;application-id&gt;</code>.</p>
 <p>Navigating there with your browser will open a GraphiQL interface which enables
 you to graphically explore the state of your application.</p>
+<h2 id="connecting-ai-agents-to-linera-applications-in-mcp"><a class="header" href="#connecting-ai-agents-to-linera-applications-in-mcp">Connecting AI agents to Linera applications in MCP</a></h2>
+<p>Most AI agents understand the
+<a href="https://modelcontextprotocol.io">Model Context Protocol</a> (MCP for short).</p>
+<p>GraphQL service can be turned an MCP server using
+<a href="https://www.apollographql.com/docs/apollo-mcp-server">Apollo MCP Server</a>.</p>
+<p>More information can be found in the
+<a href="https://github.com/linera-io/mcp-demo"><code>mcp-demo</code></a> repository.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="applications"><a class="header" href="#applications">Applications</a></h1>
 <p>The programming model of Linera is designed so that developers can take
 advantage of microchains to scale their applications.</p>
@@ -1332,6 +1340,9 @@ horizontally scalable:</p>
     style chain2 fill:#3A6B7A,stroke:#A0E3E2,stroke-width:2px
 
 </pre>
+<p><strong>Example:</strong> the
+<a href="https://github.com/linera-io/linera-protocol/tree/main/examples/fungible">fungible demo application</a>
+of the Linera codebase.</p>
 <h2 id="clientserver-applications"><a class="header" href="#clientserver-applications">Client/server applications</a></h2>
 <p>Pre-existing applications (e.g. written in Solidity) generally run on a single
 chain of blocks for all users. Those can be embedded in an app chain to act as a
@@ -1365,6 +1376,9 @@ chain may be restricted to only contain messages (no operations). This is to
 ensure that block producers have no influence on a chain, other than selecting
 incoming messages.</p>
 </blockquote>
+<p><strong>Example:</strong> the
+<a href="https://github.com/linera-io/linera-protocol/tree/main/examples/crowd-funding">crowd-funding demo application</a>
+of the Linera codebase.</p>
 <h2 id="using-personal-chains-to-scale-applications"><a class="header" href="#using-personal-chains-to-scale-applications">Using personal chains to scale applications</a></h2>
 <p>User chains are useful to store the assets of their users and initiate requests
 to app chains. Yet, oftentimes, they can also help applications scale
@@ -1398,6 +1412,9 @@ API providers,</li>
 <li>Downloading data blobs from external data availability (”DA”) layers and
 computing app-specific invariants.</li>
 </ul>
+<p><strong>Example (unfinished):</strong> the
+<a href="https://github.com/linera-io/airdrop-demo">airdrop demo application</a> of the
+Linera project.</p>
 <h2 id="using-temporary-chains-to-scale-applications"><a class="header" href="#using-temporary-chains-to-scale-applications">Using temporary chains to scale applications</a></h2>
 <p>Temporary chains can be created on demand and configured to accept blocks from
 specific users.</p>
@@ -1425,6 +1442,9 @@ game) to be spawned for a given tournament.</p>
     style chain3 fill:#4A7B75,stroke:#70D4D3,stroke-width:2px
 
 </pre>
+<p><strong>Example:</strong> the
+<a href="https://github.com/linera-io/linera-protocol/tree/main/examples/hex-game">hex-game demo application</a>
+of the Linera codebase.</p>
 <h2 id="just-in-time-oracles"><a class="header" href="#just-in-time-oracles">Just-in-time oracles</a></h2>
 <p>We have seen that Linera clients are connected and don’t rely on external RPC
 providers to read on-chain data from the chain. This ability to receive secure,
