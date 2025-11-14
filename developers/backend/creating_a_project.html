@@ -151,6 +151,13 @@ files:</p>
 <ul>
 <li><code>Cargo.toml</code>: your project's manifest filled with the necessary dependencies
 to create an app;</li>
+<li><code>rust-toolchain.toml</code>: a file with configuration for Rust compiler.</li>
+</ul>
+<blockquote>
+<p><strong>NOTE:</strong> currently the latest Rust version compatible with our network is
+<code>1.86.0</code>. Make sure it's the one used by your project.</p>
+</blockquote>
+<ul>
 <li><code>src/lib.rs</code>: the application's ABI definition;</li>
 <li><code>src/state.rs</code>: the application's state;</li>
 <li><code>src/contract.rs</code>: the application's contract, and the binary target for the
