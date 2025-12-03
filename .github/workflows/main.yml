@@ -19,7 +19,7 @@ jobs:
           mdbook-version: '0.4.48'
 
       - run: |
-          cargo install mdbook-mermaid mdbook-admonish
+          cargo install mdbook-mermaid@0.15.0 mdbook-admonish@1.19.0
           mdbook build
 
       - name: Deploy
