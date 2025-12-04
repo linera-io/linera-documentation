@@ -96,6 +96,22 @@ This manual was tested against the following commit of the
 {{#include ../../../.git/modules/linera-protocol/HEAD}}
 ```
 
+## Automatic shell completion
+
+Automatic completion can be instantiated by doing the following:
+
+```bash
+linera completion > .linera.bash
+```
+
+Then adding to your `.bashrc` the following:
+
+```bash
+source .linera.bash
+```
+
+The same works for `zsh`, `fish`, `elvish` and `powershell`.
+
 ## Getting help
 
 If installation fails, reach out to the team (e.g. on
