@@ -53,7 +53,7 @@ jobs:
       - name: Install mdbook preprocessors
         run: |
           cargo install mdbook-linkcheck mdbook-admonish
-          cargo install mdbook-mermaid --version 0.16.0
+          cargo install mdbook-mermaid --version 0.16.2
 
       - run: mdbook build
 
