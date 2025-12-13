@@ -2,12 +2,12 @@
 
 The Linera client library allows you to sign transactions with anything that
 satisfies
-[the `Signer` interface](https://github.com/linera-io/linera-protocol/blob/testnet_conway/linera-web/docs/interfaces/Signer.md).
+[the `Signer` interface](https://github.com/linera-io/linera-protocol/tree/testnet_conway/web/%40linera/client/docs/interfaces).
 This means you can integrate with external software wallets, hardware wallets,
 Internet-connected wallet services… the only limit is your imagination!
 
 To get started building your own signer implementation, have a look at
-[our sample in-memory implementation](https://github.com/linera-io/linera-protocol/blob/testnet_conway/linera-web/signer/src/private-key.ts).
+[our sample in-memory implementation](https://github.com/linera-io/linera-protocol/blob/testnet_conway/web/%40linera/client/src/signer/PrivateKey.ts).
 Alternatively, you can use a pre-built wallet integration provided by Linera or
 our partners.
 
@@ -19,8 +19,8 @@ too.
 
 We provide an implementation using MetaMask's blind-signing capabilities to sign
 Linera transactions in the
-[`@linera/signer`](https://www.npmjs.com/package/@linera/signer) package on npm.
-Our counter demo also sports a
+[`@linera/metamask`](https://www.npmjs.com/package/@linera/metamask) package on
+npm. Our counter demo also sports a
 [MetaMask-based frontend](https://github.com/linera-io/linera-protocol/tree/testnet_conway/examples/counter/metamask)
 that exemplifies signing application transactions with MetaMask.
 
