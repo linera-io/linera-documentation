@@ -143,11 +143,11 @@
                         <h2 id="connecting-with-external-wallet-providers"><a class="header" href="#connecting-with-external-wallet-providers">Connecting with external wallet providers</a></h2>
 <p>The Linera client library allows you to sign transactions with anything that
 satisfies
-<a href="https://github.com/linera-io/linera-protocol/blob/testnet_conway/linera-web/docs/interfaces/Signer.md">the <code>Signer</code> interface</a>.
+<a href="https://github.com/linera-io/linera-protocol/tree/testnet_conway/web/%40linera/client/docs/interfaces">the <code>Signer</code> interface</a>.
 This means you can integrate with external software wallets, hardware wallets,
 Internet-connected wallet services… the only limit is your imagination!</p>
 <p>To get started building your own signer implementation, have a look at
-<a href="https://github.com/linera-io/linera-protocol/blob/testnet_conway/linera-web/signer/src/private-key.ts">our sample in-memory implementation</a>.
+<a href="https://github.com/linera-io/linera-protocol/blob/testnet_conway/web/%40linera/client/src/signer/PrivateKey.ts">our sample in-memory implementation</a>.
 Alternatively, you can use a pre-built wallet integration provided by Linera or
 our partners.</p>
 <h3 id="metamask"><a class="header" href="#metamask">MetaMask</a></h3>
@@ -156,8 +156,8 @@ primarily at Ethereum, it's flexible enough to allow signing other types of data
 too.</p>
 <p>We provide an implementation using MetaMask's blind-signing capabilities to sign
 Linera transactions in the
-<a href="https://www.npmjs.com/package/@linera/signer"><code>@linera/signer</code></a> package on npm.
-Our counter demo also sports a
+<a href="https://www.npmjs.com/package/@linera/metamask"><code>@linera/metamask</code></a> package on
+npm. Our counter demo also sports a
 <a href="https://github.com/linera-io/linera-protocol/tree/testnet_conway/examples/counter/metamask">MetaMask-based frontend</a>
 that exemplifies signing application transactions with MetaMask.</p>
 <h3 id="dynamic"><a class="header" href="#dynamic">Dynamic</a></h3>
