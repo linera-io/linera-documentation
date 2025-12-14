@@ -147,14 +147,42 @@ all chains must be updated.
 
 The system has one designated _admin chain_, where the validators can join or
 leave, and where new _epochs_ are defined. During every epoch, the set of
-validators is fixed. If you own the admin chain, you can use the `set-validator`
-and `remove-validator` commands to start a new epoch with a modified set of
+validators is fixed. If you own the admin chain, you can use the `validator add`
+and `validator remove` commands to start a new epoch with a modified set of
 validators:
 
 ```bash
-linera --wallet wallet.json set-validator --name 5b611b86cc1f54f73a4abfb4a2167c7327cc85a74cb2a5502431f67b554850b4 --address 127.0.0.1:9100 --votes 3
-linera --wallet wallet.json remove-validator --name f65a585f05852f0610e2460a99c23faa3969f3cfce8a519f843a793dbfb4cb84
+linera --wallet wallet.json validator add \
+  --public-key 5b611b86cc1f54f73a4abfb4a2167c7327cc85a74cb2a5502431f67b554850b4 \
+  --account-key ed25519:abc123... \
+  --address 127.0.0.1:9100 \
+  --votes 3
+linera --wallet wallet.json validator remove \
+  --public-key f65a585f05852f0610e2460a99c23faa3969f3cfce8a519f843a793dbfb4cb84
 ```
+
+For batch updates, use `validator update` with a JSON file:
+
+```bash
+linera --wallet wallet.json validator update changes.json
+```
+
+The JSON format uses the validator's public key as the map key:
+
+```json
+{
+  "validator_pubkey_1": {
+    "accountKey": "ed25519:...",
+    "address": "grpcs://validator1.example.com:443",
+    "votes": 100
+  },
+  "validator_pubkey_2": null
+}
+```
+
+- A full object adds or modifies a validator
+- `null` removes the validator
+- An empty object `{}` leaves the validator unchanged
 
 Chain owners must then create a block that receives the `SetCommittees` message
 from the admin chain, and have it certified by the old validators. Only the

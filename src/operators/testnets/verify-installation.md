@@ -1,12 +1,12 @@
 # Verifying installation
 
-To verify the installation, you can use the `linera query-validator` command.
+To verify the installation, you can use the `linera validator query` command.
 For example:
 
 ```bash
 $ linera wallet init --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
 $ linera wallet request-chain --faucet https://faucet.{{#include ../../../RELEASE_DOMAIN}}.linera.net
-$ linera query-validator grpcs:my-domain.com:443
+$ linera validator query grpcs:my-domain.com:443
 
 RPC API hash: kd/Ru73B4ZZjXYkFqqSzoWzqpWi+NX+8IJLXOODjSko
 GraphQL API hash: eZqzuBlLT0bcoQUjOCPf2j22NfZUWG95id4pdlUmhgs
