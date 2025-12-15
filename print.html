@@ -109,7 +109,7 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/linera-io/linera-protocol" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -705,7 +705,7 @@ compiled in debug mode, e.g. using <code>export PATH="$PWD/target/debug:$PATH"</
 <h2 id="getting-help"><a class="header" href="#getting-help">Getting help</a></h2>
 <p>If installation fails, reach out to the team (e.g. on
 <a href="https://discord.gg/linera">Discord</a>) to help troubleshoot your issue or
-<a href="https://github.com/linera-io/linera-protocol/issues/new">create an issue</a> on
+<a href="https://github.com/linera-io/linera-protocol/issues">create an issue</a> on
 GitHub.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-linera"><a class="header" href="#hello-linera">Hello, Linera</a></h1>
 <p>In this section, you will learn how to initialize a developer wallet, interact
@@ -813,7 +813,7 @@ network using the <code>linera</code> client's <code>publish-and-create</code> c
 <li>The JSON encoded initialization arguments</li>
 </ol>
 <pre><code class="language-bash">linera publish-and-create \
-  ../target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
+  target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
   --json-argument "42"
 </code></pre>
 <p>Congratulations! You've published your first application on Linera!</p>
@@ -1906,8 +1906,7 @@ impl MutationRoot {
 }</code></pre>
 <p>We haven't included the imports in the above code. If you want the full source
 code and associated tests check out the <a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/counter/src/service.rs">examples
-section</a> on
-GitHub.</p>
+section</a> on GitHub.</p>
 <h2 id="references-2"><a class="header" href="#references-2">References</a></h2>
 <ul>
 <li>
@@ -1997,10 +1996,10 @@ receiver rejects it. The example below enables both flags:</p>
         .send_to(destination_chain_id);</code></pre>
 <h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: fungible token</a></h2>
 <p>In the <a href="https://github.com/linera-io/linera-protocol/tree/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/fungible"><code>fungible</code> example
-application</a>, such a message
-can be the transfer of tokens from one chain to another. If the sender includes
-a <code>Transfer</code> operation on their chain, it decreases their account balance and
-sends a <code>Credit</code> message to the recipient's chain:</p>
+application</a>, such a message can be the transfer of
+tokens from one chain to another. If the sender includes a <code>Transfer</code> operation
+on their chain, it decreases their account balance and sends a <code>Credit</code> message
+to the recipient's chain:</p>
 <pre><code class="language-rust ignore">async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response {
         match operation {
             FungibleOperation::Transfer {
@@ -2130,10 +2129,9 @@ in its application state on Bob's chain that Carol has pledged 10 Pugecoin
 tokens.</p>
 <h1 id="references-3"><a class="header" href="#references-3">References</a></h1>
 <p>For the complete code, please take a look at the
-<a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a>
-and the
-<a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/fungible/src/contract.rs"><code>fungible</code></a>
-application contracts in the <code>examples</code> folder in <code>linera-protocol</code>.</p>
+<a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/crowd-funding/src/contract.rs"><code>crowd-funding</code></a> and the
+<a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/fungible/src/contract.rs"><code>fungible</code></a> application contracts in
+the <code>examples</code> folder in <code>linera-protocol</code>.</p>
 <p>The implementation of the Runtime made available to contracts is defined in
 <a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/linera-sdk/src/contract/runtime.rs">this file</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="using-data-blobs"><a class="header" href="#using-data-blobs">Using Data Blobs</a></h1>
@@ -2158,8 +2156,8 @@ receive an NFT, even if they don't view it yet. This can be achieved by calling
 <code>runtime.assert_data_blob_exists(blob_hash)</code> in the contract: It will make sure
 the data is available, without actually loading it.</p>
 <p>For the complete code please take a look at the <a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/non-fungible/src/contract.rs"><code>non-fungible</code>
-contract</a>
-and <a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/non-fungible/src/service.rs">service</a>.</p>
+contract</a> and
+<a href="https://github.com/linera-io/linera-protocol/blob/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/non-fungible/src/service.rs">service</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="printing-logs-from-an-application"><a class="header" href="#printing-logs-from-an-application">Printing Logs from an Application</a></h1>
 <p>Applications can use the <a href="https://crates.io/crates/log"><code>log</code> crate</a> to print
 log messages with different levels of importance. Log messages are useful during

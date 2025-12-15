@@ -108,10 +108,10 @@
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/linera-io/linera-protocol" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/getting_started/hello_linera.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-protocol/edit/main/../docs/developers/getting_started/hello_linera.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -246,7 +246,7 @@ network using the <code>linera</code> client's <code>publish-and-create</code> c
 <li>The JSON encoded initialization arguments</li>
 </ol>
 <pre><code class="language-bash">linera publish-and-create \
-  ../target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
+  target/wasm32-unknown-unknown/release/counter_{contract,service}.wasm \
   --json-argument "42"
 </code></pre>
 <p>Congratulations! You've published your first application on Linera!</p>

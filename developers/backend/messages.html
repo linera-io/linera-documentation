@@ -108,10 +108,10 @@
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/linera-io/linera-protocol" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/linera-io/linera-documentation/edit/main/src/developers/backend/messages.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/linera-io/linera-protocol/edit/main/../docs/developers/backend/messages.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -178,10 +178,10 @@ receiver rejects it. The example below enables both flags:</p>
         .send_to(destination_chain_id);</code></pre>
 <h2 id="example-fungible-token"><a class="header" href="#example-fungible-token">Example: fungible token</a></h2>
 <p>In the <a href="https://github.com/linera-io/linera-protocol/tree/2587928db8b8eb29a9a9d7351af3ede54c77d6f7/examples/fungible"><code>fungible</code> example
-application</a>, such a message
-can be the transfer of tokens from one chain to another. If the sender includes
-a <code>Transfer</code> operation on their chain, it decreases their account balance and
-sends a <code>Credit</code> message to the recipient's chain:</p>
+application</a>, such a message can be the transfer of
+tokens from one chain to another. If the sender includes a <code>Transfer</code> operation
+on their chain, it decreases their account balance and sends a <code>Credit</code> message
+to the recipient's chain:</p>
 <pre><code class="language-rust ignore">async fn execute_operation(&amp;mut self, operation: Self::Operation) -&gt; Self::Response {
         match operation {
             FungibleOperation::Transfer {
