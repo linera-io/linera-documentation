@@ -18,8 +18,24 @@ jobs:
         with:
           mdbook-version: '0.4.48'
 
-      - run: |
-          cargo install mdbook-mermaid@0.15.0 mdbook-admonish@1.19.0
+      - name: 'Install mdbook linkcheck'
+        uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          tool: mdbook-linkcheck@0.7.7
+
+      - name: 'Install mdbook mermaid'
+        uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          tool: mdbook-mermaid@0.15.0
+
+      - name: 'Install mdbook admonish'
+        uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          tool: mdbook-admonish@1.19.0
+
+      - name: 'Build mdbook'
+        run: |
+          cd linera-protocol/mdbook
           mdbook build
 
       - name: Deploy
@@ -27,5 +43,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./book/html
+          publish_dir: linera-protocol/mdbook/book/html
           cname: linera.dev
